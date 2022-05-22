@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% block title %}Création d'un compte validé{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+    <!-- NAVIGATION -->
+    {% include 'includes/front/nav.html.twig' %}
+
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Acceuil</a></li>
+                <li class="active">Création d'un compte</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <div class="text-center" style="margin-left: 30%;margin-right: 30%;margin-top: 50px;">
+                <h2>Félicitation {{ user.prenom }} votre à été crée, Bienvenu  à Kaiser MALL</h2>
+                    <p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-lg btn-success">Mon profil</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

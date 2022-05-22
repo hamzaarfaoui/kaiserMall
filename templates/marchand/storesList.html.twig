@@ -1,0 +1,69 @@
+
+{% for store in stores %}
+    <li class="menu-dropdown">
+        <a href="{{ path('marchand_stores_details', {id:store.id}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+            Infos génerales </a>
+    </li>
+{% endfor %}
+{% for store in stores %}
+<li class="menu-dropdown mega-menu-dropdown ">
+    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+        Produits <i class="fa fa-angle-down"></i>
+    </a>
+
+    <ul class="dropdown-menu pull-left">
+        <li class=" dropdown-submenu">
+            <a href="{{path('marchand_product_back_new', {id:store.id})}}">
+                <i class="icon-briefcase"></i>
+                Ajouter </a>
+        </li>
+        <li class=" dropdown-submenu">
+            <a href="{{path('marchand_product_index', {id:store.id})}}">
+                <i class="icon-briefcase"></i>
+                Tous </a>
+        </li>
+    </ul>
+</li>
+{% endfor %}
+{% for store in stores %}
+<li class="menu-dropdown">
+    <a href="{{path('marchand_commandes_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+        Commandes </a>
+</li>
+{% endfor %}
+{% for store in stores %}
+<li class="menu-dropdown">
+    <a href="{{ path('marchand_stores_visuels', {id:store.id}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+        Visuels </a>
+</li>
+{% endfor %}
+{% for store in stores %}
+<li class="menu-dropdown">
+    <a href="{{path('marchand_promotions_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+        Promotions </a>
+</li>
+{% endfor %}
+{% if(is_granted('ROLE_MARCHAND')) %}
+    <li class="menu-dropdown mega-menu-dropdown ">
+    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+        Membres <i class="fa fa-angle-down"></i>
+    </a>
+
+    <ul class="dropdown-menu pull-left">
+        <li class=" dropdown-submenu">
+            <a href="{{path('marchand_members_new')}}">
+                <i class="icon-briefcase"></i>
+                Ajouter </a>
+        </li>
+        <li class=" dropdown-submenu">
+            <a href="{{path('marchand_members_index', {id:app.user.id})}}">
+                <i class="icon-briefcase"></i>
+                Tous </a>
+        </li>
+    </ul>
+</li>
+{% endif %}
+<li class="menu-dropdown">
+    <a href="{{ path('fos_user_security_logout') }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+        Déconnexion </a>
+</li>

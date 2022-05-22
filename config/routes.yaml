@@ -1,0 +1,124 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+#Front routes
+
+
+front:
+    resource: "Front/routes_front.yaml"
+    prefix:   /
+
+api_index:
+    resource: "Api/routes_index.yaml"
+    prefix:   /
+    
+cart:
+    resource: "Front/routes_cart.yaml"
+    prefix:   /panier
+    
+favoris:
+    resource: "Front/routes_favoris.yaml"
+    prefix:   /favoris    
+
+commandes:
+    resource: "Front/routes_commandes.yaml"
+    prefix:   /       
+#Marchand routes
+
+marchand:
+    resource: "Marchand/routes_marchand.yaml"
+    prefix:   /my-store 
+    
+marchand_products:
+    resource: "Marchand/routes_product.yaml"
+    prefix:   /my-products     
+    
+marchand_banners:
+    resource: "Marchand/routes_banners.yaml"
+    prefix:   /my-banners  
+    
+marchand_commandes:
+    resource: "Marchand/routes_commandes.yaml"
+    prefix:   /my-commandes    
+    
+marchand_promotions:
+    resource: "Marchand/routes_promotions.yaml"
+    prefix:   /my-promotions  
+    
+marchand_members:
+    resource: "Marchand/routes_members.yaml"
+    prefix:   /my-members     
+
+#Back routes
+dash:
+    resource: "Back/routes_dash.yaml"
+    prefix:   /dash
+    
+emp:
+    resource: "Back/routes_emp.yaml"
+    prefix:   /employe    
+
+products:
+    resource: "Back/routes_back_product.yaml"
+    prefix:   /dash/products
+    
+employes:
+    resource: "Back/routes_employes.yaml"
+    prefix:   /dash/employes    
+    
+manager_products:
+    resource: "Back/routes_manager_product.yaml"
+    prefix:   /employe/products    
+    
+stores_back:
+    resource: "Back/routes_back_stores.yaml"
+    prefix:   /dash/stores
+    
+commercial_stores:
+    resource: "Back/routes_commercial_stores.yaml"
+    prefix:   /employe/stores    
+    
+caracteristiques:
+    resource: "Back/routes_caracteristiques.yaml"
+    prefix:   /dash/caracteristiques    
+    
+valeurs:
+    resource: "Back/routes_valeurs.yaml"
+    prefix:   /dash/valeurs        
+    
+stores:
+    resource: "Front/routes_stores.yaml"
+    prefix:   /stores    
+    
+categories:
+    resource: "Back/routes_categories.yaml"
+    prefix:   /dash/categories
+    
+sc1:
+    resource: "Back/routes_sc1.yaml"
+    prefix:   /dash/sc1
+    
+sliders:
+    resource: "Back/routes_sliders.yaml"
+    prefix:   /dash/sliders  
+    
+banners:
+    resource: "Back/routes_banners.yaml"
+    prefix:   /dash/banners    
+    
+sc2:
+    resource: "Back/routes_sc2.yaml"
+    prefix:   /dash/sc2    
+    
+marques_back:
+    resource: "Back/routes_Back_marques.yaml"
+    prefix:   /dash/marques
+    
+marques:
+    resource: "Front/routes_marques.yaml"
+    prefix:   /marques    
+    
+user_space:
+    resource: "routes_user_space.yaml"
+    
+    
+

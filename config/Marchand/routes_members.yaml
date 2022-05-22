@@ -1,0 +1,25 @@
+marchand_members_index:
+    path: /list/{id}
+    controller: App\Controller\Front\Marchand\MembersController::liste    
+    
+marchand_members_details:
+    path: /{id}/details
+    controller: App\Controller\Front\Marchand\MembersController::details    
+
+marchand_members_new:
+    path: /new/
+    controller: App\Controller\Front\Marchand\MembersController::newMember    
+
+    
+marchand_members_edit:
+    path: /{id}/edit
+    controller: App\Controller\Front\Marchand\MembersController::editMember
+    
+marchand_members_status:
+    path: /{id}/status
+    controller: App\Controller\Front\Marchand\MembersController::memberStatus    
+    
+marchand_members_delete:
+    path: /{id}/delete
+    controller: App\Controller\Front\Marchand\MembersController:deleteMember  
+    

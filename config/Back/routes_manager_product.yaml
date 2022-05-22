@@ -1,0 +1,51 @@
+manager_product_index:
+    path: /list
+    controller: App\Controller\Back\ProductEmpController::liste
+    
+manager_product_index_by_store:
+    path: /list/by_store/{id}
+    controller: App\Controller\Back\ProductEmpController::listeByStore    
+    
+manager_product_details:
+    path: /{id}/details
+    controller: App\Controller\Back\ProductEmpController::details    
+    
+manager_product_back_new:
+    path: /new
+    controller: App\Controller\Back\ProductEmpController::newAction
+    
+manager_product_back_new_by_store:
+    path: /new/by_store/{id}
+    controller: App\Controller\Back\ProductEmpController::newByStoreAction    
+    
+manager_product_back_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\ProductEmpController::newTraitementAction
+    
+manager_product_back_new_traitement_by_store:
+    path: /new_traitement/{id}
+    controller: App\Controller\Back\ProductEmpController::newTraitementByStoreAction     
+    
+manager_product_back_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\ProductEmpController::editAction
+    
+manager_product_back_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\ProductEmpController::editTraitementAction
+    
+manager_product_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\ProductEmpController:deleteAction    
+    
+manager_product_order_in_categorie:
+    path: /product_order_in_categorie
+    controller: App\Controller\Back\ProductEmpController::productOrderInCategorie    
+    
+manager_sc1_by_cm:
+    path: /sc1_by_cm/{cm}
+    controller: App\Controller\Back\SousCategories1Controller::Souscategories1bycm 
+    
+manager_sc2_by_sc1:
+    path: /sc2_by_sc1/{sc1}
+    controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1      

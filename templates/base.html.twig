@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kaiser Mall  {% block title %}{% endblock %}</title>
+        {% include 'includes/front/css.html.twig' %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
+        <link rel="icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
+        {% block stylesheets %}{% endblock %}
+        <link type="text/css" rel="stylesheet" href="{{ asset('custom/css/style.css') }}" />
+    </head>
+    <body>
+        <!-- HEADER -->
+        {% include 'includes/front/header.html.twig' %}
+        <!-- /HEADER -->
+        <p>
+            {% block body %}{% endblock %}
+        </p>
+        <!-- FOOTER -->
+        {% include 'includes/front/footer.html.twig' %}
+        <!-- /FOOTER -->
+        {% include 'includes/front/js.html.twig' %}
+        {% include 'Products/front/favoris/js.html.twig' %}
+        {% include 'frontend/partials/js.html.twig' %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

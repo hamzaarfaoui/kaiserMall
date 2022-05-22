@@ -1,0 +1,85 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface:
+            algorithm: bcrypt
+            cost: 15
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_MARCHAND:       ROLE_MARCHAND
+        ROLE_MEMBER_STORE:       ROLE_MEMBER_STORE
+        ROLE_CLIENT:       ROLE_CLIENT
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_COMMERCIAL: ROLE_COMMERCIAL
+        ROLE_GESTIONNEAIRE_STOCK: ROLE_GESTIONNEAIRE_STOCK
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+            
+        admin:
+            pattern:            ^/dash
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /dash/login
+                check_path:     /dash/login_check
+                success_handler: redirect.after.login.admin
+                default_target_path: /admin/
+            logout:
+                path:           /dash/logout
+                target:         /dash/login
+            anonymous:    true
+            
+        membre:
+            pattern:            ^/employe
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /employe/login
+                check_path:     /employe/login_check
+                success_handler: redirect.after.login.employe
+                default_target_path: /employe/
+            logout:
+                path:           /employe/logout
+                target:         /employe/login
+            anonymous:    true    
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                login_path: /login
+                check_path: /login_check
+                success_handler: redirect.after.login
+
+            logout:       true
+            anonymous:    true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/dash/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/dash/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/dash/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY } 
+        - { path: ^/employe/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/employe/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/employe/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/dash/, role: ROLE_ADMIN }
+        - { path: ^/dash, role: ROLE_ADMIN }
+        - { path: ^/dash/products/, roles: [ROLE_ADMIN, ROLE_GESTIONNEAIRE_STOCK] }
+        - { path: ^/dash/products, roles: [ROLE_ADMIN, ROLE_GESTIONNEAIRE_STOCK] }
+        - { path: ^/employe/, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
+        - { path: ^/employe, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
+        - { path: ^/marchand/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/marchand, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/client/, role: ROLE_CLIENT }
+        - { path: ^/client, role: ROLE_CLIENT }
+        

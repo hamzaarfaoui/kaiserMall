@@ -1,0 +1,125 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">EMOL</a></li>
+                <li class="active">{{ product.name }}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- STORE -->
+        <div id="store">
+            <div id="list-produits">
+                <!-- row -->
+                <div class="row">
+                    <!-- Product Single -->
+                    <div class="col-md-2 col-sm-6 col-xs-6">
+                        <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}">
+                            <div class="product-thumb">
+                                <div class="product-label">
+                                    {#{% set today = "now"|date("d/m/Y") %}
+                                    {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                    {{difference.days < 7?'<span>New </span>':''}}#}
+                                    {% if(product.pricePromotion != null) %}
+                                        <span class="sale">
+                                            {% set difference = product.price - product.pricePromotion %}
+                                            {% set pourcentage = (difference/product.price)*100 %}
+                                            -{{pourcentage|round}}%
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
+                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:150px;">
+                            </div>
+                            <div class="product-body">
+                                {% if(product.pricePromotion != null) %}
+                                    <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                {% else %}
+                                    <h3 class="product-price">{{product.price}} TND</h3>
+                                {% endif %}
+                                {#<div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o empty"></i>
+                                </div>#}
+                                <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                    {#<div class="product-btns text-center">
+                                        {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                            <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                        {% endif %}
+                                        <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                                    </div>#}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Product Single -->
+                    {% for product in products %}
+                        {% if(product.qte>0) %}
+                            <!-- Product Single -->
+                            <div class="col-md-2 col-sm-6 col-xs-6">
+                                <div class="product product-single {{product.pricePromotion != null?'product-hot-promotion':'product-hot'}}">
+                                    <div class="product-thumb">
+                                        <div class="product-label">
+                                            {#{% set today = "now"|date("d/m/Y") %}
+                                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                            {{difference.days < 7?'<span>New </span>':''}}#}
+                                            {% if(product.pricePromotion != null) %}
+                                                <span class="sale">
+                                                    {% set difference = product.price - product.pricePromotion %}
+                                                    {% set pourcentage = (difference/product.price)*100 %}
+                                                    -{{pourcentage|round}}%
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                        <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
+                                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:150px;">
+                                    </div>
+                                    <div class="product-body">
+                                        {% if(product.pricePromotion != null) %}
+                                            <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                        {% else %}
+                                            <h3 class="product-price">{{product.price}} TND</h3>
+                                        {% endif %}
+                                        {#<div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o empty"></i>
+                                        </div>#}
+                                        <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                            {#<div class="product-btns text-center">
+                                                {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                                    <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                                {% endif %}
+                                                <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                                            </div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Product Single -->
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- /row -->
+            </div>
+        </div>
+        <!-- /STORE -->
+    </div>
+</div>
+{% endblock %}

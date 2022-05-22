@@ -1,0 +1,43 @@
+marchand_product_index:
+    path: /list/{id}
+    controller: App\Controller\Front\Marchand\ProductsController::liste    
+    
+marchand_product_details:
+    path: /{id}/details
+    controller: App\Controller\Front\Marchand\ProductsController::details    
+
+marchand_product_back_new:
+    path: /new/{id}
+    controller: App\Controller\Front\Marchand\ProductsController::newProduct    
+
+marchand_product_back_new_traitement:
+    path: /new_traitement/{id}
+    controller: App\Controller\Front\Marchand\ProductsController::newnewProductTraitement     
+    
+marchand_product_back_edit:
+    path: /{id}/edit
+    controller: App\Controller\Front\Marchand\ProductsController::editAction
+    
+marchand_product_back_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Front\Marchand\ProductsController::editTraitementAction
+    
+marchand_product_delete:
+    path: /{id}/delete
+    controller: App\Controller\Front\Marchand\ProductsController:deleteAction  
+    
+marchand_product_delete_image:
+    path: /{id}/delete_image
+    controller: App\Controller\Front\Marchand\ProductsController:deleteProductImage 
+    
+marchand_product_delete_image_gallery:
+    path: /{id}/delete_image_gallery
+    controller: App\Controller\Front\Marchand\ProductsController:deleteProductImageGallery         
+    
+marchand_sc1_by_cm:
+    path: /sc1_by_cm/{cm}
+    controller: App\Controller\Back\SousCategories1Controller::Souscategories1bycm   
+    
+marchand_sc2_by_sc1:
+    path: /sc2_by_sc1/{sc1}
+    controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1    

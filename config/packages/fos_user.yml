@@ -1,0 +1,13 @@
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: App\Entity\User
+    registration:
+        form:
+            type: App\Form\RegistrationFormType
+    profile:
+        form:
+            type: App\Form\ProfileFormType        
+    from_email:
+        address: "contact@kaisermall.tn"
+        sender_name: "Service client"

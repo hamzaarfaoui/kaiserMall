@@ -1,0 +1,33 @@
+<!-- Modal -->
+{{ form_start(edit_adresse_form, {'method': 'post', 'action': action, 'attr': {'novalidate': 'novalidate','id': 'submit-adresse-form'} }) }}
+
+            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{type}} adresse</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        {{ form_widget(edit_adresse_form.rue, { 'attr': {'class': 'input' , 'placeholder':'Rue', 'required':true} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(edit_adresse_form.residence, { 'attr': {'class': 'input' , 'placeholder':'Résidence'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(edit_adresse_form.ville, { 'attr': {'class': 'input' , 'placeholder':'Ville', 'required':true} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(edit_adresse_form.gouvernaurat, { 'attr': {'class': 'input' , 'placeholder':'Gouvernaurat', 'required':true} }) }}
+                    </div>
+                </div>
+                    {{ form_widget(edit_adresse_form._token) }}
+                <div class="modal-footer">
+                    <input type="submit" class="primary-btn" id="add-adresse-click" value="Enregistrer" />
+                    <button type="button" class="main-btn" data-dismiss="modal">Annuler</button>
+                </div>
+            
+        
+{{ form_end(edit_adresse_form) }}    
+
+
+        

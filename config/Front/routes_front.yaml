@@ -1,0 +1,82 @@
+test_email:
+    path: /test_email
+    controller: App\Controller\Front\FrontController::testEmail
+index_page:
+    path: /
+    controller: App\Controller\Front\FrontController::indexPage
+
+new_pproducts_page:
+    path: /new_pproducts
+    controller: App\Controller\Front\FrontController::newProductsPage
+    
+vente_flash:
+    path: /vente_flash
+    controller: App\Controller\Front\FrontController::venteFlashPage
+    
+all_stores:
+    path: /all_stores
+    controller: App\Controller\Front\FrontController::allStoresPage    
+    
+search_stores:
+    path: /search_stores
+    controller: App\Controller\Front\FrontController::searchStoresPage     
+    
+about_page:
+    path: /qui_sommes_nous
+    controller: App\Controller\Front\FrontController::aboutPage
+    
+contact_page:
+    path: /contact
+    controller: App\Controller\Front\FrontController::contactPage
+    
+contact_send:
+    path: /contact_send
+    controller: App\Controller\Front\FrontController::contactSend   
+    
+subscribe_to_news_letter:
+    path: /subscribe_to_news_letter
+    controller: App\Controller\Front\FrontController::subscribeToNewsLetter     
+    
+process_order_page:
+    path: /passer_une_commande
+    controller: App\Controller\Front\FrontController::processOrderPage    
+    
+product_by_category:
+    path: /categorie/{slug}
+    controller: App\Controller\Front\FrontController::productByCategory 
+    
+product_by_store:
+    path: /boutique/{slug}
+    controller: App\Controller\Front\FrontController::store      
+tri_product:
+    path: /tri_product
+    controller: App\Controller\Front\ProductController::triAction    
+    
+search_result:
+    path: /result
+    controller: App\Controller\Front\FrontController::searchResult     
+    
+product_page:
+    path: /product/{slug}
+    controller: App\Controller\Front\FrontController::productPage  
+
+livraison_page:
+    path: /livraison
+    controller: App\Controller\Front\CartController::livraison    
+    
+slider_front_details:
+    path: /new_promotions/{id}
+    controller: App\Controller\Back\SlidersController::showInFront    
+    
+banner_front_details:
+    path: /promotions/{id}
+    controller: App\Controller\Back\BannersController::showInFront    
+    
+new_products:
+    path: /new_products
+    controller: App\Controller\Front\ProductController::newProducts    
+    
+products_in_promotion:
+    path: /products_in_promotion
+    controller: App\Controller\Front\ProductController::productsInPromotion    
+    

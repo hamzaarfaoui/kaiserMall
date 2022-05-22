@@ -1,0 +1,11 @@
+admin_login:
+    path:  /login
+    defaults: { _controller: App\Controller\SecurityController::login }
+
+admin_check:
+    path:  /login_check
+    defaults: { _controller: FOSUserBundle:Security:check }
+
+admin_logout:
+    path:  /logout
+    defaults: { _controller: FOSUserBundle:Security:logout } 

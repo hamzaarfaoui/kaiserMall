@@ -1,0 +1,98 @@
+
+<!-- top Header -->
+{#<div id="top-header">
+    <div class="container">
+        <div class="pull-left">
+            <span>Welcome to Kaiser Mall!</span>
+        </div>
+        <div class="pull-right">
+            <ul class="header-top-links">
+                <li><a href="#">Store</a></li>
+                <li><a href="#">Newsletter</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li class="dropdown default-dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
+                    <ul class="custom-menu">
+                        <li><a href="#">English (ENG)</a></li>
+                        <li><a href="#">Russian (Ru)</a></li>
+                        <li><a href="#">French (FR)</a></li>
+                        <li><a href="#">Spanish (Es)</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown default-dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
+                    <ul class="custom-menu">
+                        <li><a href="#">USD ($)</a></li>
+                        <li><a href="#">EUR (€)</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>#}
+<!-- /top Header -->
+
+<!-- header -->
+<div id="header" style="background-color: #FFF;">
+    <div class="container header-container">
+        <div class="pull-left">
+            <!-- Logo -->
+            <div class="header-logo">
+                <a class="logo" href="{{ path('index_page') }}">
+                    <img src="{{asset('e-shop/img/logo.png')}}" alt="" class="img-logo">
+                </a>
+            </div>
+            <!-- /Logo -->
+
+            <!-- Search -->
+            <div class="header-search">
+                <form action="{{ path('search_result') }}" method="post">
+                    <input class="input search-input" name="search" required="true" type="text" placeholder="Que chercher vous" style="padding-left: 20px;">
+
+                    <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <!-- /Search -->
+        </div>
+        <div class="pull-right">
+            <ul class="header-btns">
+                <!-- Account -->
+                <li class="header-account dropdown default-dropdown user">
+                    {% if(app.user) %}
+                        <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                            <div class="header-btns" style="border: 1px solid #DADADA;text-align: center;height: 40px;line-height: 40px;">
+                                <i class="fa fa-user-o"></i> <strong class="text-uppercase">Mon compte <i class="fa fa-caret-down"></i></strong>
+                            </div>
+                        </div>
+                        <ul class="custom-menu user-acc">
+                            {% if(is_granted('ROLE_MARCHAND')) %}
+                                <li><a href="{{ path('marchand_homepage') }}"><i class="fa fa-bars"></i> Store</a></li>
+                            {% endif %}
+                            <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-user-o"></i> Profile</a></li>
+                            <li><a href="{{ path('list_page') }}"><i class="fa fa-heart-o"></i> Commandes</a></li>
+                            <li><a href="{{ path('products_favoris_page') }}"><i class="fa fa-exchange"></i> Mes favoris</a></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-check"></i> Déconnexion</a></li>
+                        </ul>
+                    {% else %}
+                        <div class="header-btns user-acc" style="text-align: center;height: 40px;line-height: 40px;">
+                        <i class="fa fa-user-o"></i> <a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a> / <a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a>
+                        </div>
+                    {% endif %}
+                </li>
+                <!-- /Account -->
+
+                <!-- Cart -->
+                {{ render(controller('App\\Controller\\Front\\CartController::CartInHeader')) }}
+                <!-- /Cart -->
+
+                <!-- Mobile nav toggle-->
+                <li class="nav-toggle">
+                    <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+                </li>
+                <!-- / Mobile nav toggle -->
+            </ul>
+        </div>
+    </div>
+    <!-- header -->
+</div>
+<!-- container -->

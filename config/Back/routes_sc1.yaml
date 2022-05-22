@@ -1,0 +1,31 @@
+dashboard_sc1_index:
+    path: /list
+    controller: App\Controller\Back\SousCategories1Controller::listAction
+    
+dashboard_sc1_by_cm:
+    path: /sc1_by_cm/{cm}
+    controller: App\Controller\Back\SousCategories1Controller::Souscategories1bycm    
+    
+dashboard_sc1_details:
+    path: /{id}/details
+    controller: App\Controller\Back\SousCategories1Controller::showAction
+    
+dashboard_sc1_new:
+    path: /{id}/new
+    controller: App\Controller\Back\SousCategories1Controller::newAction   
+    
+dashboard_sc1_new_traitement:
+    path: /{id}/new_traitement
+    controller: App\Controller\Back\SousCategories1Controller::newTraitementAction
+    
+dashboard_sc1_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\SousCategories1Controller::editAction    
+    
+dashboard_sc1_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\SousCategories1Controller::editTraitementAction
+    
+dashboard_sc1_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\SousCategories1Controller::deleteAction    

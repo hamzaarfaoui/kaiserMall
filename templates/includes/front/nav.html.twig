@@ -1,0 +1,28 @@
+<!-- category nav -->
+<div class="category-nav">
+    <span class="category-header">Categories <i class="fa fa-list"></i></span>
+    <ul class="category-list">
+        {% for categorie in categories %}
+            <li class="dropdown side-dropdown">
+                <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
+                <div class="custom-menu">
+                    <div class="row">
+                        {% for sc1 in categorie.categories %}
+                            <div class="col-md-4">
+                                <ul class="list-links">
+                                    <li>
+                                        <h6 class="list-links-title">{{ sc1.name }}</h6></li>
+                                        {% for souscat in sc1.sousCategories %}
+                                        <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}</a></li>
+                                        {% endfor %}
+                                </ul>
+                                <hr class="hidden-md hidden-lg">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<!-- /category nav -->

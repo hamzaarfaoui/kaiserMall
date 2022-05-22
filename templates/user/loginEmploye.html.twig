@@ -1,0 +1,43 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% block title %}Login For Administrator{% endblock %}
+{% block legend %}Login{% endblock %}
+{% block fos_user_content %}
+
+{% if error %}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
+<form action="{{ path("emp_check") }}" method="post">
+    {% if csrf_token %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    {% endif %}
+    <div class="uk-margin">
+        <div class="uk-inline">
+
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input type="text" id="username" class="uk-input" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Email ou Username" />
+        </div>
+    </div>
+    <div class="uk-margin">
+
+        <div class="uk-inline">
+            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+
+            <input type="password" id="password" class="uk-input" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe"/>
+        </div>
+    </div>
+        <center>
+    <div class="uk-margin">
+
+        <input type="checkbox" class="uk-checkbox" id="remember_me" name="_remember_me" value="on" />
+
+        <label for="remember_me">Se souvenir de moi?</label>
+    </div>
+        </center>
+    <input class="uk-button uk-button-primary" style="width: 100%;" type="submit" id="_submit" name="_submit" value="Connexion" />
+</form>
+
+{% endblock %}
+{% block javascript %}{% endblock %}

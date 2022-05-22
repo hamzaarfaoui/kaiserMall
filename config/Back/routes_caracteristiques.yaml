@@ -1,0 +1,19 @@
+dashboard_caracteristiques_index:
+    path: /list
+    controller: App\Controller\Back\CaracteristiquesController::listAction
+    
+dashboard_caracteristiques_details:
+    path: /{id}/details
+    controller: App\Controller\Back\CaracteristiquesController::showAction
+    
+dashboard_caracteristiques_new:
+    path: /new
+    controller: App\Controller\Back\CaracteristiquesController::newAction   
+    
+dashboard_caracteristiques_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\CaracteristiquesController::editAction    
+    
+dashboard_caracteristiques_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\CaracteristiquesController::deleteAction    

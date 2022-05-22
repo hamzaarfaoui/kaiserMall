@@ -1,0 +1,25 @@
+cart_page:
+    path: /
+    controller: App\Controller\Front\CartController::cart  
+    
+validation_cart:
+    path: /validation
+    controller: App\Controller\Front\CartController::validation      
+    
+add_product_to_cart:
+    path: /add_product_to_cart/{id}
+    controller: App\Controller\Front\CartController::addProductToCart    
+    
+change_qte:
+    path: /change_qte/{id}
+    controller: App\Controller\Front\CartController::setProductQte     
+    
+remove_product_from_cart:
+    path: /remove_product_from_cart/{id}
+    controller: App\Controller\Front\CartController::removeProductFromCart  
+    
+fetch_total_cart:
+    path: /fetch_total_cart
+    controller: App\Controller\Front\CartController::fetchTotalCart  
+    
+    

@@ -1,0 +1,35 @@
+marchand_stores_details:
+    path: /{id}/details
+    controller: App\Controller\Front\Marchand\MarchandController::infosStore
+    
+marchand_stores_visuels:
+    path: /{id}/visuels
+    controller: App\Controller\Front\Marchand\MarchandController::visuels   
+    
+marchand_stores_visuels_traitement:
+    path: /{id}/visuels_traitement
+    controller: App\Controller\Front\Marchand\MarchandController::visuelsTraitement       
+   
+marchand_stores_add_adress:
+    path: /add_adress
+    controller: App\Controller\Front\Marchand\MarchandController::addAdressStore    
+    
+marchand_stores_edit_adress:
+    path: /{id}/edit_adress
+    controller: App\Controller\Front\Marchand\MarchandController::editAdressStore 
+    
+marchand_stores_delete_adress:
+    path: /{id}/delete_adress
+    controller: App\Controller\Front\Marchand\MarchandController::deleteAdressStore     
+
+marchand_stores_add_phone:
+    path: /add_phone
+    controller: App\Controller\Front\Marchand\MarchandController::addPhoneStore  
+    
+marchand_stores_edit_phone:
+    path: /{id}/edit_phone
+    controller: App\Controller\Front\Marchand\MarchandController::editPhoneStore  
+    
+marchand_stores_delete_phone:
+    path: /{id}/delete_phone
+    controller: App\Controller\Front\Marchand\MarchandController::deletePhoneStore    

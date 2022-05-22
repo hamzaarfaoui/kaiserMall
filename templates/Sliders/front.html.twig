@@ -1,0 +1,9 @@
+{% for slider in sliders %}
+    <!-- banner -->
+    <div class="banner banner-1 slider-bloc">
+        <a href="{{ path('slider_front_details', {id: slider.id}) }}" style="width: 100%;height: 100%;">
+        <img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" alt="" style="width: 100%;">
+        </a>
+    </div>
+    <!-- /banner -->
+{% endfor %}

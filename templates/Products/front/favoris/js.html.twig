@@ -1,0 +1,40 @@
+<script>
+    $('.add-to-favoris').click(function(){
+        var id = $(this).data('id');
+        var url = '{{ path('add_on_favoris', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur d\'ajouter le produit au favoris');
+            },
+            success: function (data) {
+                $(this).css("background-color", "#f44336");
+                $(this).css("color", "#fff");
+                $(this).html('<i class="fa fa-times"></i>');
+                console.log(data['message']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    
+    $('.remove-from-favoris').click(function(){
+        var id = $(this).data('id');
+        var url = '{{ path('delete_from_favoris', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur d\'ajouter le produit au favoris');
+            },
+            success: function (data) {
+                $('#product-'+id).hide();
+                console.log(data['message']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    
+</script>

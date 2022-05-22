@@ -1,0 +1,55 @@
+<script>
+{#window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("header");
+var logo = document.querySelector(".img-logo");
+var search = document.querySelector(".search-input");
+var sticky = header.offsetTop;
+var categories = document.querySelector(".categories");
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+    search.style.heigth = "10px";
+    logo.style.height = "37px";
+    logo.style.width = "50%";
+    search.style.height= "36px";
+    document.querySelector(".categories").height ="34px";
+            header.style.padding = "0px 1px 1px 0px";
+    //logo.style.display = "none";
+    //categories.style.display = "inline-block";
+    /*logo.classList.add("hide-logo");
+    user.classList.remove("user");
+    user.classList.add("hide-user");
+    cart.classList.add("hide-cart");
+    search.classList.add("hide-search");
+    search.classList.remove("le-search");
+    imgLogo.classList.add("hide-img-logo");
+    categories.style.display = "block";*/
+  } else {
+      header.classList.remove("sticky");
+      
+      
+      logo.style.display = "inline-block";
+      //categories.style.display = "none";
+     /* imgLogo.classList.remove("hide-img-logo");
+      logo.classList.remove("hide-logo");
+    cart.classList.remove("hide-cart");
+    user.classList.remove("hide-user");
+    user.classList.add("user");
+    search.classList.remove("hide-search");
+    search.classList.add("le-search");
+    categories.style.display = "none";*/
+  }
+}#}
+</script>
+<!-- jQuery Plugins -->
+<script src="{{ asset('e-shop/js/jquery.min.js') }}"></script>
+<script src="{{ asset('e-shop/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('e-shop/js/slick.min.js') }}"></script>
+<script src="{{ asset('e-shop/js/nouislider.min.js') }}"></script>
+<script src="{{ asset('e-shop/js/jquery.zoom.min.js') }}"></script>
+<script src="{{ asset('e-shop/js/main.js') }}"></script>
+<script src="{{ asset('custom/js/adresse.js') }}"></script>
+{% include 'frontend/cart/js.html.twig' %}
+

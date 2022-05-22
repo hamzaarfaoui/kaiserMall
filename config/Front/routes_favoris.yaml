@@ -1,0 +1,11 @@
+products_favoris_page:
+    path: /
+    controller: App\Controller\Front\FavorisController::listAction
+    
+add_on_favoris:
+    path: /add/{id}
+    controller: App\Controller\Front\FavorisController::addFavoris    
+    
+delete_from_favoris:
+    path: /delete/{id}
+    controller: App\Controller\Front\FavorisController::deleteFavoris        

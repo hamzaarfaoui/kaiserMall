@@ -1,0 +1,150 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/typeahead/typeahead.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/select2/select2.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
+    <!-- END PAGE LEVEL STYLES -->
+{% endblock %}
+{% block title %}Tableau de bord | Slider{% endblock %}
+{% block body %}>
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>{{ slider.id }} <small>Détails</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <!-- END PAGE HEAD -->
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_sliders_index') }}">Catégories</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">{{ slider.id }}</a>
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                {{ slider.id }}
+                            </div>
+                            <div class="tools">
+                                <a href="{{ path('dashboard_sliders_index') }}" style="color: #FFF;font-size: 14px;" title="Tous les sliders">
+                                    <i class="fa fa-list-ul"></i> Tous
+                                </a>
+                                <a href="{{ path('dashboard_sliders_edit', {id : slider.id}) }}" style="color: #FFF;font-size: 14px;" title="Modifier">
+                                    <i class="fa fa-edit"></i> Modifier
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" style="width: 100%;height: 250px;">
+                                </div>
+                                <div class="col-md-12">
+                                    <h1>{{product.name}}</h1>
+                            <div class="text-center">
+                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}">
+                                <br><br>
+                                <h3><em>{{product.price}} TND</em></h3>
+                            </div>
+
+                            <br><br>
+                            <center>
+                                <div style="background-color: #ECEFF1;padding: 5px;;width: 60%;border-radius: 10px;">
+                                    <div class="autoplay" style="margin: 30px">
+                                        {% for image in product.getMediasImages() %}
+                                            <div>
+                                                <img src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" style="width: 80%;height: 100px;">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </center>
+                                </div>
+                            </div>
+                                <br>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+    </div>
+    <!-- END CONTENT -->
+{% endblock %}
+{% block javascripts %}
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') }}"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/typeahead/handlebars.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/typeahead/typeahead.bundle.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <script>
+        jQuery(document).ready(function () {
+            $('.autoplay').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+            Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            Demo.init(); // init demo features
+            TableAdvanced.init();
+        });
+    </script>
+{% endblock %}

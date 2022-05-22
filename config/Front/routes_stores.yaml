@@ -1,0 +1,9 @@
+dashboard_stores_index:
+    path: /list
+    controller: App\Controller\storesController::listAction
+    
+dashboard_stores_details:
+    path: /{id}/details
+    controller: App\Controller\storesController::showAction
+    
+  

@@ -1,0 +1,27 @@
+dashboard_banners_index:
+    path: /list
+    controller: App\Controller\Back\BannersController::listAction
+    
+dashboard_banners_details:
+    path: /{id}/details
+    controller: App\Controller\Back\BannersController::showAction
+    
+dashboard_banners_new:
+    path: /new
+    controller: App\Controller\Back\BannersController::newAction   
+    
+dashboard_banners_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\BannersController::newTraitementAction
+    
+dashboard_banners_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\BannersController::editAction    
+    
+dashboard_banners_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\BannersController::editTraitementAction
+    
+dashboard_banners_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\BannersController::deleteAction    

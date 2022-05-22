@@ -1,0 +1,11 @@
+dashboard_marques_index:
+    path: /list
+    controller: App\Controller\MarquesController::listAction
+    
+marques_by_categorie:
+    path: /by_categorie/{id}
+    controller: App\Controller\Back\MarquesController::marquesByCategorieAction    
+    
+dashboard_marques_details:
+    path: /{id}/details
+    controller: App\Controller\MarquesController::showAction    

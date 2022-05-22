@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% block title %}Adresse de livraison{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Kaiser MALL</a></li>
+                <li><a href="{{ path('cart_page') }}">Panier</a></li>
+                <li class="active">Adresse de livraison</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+
+
+
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <form action="{{ path('validation_cart') }}" method="POST">
+                <div class="col-md-6">
+                    <div class="billing-details">
+                        {% if(app.user) %}
+                            <div class="section-title">
+                            <h3 class="title">Adresse de livraison</h3>
+                            </div>
+                            <div class="form-group">
+                                <span class="text-uppercase">Adresse</span>
+                                <input class="input" name="adresse" {% if(app.user.adressLivraison) %}value="{{app.user.adressLivraison}}"{% endif %}><br>
+                            </div> 
+                            <div class="form-group">
+                                <span class="text-uppercase">Ville</span>
+                                <input class="input" name="city" {% if(app.user.cityLivraison) %}value="{{app.user.cityLivraison}}"{% endif %}><br>
+                            </div> 
+                            <div class="text-right">
+                                <input type="submit" class="primary-btn" value="Enregistrer" />
+                            </div>
+                        {% else %}
+                            <p>Already a customer ? <a href="#">Login</a></p>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+                </form>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}{% endblock %}

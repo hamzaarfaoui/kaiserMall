@@ -1,0 +1,47 @@
+dashboard_sc2_index:
+    path: /list
+    controller: App\Controller\Back\SousCategories2Controller::listAction
+    
+dashboard_sc2_greffer:
+    path: /greffer
+    controller: App\Controller\Back\SousCategories2Controller::grefferAction    
+    
+dashboard_sc2_by_sc1:
+    path: /sc2_by_sc1/{sc1}
+    controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1   
+    
+dashboard_add_sc2_on_index:
+    path: /add_sc2_on_index/{id}
+    controller: App\Controller\Back\SousCategories2Controller::addCategorieOnIndexAction
+    
+dashboard_remove_sc2_from_index:
+    path: /remove_sc2_from_index/{id}
+    controller: App\Controller\Back\SousCategories2Controller::removeCategorieFromIndexAction    
+    
+dashboard_sc2_details:
+    path: /{id}/details
+    controller: App\Controller\Back\SousCategories2Controller::showAction
+    
+dashboard_sc2_show_products_banners_in_index:
+    path: /{id}/show_products_banners_in_index
+    controller: App\Controller\Back\SousCategories2Controller::showProductsBannersInIndexAction    
+    
+dashboard_sc2_new:
+    path: /{id}/new
+    controller: App\Controller\Back\SousCategories2Controller::newAction   
+    
+dashboard_sc2_new_traitement:
+    path: /{id}/new_traitement
+    controller: App\Controller\Back\SousCategories2Controller::newTraitementAction
+    
+dashboard_sc2_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\SousCategories2Controller::editAction    
+    
+dashboard_sc2_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\SousCategories2Controller::editTraitementAction
+    
+dashboard_sc2_delete:
+    path: /{c}/{id}/delete
+    controller: App\Controller\Back\SousCategories2Controller::deleteAction    

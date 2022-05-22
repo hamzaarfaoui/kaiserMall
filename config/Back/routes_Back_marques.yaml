@@ -1,0 +1,27 @@
+dashboard_marques_back_index:
+    path: /list
+    controller: App\Controller\Back\MarquesController::listAction
+    
+dashboard_marques_back_details:
+    path: /{id}/details
+    controller: App\Controller\Back\MarquesController::showAction  
+    
+dashboard_marques_back_new:
+    path: /new
+    controller: App\Controller\Back\MarquesController::newAction     
+    
+dashboard_marques_back_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\MarquesController::newTraitementAction   
+    
+dashboard_marques_back_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\MarquesController::editAction      
+
+dashboard_marques_back_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\MarquesController::editTraitementAction      
+    
+dashboard_marques_back_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\MarquesController::deleteAction      

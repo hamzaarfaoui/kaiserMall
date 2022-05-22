@@ -1,0 +1,19 @@
+dashboard_valeurs_index:
+    path: /list
+    controller: App\Controller\Back\ValeursController::listAction
+    
+dashboard_valeurs_details:
+    path: /{id}/details
+    controller: App\Controller\Back\ValeursController::showAction
+    
+dashboard_valeurs_new:
+    path: /{id}/new
+    controller: App\Controller\Back\ValeursController::newAction   
+    
+dashboard_valeurs_edit:
+    path: /{c}/{id}/edit
+    controller: App\Controller\Back\ValeursController::editAction    
+    
+dashboard_valeurs_delete:
+    path: /{c}/{id}/delete
+    controller: App\Controller\Back\ValeursController::deleteAction    

@@ -1,0 +1,164 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/select2/select2.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/sortable/style.css') }}"/>
+    <!-- END PAGE LEVEL STYLES -->
+{% endblock %}
+{% block title %}Tableau de bord | Gréffer{% endblock %}
+{% block body %}>
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>Catégories <small>Tous</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <!-- END PAGE HEAD -->
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a class="active">Catégories</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-globe"></i>Gréffer des catégories à la page d'acceuil
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="column">
+                                    <h4 style="text-align: center;">Catégories</h4>
+                                    <ul class="connected-sortable droppable-area1 isNotOnIndex" data-type="isNotOnIndex" style="{{categories|length>0?'height: 100%':'height: 300px;'}}">
+                                        {% for categorie in categories|sortbyfield('name') %}
+                                            {% if((categorie.showInIndex == null) or ((categorie.showInIndex == 0))) %}
+                                                <li class="draggable-item" data-id="{{ categorie.id }}">
+                                                    <div class="row">
+                                                    <div class="col-md-10">{{ categorie.name }}</div>
+                                                    <div class="col-md-2"><a href="{{ path('dashboard_sc2_details', {id:categorie.id}) }}"><i class="fa fa-search"></i></a></div>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                                <div class="column">
+                                    <h4 style="text-align: center;">Page d'acceuil</h4>
+                                    <ul class="connected-sortable droppable-area2 isOnIndex" data-type="isNotOnIndex" style="{{categoriesInIndex|length>0?'height: 100%':'height: 300px;'}}">
+                                        {% if(categoriesInIndex|length>0) %}
+                                            {% for categorie in categoriesInIndex|sortbyfield('orderInIndex') %}
+                                                <li class="draggable-item" id="{{ categorie.id }}" data-id="{{ categorie.id }}">
+                                                    <div class="row">
+                                                    <div class="col-md-10">{{ categorie.name }}</div>
+                                                    <div class="col-md-2"><a href="{{ path('dashboard_sc2_details', {id:categorie.id}) }}"><i class="fa fa-search"></i></a></div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </div>
+</div>
+<!-- END CONTENT -->
+{% endblock %}
+{% block javascripts %}
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/sortable/main.js') }}"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            Demo.init(); // init demo features
+            $( init );
+        });
+        function removeCategorieFromIndexAction(id) {
+            var url = '{{ path('dashboard_remove_sc2_from_index', {'id': 'valeurselectionnee'}) }}';
+            url = url.replace("valeurselectionnee", id);
+            $.ajax({
+                url: url,
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de retirer une categorie de l\'acceuil');
+                },
+                success: function (data) {
+                    console.log(data['message']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+        }
+        
+        function addCategorieOnIndex(id, positions) {
+            var url = '{{ path('dashboard_add_sc2_on_index', {'id': 'valeurselectionnee'}) }}';
+            url = url.replace("valeurselectionnee", id);
+            var items = $('ul.droppable-area2>li');
+            console.log('Position');
+            console.log(positions);
+            var listValues = [];
+            $.each(items,function(index){
+                var pos = $(this).data('id');
+                listValues.push(pos);
+            });
+            $.ajax({
+                url: url,
+                method: "POST",
+                data:{listItem:listValues,limit:$(".droppable-area2").children().length,page:1}, dataType: "json",
+                error: function (data) {
+                    console.log('Erreur d\'ajouter une categorie à l\'acceuil');
+                },
+                success: function (data) {
+                    console.log(data['message']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,15 @@
+backoffice_homepage:
+    path: /dash
+    controller: App\Controller\UserController::dashboard
+    
+employe_homepage:
+    path: /employe
+    controller: App\Controller\UserController::employe    
+    
+marchand_homepage:
+    path: /marchand
+    controller: App\Controller\UserController::marchand
+    
+client_homepage:
+    path: /client
+    controller: App\Controller\UserController::client    

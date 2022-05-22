@@ -1,0 +1,11 @@
+marchand_promotions_index:
+    path: /list/{id}
+    controller: App\Controller\Front\Marchand\PromotionsController::liste
+   
+marchand_promotions_edit:
+    path: /{id}/edit
+    controller: App\Controller\Front\Marchand\PromotionsController::editAction    
+    
+marchand_promotions_delete:
+    path: /{id}/delete
+    controller: App\Controller\Front\Marchand\PromotionsController::deleteAction    

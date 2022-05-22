@@ -1,0 +1,103 @@
+<script>
+    /*start add product to cart*/
+    $('.add-to-cart').click(function(){
+        var id = $(this).data('id');
+        addProductToCart(id);
+    });
+    function addProductToCart(id) {
+        var url = '{{ path('add_product_to_cart', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur d\'ajouter le produit au panier');
+            },
+            success: function (data) {
+                fetchTotalCart();
+                $(".nn").css("background-color", "#f44336");
+                console.log(data['message']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    }
+    /*end remove product from cart*/
+    
+    /*start add product to cart*/
+    $('.cancel-btn, .cancel-product').click(function(){
+        var id = $(this).data('id');
+        removeProductFromCart(id);
+    });
+    function removeProductFromCart(id) {
+        var url = '{{ path('remove_product_from_cart', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de retirer le produit du panier');
+            },
+            success: function (data) {
+                fetchTotalCart();
+                $('.product-in-cart'+id).hide();
+                //console.log(data['message']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    }
+    /*end add product to cart*/
+    
+    /* start get total cart*/
+    
+    function fetchTotalCart() {
+        var total;
+        $.ajax({
+            url: '{{ path('fetch_total_cart') }}',
+            method: "POST",
+            error: function (data) {
+            },
+            success: function (data) {
+                $('.total-cart').html(data['total']);
+                $('.nn').html(data['qte']);
+                $('.shopping-cart-list').html(data['products']);
+                if(data['total'] == 0){
+                    $('.table-list-products-in-cart').html(data['products_table']);
+                }
+                
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);#}
+            }
+        });
+        
+    }
+    /* end get total cart*/
+    
+    /* start change quantite */
+    {#$('.quantite').on('change', function(e){  
+        var id = $(this).data('id');
+        var qte = $(this).val();
+        changeQte(id, qte);
+    });
+    function changeQte(id, qte) {
+        var url = '{{ path('change_qte', {'id': 'valeurselectionnee'}) }}';
+        url = url.replace("valeurselectionnee", id);
+        $.ajax({
+            url: url,
+            data : {qte:qte},
+            method : "POST",
+            error: function (data) {
+                console.log('Erreur de changer la quantité du produit dans panier');
+            },
+            success: function (data) {
+                var t = $("tr").find("#total-product"+id);
+                t.html(data['total_product']);
+                var totalCart = $('#totalCart').val();
+                $('.total-cart').html(Number(totalCart)+Number(data['total_product']));
+                $('#totalCart').val(Number(totalCart)+Number(data['total_product']))
+                console.log(totalCart);
+                console.log(data['total_product']);
+                console.log(Number(totalCart)+Number(data['total_product']));
+            }
+        });
+    }#}
+    /* end change quantite */
+</script>

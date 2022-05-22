@@ -1,0 +1,11 @@
+emp_login:
+    path:  /login
+    defaults: { _controller: App\Controller\SecurityController::employeLogin }
+
+emp_check:
+    path:  /login_check
+    defaults: { _controller: FOSUserBundle:Security:check }
+
+emp_logout:
+    path:  /logout
+    defaults: { _controller: FOSUserBundle:Security:logout } 

@@ -1,0 +1,165 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+	<style type="text/css">
+    .sortable { list-style-type: none; margin: 0; padding: 0; }
+  .sortable li { margin: 3px 3px 3px 0; padding: 1px; float: left; width: 150px; height: 200px; font-size: 12px; text-align: center; }
+  .sortable li img{
+    width: 95%;
+    height: 70%;
+    margin: 2%;
+  }
+  .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545;
+}
+	</style>
+{% endblock %}
+{% block title %}Tableau de bord | {{ group.name }}{% endblock %}
+{% block body %}
+	<div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>{{group.name}}</h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_back_index') }}">Marchands</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_back_details', {id : group.store.id}) }}">{{group.store.name}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_products_liste', {store : group.store.id}) }}">Liste groupes de produit</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-globe"></i>{{group.name}}
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                	{% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <ul id="sortable" class="sortable"> 
+                                        {% for product in group.products %}
+                                            <li class="ui-state-default" id="{{product.id}}"> 
+                                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}">
+                                                <a href="">{{product.name|slice(0,20)}}</a>
+                                            </li> 
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="row">
+                                <div class="col-md-12">
+                                    <br><hr><br>
+                                </div>
+                            </div>
+                                    <ul class="sortable"> 
+                                        {% for product in store.products %}
+                                            <li class="ui-state-default" id="{{group.id}}"> 
+                                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}">
+                                                <a href="">{{product.name|slice(0,20)}}</a><br>
+                                                <input type="checkbox" class="productcheckbox" value="{{product.id}}" {{product.id in list_ids ? 'checked' : ''}} data-image="{{ asset('uploads/products/images/') }}{{ product.image }}" data-name="{{product.name}}" data-group="{{group.id}}">
+                                            </li> 
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(".productcheckbox").change(function (argument) {
+    var ischecked = 0;
+    var img = $(this).data('image');
+    var name = $(this).data('name');
+    var group = $(this).data('group');
+    var html = '<li class="ui-state-default"><img src="'+img+'"><a href="">'+name+'</a><br></li> ';
+    var url = "{{ path('dashboard_stores_add_product_in_group', {'id': 'valeurselectionnee'}) }}";
+    url = url.replace("valeurselectionnee", $(this).val());
+    if($(this).prop('checked')){
+        ischecked = 1;
+        $("#sortable").append(html);
+    }else{
+        ischecked = 0;
+        $("#sortable li#"+$(this).val()).hide();
+    }
+    $.ajax({
+        url: url,
+        data : {id_product:$(this).val(), ischecked:ischecked, group:group},
+        method: "POST",
+        error: function (data) {
+            console.log('Erreur');
+        },
+        success: function (data) {
+            
+        }
+    });
+});
+$("#sortable").sortable({
+        /*stop: function(event, ui) {
+            alert("New position: " + ui.item.index());
+        }*/
+        start: function(e, ui) {
+            // creates a temporary attribute on the element with the old index
+            $(this).attr('data-previndex', ui.item.index());
+        },
+        update: function(e, ui) {
+            // gets the new and old index then removes the temporary attribute
+            var newIndex = ui.item.index();
+            var oldIndex = $(this).attr('data-previndex');
+            var element_id = ui.item.attr('id');
+            var url = '{{ path('dashboard_stores_products_liste_change_position', {'id': 'valeurselectionnee'}) }}';
+            var group_id_array = new Array();
+            $('#sortable li').each(function(){
+                group_id_array.push($(this).attr("id"));
+            });
+            $.ajax({
+                url: url,
+                data : {group_id_array:group_id_array},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur');
+                },
+                success: function (data) {
+                    
+                }
+            });
+            $(this).removeAttr('data-previndex');
+        }
+    });
+    $("#sortable").disableSelection();
+</script>
+{% endblock %}

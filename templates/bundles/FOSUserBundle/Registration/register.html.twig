@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% block title %}Création d'un compte{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Acceuil</a></li>
+                <li class="active">Création d'un compte</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+{% include "@FOSUser/Registration/register_content.html.twig" %}
+{% endblock %}

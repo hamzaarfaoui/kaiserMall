@@ -1,0 +1,92 @@
+{% extends "base.html.twig" %}
+{% block title %}Passer une commande{% endblock %}
+{% block stylesheets %}
+    <style>
+        .bloc-step{
+            border: 1px solid #42a5f5;
+            border-radius: 10px;
+            margin-right: 10px;
+            padding: 10px;
+            width: 100%;
+            height: 350px;
+            text-align: center;
+        }
+    </style>
+    
+{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Kaiser Mall</a></li>
+                <li class="active">Passer une commande</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+
+
+
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Passer une commande</h3>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <div class="bloc-step">
+                                    <div style="border: 1px solid #D4CC2C;border-radius: 50%;width: 20%;margin-bottom: 10px;font-weight: bold;font-size: 24px">1</div>
+                                    Sélectionner le produit<br> désiré à partir de la zone de recherche ou nos catégoéries ou bien de nos promotions
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="bloc-step">
+                                    <div style="border: 1px solid #D4CC2C;border-radius: 50%;width: 20%;margin-bottom: 10px;font-weight: bold;font-size: 24px">2</div>
+                                    Cliquer sur le bouton<br> <b>Ajouter au panier</b><br>
+                                    Vous pouvez ajouter d'autres produits dans votre panier
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="bloc-step">
+                                    <div style="border: 1px solid #D4CC2C;border-radius: 50%;width: 20%;margin-bottom: 10px;font-weight: bold;font-size: 24px">3</div>
+                                    Une fois vous avez ajouté vos produits dans votre panier cliquez sur <b>Commander</b><br>
+                                    Si vous êtes authetifié vous serez rediriger vers la page d'<b>adresse de livraison</b> pour finaliser votre commande sinon 
+                                    vous serez rediriger vers la page <b>Login</b> pour vous authentifier
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="bloc-step">
+                                    <div style="border: 1px solid #D4CC2C;border-radius: 50%;width: 20%;margin-bottom: 10px;font-weight: bold;font-size: 24px">4</div>
+                                    Remplissez le formulaire de la page <b>Adresse de livraison</b> et cliquez sur <b> Enregistrer</b>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="bloc-step">
+                                    <div style="border: 1px solid #D4CC2C;border-radius: 50%;width: 20%;margin-bottom: 10px;font-weight: bold;font-size: 24px">5</div>
+                                    Cliquez sur le bouton <b>Valider</b> pour valider votre commande. Vous serai contacté par le vendeur pour qu'il livre votre produit
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}{% endblock %}

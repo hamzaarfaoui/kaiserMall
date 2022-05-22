@@ -1,0 +1,27 @@
+dashboard_categories_index:
+    path: /list
+    controller: App\Controller\Back\CategoriesController::listAction
+    
+dashboard_categories_details:
+    path: /{id}/details
+    controller: App\Controller\Back\CategoriesController::showAction
+    
+dashboard_categories_new:
+    path: /new
+    controller: App\Controller\Back\CategoriesController::newAction   
+    
+dashboard_categories_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\CategoriesController::newTraitementAction
+    
+dashboard_categories_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\CategoriesController::editAction    
+    
+dashboard_categories_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\CategoriesController::editTraitementAction
+    
+dashboard_categories_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\CategoriesController::deleteAction    

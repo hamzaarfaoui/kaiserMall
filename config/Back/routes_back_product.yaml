@@ -1,0 +1,47 @@
+dashboard_product_index:
+    path: /list
+    controller: App\Controller\Back\ProductBackController::liste
+    
+dashboard_product_index_by_store:
+    path: /list/by_store/{id}
+    controller: App\Controller\Back\ProductBackController::listeByStore    
+    
+dashboard_product_details:
+    path: /{id}/details
+    controller: App\Controller\Back\ProductBackController::details    
+    
+dashboard_product_back_new:
+    path: /new
+    controller: App\Controller\Back\ProductBackController::newAction
+    
+dashboard_product_back_new_by_store:
+    path: /new/by_store/{id}
+    controller: App\Controller\Back\ProductBackController::newByStoreAction    
+    
+dashboard_product_back_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\ProductBackController::newTraitementAction
+    
+dashboard_product_back_new_traitement_by_store:
+    path: /new_traitement/{id}
+    controller: App\Controller\Back\ProductBackController::newTraitementByStoreAction     
+    
+dashboard_product_back_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\ProductBackController::editAction
+    
+dashboard_product_back_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\ProductBackController::editTraitementAction
+    
+dashboard_product_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\ProductBackController:deleteAction    
+    
+dashboard_product_order_in_categorie:
+    path: /product_order_in_categorie
+    controller: App\Controller\Back\ProductBackController::productOrderInCategorie    
+    
+dashboard_product_search_result:
+    path: /dashboard_product_result
+    controller: App\Controller\Back\ProductBackController::search      

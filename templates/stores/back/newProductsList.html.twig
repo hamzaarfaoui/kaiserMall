@@ -1,0 +1,81 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+{% endblock %}
+{% block title %}Tableau de bord | Nouveau groupe de produits pour le marchand {{ store.name }}{% endblock %}
+
+{% block body %}
+	<div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>{{store.name}} <small>Liste groupes de produits</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_back_index') }}">Marchands</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_back_details', {id : store.id}) }}">{{store.name}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_products_liste', {store : store.id}) }}">Liste groupes de produit</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    Liste groupes de produits
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-globe"></i>Nouveau groupe de produits
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <form action="{{path('dashboard_stores_products_liste_new_traitement')}}" method="post">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <input type="hidden" name="store" value="{{store.id}}">
+                                                <input type="text" required="true" name="nom" class="form-control" placeholder="Nom du groupe">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-primary",style="width: 100%;">Entrgistrer</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

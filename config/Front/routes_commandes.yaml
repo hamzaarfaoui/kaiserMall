@@ -1,0 +1,17 @@
+payement_page:
+    path: /payement
+    controller: App\Controller\Front\CommandesController::payement
+    
+list_page:
+    path: /List
+    controller: App\Controller\Front\CommandesController::orders
+    
+details_page:
+    path: /{id}/details
+    controller: App\Controller\Front\CommandesController::detailsOrder    
+    
+    
+validation_commande:
+    path: /validation_commande/{id}
+    controller: App\Controller\Front\CommandesController::validationCommande    
+    

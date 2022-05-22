@@ -1,0 +1,27 @@
+marchand_banners_index:
+    path: /list
+    controller: App\Controller\Back\BannersController::listAction
+    
+marchand_banners_details:
+    path: /{id}/details
+    controller: App\Controller\Back\BannersController::showAction
+    
+marchand_banners_new:
+    path: /new
+    controller: App\Controller\Back\BannersController::newAction   
+    
+marchand_banners_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\BannersController::newTraitementAction
+    
+marchand_banners_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\BannersController::editAction    
+    
+marchand_banners_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\BannersController::editTraitementAction
+    
+marchand_banners_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\BannersController::deleteAction    

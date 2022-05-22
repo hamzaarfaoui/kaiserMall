@@ -1,0 +1,191 @@
+{% extends "base.html.twig" %}
+{% block title %}{% endblock %}
+{% block stylesheets %}
+    <link type="text/css" rel="stylesheet" href="{{ asset('e-shop/css/nav.css') }}" />
+    <style>
+        .slick-slide {
+    width: 200px;
+}
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="categories-sliders-bloc home-category">
+        <div id="navigation">
+            <!-- container -->
+            <div class="container">
+                <div id="responsive-nav">
+                    <!-- category nav -->
+                    <div class="category-nav">
+                        <span class="category-header">Trouver tous </span>
+                        <ul class="category-list">
+                            {% for categorie in categories %}
+                                <li class="dropdown side-dropdown">
+                                    <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            {% for sc1 in categorie.categories %}
+                                                <div class="col-md-4">
+                                                    <ul class="list-links">
+                                                        <li>
+                                                            <h6 class="list-links-title">{{ sc1.name }}</h6></li>
+                                                            {% for souscat in sc1.sousCategories %}
+                                                            <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}</a></li>
+                                                            {% endfor %}
+                                                    </ul>
+                                                    <hr class="hidden-md hidden-lg">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /category nav -->
+
+                    <!-- menu nav -->
+                    <div class="menu-nav">
+                        <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+                        <ul class="menu-list">
+                            {% if(app.user) %}
+                                <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Mon compte <i class="fa fa-caret-down"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <ul class="list-links">
+                                                    {% if(is_granted('ROLE_MARCHAND')) %}
+                                                        <li><a href="{{ path('marchand_homepage') }}"><i class="fa fa-bars"></i> Store</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-user-o"></i> Profile</a></li>
+                                                    <li><a href="{{ path('list_page') }}"><i class="fa fa-heart-o"></i> Commandes</a></li>
+                                                    <li><a href="{{ path('products_favoris_page') }}"><i class="fa fa-exchange"></i> Mes favoris</a></li>
+                                                    <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-check"></i> Déconnexion</a></li>
+                                                </ul>
+                                                <hr class="hidden-md hidden-lg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Mon compte <i class="fa fa-caret-down"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <ul class="list-links">
+                                                    <li><a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a></li>
+                                                    <li><a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a></li>
+                                                </ul>
+                                                <hr class="hidden-md hidden-lg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- menu nav -->
+                </div>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- HOME -->
+        <div id="home">
+            <!-- container -->
+            <div class="container home">
+                <!-- home wrap -->
+                <div class="home-wrap">
+                    <!-- home slick -->
+                    <div id="home-slick">
+                        {{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}
+                    </div>
+                    <!-- /home slick -->
+                </div>
+                <!-- /home wrap -->
+            </div>
+            <!-- /container -->
+        </div>
+    </div>
+    <!-- /HOME -->
+
+    <!-- section banners three in line-->
+    {#<div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- banner -->
+                <div class="col-md-4 col-sm-6">
+                    <a class="banner banner-1" href="#">
+                        <img src="{{asset('e-shop/img/banner10.jpg')}}" alt="" style="height: 180px;">
+                        <div class="banner-caption text-center">
+                            <h4 class="white-color">NEW COLLECTION</h4>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>#}
+    <!-- /section -->
+    <!-- start categories -->
+    {% include 'includes/front/index/categories.html.twig' %}
+    <!-- end categories -->
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        //subscribe to newsLetter
+        $('#formNewsLetter').submit(function (e) {
+            e.preventDefault();
+            var email = $('#email').val();
+            $.ajax({
+                url: '{{ path('subscribe_to_news_letter') }}',
+                data: $("#formNewsLetter").serialize(),
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de s\'abonner à la newsLstter');
+                },
+                success: function (data) {
+                    $('#bloc-msg').show();
+                    $('#text-msg').html('Vous êtes inscrit à la news letter');
+                    setTimeout(function () {
+                        $('#bloc-msg').fadeOut();
+                    }, 3000);
+                }
+            });
+        });
+
+        {% for categorie in sc2 %}
+            $('#product-slick-{{categorie.id}}').slick({
+                slidesToShow: 5,
+                slidesToScroll: 2,
+                autoplay: false,
+                infinite: true,
+                speed: 300,
+                dots: true,
+                arrows: false,
+                appendDots: '.product-slick-dots-1',
+                variableWidth: true,
+                responsive: [{
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            dots: false,
+                            arrows: true,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                        }
+                    },
+                ]
+            });
+        {% endfor %}
+    </script>
+{% endblock %}

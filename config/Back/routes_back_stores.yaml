@@ -1,0 +1,51 @@
+dashboard_stores_back_index:
+    path: /list
+    controller: App\Controller\Back\StoresBackController::listAction
+   
+dashboard_stores_back_new:
+    path: /new
+    controller: App\Controller\Back\StoresBackController::newAction   
+    
+dashboard_stores_back_new_traitement:
+    path: /new_traitement
+    controller: App\Controller\Back\StoresBackController::newTraitementAction      
+    
+dashboard_stores_back_details:
+    path: /{id}/details
+    controller: App\Controller\Back\StoresBackController::showAction
+    
+dashboard_stores_back_edit:
+    path: /{id}/edit
+    controller: App\Controller\Back\StoresBackController::editAction    
+    
+dashboard_stores_back_edit_traitement:
+    path: /{id}/edit_traitement
+    controller: App\Controller\Back\StoresBackController::editTraitementAction 
+    
+dashboard_stores_back_delete:
+    path: /{id}/delete
+    controller: App\Controller\Back\StoresBackController::deleteAction
+
+dashboard_stores_products_liste:
+    path: /{store}/list_groups_products
+    controller: App\Controller\Back\StoresBackController::listGroupProductsAction 
+
+dashboard_stores_products_liste_new:
+    path: /{store}/new_group_products
+    controller: App\Controller\Back\StoresBackController::newGroupProductsAction 
+
+dashboard_stores_products_liste_new_traitement:
+    path: /new_group_products_traitement
+    controller: App\Controller\Back\StoresBackController::newGroupProductsTraitementAction
+
+dashboard_stores_products_liste_change_position:
+    path: /group_products_change_position
+    controller: App\Controller\Back\StoresBackController::changePositionGroupProductsAction  
+
+dashboard_stores_products_liste_details:
+    path: /group_products_details/{id}
+    controller: App\Controller\Back\StoresBackController::groupProductsDetailsAction  
+
+dashboard_stores_add_product_in_group:
+    path: /add_product_in_group/{id}
+    controller: App\Controller\Back\StoresBackController::addProductInGroupAction  
