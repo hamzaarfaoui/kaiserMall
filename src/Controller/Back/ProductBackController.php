@@ -225,6 +225,23 @@ class ProductBackController extends Controller
             $dm->persist($promotion);
         }
         /*end promotion document*/
+		/*start Caractéristique valeur document*/
+        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
+        foreach ($valeurs as $valeur){
+            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
+                $product->addValeur($valeur);
+            }
+        }
+		
+		/*start Caractéristique valeur document*/
+        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
+        foreach ($valeurs as $valeur){
+            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
+                $product->addValeur($valeur);
+                $valeur->addProduct($product);
+                $dm->persist($valeur);
+            }
+        }
         /*start keywords*/
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);
@@ -458,6 +475,16 @@ class ProductBackController extends Controller
             $dm->flush();
         }
         /*end promotion document*/
+		
+		/*start Caractéristique valeur document*/
+        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
+        foreach ($valeurs as $valeur){
+            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
+                $product->addValeur($valeur);
+                $valeur->addProduct($product);
+                $dm->persist($valeur);
+            }
+        }
         
         /*start keywords*/
         $keywords_input = $request->get('keywords');

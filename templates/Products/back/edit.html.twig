@@ -84,6 +84,11 @@
                                             <a href="#tab_meta" data-toggle="tab">
                                                 Images </a>
                                         </li>
+										<li>
+                                            <a href="#tab_images" data-toggle="tab">
+                                                Caractéristiques
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="#tab_reviews" data-toggle="tab">
                                                 Promotions
@@ -248,6 +253,27 @@
                                                     </table>
 
                                                 </div>
+                                        </div>
+										<div class="tab-pane" id="tab_images">
+                                            <h3>Caractéristiques</h3>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        {% for caracteristique in caracteristiques %}
+                                                            <div class="col-md-3">
+                                                                <h5>{{caracteristique.name}}</h5>
+                                                                {% for valeur in caracteristique.valeurs %}
+                                                                    <div class="form-group">
+
+                                                                        <input id="{{valeur.id}}" type="radio" name="valeur{{caracteristique.id}}" value="{{valeur.id}}" {% for val in product.valeurs %}{{val.id==valeur.id?'checked="true"':''}}{% endfor %}>
+                                                                        <label for="{{valeur.id}}">{{valeur.name}}</label>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="tab-pane" id="tab_reviews">
                                             <h3>Promotion</h3>
