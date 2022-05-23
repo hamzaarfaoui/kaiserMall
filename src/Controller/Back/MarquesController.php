@@ -47,11 +47,24 @@ class MarquesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
+        $caracteristiques_list = '';
+        foreach ($caracteristiques as $caracteristique) {
+            $caracteristiques_list .= '<div class="col-md-3">';
+            $caracteristiques_list .= '<h5>'.$caracteristique->getName().'</h5>';
+            foreach ($caracteristique->getValeurs() as $valeur) {
+                $caracteristiques_list .= '<div class="form-group">';
+                $caracteristiques_list .= '<input id="'.$valeur->getId().'" type="radio" name="valeur'.$caracteristique->getId().'" value="'.$valeur->getId().'"><label for="'.$valeur->getName().'">'.$valeur->getName().'</label>';
+                $caracteristiques_list .= '</div>';
+            }
+            
+            $caracteristiques_list .= '</div>';
+        }
         $options = '<option value="">Sélectionner une marque</option>';
         foreach ($marques as $marque){
             $options .= '<option value="'.$marque->getId().'">'.$marque->getName().'</option>';
         }
-        return new JsonResponse(['status'=>'ok', 'options'=>$options]);
+        return new JsonResponse(['status'=>'ok', 'options'=>$options, 'caracteristiques' => $caracteristiques_list]);
     }
     
     /*

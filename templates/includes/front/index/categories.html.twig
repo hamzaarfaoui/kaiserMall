@@ -27,7 +27,7 @@
                             {% for product in categorie.products %}
                                 {% if(product.qte>0) %}
                                 <!-- Product Single -->
-                                <div class="product product-single {{product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 339px;">
+                                <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 339px;">
                                     <div class="product-thumb">
                                         <div class="product-label">
                                             {% if(product.createdAt != null) %}
@@ -35,7 +35,7 @@
                                             {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
                                             {{difference.days < 7?'<span>New </span>':''}}
                                             {% endif %}
-                                            {% if(product.pricePromotion<product.price) %}
+                                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
                                                 <span class="sale">
                                                     {% set difference = product.price - product.pricePromotion %}
                                                     {% set pourcentage = (difference/product.price)*100 %}
@@ -47,7 +47,7 @@
                                         <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" style="height:200px;">
                                     </div>
                                     <div class="product-body">
-                                        {% if(product.pricePromotion<product.price) %}
+                                        {% if(product.pricePromotion and product.pricePromotion<product.price) %}
                                             <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
                                         {% else %}
                                             <h3 class="product-price">{{product.price}} TND</h3>

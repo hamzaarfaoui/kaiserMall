@@ -19,6 +19,9 @@
 .hide-img-logo{
     width: 60px;
 }
+.text-uppercase{
+    
+text-transform: capitalize;}
 .user{
     width: 212px;
 }

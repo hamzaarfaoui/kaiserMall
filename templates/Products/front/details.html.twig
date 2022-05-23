@@ -144,7 +144,7 @@
                     </div>
                     <div class="col-md-7">
                             <div class="pull-right">
-                            {% if(product.pricePromotion<product.price != null) %}
+                            {% if(product.pricePromotion and product.pricePromotion<product.price != null) %}
                                 <div class="product-price price-skew">{{product.pricePromotion}} TND<span class="span-price"></span><del class="product-old-price">  {{product.price}} TND</del></div>
                             {% else %}
                                 <div class="product-price price-skew"><span>{{product.price}} TND</span><span class="span-price"></span></div>
@@ -154,7 +154,7 @@
                                 {#{% set today = "now"|date("d/m/Y") %}
                                 {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
                                 {{difference.days < 7?'<span>New </span>':''}}#}
-                                {% if(product.pricePromotion<product.price != null) %}
+                                {% if(product.pricePromotion and product.pricePromotion<product.price != null) %}
                                     <span class="sale">
                                         {% set difference = product.price - product.pricePromotion %}
                                         {% set pourcentage = (difference/product.price)*100 %}

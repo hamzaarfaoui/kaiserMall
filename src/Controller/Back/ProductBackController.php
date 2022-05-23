@@ -352,6 +352,13 @@ class ProductBackController extends Controller
             $dm->persist($promotion);
         }
         /*end promotion document*/
+        /*start Caractéristique valeur document*/
+        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
+        foreach ($valeurs as $valeur){
+            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
+                $product->addValeur($valeur);
+            }
+        }
         /*start keywords*/
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);
@@ -384,11 +391,13 @@ class ProductBackController extends Controller
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
         return $this->render('Products/back/edit.html.twig', array(
             'product' => $product,
             'categoriesMere' => $categoriesMere,
+            'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
             'sousCategories1' => $sousCategories1,
