@@ -394,18 +394,34 @@ class ProductBackController extends Controller
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
+        $gallery = $dm->getRepository('App:MediasImages')->findBy(array('product'=>$product));
         return $this->render('Products/back/edit.html.twig', array(
             'product' => $product,
             'categoriesMere' => $categoriesMere,
             'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
+            'gallery' => $gallery,
             'sousCategories1' => $sousCategories1,
             'sousCategories2' => $sousCategories2,
             'marques' => $marques
                 ));
     }
-    
+    /*
+     * remove img from gallery product
+     */
+    public function removeImgFromGalleryAction(Request $request, $id_product, $name)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $fileSystem = new Filesystem();
+        $image = $dm->getRepository('App:MediasImages')->findOneBy(array('product'=>$id_product, 'name' => $name));
+        $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));
+        $dm->remove($image);
+        $dm->flush();
+        return new JsonResponse([
+            'message' => 'image supprimmé'
+        ]);
+    }
     /*
      * Edit Product traitement
      */
@@ -435,10 +451,7 @@ class ProductBackController extends Controller
             $product->setSousCategorie($sc);
         }
         /*start medias Images document*/
-        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
-            foreach ($product->getMediasImages() as $img){
-                $dm->remove($img);
-            }
+        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name']) && count($_FILES["images"]['name']) > 0 && $_FILES["images"]["name"][0] != "") {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
                 
                 $mediaImage = new MediasImages();

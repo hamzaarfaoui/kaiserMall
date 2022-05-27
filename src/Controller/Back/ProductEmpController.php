@@ -217,12 +217,14 @@ class ProductEmpController extends Controller
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
         $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
+        $gallery = $dm->getRepository('App:MediasImages')->findBy(array('product'=>$product));
         return $this->render('Products/back/emp/edit.html.twig', array(
             'product' => $product,
             'categoriesMere' => $categoriesMere,
             'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
+            'gallery' => $gallery,
             'sousCategories1' => $sousCategories1,
             'sousCategories2' => $sousCategories2,
             'marques' => $marques

@@ -222,7 +222,8 @@ class FrontController extends Controller
         $dm->flush();
         return $this->render('Products/front/details.html.twig', array(
             'product' => $product,
-            'products' => $products
+            'products' => $products,
+            'categorie' => $product->getSousCategorie()
         ));
     }
     

@@ -25,6 +25,10 @@ dashboard_product_back_new_traitement:
 dashboard_product_back_new_traitement_by_store:
     path: /new_traitement/{id}
     controller: App\Controller\Back\ProductBackController::newTraitementByStoreAction     
+
+dashboard_remove_img_from_gallery:
+    path: /remove_img_from_gallery/{id_product}/{name}
+    controller: App\Controller\Back\ProductBackController::removeImgFromGalleryAction
     
 dashboard_product_back_edit:
     path: /{id}/edit
