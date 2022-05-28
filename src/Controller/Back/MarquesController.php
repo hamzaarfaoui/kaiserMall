@@ -54,7 +54,7 @@ class MarquesController extends Controller
             $caracteristiques_list .= '<h5>'.$caracteristique->getName().'</h5>';
             foreach ($caracteristique->getValeurs() as $valeur) {
                 $caracteristiques_list .= '<div class="form-group">';
-                $caracteristiques_list .= '<input id="'.$valeur->getId().'" type="radio" name="valeur'.$caracteristique->getId().'" value="'.$valeur->getId().'"><label for="'.$valeur->getName().'">'.$valeur->getName().'</label>';
+                $caracteristiques_list .= '<span><input id="'.$valeur->getId().'" type="checkbox" name="valeur'.$caracteristique->getId().'" value="'.$valeur->getId().'"></span><label class="caracteristiques" for="'.$valeur->getId().'"> '.$valeur->getName().'</label>';
                 $caracteristiques_list .= '</div>';
             }
             

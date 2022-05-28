@@ -86,9 +86,14 @@ class SousCategories
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity=Caracteristiques::class, mappedBy="sousCategorie")
+     * @ORM\OneToMany(targetEntity=Caracteristiques::class, mappedBy="caracteristiques")
      */
     private $caracteristiques;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Couleurs::class, mappedBy="sousCategorie")
+     */
+    private $couleurs;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -101,6 +106,7 @@ class SousCategories
         $this->keywords = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->caracteristiques = new ArrayCollection();
+        $this->couleurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -341,6 +347,36 @@ class SousCategories
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Couleurs[]
+     */
+    public function getCouleurs(): Collection
+    {
+        return $this->couleurs;
+    }
+
+    public function addCouleur(Couleurs $couleur): self
+    {
+        if (!$this->couleurs->contains($couleur)) {
+            $this->couleurs[] = $couleur;
+            $couleur->setSousCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCouleur(Couleurs $couleur): self
+    {
+        if ($this->couleurs->removeElement($couleur)) {
+            // set the owning side to null (unless already changed)
+            if ($couleur->getSousCategorie() === $this) {
+                $couleur->setSousCategorie(null);
+            }
+        }
 
         return $this;
     }

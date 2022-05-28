@@ -126,6 +126,11 @@ class Products
     private $sousCategorie;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Couleurs::class, inversedBy="products")
+     */
+    private $couleur;
+
+    /**
      * @ORM\ManyToMany(targetEntity=Valeurs::class, inversedBy="products")
      */
     private $valeurs;
@@ -540,6 +545,18 @@ class Products
     public function setInListProducts(?int $inListProducts): self
     {
         $this->inListProducts = $inListProducts;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?Couleurs
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?Couleurs $couleur): self
+    {
+        $this->couleur = $couleur;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\SousCategories;
 use App\Entity\Categories;
+use App\Entity\Couleurs;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -103,6 +104,32 @@ class SousCategories2Controller extends Controller
             'categorie' => $categorie,
             'products' => $products
                 ));
+    }
+
+    /*
+     * sousCategorie2 coulerus
+     */
+    public function couleursAction($id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->find($id);
+        return $this->render('categories/sc2/couleurs.html.twig', array(
+            'categorie' => $categorie,
+            'couleurs' => $categorie->getCouleurs()
+                ));
+    }
+    /*
+     * sousCategorie2 add couleur
+     */
+    public function addcouleurAction(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $couleur = new Couleurs();
+        $couleur->setCode($_POST['couleur']);
+        $couleur->setSousCategorie($_POST['sc']);
+        $dm->persist($couleur);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'color added'));
     }
     
     /*

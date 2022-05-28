@@ -101,9 +101,6 @@
                                                         Nom
                                                     </th>
                                                     <th>
-                                                        Nombre de sous catégories
-                                                    </th>
-                                                    <th>
                                                         Nombre de produits
                                                     </th>
                                                     <th>
@@ -115,9 +112,9 @@
                                                 {% for sc in categorie.sousCategories %}
                                                     <tr>
                                                         <td>{{sc.name}}</td>
-                                                        <td>{{sc.products|length}}</td>
-                                                        <td></td>
+                                                        <td>{{sc.products|length}} produits</td>
                                                         <td>
+                                                            <a href="{{ path('dashboard_sc2_couleurs', {id : sc.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-bars"></i> Couleurs</a>
                                                             <a href="{{ path('dashboard_sc2_details', {id : sc.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
                                                             <a href="{{ path('dashboard_sc2_edit', {id : sc.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{sc.id}}"><i class="fa fa-trash"></i> Supprimer</button>
