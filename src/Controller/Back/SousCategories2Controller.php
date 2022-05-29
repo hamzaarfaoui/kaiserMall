@@ -125,9 +125,21 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $couleur = new Couleurs();
+        $categorie = $dm->getRepository('App:SousCategories')->find($_POST['sc']);
         $couleur->setCode($_POST['couleur']);
-        $couleur->setSousCategorie($_POST['sc']);
+        $couleur->setSousCategorie($categorie);
         $dm->persist($couleur);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'color added'));
+    }
+    /*
+     * sousCategorie2 delete couleur
+     */
+    public function deletecouleurAction(Request $request, $id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $couleur = $dm->getRepository('App:Couleurs')->find($id);
+        $dm->remove($couleur);
         $dm->flush();
         return new JsonResponse(array('message' => 'color added'));
     }

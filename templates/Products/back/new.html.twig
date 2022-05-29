@@ -26,6 +26,20 @@
             bottom: 2px;
             left: 5px;
         }
+        .couleur-radio{
+            display: none !important;
+        }
+        .couleur-label{
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+        }
+        .couleur-label::before{
+            content: '';
+        }
+        .couleur-label-checked{
+            border: 2px solid #39b54a;
+        }
     </style>
 {% endblock %}
 {% block title %}Tableau de bord | Nouveau produit{% endblock %}
@@ -240,6 +254,12 @@
                                                 </div>
                                         </div>
 										<div class="tab-pane" id="tab_images">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div id="couleurs"></div>
+                                                    
+                                                </div>
+                                            </div>
                                             <h3>Caractéristiques</h3>
                                             <div id="caracteristiques"><h5 style="text-align: center;">Sélectionner une catégorie</h5></div>
                                         </div>
@@ -331,7 +351,11 @@
                 initialPreviewFileType: 'image'
             });
         $(document).ready(function () {
-
+             $('.couleur-radio').change(function () {
+                $('.couleur-label').removeClass('couleur-label-checked');
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.addClass('couleur-label-checked');
+            });
             $("#kv-explorer").fileinput({
             'theme': 'explorer-fa',
             'uploadUrl': '#',
@@ -419,6 +443,7 @@
                             $('#marque').prop('disabled', false);
                             $('#marque').html(result['options']);
                             $('#caracteristiques').html(result['caracteristiques']);
+                            $('#couleurs').html(result['couleurs']);
                         }
                     });
                 }

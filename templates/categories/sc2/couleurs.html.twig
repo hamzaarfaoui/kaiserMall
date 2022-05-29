@@ -66,11 +66,12 @@
                                         <h4 class="modal-title" style="color: #000;">Ajout couleur</h4>
                                       </div>
                                       <div class="modal-body">
-                                        <form id="addCouleurForm">
+                                        <form id="addCouleurForm" method="POST">
                                             <table style="color: #000;width: 80%;margin: auto;">
                                                 <tr style="display:<?php echo $GLOBALS['BO_CONF']['COLORBYENTITY']?'table-row':'none';?>">
                                                 <td>Couleur : </td>
                                                 <td>
+                                                    <input type="hidden" name="sc" value="{{ categorie.id }}">
                                                     <input type="text" name="couleur" class="couleur" id="newcolor" value="#39b54a">
                                                 </td>
                                                 <td><button class="btn btn-primary btn-sm" type="submit">Valider</button></td>
@@ -114,32 +115,9 @@
                                             </thead>
                                             <tbody>
                                                 {% for couleur in couleurs %}
-                                                    <tr id="listItem_{{ produit.id }}">
+                                                    <tr id="listItem_{{ couleur.id }}">
                                                         <td><div style="background-color: {{couleur.code}};height: 50px;width: 50px;"></div></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModalEdit{{couleur.id}}"><i class="fa fa-trash"></i> Modifier</button>
-                                                            <!-- Modal delete -->
-                                                            <div id="myModalEdit{{couleur.id}}" class="modal fade" role="dialog">
-                                                              <div class="modal-dialog">
-
-                                                                <!-- Modal content-->
-                                                                <div class="modal-content">
-                                                                  <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                    <h4 class="modal-title">Modification couleur</h4>
-                                                                  </div>
-                                                                  <div class="modal-body">
-                                                                    <span> Couleur : </span>
-                                                                    <input type="" name="couleur" class="couleur">
-                                                                  </div>
-                                                                  <div class="modal-footer">
-                                                                      <a href="{{path('dashboard_couleur_delete', {id:couleur.id})}}"></a>
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
-                                                                  </div>
-                                                                </div>
-
-                                                              </div>
-                                                            </div>
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{couleur.id}}"><i class="fa fa-trash"></i> Supprimer</button>
 
                                                             <!-- Modal delete -->

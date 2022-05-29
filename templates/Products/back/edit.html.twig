@@ -17,10 +17,29 @@
     <!-- END PAGE LEVEL STYLES -->
     <style type="text/css">
         .btn-primary.active, .btn-primary:active, .show>.btn-primary.dropdown-toggle {
-    background-color: #0069d9;
-    background-image: none;
-    border-color: #0062cc;
-}
+            background-color: #0069d9;
+            background-image: none;
+            border-color: #0062cc;
+        }
+        .couleur-radio{
+            display: none !important;
+        }
+        .couleur-label{
+            cursor: pointer;
+            height: 43px;
+            width: 43px;
+            padding-left: 3px;
+            padding-top: 3px;
+        }
+        .couleur-label div::before{
+
+        }
+        .couleur-label div::after{
+            content: '';
+        }
+        .couleur-label-checked{
+            border: 1px solid #000;
+        }
     </style>
 {% endblock %}
 {% block title %}Tableau de bord | {{product.name}}{% endblock %}
@@ -236,6 +255,15 @@
                                                 </div>
                                         </div>
 										<div class="tab-pane" id="tab_images">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h3>Couleur</h3>
+                                                    {% for couleur in couleurs %}
+                                                        <input type="radio" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                                        <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
                                             <h3>Caractéristiques</h3>
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -364,6 +392,11 @@
                 ]
             });
         $(document).ready(function () {
+            $('.couleur-radio').change(function () {
+                $('.couleur-label').removeClass('couleur-label-checked');
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.addClass('couleur-label-checked');
+            });
             $("#kv-explorer").fileinput({
             'theme': 'explorer-fa',
             'uploadUrl': '#',

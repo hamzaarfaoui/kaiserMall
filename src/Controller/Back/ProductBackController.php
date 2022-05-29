@@ -392,6 +392,7 @@ class ProductBackController extends Controller
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
+        $couleurs = $dm->getRepository('App:couleurs')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
         $gallery = $dm->getRepository('App:MediasImages')->findBy(array('product'=>$product));
@@ -401,6 +402,7 @@ class ProductBackController extends Controller
             'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
+            'couleurs' => $couleurs,
             'gallery' => $gallery,
             'sousCategories1' => $sousCategories1,
             'sousCategories2' => $sousCategories2,
@@ -449,6 +451,10 @@ class ProductBackController extends Controller
         if($request->get('sc')){
             $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
             $product->setSousCategorie($sc);
+        }
+        if($request->get('couleur')){
+            $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
+            $product->setCouleur($couleur);
         }
         /*start medias Images document*/
         if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name']) && count($_FILES["images"]['name']) > 0 && $_FILES["images"]["name"][0] != "") {

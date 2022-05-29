@@ -48,6 +48,7 @@ class MarquesController extends Controller
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
         $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
+        $couleurs = $dm->getRepository('App:couleurs')->findBy(array('sousCategorie' => $categorie));
         $caracteristiques_list = '';
         foreach ($caracteristiques as $caracteristique) {
             $caracteristiques_list .= '<div class="col-md-3">';
@@ -60,11 +61,17 @@ class MarquesController extends Controller
             
             $caracteristiques_list .= '</div>';
         }
+        $couleurs_list = '<h3>Couleur</h3><div class="row">';
+        foreach ($couleurs as $couleur) {
+            $couleurs_list .= '<div class="col-md-1"><input type="radio" style="display: none;" name="couleur" class="couleur-radio"id="couleur-'.$couleur->getId().'" value="'.$couleur->getId().'" >';
+            $couleurs_list .= '<label for="couleur-'.$couleur->getId().'" class="couleur-label" style="background-color: '.$couleur->getCode().';"></label></div>';
+        }
+        $couleurs_list .= '</div>';
         $options = '<option value="">Sélectionner une marque</option>';
         foreach ($marques as $marque){
             $options .= '<option value="'.$marque->getId().'">'.$marque->getName().'</option>';
         }
-        return new JsonResponse(['status'=>'ok', 'options'=>$options, 'caracteristiques' => $caracteristiques_list]);
+        return new JsonResponse(['status'=>'ok', 'options'=>$options, 'caracteristiques' => $caracteristiques_list, 'couleurs' => $couleurs_list]);
     }
     
     /*
