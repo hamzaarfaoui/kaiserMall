@@ -235,13 +235,15 @@ class FrontController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->findOneBy(array('slug' => $slug));
         $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
         $paginator  = $this->get('knp_paginator');
         $products = $paginator->paginate(
             $find_products, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             20 /*limit per page*/
         );
-        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
+        $marques = $dm->getRepository('App:Products')->marquesProductsBycategories($categorie);
+        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie);
         $products_price = array();
         foreach ($find_products as $product) {
             $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
@@ -252,6 +254,8 @@ class FrontController extends Controller
             'products' => $products,
             'categorie' => $categorie,
             'marques' => $marques,
+            'couleurs' => $couleurs,
+            'caracteristiques' => $caracteristiques,
             'min' => $min,
             'max'=>$max,
         ));

@@ -60,6 +60,7 @@ class ProductController extends Controller
         $query = array();
         $caracteristiques = [];
         $marques = [];
+        $couleurs = [];
         if(!empty($request->get('caracteristiques'))){
             foreach ($request->get('caracteristiques') as $item){
                 $valeur = $dm->getRepository('App:Valeurs')->find($item);
@@ -70,6 +71,12 @@ class ProductController extends Controller
             foreach ($request->get('marques') as $item){
                 $marque = $dm->getRepository('App:Marques')->find($item);
                 $marques[] = $marque;
+            }
+        }
+        if(!empty($request->get('couleurs'))){
+            foreach ($request->get('couleurs') as $item){
+                $couleur = $dm->getRepository('App:Couleurs')->find($item);
+                $couleurs[] = $couleur;
             }
         }
         if(!empty($request->get('categorie'))){

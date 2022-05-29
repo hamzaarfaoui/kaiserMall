@@ -192,6 +192,35 @@ class ProductsRepository extends ServiceEntityRepository
         }
         return $qb->getQuery()->execute();
     }
+
+    public function marquesProductsBycategories($categorie)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('m.id', 'm.name')
+            ->leftJoin('u.marque', 'm')
+            ->where('u.sousCategorie = :sc')
+            ->groupBy('m.id')
+            ->setParameter('sc', $categorie);    
+            
+        
+        return $qb->getQuery()->execute();
+    }
+
+    public function couleursProductsBycategories($categorie)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('c.id', 'c.code')
+            ->leftJoin('u.couleur', 'c')
+            ->where('u.sousCategorie = :sc')
+            ->andWhere('c.code IS NOT NULL')
+            ->groupBy('c.id')
+            ->setParameter('sc', $categorie);    
+            
+        
+        return $qb->getQuery()->execute();
+    }
     
     
     
