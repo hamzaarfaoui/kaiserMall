@@ -200,9 +200,9 @@ box-shadow: 1px 2px 9px 0px #ddd;
 .categorie-products{
     background-color: #fff;
     padding-top: 20px;
-    width: 98%;
+    width: 80%;
     position: relative;
-    left: 5px;
+    left: 10%;
     margin-top: 0;
     height: 471px;
     margin-bottom: 35px;
@@ -414,7 +414,7 @@ width: 91%;
         /* padding-left: 30px; */
         /* padding-right: 30px; */
         height: 50px;
-        font-size: 29px;
+        font-size: 37px;
         font-weight: bold;
         line-height: 53px;
         color: #fff;
@@ -517,8 +517,46 @@ width: 91%;
         border-bottom: 1px solid #DADADA;
         text-align: center;
     }
+    .section.product{
+
+        padding-bottom: 0;
+
+    }
+    .section.product .container{
+        
+        margin-bottom: 0;
+    }
+    .section.product .content{
+        
+        text-align: -webkit-center;
+    }
+    .bloc-btn-chart{
+        
+/* position: inherit; */
+        
+/* left: inherit; */
+        
+/* right: inherit; */
+        
+text-align: center;
+    }
 }
 @media screen and (min-width: 450px){
+    .section.product .content{
+        
+height: 325px;
+    }
+    .bloc-btn-chart{
+
+text-align: end;
+
+position: relative;
+
+top: 0;
+
+right: -14px;
+
+}
     .badge-bloc{
         text-align: right;
     }

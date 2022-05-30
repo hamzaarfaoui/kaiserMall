@@ -62,6 +62,7 @@
 .add-to-cart{
     font-size: 27px;
     font-weight: 100;
+    background-color: #dc2a2a !important;
 }
 .product.product-single .product-name{
     font-size: 12px;
@@ -109,7 +110,7 @@
     </div>
     <!-- /NAVIGATION -->
     <!-- section -->
-    <div class="section">
+    <div class="section product">
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -196,12 +197,15 @@
                                 {% else %}
                                     <div class="product-price price-skew-mobile"><span>{{product.price}} TND</span><span class="span-price"></span></div>
                                 {% endif %}
-                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+                                
                                 <div>
                                 {% if is_granted('AUTHENTIFICATED_FULLY') %}
                                     <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
                                 {% endif %}
                                 </div>
+                            </div>
+                            <div class="bloc-btn-chart">
+                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
                             </div>
                             
                             {#<strong>Vendeur :</strong>
