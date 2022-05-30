@@ -66,18 +66,21 @@ class ProductController extends Controller
                 $valeur = $dm->getRepository('App:Valeurs')->find($item);
                 $caracteristiques[] = $valeur->getId();
             }
+            $query['valeurs'] = $caracteristiques;
         }
         if(!empty($request->get('marques'))){
             foreach ($request->get('marques') as $item){
                 $marque = $dm->getRepository('App:Marques')->find($item);
                 $marques[] = $marque;
             }
+            $query['marques'] = $marques;
         }
         if(!empty($request->get('couleurs'))){
             foreach ($request->get('couleurs') as $item){
                 $couleur = $dm->getRepository('App:Couleurs')->find($item);
                 $couleurs[] = $couleur;
             }
+            $query['couleurs'] = $couleurs;
         }
         if(!empty($request->get('categorie'))){
             $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
@@ -93,51 +96,51 @@ class ProductController extends Controller
             $query['store'] = $request->get('store');
         }
         if (count($caracteristiques) >= 1) {$query['valeurs'] = $caracteristiques;}
-        $products = $dm->getRepository('App:Products')->byCategorie($query);
-        $products_list = array();
-        foreach ($products as $product){
+        $products_list = $dm->getRepository('App:Products')->byCategorie($query);
+        // $products_list = array();
+        // foreach ($products as $product){
             
-            $valeurs_id = array();
-            foreach ($product->getValeurs() as $v){
-                $valeurs_id[] = $v->getId();
-            }
-            if(!empty($request->get('categorie'))){
-                if($product->getSousCategorie()->getId() == $categorie->getId()){
-                    foreach ($caracteristiques as $caracteristique){
-                        if(in_array($caracteristique, $valeurs_id)){
-                            $products_list[] = $product;
-                        }
-                    }
-                }
-            }elseif(!empty($request->get('categories'))){
-                foreach ($caracteristiques as $caracteristique){
-                    if(in_array($caracteristique, $valeurs_id)){
-                        $products_list[] = $product;
-                    }
-                }
-            }
-        }
-        foreach ($products as $product){
+        //     $valeurs_id = array();
+        //     foreach ($product->getValeurs() as $v){
+        //         $valeurs_id[] = $v->getId();
+        //     }
+        //     if(!empty($request->get('categorie'))){
+        //         if($product->getSousCategorie()->getId() == $categorie->getId()){
+        //             foreach ($caracteristiques as $caracteristique){
+        //                 if(in_array($caracteristique, $valeurs_id)){
+        //                     $products_list[] = $product;
+        //                 }
+        //             }
+        //         }
+        //     }elseif(!empty($request->get('categories'))){
+        //         foreach ($caracteristiques as $caracteristique){
+        //             if(in_array($caracteristique, $valeurs_id)){
+        //                 $products_list[] = $product;
+        //             }
+        //         }
+        //     }
+        // }
+        // foreach ($products as $product){
             
-            if(!empty($request->get('marques'))){
-                if($product->getSousCategorie()->getId() == $categorie->getId()){
-                    if(in_array($product->getMarque(), $marques)){
-                        if(!in_array($product, $products_list)){
-                            $products_list[] = $product;
-                        }
-                    }
-                }
-            }elseif(!empty($request->get('categories'))){
-                foreach ($caracteristiques as $caracteristique){
-                    if(in_array($caracteristique, $valeurs_id)){
-                        $products_list[] = $product;
-                    }
-                }
-            }
-        }
+        //     if(!empty($request->get('marques'))){
+        //         if($product->getSousCategorie()->getId() == $categorie->getId()){
+        //             if(in_array($product->getMarque(), $marques)){
+        //                 if(!in_array($product, $products_list)){
+        //                     $products_list[] = $product;
+        //                 }
+        //             }
+        //         }
+        //     }elseif(!empty($request->get('categories'))){
+        //         foreach ($caracteristiques as $caracteristique){
+        //             if(in_array($caracteristique, $valeurs_id)){
+        //                 $products_list[] = $product;
+        //             }
+        //         }
+        //     }
+        // }
         
         
-        if(count($products_list)==0){$products_list=$products;}
+        // if(count($products_list)==0){$products_list=$products;}
         
         return new JsonResponse(array(
             'status' => 'OK',

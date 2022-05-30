@@ -64,6 +64,7 @@ body {
   font-family: 'Hind', sans-serif;
   color: #4A4E5A;
   overflow-x: hidden;
+  background-color: #f5f3f3;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -252,7 +253,8 @@ textarea.input {
 }
 
 .section-grey {
-  background: #F6F7F8;
+  background: #FFF;
+  box-shadow: 10px 8px 24px 5px #ccc;
 }
 
 .section-title {

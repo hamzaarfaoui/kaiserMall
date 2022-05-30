@@ -25,6 +25,24 @@
 .couleur-label-checked{
     border: 1px solid #000;
 }
+.section-products{
+    width: 90%;
+    margin-left: 4.5%;
+    background-color: #FFF;
+    box-shadow: 0px 0px 24px 1px #ccc;
+}
+.section-banners{
+    width: 90% !important;
+    margin-left: 4.5%;
+    position: inherit !important;
+    left: inherit !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.banner>img {
+    width: 100%;
+    box-shadow: 0px 0px 24px 1px #ccc;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -34,8 +52,9 @@
     <!-- /NAVIGATION -->
 
 
+
     <!-- section -->
-    <div class="section">
+    <div class="section section-products">
         <!-- container -->
         <div class="container list-products-container">
             <!-- row -->
@@ -199,6 +218,9 @@
         <!-- /container -->
     </div>
                         <input type="hidden" id="categorieId" value="{{categorie.id}}">
+    {% if(categorie.hasBanner == 1) %}
+        {{ render(controller('App\\Controller\\Back\\BannersController::twoInFront')) }}
+    {% endif %}
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
@@ -274,103 +296,96 @@
         var caracteristiques = [];
         var marques = [];
         var categories = [];
-        var store = $('#storeId').val();
-        $('input[name="valeur"]').change(function(){
-            var myVal = $(this).val();
-            var marquesc = [];
-            $("input[name='marque']:checked").each(function(){
-                marquesc.push($(this).val());
-            });
-            if($(this).prop("checked")){
-                caracteristiques.push($(this).val());
-            }else{
-               caracteristiques = caracteristiques.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
-            $.ajax({
-                url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, min:minp, max:maxp, marques:marquesc},
-                method: "POST",
-                error: function (data) {
-                    console.log('Erreur de trier les produit');
-                },
-                beforeSend:function(){
-                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
-                }
-                ,
-                success: function (data) {
-                    console.log(data['nbr']);
-                    {#console.log('caracteristique');
-                    console.log($(this).data('valeur'));
-                    #}
-                    $('#list-produits').html(data['products']);
-                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                }
-            });
-            console.log(caracteristiques);
-        });
+        //var store = $('#storeId').val();
+        // $('input[name="valeur"]').change(function(){
+        //     var myVal = $(this).val();
+        //     var marquesc = [];
+        //     $("input[name='marque']:checked").each(function(){
+        //         marquesc.push($(this).val());
+        //     });
+        //     if($(this).prop("checked")){
+        //         caracteristiques.push($(this).val());
+        //     }else{
+        //        caracteristiques = caracteristiques.filter(function(elem){
+        //             return elem != myVal; 
+        //          });
+        //     }
+        //     $.ajax({
+        //         url: '{{ path('tri_product') }}',
+        //         data: {caracteristiques:caracteristiques, categorie:categorie, min:minp, max:maxp, marques:marquesc},
+        //         method: "POST",
+        //         error: function (data) {
+        //             console.log('Erreur de trier les produit');
+        //         },
+        //         beforeSend:function(){
+        //             $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+        //         }
+        //         ,
+        //         success: function (data) {
+        //             console.log(data['nbr']);
+        //             {#console.log('caracteristique');
+        //             console.log($(this).data('valeur'));
+        //             #}
+        //             $('#list-produits').html(data['products']);
+        //             //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+        //         }
+        //     });
+        //     console.log(caracteristiques);
+        // });
         
-        $('input[name="cat"]').change(function(){
-            var myVal = $(this).val();
-            if($(this).prop("checked")){
-                categories.push($(this).val());
-            }else{
-               categories = categories.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
-            $.ajax({
-                url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categories:categories, store:store, min:minp, max:maxp},
-                method: "POST",
-                error: function (data) {
-                    console.log('Erreur de trier les produit');
-                },
-                beforeSend:function(){
-                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
-                }
-                ,
-                success: function (data) {
-                    console.log(data['nbr']);
-                    {#console.log('caracteristique');
-                    console.log($(this).data('valeur'));
-                    #}
-                    $('#list-produits').html(data['products']);
-                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                }
-            });
-            console.log(caracteristiques);
-        });
+        // $('input[name="cat"]').change(function(){
+        //     var myVal = $(this).val();
+        //     if($(this).prop("checked")){
+        //         categories.push($(this).val());
+        //     }else{
+        //        categories = categories.filter(function(elem){
+        //             return elem != myVal; 
+        //          });
+        //     }
+        //     $.ajax({
+        //         url: '{{ path('tri_product') }}',
+        //         data: {caracteristiques:caracteristiques, categories:categories, store:store, min:minp, max:maxp},
+        //         method: "POST",
+        //         error: function (data) {
+        //             console.log('Erreur de trier les produit');
+        //         },
+        //         beforeSend:function(){
+        //             $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+        //         }
+        //         ,
+        //         success: function (data) {
+        //             console.log(data['nbr']);
+        //             {#console.log('caracteristique');
+        //             console.log($(this).data('valeur'));
+        //             #}
+        //             $('#list-produits').html(data['products']);
+        //             //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+        //         }
+        //     });
+        //     console.log(caracteristiques);
+        // });
         
         
         ///Filter By marque
         
-        $('input[name="marque"]').change(function(){
+        $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
         
             var myVal = $(this).val();
             var caracteristiques = [];
+            var couleurs = [];
+            var marques = [];
             $("input[name='valeur']:checked").each(function(){
                 caracteristiques.push($(this).val());
             });
-            if($(this).prop("checked")){
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
+            $("input[name='marque']:checked").each(function(){
                 marques.push($(this).val());
-            }else{
-               marques = marques.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
-            var myMarques = $(this).val();
-            if($(this).prop("checked")){
-                marques.push($(this).val());
-            }else{
-               marques = marques.filter(function(elem){
-                    return elem != marques; 
-                 });
-            }
+            });
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, marques:marques, store:store, min:minp, max:maxp},
+                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
@@ -445,17 +460,17 @@
     
 </script>
 <script>
-window.onscroll = function() {myFunction()};
+// window.onscroll = function() {myFunction()};
 
-var header = document.getElementById("mobile-filterr");
-var sticky = header.offsetTop;
+// var header = document.getElementById("mobile-filterr");
+// var sticky = header.offsetTop;
 
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
-  } else {
-    header.classList.remove("sticky");
-  }
-}
+// function myFunction() {
+//   if (window.pageYOffset > sticky) {
+//     header.classList.add("sticky");
+//   } else {
+//     header.classList.remove("sticky");
+//   }
+// }
 </script>
 {% endblock %}

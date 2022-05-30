@@ -168,6 +168,7 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
             $qb->where('u.sousCategorie = :sc')
+            ->leftJoin('u.valeurs', 'v')
             ->setParameter('sc', $params['categorie']);    
             
         if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
@@ -185,6 +186,14 @@ class ProductsRepository extends ServiceEntityRepository
         if(isset($params['marques'])){
             $qb->andWhere('u.marque IN (:marques)')
             ->setParameter('marques', $params['marques']);
+        }
+        if(isset($params['couleurs'])){
+            $qb->andWhere('u.couleur IN (:couleurs)')
+            ->setParameter('couleurs', $params['couleurs']);
+        }
+        if(isset($params['valeurs'])){
+            $qb->andWhere('v.id IN (:valeurs)')
+            ->setParameter('valeurs', $params['valeurs']);
         }
         if(isset($params['store'])&&!empty($params['store'])){
             $qb->andWhere('u.store = :store')
