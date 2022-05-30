@@ -851,6 +851,12 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
 
 .product .product-label>span.sale {
   background-color: #f44336;
+  font-weight: 100;
+  padding: 3px 10px;
+  border-radius: 18px;
+  /* float: right; */
+  position: relative;
+  left: 148px;
 }
 
 .product .product-countdown {
@@ -966,6 +972,8 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
 
 .product.product-single .product-price {
   display: inline-block;
+  font-size: 17px;
+  font-weight: 100;
 }
 
 .product.product-single .product-rating {
@@ -974,7 +982,7 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
 }
 
 .product.product-single .product-name {
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .product.product-single .product-btns {
@@ -993,7 +1001,7 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
 /*-- hot product --*/
 
 .product.product-single.product-hot {
-  border: 0.5px solid #e8e8e8;
+  /* border: 0.5px solid #e8e8e8; */
   height: 360px;
 }
 
@@ -1003,7 +1011,7 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
 }
 
 .product.product-single.product-hot-promotion {
-  border: 2px solid #f44336;
+  /* border: 2px solid #f44336; */
 }
 
 .product.product-single.product-hotpromotion .product-btns {
