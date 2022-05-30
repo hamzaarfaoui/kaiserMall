@@ -71,10 +71,12 @@ class BannersController extends Controller
         foreach ($find_products as $product) {
             $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
         }
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
+        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie);
         $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
         $min = count($products_price) > 0 ? min($products_price) : 0;
         $max = count($products_price) > 0 ? max($products_price) : 0;
-        return $this->render('Banners/front/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste, 'categorie' => $categorie,'min' => $min,'max'=>$max, 'marques'=>$marques));
+        return $this->render('Banners/front/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste, 'categorie' => $categorie,'min' => $min, 'couleurs' => $couleurs,'caracteristiques' => $caracteristiques,'max'=>$max, 'marques'=>$marques));
     }
     
     /*

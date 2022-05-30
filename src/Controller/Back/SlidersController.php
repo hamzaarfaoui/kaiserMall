@@ -34,20 +34,45 @@ class SlidersController extends Controller
     /*
      * Slider details in front
      */
-    public function showInFront($id)
+    public function showInFront(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
         $slider = $dm->getRepository('App:Sliders')->find($id);
         $products_liste = array();
         $produit = $slider->getProduct();
         $categorie = $produit->getSousCategorie()->getId();
-        $products = $dm->getRepository('App:Products')->liees($categorie);
-        foreach ($products as $p){
+        $find_products = $dm->getRepository('App:Products')->liees($categorie);
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
+        $paginator  = $this->get('knp_paginator');
+        
+        foreach ($find_products as $p){
             if($p->getId()!=$produit->getId()){
                 $products_liste[] = $p;
             }
         }
-        return $this->render('Sliders/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste));
+        $products = $paginator->paginate(
+            $products_liste, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie);
+        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
+        $products_price = array();
+        foreach ($find_products as $product) {
+            $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
+        }
+        $min = count($products_price) > 0 ? min($products_price) : 0;
+        $max = count($products_price) > 0 ? max($products_price) : 0;
+        return $this->render('Sliders/detailsFront.html.twig', array(
+            'product' => $produit,
+            'products' => $products,
+            'categorie' => $produit->getSousCategorie(),
+            'marques' => $marques,
+            'couleurs' => $couleurs,
+            'caracteristiques' => $caracteristiques,
+            'min' => $min,
+            'max'=>$max,
+        ));
     }
     
     /*

@@ -1,89 +1,140 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ product.sousCategorie.name }} Promotions{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
+<style type="text/css">
+.primary-btn{
+    width: 100%;
+}
+.couleur-radio{
+    display: none !important;
+}
+.couleur-label{
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    padding-left: 2px;
+    padding-top: 2px;
+}
+.couleur-label div::before{
+
+}
+.couleur-label div::after{
+    content: '';
+}
+.couleur-label-checked{
+    border: 1px solid #000;
+}
+.section-products{
+    width: 90%;
+    margin-left: 4.5%;
+    background-color: #FFF;
+    box-shadow: 0px 0px 24px 1px #ccc;
+    padding-bottom: 70px;
+}
+.section-banners{
+    width: 90% !important;
+    margin-left: 4.5%;
+    position: inherit !important;
+    left: inherit !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.banner>img {
+    width: 100%;
+    box-shadow: 0px 0px 24px 1px #ccc;
+}
+</style>
+{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
     {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
     <!-- /NAVIGATION -->
-    <!-- BREADCRUMB -->
-    <div id="breadcrumb">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="{{ path('index_page') }}">Kaiser Mall</a></li>
-                <li class="active">{{ product.sousCategorie.name }} Promotions</li>
-            </ul>
-        </div>
-    </div>
-    <!-- /BREADCRUMB -->
-<!-- section -->
-<div class="section">
-    <!-- container -->
-    <div class="container list-products-container">
-        <!-- STORE -->
-        <div class="row">
-            <!-- ASIDE -->
-            <div id="aside" class="col-md-2">
-                
-                <!-- start if mobile -->
-                <!-- end if mobile -->
-                <!-- aside widget -->
-                
-                
-                <!-- aside widget -->
-                <div class="aside filter-bloc">
-                    <h3 >Prix :</h3>
-                        <div id="price-slider"></div>
-                        <input type="hidden" name="minp" id="minp" value="{{min-2}}">
-                        <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
+
+
+
+    <!-- section -->
+    <div class="section section-products">
+        <!-- container -->
+        <div class="container list-products-container">
+            <!-- row -->
+            <div class="row">
+                <!-- ASIDE -->
+                <div id="aside" class="col-md-2">
+                    
+                    <!-- start if mobile -->
+                    <!-- end if mobile -->
+                    <!-- aside widget -->
+                    
+                    
+                    <!-- aside widget -->
+                    <div class="aside filter-bloc">
+                        <h3 >Prix :</h3>
+                            <div id="price-slider"></div>
+                            <input type="hidden" name="minp" id="minp" value="{{min-2}}">
+                            <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
+                            <hr>
+                        <h5>Marques</h5>
+                        <ul>
+                            {% for marque in marques %}
+                                <li>
+                                    <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                    <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
                         <hr>
-                    <h5>Marques</h5>
-                    <ul>
-                        {% for marque in marques %}
-                            <li>
-                                <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                <label for="marque{{marque.id}}"> {{marque.name}}</label>
-                            </li>
+                        <h5>Couleurs</h5>
+                        <ul>
+                            {% for couleur in couleurs %}
+                                <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                               <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                            {% endfor %}
+                        </ul>
+                        {% for caracteristique in caracteristiques %}
+                        {% if(caracteristique.name != 'Couleur') %}
+                        <h5>{{ caracteristique.name }}</h5>
+                        <ul>
+                            {% for valeur in caracteristique.valeurs %}
+                                <li>
+                                    <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                    <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if not loop.last %}<hr>{% endif %}
                         {% endfor %}
-                    </ul>
-                    <hr>
-                    {% for caracteristique in categorie.caracteristiques %}
-                    <h5>{{ caracteristique.name }}</h5>
-                    <ul>
-                        {% for valeur in caracteristique.valeurs %}
-                            <li>
-                                <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% if not loop.last %}<hr>{% endif %}
-                    {% endfor %}
+                    </div>
+                    <!-- /aside widget -->
+                    
                 </div>
-                <!-- /aside widget -->
-                
-            </div>
-            <!-- /ASIDE -->
-            <div id="main" class="col-md-10">
-                <!-- store top filter -->
-                <div class="store-filter clearfix">
-                    <div class="pull-left">
-                        <div class="sort-filter">
-                            <span class="text-uppercase">Trier par :</span>
-                            <select class="input filter-product" style="width: 236px;">
-                                <option>Sélectionner</option>
-                                <option value="1">De plus cher au moins cher</option>
-                                <option value="2">De moins cher au plus cher</option>
-                                <option value="3">Plus populaires</option>
-                            </select>
+                <!-- /ASIDE -->
+
+                <!-- MAIN -->
+                <div id="main" class="col-md-10">
+                    <!-- store top filter -->
+                    <div class="store-filter clearfix">
+                        <div class="pull-left">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            {{ knp_pagination_render(products) }}
                         </div>
                     </div>
-                    <div class="pull-right">
-                        {{ knp_pagination_render(products) }}
-                    </div>
-                </div>
-                <!-- /store top filter -->
-                <div id="store">
+                    <!-- /store top filter -->
+
+                    <!-- STORE -->
+                    <div id="store">
                         <div id="list-produits">
                             <!-- row -->
                             <div class="row">
@@ -91,25 +142,27 @@
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-6 col-xs-6">
-                                        <div class="product product-single {{product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
                                         <div class="product-thumb">
                                             <div class="product-label">
-                                                {#{% set today = "now"|date("d/m/Y") %}
-                                                {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
-                                                {{difference.days < 7?'<span>New </span>':''}}#}
-                                                {% if(product.pricePromotion<product.price != null) %}
-                                                    <span class="sale">
-                                                        {% set difference = product.price - product.pricePromotion %}
-                                                        {% set pourcentage = (difference/product.price)*100 %}
-                                                        -{{pourcentage|round}}%
-                                                    </span>
-                                                {% endif %}
+                                                {% if(product.createdAt != null) %}
+                                            {% set today = "now"|date("now") %}
+                                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                            {{difference.days < 7?'<span>New </span>':''}}
+                                            {% endif %}
+                                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                                <span class="sale">
+                                                    {% set difference = product.price - product.pricePromotion %}
+                                                    {% set pourcentage = (difference/product.price)*100 %}
+                                                    -{{pourcentage|round}}%
+                                                </span>
+                                            {% endif %}
                                             </div>
                                             <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
                                             <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
                                         </div>
                                         <div class="product-body">
-                                            {% if(product.pricePromotion<product.price != null) %}
+                                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
                                                 <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
                                             {% else %}
                                                 <h3 class="product-price">{{product.price}} TND</h3>
@@ -138,7 +191,9 @@
                             <!-- /row -->
                         </div>
                     </div>
-                <!-- store bottom filter -->
+                    <!-- /STORE -->
+
+                    <!-- store bottom filter -->
                     <div class="store-filter clearfix">
                         <div class="pull-left">
                             <div class="sort-filter">
@@ -156,13 +211,18 @@
                         </div>
                     </div>
                     <!-- /store bottom filter -->
+                </div>
+                <!-- /MAIN -->
             </div>
+            <!-- /row -->
         </div>
-        
-        <!-- /STOREdd -->
+        <!-- /container -->
     </div>
-</div>
-<input type="hidden" id="categorieId" value="{{categorie.id}}">
+                        <input type="hidden" id="categorieId" value="{{categorie.id}}">
+    {% if(categorie.hasBanner == 1) %}
+        {{ render(controller('App\\Controller\\Back\\BannersController::twoInFront')) }}
+    {% endif %}
+    <!-- /section -->
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('custom/js/nouislider.min.js') }}"></script>
@@ -208,9 +268,13 @@
             $("input[name='marque']:checked").each(function(){
                 marques.push($(this).val());
             });
+            var couleurs = [];
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques},
+            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs},
             method: "POST",
             error: function (data) {
                 console.log(data['marques']);
@@ -233,103 +297,25 @@
         var caracteristiques = [];
         var marques = [];
         var categories = [];
-        var store = $('#storeId').val();
-        $('input[name="valeur"]').change(function(){
-            var myVal = $(this).val();
-            var marquesc = [];
-            $("input[name='marque']:checked").each(function(){
-                marquesc.push($(this).val());
-            });
-            if($(this).prop("checked")){
-                caracteristiques.push($(this).val());
-            }else{
-               caracteristiques = caracteristiques.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
-            $.ajax({
-                url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, min:minp, max:maxp, marques:marquesc},
-                method: "POST",
-                error: function (data) {
-                    console.log('Erreur de trier les produit');
-                },
-                beforeSend:function(){
-                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
-                }
-                ,
-                success: function (data) {
-                    console.log(data['nbr']);
-                    {#console.log('caracteristique');
-                    console.log($(this).data('valeur'));
-                    #}
-                    $('#list-produits').html(data['products']);
-                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                }
-            });
-            console.log(caracteristiques);
-        });
         
-        $('input[name="cat"]').change(function(){
-            var myVal = $(this).val();
-            if($(this).prop("checked")){
-                categories.push($(this).val());
-            }else{
-               categories = categories.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
-            $.ajax({
-                url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categories:categories, store:store, min:minp, max:maxp},
-                method: "POST",
-                error: function (data) {
-                    console.log('Erreur de trier les produit');
-                },
-                beforeSend:function(){
-                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
-                }
-                ,
-                success: function (data) {
-                    console.log(data['nbr']);
-                    {#console.log('caracteristique');
-                    console.log($(this).data('valeur'));
-                    #}
-                    $('#list-produits').html(data['products']);
-                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-                }
-            });
-            console.log(caracteristiques);
-        });
-        
-        
-        ///Filter By marque
-        
-        $('input[name="marque"]').change(function(){
+        $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
         
             var myVal = $(this).val();
             var caracteristiques = [];
+            var couleurs = [];
+            var marques = [];
             $("input[name='valeur']:checked").each(function(){
                 caracteristiques.push($(this).val());
             });
-            if($(this).prop("checked")){
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
+            $("input[name='marque']:checked").each(function(){
                 marques.push($(this).val());
-            }else{
-               marques = marques.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
-            var myMarques = $(this).val();
-            if($(this).prop("checked")){
-                marques.push($(this).val());
-            }else{
-               marques = marques.filter(function(elem){
-                    return elem != marques; 
-                 });
-            }
+            });
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, marques:marques, store:store, min:minp, max:maxp},
+                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
@@ -351,7 +337,10 @@
         });
         
         
-        
+        $('.couleur-radio').change(function () {
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.toggleClass('couleur-label-checked');
+            });
         
     ////// Tri profuct by facteur
     $('.filter-product').change(function(){
@@ -401,17 +390,17 @@
     
 </script>
 <script>
-window.onscroll = function() {myFunction()};
+// window.onscroll = function() {myFunction()};
 
-var header = document.getElementById("mobile-filterr");
-var sticky = header.offsetTop;
+// var header = document.getElementById("mobile-filterr");
+// var sticky = header.offsetTop;
 
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
-  } else {
-    header.classList.remove("sticky");
-  }
-}
+// function myFunction() {
+//   if (window.pageYOffset > sticky) {
+//     header.classList.add("sticky");
+//   } else {
+//     header.classList.remove("sticky");
+//   }
+// }
 </script>
 {% endblock %}

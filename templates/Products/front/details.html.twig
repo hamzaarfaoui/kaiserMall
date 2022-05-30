@@ -119,7 +119,7 @@
                     <div class="col-md-5">
                         <div id="product-main-view">
                             <div class="product-view" style="width: 100%;">
-                                <img style="height: 400px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
+                                <img class="global-img" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                             </div>
                             {% for image in product.getMediasImages() %}
                                 <div class="product-view">
@@ -132,7 +132,7 @@
                                 <img style="width: 100%;height: 100px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                             </div>
                             {% for image in product.getMediasImages() %}
-                                <div class="product-view">
+                                <div class="product-view gallery">
                                     <img src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" alt="">
                                 </div>
                             {% endfor %}
@@ -175,7 +175,7 @@
                                 </div>
                                 <a href="#">3 Review(s) / Add Review</a>
                             </div>#}
-                            <p style="text-align : right;">
+                            <p class="badge-bloc">
                             {% if(product.qte>0) %}
                                 <span class="badge badge-error" style="background-color: #00c853;font-size: 19px;padding: 10px;border-radius: 24px;">En stock</span>
                             {% else %}
@@ -185,12 +185,17 @@
                             <div>
                             {% if product.content|length>0 %}    
                                 <p><strong>Caractéristiques :</strong></p>
-                                {{ product.content|raw }}
+                                <div class="content">{{ product.content|raw }}</div>
                             {% endif %}
                             </div><br>
                             
                             
                             <div class="text-center">
+                                {% if(product.pricePromotion and product.pricePromotion < product.price != null) %}
+                                    <div class="product-price price-skew-mobile">{{product.pricePromotion}} TND<span class="span-price"></span><del class="product-old-price">  {{product.price}} TND</del></div>
+                                {% else %}
+                                    <div class="product-price price-skew-mobile"><span>{{product.price}} TND</span><span class="span-price"></span></div>
+                                {% endif %}
                                 <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
                                 <div>
                                 {% if is_granted('AUTHENTIFICATED_FULLY') %}
