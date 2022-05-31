@@ -6,6 +6,12 @@
         .slick-slide {
     width: 200px;
 }
+.section-banners {
+    width: 80.5% !important;
+    left: 9.7% !important;
+    position: relative !important;
+    margin-bottom: 82px !important;
+}
     </style>
 {% endblock %}
 {% block body %}
@@ -168,13 +174,7 @@
                 arrows: false,
                 appendDots: '.product-slick-dots-1',
                 variableWidth: true,
-                responsive: [{
-                        breakpoint: 991,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                        }
-                    },
+                responsive: [
                     {
                         breakpoint: 480,
                         settings: {
