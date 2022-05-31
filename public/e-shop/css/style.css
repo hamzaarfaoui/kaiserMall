@@ -1817,6 +1817,7 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
   }
   .store-filter .pull-right {
     margin-top: 15px;
+    text-align: center;
   }
 }
 
