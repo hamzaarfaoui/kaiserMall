@@ -375,6 +375,7 @@
             var caracteristiques = [];
             var couleurs = [];
             var marques = [];
+            var tri = $(this).val();
             $("input[name='valeur']:checked").each(function(){
                 caracteristiques.push($(this).val());
             });
@@ -386,7 +387,7 @@
             });
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp},
+                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
@@ -416,32 +417,23 @@
     ////// Tri profuct by facteur
     $('.filter-product').change(function(){
     
-        var caracteristiques = [];
         var valeur = $(this).val();
-        var categorie =$('#categorieId').val();
-        $('input[name="valeur"]').each(function() {
-            if($(this).prop("checked")){
-                caracteristiques.push($(this).val());
-            }else{
-                var myVal = $(this).val();
-               caracteristiques = caracteristiques.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
+        var caracteristiques = [];
+        var couleurs = [];
+        var marques = [];
+        $("input[name='valeur']:checked").each(function(){
+            caracteristiques.push($(this).val());
         });
-        $('input[name="marque"]').each(function() {
-            if($(this).prop("checked")){
-                marques.push($(this).val());
-            }else{
-                var myVal = $(this).val();
-               marques = marques.filter(function(elem){
-                    return elem != myVal; 
-                 });
-            }
+        $("input[name='couleur']:checked").each(function(){
+            couleurs.push($(this).val());
         });
+        $("input[name='marque']:checked").each(function(){
+            marques.push($(this).val());
+        });
+        var tri = $(this).val();
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {valeur:valeur, categorie:categorie, caracteristiques:caracteristiques, marques:marques, store:store},
+            data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
             method: "POST",
             error: function (data) {
                 console.log('Erreur de trier les produit');

@@ -1,4 +1,4 @@
-$('body').on('submit', '#submit-adresse-form', function (e) {
+$('#submit-adresse-form').submit(function (e) {
     e.preventDefault(); // avoid to execute the actual submit of the form.
     var form = $(this);
     $.ajax({

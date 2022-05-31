@@ -88,10 +88,9 @@ class ProductController extends Controller
         }elseif(!empty($request->get('categories'))){
             $query['categories'] = $request->get('categories');
         }
-        
+        $query['tri'] = $request->get('tri');
         $query['minimum'] = intval($request->get('min'));
         $query['maximum'] = intval($request->get('max'));
-        $query['tri'] = $request->get('valeur');
         if(!empty($request->get('store'))){
             $query['store'] = $request->get('store');
         }
