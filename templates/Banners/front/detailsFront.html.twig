@@ -297,77 +297,6 @@
         var caracteristiques = [];
         var marques = [];
         var categories = [];
-        //var store = $('#storeId').val();
-        // $('input[name="valeur"]').change(function(){
-        //     var myVal = $(this).val();
-        //     var marquesc = [];
-        //     $("input[name='marque']:checked").each(function(){
-        //         marquesc.push($(this).val());
-        //     });
-        //     if($(this).prop("checked")){
-        //         caracteristiques.push($(this).val());
-        //     }else{
-        //        caracteristiques = caracteristiques.filter(function(elem){
-        //             return elem != myVal; 
-        //          });
-        //     }
-        //     $.ajax({
-        //         url: '{{ path('tri_product') }}',
-        //         data: {caracteristiques:caracteristiques, categorie:categorie, min:minp, max:maxp, marques:marquesc},
-        //         method: "POST",
-        //         error: function (data) {
-        //             console.log('Erreur de trier les produit');
-        //         },
-        //         beforeSend:function(){
-        //             $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
-        //         }
-        //         ,
-        //         success: function (data) {
-        //             console.log(data['nbr']);
-        //             {#console.log('caracteristique');
-        //             console.log($(this).data('valeur'));
-        //             #}
-        //             $('#list-produits').html(data['products']);
-        //             //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-        //         }
-        //     });
-        //     console.log(caracteristiques);
-        // });
-        
-        // $('input[name="cat"]').change(function(){
-        //     var myVal = $(this).val();
-        //     if($(this).prop("checked")){
-        //         categories.push($(this).val());
-        //     }else{
-        //        categories = categories.filter(function(elem){
-        //             return elem != myVal; 
-        //          });
-        //     }
-        //     $.ajax({
-        //         url: '{{ path('tri_product') }}',
-        //         data: {caracteristiques:caracteristiques, categories:categories, store:store, min:minp, max:maxp},
-        //         method: "POST",
-        //         error: function (data) {
-        //             console.log('Erreur de trier les produit');
-        //         },
-        //         beforeSend:function(){
-        //             $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
-        //         }
-        //         ,
-        //         success: function (data) {
-        //             console.log(data['nbr']);
-        //             {#console.log('caracteristique');
-        //             console.log($(this).data('valeur'));
-        //             #}
-        //             $('#list-produits').html(data['products']);
-        //             //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
-        //         }
-        //     });
-        //     console.log(caracteristiques);
-        // });
-        
-        
-        ///Filter By marque
         
         $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
         
@@ -418,6 +347,7 @@
     $('.filter-product').change(function(){
     
         var valeur = $(this).val();
+        $('.filter-product').val($(this).val());
         var caracteristiques = [];
         var couleurs = [];
         var marques = [];
