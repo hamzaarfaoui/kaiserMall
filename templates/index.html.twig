@@ -2,6 +2,8 @@
 {% block title %}{% endblock %}
 {% block stylesheets %}
     <link type="text/css" rel="stylesheet" href="{{ asset('e-shop/css/nav.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/flexslider.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/style.css') }}" />
     <style>
         .slick-slide {
     width: 200px;
@@ -95,21 +97,7 @@
             <!-- /container -->
         </div>
         <!-- HOME -->
-        <div id="home">
-            <!-- container -->
-            <div class="container home">
-                <!-- home wrap -->
-                <div class="home-wrap">
-                    <!-- home slick -->
-                    <div id="home-slick">
-                        {{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}
-                    </div>
-                    <!-- /home slick -->
-                </div>
-                <!-- /home wrap -->
-            </div>
-            <!-- /container -->
-        </div>
+        <div id="carrousel">{{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}</div>
     </div>
     <!-- /HOME -->
 
@@ -141,6 +129,23 @@
 
 {% endblock %}
 {% block javascripts %}
+    <script type="text/javascript" src="{{ asset('carrousel/js/modernizr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('carrousel/js/jquery.flexslider.js') }}"></script>
+    <script type="text/javascript">
+        
+    $(function(){
+      SyntaxHighlighter.all();
+    });
+    $(window).load(function(){
+      $('.flexslider').flexslider({
+        animation: "slide",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+    });
+    </script>
+    <script type="text/javascript" src="{{ asset('carrousel/js/script.js') }}"></script>
     <script>
         //subscribe to newsLetter
         $('#formNewsLetter').submit(function (e) {
