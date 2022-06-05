@@ -101,12 +101,18 @@ class SousCategories
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Banners::class, mappedBy="sousCategories")
+     */
+    private $banners;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->caracteristiques = new ArrayCollection();
         $this->couleurs = new ArrayCollection();
+        $this->banners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -375,6 +381,36 @@ class SousCategories
             // set the owning side to null (unless already changed)
             if ($couleur->getSousCategorie() === $this) {
                 $couleur->setSousCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Banners[]
+     */
+    public function getBanners(): Collection
+    {
+        return $this->banners;
+    }
+
+    public function addBanner(Banners $banner): self
+    {
+        if (!$this->banners->contains($banner)) {
+            $this->banners[] = $banner;
+            $banner->setSousCategories($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBanner(Banners $banner): self
+    {
+        if ($this->banners->removeElement($banner)) {
+            // set the owning side to null (unless already changed)
+            if ($banner->getSousCategories() === $this) {
+                $banner->setSousCategories(null);
             }
         }
 

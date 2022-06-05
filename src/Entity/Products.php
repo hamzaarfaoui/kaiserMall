@@ -140,15 +140,16 @@ class Products
      */
     private $slug;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=ProductsList::class, inversedBy="products")
-     */
-    private $listProduct;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $inListProducts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ListHasProducts::class, mappedBy="product")
+     */
+    private $listHasProducts;
 
     public function __construct()
     {
@@ -156,7 +157,7 @@ class Products
         $this->mediasImages = new ArrayCollection();
         $this->mediasVideos = new ArrayCollection();
         $this->valeurs = new ArrayCollection();
-        $this->listProduct = new ArrayCollection();
+        $this->listHasProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -511,32 +512,6 @@ class Products
         return $this;
     }
 
-    /**
-     * @return Collection|ProductsList[]
-     */
-    public function getListProduct(): Collection
-    {
-        return $this->listProduct;
-    }
-
-    public function addListProduct(ProductsList $listProduct): self
-    {
-        if (!$this->listProduct->contains($listProduct)) {
-            $this->listProduct[] = $listProduct;
-        }
-
-        return $this;
-    }
-
-    public function removeListProduct(ProductsList $listProduct): self
-    {
-        if ($this->listProduct->contains($listProduct)) {
-            $this->listProduct->removeElement($listProduct);
-        }
-
-        return $this;
-    }
-
     public function getInListProducts(): ?int
     {
         return $this->inListProducts;
@@ -557,6 +532,36 @@ class Products
     public function setCouleur(?Couleurs $couleur): self
     {
         $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ListHasProducts[]
+     */
+    public function getListHasProducts(): Collection
+    {
+        return $this->listHasProducts;
+    }
+
+    public function addListHasProduct(ListHasProducts $listHasProduct): self
+    {
+        if (!$this->listHasProducts->contains($listHasProduct)) {
+            $this->listHasProducts[] = $listHasProduct;
+            $listHasProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListHasProduct(ListHasProducts $listHasProduct): self
+    {
+        if ($this->listHasProducts->removeElement($listHasProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($listHasProduct->getProduct() === $this) {
+                $listHasProduct->setProduct(null);
+            }
+        }
 
         return $this;
     }

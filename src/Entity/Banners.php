@@ -42,6 +42,22 @@ class Banners
      */
     private $product;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ProductsList::class, mappedBy="banner", cascade={"persist", "remove"})
+     */
+    private $productsList;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SousCategories::class, inversedBy="banners")
+     */
+    private $sousCategories;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $position;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +119,52 @@ class Banners
     public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getProductsList(): ?ProductsList
+    {
+        return $this->productsList;
+    }
+
+    public function setProductsList(?ProductsList $productsList): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($productsList === null && $this->productsList !== null) {
+            $this->productsList->setBanner(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($productsList !== null && $productsList->getBanner() !== $this) {
+            $productsList->setBanner($this);
+        }
+
+        $this->productsList = $productsList;
+
+        return $this;
+    }
+
+    public function getSousCategories(): ?SousCategories
+    {
+        return $this->sousCategories;
+    }
+
+    public function setSousCategories(?SousCategories $sousCategories): self
+    {
+        $this->sousCategories = $sousCategories;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

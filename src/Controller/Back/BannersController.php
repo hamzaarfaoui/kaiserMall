@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Banners;
 use App\Entity\SousBanners;
+use App\Entity\ProductsList;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -131,6 +132,9 @@ class BannersController extends Controller
             }else{
                 $banner->setImage($banner->getImage());
             }
+            $productsList = new ProductsList();
+            $productsList->setBanner($banner);
+            $dm->persist($productsList);
             $dm->persist($banner);
             $dm->flush();
             $request->getSession()->getFlashBag()->add('success', "La banniére du produit ".$product->getName()." a été modifiée");

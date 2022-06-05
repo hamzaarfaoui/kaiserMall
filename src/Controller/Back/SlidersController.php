@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Sliders;
 use App\Entity\SousSliders;
+use App\Entity\ProductsList;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -82,8 +83,9 @@ class SlidersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $slider = $dm->getRepository('App:Sliders')->find($id);
-        $product = $dm->getRepository('App:Products')->find($slider->getProduct()->getId());
-        return $this->render('Sliders/show.html.twig', array('slider' => $slider, 'product'=>$product));
+        $products = $dm->getRepository('App:ListHasProducts')->bySlider($slider->getId());
+        dump($products);die();
+        return $this->render('Sliders/show.html.twig', array('slider' => $slider, 'products' => $products));
     }
     
     /*
@@ -121,6 +123,9 @@ class SlidersController extends Controller
             $slider->setImage($fileName);
         }
         $dm->persist($slider);
+        $productsList = new ProductsList();
+        $productsList->setSlider($slider);
+        $dm->persist($productsList);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Nouvelle slider pour le produit ".$product->getName());
         return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));

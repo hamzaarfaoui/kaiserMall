@@ -22,6 +22,10 @@ dashboard_sc2_details:
     path: /{id}/details
     controller: App\Controller\Back\SousCategories2Controller::showAction
 
+dashboard_sc2_banners:
+    path: /{id}/banners
+    controller: App\Controller\Back\SousCategories2Controller::bannersAction
+
 dashboard_sc2_couleurs:
     path: /{id}/couleurs
     controller: App\Controller\Back\SousCategories2Controller::couleursAction

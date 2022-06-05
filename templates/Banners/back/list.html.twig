@@ -73,7 +73,7 @@
                                             Status
                                         </th>
                                         <th>
-                                            Produit
+                                            Liste produits
                                         </th>
                                         <th>
                                             Action
@@ -108,7 +108,7 @@
                                                 </div>
                                             </td>
                                             <td>{{banner.status==true?'activer':'désactiver'}}</td>
-                                            <td><a href="{{path('dashboard_product_details', {id:banner.product.id})}}">{{banner.product.name}}</a></td>
+                                           <td>{% if(banner.productsList) %}<a href="{{path('dashboard_list_products_details', {id:banner.productsList.id})}}">{{banner.productsList.name}}</a>{% endif %}</td>
                                             <td>
                                                 <a href="{{ path('dashboard_banners_details', {id : banner.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{banner.id}}"><i class="fa fa-trash"></i> Supprimer</button>

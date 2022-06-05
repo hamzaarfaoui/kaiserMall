@@ -60,6 +60,10 @@ emp:
 products:
     resource: "Back/routes_back_product.yaml"
     prefix:   /dash/products
+
+list_products:
+    resource: "Back/routes_back_list_products.yaml"
+    prefix:   /dash/list_products
     
 employes:
     resource: "Back/routes_employes.yaml"

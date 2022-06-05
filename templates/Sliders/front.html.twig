@@ -3,7 +3,8 @@
 	  	<ul class="slides">
 	  		{% for slider in sliders %}
 	    	<li>
-    	    <img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" />
+	    		<a href="{{ path('slider_front_details', {id : slider.id}) }}"><img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" /></a>
+    	    
     		</li>
     		{% endfor %}
 	  	</ul>

@@ -49,3 +49,9 @@ dashboard_product_order_in_categorie:
 dashboard_product_search_result:
     path: /dashboard_product_result
     controller: App\Controller\Back\ProductBackController::search      
+dashboard_add_product_to_sliders_or_banners_modal:
+    path: /dashboard_add_product_to_sliders_or_banners_modal
+    controller: App\Controller\Back\ProductBackController::addToSliderOrBannersModal
+dashboard_add_product_to_sliders_or_banners_submit:
+    path: /dashboard_add_product_to_sliders_or_banners_submit
+    controller: App\Controller\Back\ProductBackController::addToSliderOrBannersSubmit

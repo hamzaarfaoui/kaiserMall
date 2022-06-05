@@ -99,10 +99,12 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
-        $products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie), array('position' => 'ASC'));
+        $products = $dm->getRepository('App:Products')->listProductsBycategories($categorie->getId());
+        $listes = $dm->getRepository('App:listHasProducts')->getListes();
         return $this->render('categories/sc2/show.html.twig', array(
             'categorie' => $categorie,
-            'products' => $products
+            'products' => $products,
+            'listes' => $listes
                 ));
     }
 
@@ -164,6 +166,17 @@ class SousCategories2Controller extends Controller
         return new JsonResponse(array('message' => $message));
     }
     
+    /*
+     * banners
+     */
+    public function bannersAction($id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->find($id);
+        $banners = $dm->getRepository('App:banners')->byCategorie($id);
+        return $this->render('categories/sc2/banners.html.twig', array('banners' => $banners, 'categorie' => $categorie));
+    }
+
     /*
      * New sousCategorie2 page
      */

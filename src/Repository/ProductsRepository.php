@@ -201,6 +201,19 @@ class ProductsRepository extends ServiceEntityRepository
         }
         return $qb->getQuery()->execute();
     }
+    public function listProductsBycategories($categorie)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('u.id', 'u.name', 'u.price', 'u.pricePromotion', 'u.image', 's.name AS store_name')
+            ->leftJoin('u.store', 's')
+           ->where('u.sousCategorie = :sc')
+            ->orderBy('u.position', 'ASC')
+            ->setParameter('sc', $categorie);    
+            
+        
+        return $qb->getQuery()->execute();
+    }
 
     public function marquesProductsBycategories($categorie)
     {
@@ -215,6 +228,7 @@ class ProductsRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->execute();
     }
+
 
     public function couleursProductsBycategories($categorie)
     {

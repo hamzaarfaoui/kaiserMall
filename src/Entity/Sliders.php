@@ -37,6 +37,11 @@ class Sliders
      */
     private $product;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ProductsList::class, mappedBy="slider", cascade={"persist", "remove"})
+     */
+    private $productsList;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,28 @@ class Sliders
     public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getProductsList(): ?ProductsList
+    {
+        return $this->productsList;
+    }
+
+    public function setProductsList(?ProductsList $productsList): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($productsList === null && $this->productsList !== null) {
+            $this->productsList->setSlider(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($productsList !== null && $productsList->getSlider() !== $this) {
+            $productsList->setSlider($this);
+        }
+
+        $this->productsList = $productsList;
 
         return $this;
     }

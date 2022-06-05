@@ -47,4 +47,16 @@ class BannersRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function byCategorie($id)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->Select('u.id', 'u.image', 'l.name', 'u.status', 'l.id AS id_list')
+            ->leftJoin('u.productsList', 'l')
+            ->where('u.sousCategories = :id')
+            ->orderBy('u.position', 'ASC')
+            ->setParameter('id', $id);    
+            
+        
+        return $qb->getQuery()->execute();
+    }
 }

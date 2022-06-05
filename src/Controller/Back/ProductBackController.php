@@ -13,6 +13,7 @@ use App\Entity\TelephonesStore;
 use App\Entity\MediasImages;
 use App\Entity\Promotions;
 use App\Entity\Keywords;
+use App\Entity\ListHasProducts;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -98,6 +99,48 @@ class ProductBackController extends Controller
             'slider' => $slider,
             'sliders' => $sliders
                 ));
+    }
+
+    /*
+     * modal add product to sliders or banners
+     */
+    public function addToSliderOrBannersModal(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $listes = $dm->getRepository('App:listHasProducts')->getListes();
+        $product_id = $request->get('product_id');
+        $product = $dm->getRepository('App:Products')->find($product_id);
+        $product_name = $request->get('product_name');
+        return new JsonResponse(array(
+            'modal' => $this->renderView('categories/sc2/partials/addToSlidersOrBanners.html.twig',
+             array('listes' => $listes, 'product_name' => $product_name, 'product_id' => $product_id, 'product' => $product))
+            ));
+    }
+    /*
+     * submit add product to sliders or banners
+     */
+    public function addToSliderOrBannersSubmit(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $product = $dm->getRepository('App:Products')->find($request->get('product'));
+        
+        
+        if($request->get('slider') != 0){
+            $slider = $dm->getRepository('App:ProductsList')->find($request->get('slider'));
+            $listHasProduct = new ListHasProducts();
+            $listHasProduct->setProduct($product);
+            $listHasProduct->setListProduct($slider);
+            $dm->persist($listHasProduct);
+        }
+        if($request->get('banner')){
+            $banner = $dm->getRepository('App:ProductsList')->find($request->get('banner'));
+            $listHasProduct = new ListHasProducts();
+            $listHasProduct->setProduct($product);
+            $listHasProduct->setListProduct($banner);
+            $dm->persist($listHasProduct);
+        }
+        $dm->flush();
+        return $this->redirectToRoute('dashboard_sc2_details', array('id' => $product->getSousCategorie()->getId()));
     }
     
     /*
@@ -593,26 +636,60 @@ class ProductBackController extends Controller
     public function productOrderInCategorie(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
-        $listItem = $request->request->get('listItem');
-        $limit = $request->request->get('limit');
-        $page = $request->request->get('page');
+        $list_sorted = $request->request->get('list_sorted');
         $count = 1;
 
-        foreach ($listItem as $item) {
-            $position = (($page - 1) * $limit) + $count;
-            $product = $dm->getRepository('App:Products')->find($item);
+        foreach ($list_sorted as $item) {
+            $id = $item[0];
+            $position = $item[1];
+            $product = $dm->getRepository('App:Products')->find($id);
             $product->setPosition($position);
-                $dm->persist($product);
-                $count++;
+            $dm->persist($product);
         }
 
         $dm->flush();
 
         return new JsonResponse([
-            'listItem' => $listItem,
-            'limit' => $limit,
-            'page' => $page
+            'message' => 'list sorted'
         ]);
+
+    }
+    /*
+     * Products order in list
+     */
+    public function productOrderInList(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $list_sorted = $request->request->get('list_sorted');
+        $count = 1;
+
+        foreach ($list_sorted as $item) {
+            $id = $item[0];
+            $position = $item[1];
+            $listHasProduct = $dm->getRepository('App:listHasProducts')->find($id);
+            $listHasProduct->setPosition($position);
+            $dm->persist($listHasProduct);
+        }
+
+        $dm->flush();
+
+        return new JsonResponse([
+            'message' => 'list sorted'
+        ]);
+
+    }
+    /*
+     * Products delete from list
+     */
+    public function productDeleteFormList(Request $request, $id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $listHasProduct = $dm->getRepository('App:listHasProducts')->find($id);
+        $dm->remove($listHasProduct);
+
+        $dm->flush();
+        $request->getSession()->getFlashBag()->add('success', "Le produit a été suprimé de cette liste");
+        return $this->redirectToRoute('dashboard_list_products_details', array('id' => $listHasProduct->getListProduct()->getId()));
 
     }
 }

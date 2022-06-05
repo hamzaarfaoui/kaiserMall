@@ -76,7 +76,7 @@
                                             Status
                                         </th>
                                         <th>
-                                            Produit
+                                            Liste produits
                                         </th>
                                         <th>
                                             Action
@@ -112,7 +112,7 @@
                                             </td>
                                             <td>{{slider.ordre}}</td>
                                             <td>{{slider.status==true?'activer':'désactiver'}}</td>
-                                            <td><a href="{{path('dashboard_product_details', {id:slider.product.id})}}">{{slider.product.name}}</a></td>
+                                            <td>{% if(slider.productsList) %}<a href="{{path('dashboard_list_products_details', {id:slider.productsList.id})}}">{{slider.productsList.name}}</a>{% endif %}</td>
                                             <td>
                                                 <a href="{{ path('dashboard_sliders_details', {id : slider.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{slider.id}}"><i class="fa fa-trash"></i> Supprimer</button>

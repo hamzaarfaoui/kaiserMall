@@ -35,13 +35,25 @@ class ProductsList
     private $position;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Products::class, mappedBy="listProduct")
+     * @ORM\OneToOne(targetEntity=Sliders::class, inversedBy="productsList", cascade={"persist", "remove"})
      */
-    private $products;
+    private $slider;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Banners::class, inversedBy="productsList", cascade={"persist", "remove"})
+     */
+    private $banner;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ListHasProducts::class, mappedBy="listProduct")
+     */
+    private $listHasProducts;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->slider = new ArrayCollection();
+        $this->banners = new ArrayCollection();
+        $this->listHasProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,29 +97,55 @@ class ProductsList
         return $this;
     }
 
-    /**
-     * @return Collection|Products[]
-     */
-    public function getProducts(): Collection
+    public function getSlider(): ?Sliders
     {
-        return $this->products;
+        return $this->slider;
     }
 
-    public function addProduct(Products $product): self
+    public function setSlider(?Sliders $slider): self
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addListProduct($this);
+        $this->slider = $slider;
+
+        return $this;
+    }
+
+    public function getBanner(): ?Banners
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?Banners $banner): self
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ListHasProducts[]
+     */
+    public function getListHasProducts(): Collection
+    {
+        return $this->listHasProducts;
+    }
+
+    public function addListHasProduct(ListHasProducts $listHasProduct): self
+    {
+        if (!$this->listHasProducts->contains($listHasProduct)) {
+            $this->listHasProducts[] = $listHasProduct;
+            $listHasProduct->setListProduct($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Products $product): self
+    public function removeListHasProduct(ListHasProducts $listHasProduct): self
     {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeListProduct($this);
+        if ($this->listHasProducts->removeElement($listHasProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($listHasProduct->getListProduct() === $this) {
+                $listHasProduct->setListProduct(null);
+            }
         }
 
         return $this;

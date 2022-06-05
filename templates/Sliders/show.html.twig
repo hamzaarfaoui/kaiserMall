@@ -34,11 +34,8 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="{{ path('dashboard_sliders_index') }}">Catégories</a>
+                    <a href="{{ path('dashboard_sliders_index') }}">sliders</a>
                     <i class="fa fa-circle"></i>
-                </li>
-                <li>
-                    <a href="#">{{ slider.id }}</a>
                 </li>
             </ul>
             <!-- END PAGE BREADCRUMB -->
@@ -74,33 +71,28 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" style="width: 100%;height: 250px;">
-                                </div>
-                                <div class="col-md-12">
-                                    <h1>{{product.name}}</h1>
-                            <div class="text-center">
-                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}">
-                                <br><br>
-                                <h3><em>{{product.price}} TND</em></h3>
-                            </div>
-
-                            <br><br>
-                            <center>
-                                <div style="background-color: #ECEFF1;padding: 5px;;width: 60%;border-radius: 10px;">
-                                    <div class="autoplay" style="margin: 30px">
-                                        {% for image in product.getMediasImages() %}
-                                            <div>
-                                                <img src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" style="width: 80%;height: 100px;">
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </center>
-                                </div>
-                            </div>
-                                <br>
+                            <table class="table table-striped table-hover" id="zero_config" data-url="{{ path('dashboard_product_order_in_categorie') }}">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            image
+                                        </th>
+                                        <th>
+                                            produit
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in products %}
+                                        <tr id="listItem_{{ product.id }}">
+                                            <td><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" width="100" height="80"></td>
+                                            <td>
+                                                {{product.name}}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
