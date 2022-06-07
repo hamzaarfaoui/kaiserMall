@@ -61,3 +61,9 @@ dashboard_sc2_edit_traitement:
 dashboard_sc2_delete:
     path: /{c}/{id}/delete
     controller: App\Controller\Back\SousCategories2Controller::deleteAction    
+dashboard_sc2_show_products:
+    path: /sc2_show_products
+    controller: App\Controller\Back\SousCategories2Controller::sc2ShowProducts
+dashboard_sc2_show_banners:
+    path: /sc2_show_banners
+    controller: App\Controller\Back\SousCategories2Controller::sc2ShowBanners    

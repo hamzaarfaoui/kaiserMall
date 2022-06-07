@@ -110,7 +110,7 @@
                                             <td>{{banner.status==true?'activer':'désactiver'}}</td>
                                            <td>{% if(banner.productsList) %}<a href="{{path('dashboard_list_products_details', {id:banner.productsList.id})}}">{{banner.productsList.name}}</a>{% endif %}</td>
                                             <td>
-                                                <a href="{{ path('dashboard_banners_details', {id : banner.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
+                                                <a href="{{ path('dashboard_banners_edit', {id : banner.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-cog"></i> Modifier</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{banner.id}}"><i class="fa fa-trash"></i> Supprimer</button>
 
                                                 <!-- Modal -->

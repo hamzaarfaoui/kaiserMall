@@ -107,7 +107,7 @@ class ProductBackController extends Controller
     public function addToSliderOrBannersModal(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
-        $listes = $dm->getRepository('App:listHasProducts')->getListes();
+        $listes = $dm->getRepository('App:ProductsList')->getListes();
         $product_id = $request->get('product_id');
         $product = $dm->getRepository('App:Products')->find($product_id);
         $product_name = $request->get('product_name');

@@ -47,4 +47,14 @@ class SlidersRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getAllSliders()
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('u.id', 'u.image', 'l.name AS list_name', 'l.id AS list_id')
+            ->leftJoin('u.productsList', 'l')
+            ->orderBy('u.ordre', 'ASC');
+        
+        return $qb->getQuery()->execute();
+    }
 }

@@ -58,6 +58,13 @@
                             <div class="caption">
                                 {{ categorie.name }}
                             </div>
+                            {% if(categorie.banners|length < 3) %}
+                            <div class="tools">
+                                <a href="{{ path('dashboard_banners_new_by_categorie', {categorie : categorie.id}) }}" style="color: #FFF;font-size: 14px;" title="ajouter une catégorie">
+                                    <i class="fa fa-plus"></i> Ajouter
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="portlet-body">
                             <div class="row">
@@ -76,7 +83,7 @@
                                     <div class="col-md-12">
                                         <hr>
                                         <h3>Bannières</h3>
-                                        <table class="table table-striped table-hover" id="sample_5">
+                                        <table class="table table-striped table-hover" id="zero_config" data-url="{{ path('dashboard_banners_order_in_categorie') }}">
                                             <thead>
                                                 <tr>
                                                     <th>
@@ -95,7 +102,7 @@
                                             </thead>
                                             <tbody>
                                                 {% for banner in banners %}
-                                                    <tr>
+                                                    <tr data-id="{{banner.id}}">
                                                         <td>
                                                             <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#myModalBanner{{banner.id}}">
                                                                 <img src="{{ asset('/uploads/banners/') }}{{ banner.image }}" style="width: 150px;;height: 50px;">

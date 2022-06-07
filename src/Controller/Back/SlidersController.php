@@ -18,7 +18,7 @@ class SlidersController extends Controller
     public function listAction()
     {
         $dm = $this->getDoctrine()->getManager();
-        $sliders = $dm->getRepository('App:Sliders')->findAll();
+        $sliders = $dm->getRepository('App:Sliders')->getAllSliders();
         return $this->render('Sliders/list.html.twig', array('sliders' => $sliders));
     }
     
@@ -28,7 +28,7 @@ class SlidersController extends Controller
     public function listInFront()
     {
         $dm = $this->getDoctrine()->getManager();
-        $sliders = $dm->getRepository('App:Sliders')->findAll();
+        $sliders = $dm->getRepository('App:Sliders')->getAllSliders();
         return $this->render('Sliders/front.html.twig', array('sliders' => $sliders));
     }
     
@@ -84,7 +84,6 @@ class SlidersController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $slider = $dm->getRepository('App:Sliders')->find($id);
         $products = $dm->getRepository('App:ListHasProducts')->bySlider($slider->getId());
-        dump($products);die();
         return $this->render('Sliders/show.html.twig', array('slider' => $slider, 'products' => $products));
     }
     
@@ -105,8 +104,6 @@ class SlidersController extends Controller
         
         $dm = $this->getDoctrine()->getManager();
         $slider = new Sliders();
-        $product = $dm->getRepository('App:Products')->find($request->get('product'));
-        $slider->setProduct($product);
         $slider->setOrdre($request->get('ordre'));
         if($request->get('status')){
            $slider->setStatus(1);
@@ -122,13 +119,16 @@ class SlidersController extends Controller
             );
             $slider->setImage($fileName);
         }
-        $dm->persist($slider);
         $productsList = new ProductsList();
+        if($request->get('titre') && !empty($request->get('titre'))){
+            $productsList->setName($request->get('titre'));
+        }
         $productsList->setSlider($slider);
         $dm->persist($productsList);
+        $dm->persist($slider);
         $dm->flush();
-        $request->getSession()->getFlashBag()->add('success', "Nouvelle slider pour le produit ".$product->getName());
-        return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));
+        $request->getSession()->getFlashBag()->add('success', "Nouvelle slider ajouté ");
+        return $this->redirectToRoute('dashboard_sliders_index');
     }
     
     /*
@@ -161,13 +161,15 @@ class SlidersController extends Controller
                     $_FILES["image"]["tmp_name"], $this->getParameter('images_sliders') . "/" . $fileName
             );
             $slider->setImage($fileName);
-        }else{
-            $slider->setImage($slider->getImage());
+        }
+        if($request->get('titre') && !empty($request->get('titre'))){
+            $productsList = $slider->getProductsList();
+            $productsList->setName($request->get('titre'));
         }
         $dm->persist($slider);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "La slider a été modifiée");
-        return $this->redirectToRoute('dashboard_sliders_details', array('id' => $slider->getId()));
+        return $this->redirectToRoute('dashboard_sliders_index');
     }
     
     /*
@@ -184,6 +186,46 @@ class SlidersController extends Controller
         $request->getSession()->getFlashBag()->add('success', "La slider est supprimée");
         $referer = $request->headers->get('referer');
 
-return $this->redirect($referer);
+        return $this->redirectToRoute('dashboard_sliders_index');
+    }
+    /*
+     * remove img from gallery slider
+     */
+    public function removeImgFromGalleryAction(Request $request, $id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $fileSystem = new Filesystem();
+        $slider = $dm->getRepository('App:Sliders')->find($id);
+        $image = $slider->getImage();
+        $fileSystem->remove(array('symlink', $this->getParameter('images_sliders')."/".$image, ''.$image.''));
+        $slider->setImage('');
+        $dm->persist($slider);
+        $dm->flush();
+        return new JsonResponse([
+            'message' => 'image supprimmé'
+        ]);
+    }
+    /*
+     * sliders order in index
+     */
+    public function slidersOrderInIndexAction(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $list_sorted = $request->request->get('list_sorted');
+        $count = 1;
+
+        foreach ($list_sorted as $item) {
+            $id = $item[0];
+            $position = $item[1];
+            $slider = $dm->getRepository('App:Sliders')->find($id);
+            $slider->setOrdre($position);
+            $dm->persist($slider);
+        }
+
+        $dm->flush();
+
+        return new JsonResponse([
+            'message' => 'list sorted'
+        ]);
     }
 }

@@ -51,8 +51,6 @@ class ProductsList
 
     public function __construct()
     {
-        $this->slider = new ArrayCollection();
-        $this->banners = new ArrayCollection();
         $this->listHasProducts = new ArrayCollection();
     }
 

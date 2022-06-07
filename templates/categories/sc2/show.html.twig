@@ -102,18 +102,15 @@
                             
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="{{ asset('/uploads/categories/cm/') }}{{ categorie.icone }}" style="width: 100%;height: 250px;">
-                                </div>
-                                <div class="col-md-9">
-                                    <img src="{{ asset('/uploads/categories/cm/') }}{{ categorie.image }}" style="width: 100%;height: 250px;">
-                                </div>
-                            </div>
-                                <br>
-                            <div class="row">
-                                <div class="col-md-6">
                                     <h1>{{ categorie.name }}</h1>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
+                                    <input type="checkbox" id="show_products" data-id="{{categorie.id}}" {{categorie.show_products != null and categorie.show_products == 1 ? 'checked' : ''}}> Affichier les produits dans l'acceuil
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" id="show_banners" data-id="{{categorie.id}}" {{categorie.show_banners != null and categorie.show_banners == 1 ? 'checked' : ''}}> Affichier les bannières dans l'acceuil
+                                </div>
+                                <div class="col-md-3">
                                     <a href="{{ path('dashboard_sc2_banners', {id : categorie.id}) }}" class="btn btn-primary" style="float: right;">Bannières</a>
                                 </div>
                             </div>
@@ -219,6 +216,31 @@
     
     <script>
         jQuery(document).ready(function () {
+            $('#show_products').change(function () {
+                var categorie = $(this).data('id');
+                var checked_val = $(this).is(':checked') ? 1 : 0;
+                console.log(categorie);
+                $.ajax({
+                    type: "GET", url: '{{ path('dashboard_sc2_show_products') }}',
+                    data: {categorie : categorie, show_products : checked_val},
+                    success: function(response) {
+                    },error: function(response) {
+                        console.log('erreur');
+                    }
+                });
+            });
+            $('#show_banners').change(function () {
+                var categorie = $(this).data('id');
+                var checked_val = $(this).is(':checked') ? 1 : 0;
+                $.ajax({
+                    type: "GET", dataType: "json", url: '{{ path('dashboard_sc2_show_banners') }}',
+                    data: {categorie : categorie, show_banners : checked_val},
+                    success: function(response) {
+                    },error: function(response) {
+                        console.log('erreur');
+                    }
+                });
+            });
             $("#zero_config").sortable({
                 placeholder: "highlight",
                 items: "tr",
@@ -245,7 +267,6 @@
                     type: "POST", dataType: "json", url: url,
                     data: {list_sorted : list_sorted},
                     success: function(response) {
-                        console.log(response['message']);
                     },error: function(response) {
                         console.log('erreur');
                     }
@@ -284,7 +305,6 @@
                     },
                     success: function (result)
                     {
-                        console.log('ça marche ;)');
                     }
                 });
             });

@@ -71,7 +71,6 @@ class ListHasProductsRepository extends ServiceEntityRepository
             ->leftJoin('l.slider', 's')
             ->leftJoin('l.banner', 'b')
             ->groupBy('l.id');    
-            
         
         return $qb->getQuery()->execute();
     }

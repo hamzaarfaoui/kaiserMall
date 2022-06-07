@@ -9,6 +9,9 @@ dashboard_banners_details:
 dashboard_banners_new:
     path: /new
     controller: App\Controller\Back\BannersController::newAction   
+dashboard_banners_new_by_categorie:
+    path: /new_by_categorie/{categorie}
+    controller: App\Controller\Back\BannersController::newByCategorieAction   
     
 dashboard_banners_new_traitement:
     path: /new_traitement
@@ -24,4 +27,12 @@ dashboard_banners_edit_traitement:
     
 dashboard_banners_delete:
     path: /{id}/delete
-    controller: App\Controller\Back\BannersController::deleteAction    
+    controller: App\Controller\Back\BannersController::deleteAction   
+
+dashboard_remove_img_from_gallery_banner:
+    path: /remove_img_from_gallery/{id}
+    controller: App\Controller\Back\BannersController::removeImgFromGalleryAction 
+
+dashboard_banners_order_in_categorie:
+    path: /banners_order_in_categorie
+    controller: App\Controller\Back\BannersController::bannersOrderInCategorieAction 

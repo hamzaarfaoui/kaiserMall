@@ -98,14 +98,38 @@ class SousCategories2Controller extends Controller
     public function showAction($id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $categorie = $dm->getRepository('App:SousCategories')->find($id);
-        $products = $dm->getRepository('App:Products')->listProductsBycategories($categorie->getId());
+        $categorie = $dm->getRepository('App:SousCategories')->findOneByQB($id)[0];
+        $products = $dm->getRepository('App:Products')->listProductsBycategories($id);
         $listes = $dm->getRepository('App:listHasProducts')->getListes();
         return $this->render('categories/sc2/show.html.twig', array(
             'categorie' => $categorie,
             'products' => $products,
             'listes' => $listes
                 ));
+    }
+    /*
+     * sousCategorie2 showProducts
+     */
+    public function sc2ShowProducts(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
+        $categorie->setShowProducts($request->get('show_products'));
+        $dm->persist($categorie);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'categorie updated'));
+    }
+    /*
+     * sousCategorie2 showBanners
+     */
+    public function sc2ShowBanners(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
+        $categorie->setShowBanners($request->get('show_banners'));
+        $dm->persist($categorie);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'categorie updated'));
     }
 
     /*

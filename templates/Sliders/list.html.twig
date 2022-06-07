@@ -63,17 +63,11 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <table class="table table-striped table-hover" id="sample_5">
+                            <table class="table table-striped table-hover" id="zero_config" data-url="{{ path('dashboard_sliders_order_in_index') }}">
                                 <thead>
                                     <tr>
                                         <th>
                                             Image
-                                        </th>
-                                        <th>
-                                            Ordre
-                                        </th>
-                                        <th>
-                                            Status
                                         </th>
                                         <th>
                                             Liste produits
@@ -85,7 +79,7 @@
                                 </thead>
                                 <tbody>
                                     {% for slider in sliders %}
-                                        <tr>
+                                        <tr data-id="{{ slider.id }}">
                                             <td>
                                                 <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#myModalSlider{{slider.id}}">
                                                     <img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" style="width: 150px;;height: 50px;">
@@ -110,11 +104,9 @@
                                                   </div>
                                                 </div>
                                             </td>
-                                            <td>{{slider.ordre}}</td>
-                                            <td>{{slider.status==true?'activer':'désactiver'}}</td>
-                                            <td>{% if(slider.productsList) %}<a href="{{path('dashboard_list_products_details', {id:slider.productsList.id})}}">{{slider.productsList.name}}</a>{% endif %}</td>
+                                            <td>{% if(slider.list_id) %}<a href="{{path('dashboard_list_products_details', {id:slider.list_id})}}">{{slider.list_name}}</a>{% endif %}</td>
                                             <td>
-                                                <a href="{{ path('dashboard_sliders_details', {id : slider.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
+                                                <a href="{{ path('dashboard_sliders_edit', {id : slider.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-cog"></i> Modifier</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{slider.id}}"><i class="fa fa-trash"></i> Supprimer</button>
 
                                                 <!-- Modal -->
@@ -164,12 +156,44 @@
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
     <!-- END PAGE LEVEL PLUGINS -->
+    <script type="text/javascript">
+        $("#zero_config").sortable({
+            placeholder: "highlight",
+            items: "tr",
+            cursor: 'move',
+            opacity: 0.6,
+            start: function (argument) {
+                $('highlight').css("width", $("#zero_config").css('width'));
+            },
+            update: function() {
+                var list_sorted = [];
+                $(this).find('tr').each(function( index ) {
+                    if($(this).attr('data-id')){
+                        list_sorted.push([$(this).attr('data-id'), index]);
+                    }
+                });
+                sendOrderToServer(list_sorted);
+            }
+        });
+        function sendOrderToServer(list_sorted) {
+            var url = $("#zero_config").data('url');
+
+            $.ajax({
+                type: "POST", dataType: "json", url: url,
+                data: {list_sorted : list_sorted},
+                success: function(response) {
+                    console.log(response['message']);
+                },error: function(response) {
+                    console.log('erreur');
+                }
+            });
+        }
+    </script>
     <script>
         jQuery(document).ready(function () {
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features
-            TableAdvanced.init();
         });
     </script>
 {% endblock %}

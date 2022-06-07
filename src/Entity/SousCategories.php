@@ -106,6 +106,16 @@ class SousCategories
      */
     private $banners;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $show_products;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $show_banners;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -413,6 +423,30 @@ class SousCategories
                 $banner->setSousCategories(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShowProducts(): ?bool
+    {
+        return $this->show_products;
+    }
+
+    public function setShowProducts(?bool $show_products): self
+    {
+        $this->show_products = $show_products;
+
+        return $this;
+    }
+
+    public function getShowBanners(): ?bool
+    {
+        return $this->show_banners;
+    }
+
+    public function setShowBanners(?bool $show_banners): self
+    {
+        $this->show_banners = $show_banners;
 
         return $this;
     }

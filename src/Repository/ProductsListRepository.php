@@ -47,4 +47,14 @@ class ProductsListRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getListes()
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('u.id AS id_list', 'u.name', 's.image AS slider', 'b.image AS banner')
+            ->leftJoin('u.slider', 's')
+            ->leftJoin('u.banner', 'b');
+        
+        return $qb->getQuery()->execute();
+    }
 }

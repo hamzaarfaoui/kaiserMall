@@ -25,3 +25,10 @@ dashboard_sliders_edit_traitement:
 dashboard_sliders_delete:
     path: /{id}/delete
     controller: App\Controller\Back\SlidersController::deleteAction    
+
+dashboard_remove_img_from_gallery_slider:
+    path: /remove_img_from_gallery/{id}
+    controller: App\Controller\Back\SlidersController::removeImgFromGalleryAction
+dashboard_sliders_order_in_index:
+    path: /sliders_order_in_index
+    controller: App\Controller\Back\SlidersController::slidersOrderInIndexAction

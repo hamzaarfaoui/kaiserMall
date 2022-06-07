@@ -22,7 +22,7 @@
 		<select name="banner" class="form-control">
 			<option value="0">Séléctionner une bannière</option>
 		    {% for liste in listes %}
-			    {% if(liste.banner) %}
+			    {% if(liste.banner != null) %}
 			    	<option value="{{liste.id_list}}">{{liste.name}}</option>
 			    {% endif %}
 		    {% endfor %}
