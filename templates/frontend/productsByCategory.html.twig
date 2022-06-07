@@ -219,8 +219,8 @@
         <!-- /container -->
     </div>
                         <input type="hidden" id="categorieId" value="{{categorie.id}}">
-    {% if(categorie.hasBanner == 1) %}
-        {{ render(controller('App\\Controller\\Back\\BannersController::twoInFront')) }}
+    {% if(categorie.show_banners == 1) %}
+        {{ render(controller('App\\Controller\\Back\\BannersController::bannersCategorie', {categorie:categorie.id})) }}
     {% endif %}
     <!-- /section -->
 {% endblock %}

@@ -42,14 +42,23 @@ class FrontController extends Controller
     public function indexPage()
     {
         $dm = $this->getDoctrine()->getManager();
-        $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
+        $sc2 = $dm->getRepository('App:SousCategories')->findInIndex();
         $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('index.html.twig', array(
             'sc2' => $sc2,
             'categories' => $categories
         ));
     }
-    
+    public function productInIndex($id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->findOneByQB($id)[0];
+        $products = $dm->getRepository('App:Products')->listProductsBycategories($id,10);
+        return $this->render('Products/front/index.html.twig', array(
+            'products' => $products,
+            'categorie' => $categorie
+        ));
+    }
     /*
      * New products
      */
@@ -233,20 +242,20 @@ class FrontController extends Controller
     public function productByCategory(Request $request, $slug)
     {
         $dm = $this->getDoctrine()->getManager();
-        $categorie = $dm->getRepository('App:SousCategories')->findOneBy(array('slug' => $slug));
-        $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
-        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
+        $categorie = $dm->getRepository('App:SousCategories')->findOneBySlug($slug)[0];
+        $find_products = $dm->getRepository('App:Products')->listProductsBycategories($categorie['id']);
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie['id']));
         $paginator  = $this->get('knp_paginator');
         $products = $paginator->paginate(
             $find_products, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             20 /*limit per page*/
         );
-        $marques = $dm->getRepository('App:Products')->marquesProductsBycategories($categorie);
-        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie);
+        $marques = $dm->getRepository('App:Products')->marquesProductsBycategories($categorie['id']);
+        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie['id']);
         $products_price = array();
         foreach ($find_products as $product) {
-            $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
+            $products_price[] = $product['pricePromotion']?$product['pricePromotion']:$product['price'];
         }
         $min = count($products_price) > 0 ? min($products_price) : 0;
         $max = count($products_price) > 0 ? max($products_price) : 0;

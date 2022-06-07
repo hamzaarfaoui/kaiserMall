@@ -1,0 +1,18 @@
+<div class="section-banners">
+    <!-- row -->
+    <div class="row">
+        {% for banner in banners %}
+            <!-- banner -->
+            {% set nb_banners = banners|length %}
+            {% set banner_division = 12/nb_banners %}
+            <div class="col-md-{{banner_division}} col-sm-6">
+                <a class="banner banner-1" href="{{ path('banner_front_details', {id: banner.id}) }}">
+                    <img class="img-thumbnail banner-{{nb_banners}}" src="{{ asset('/uploads/banners/') }}{{ banner.image }}" alt="" style="height: 250px;">
+                </a>
+            </div>
+            <!-- /banner -->
+        {% endfor %}
+
+    </div>
+    <!-- /row -->
+</div>

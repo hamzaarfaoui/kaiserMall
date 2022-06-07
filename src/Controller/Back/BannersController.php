@@ -22,6 +22,15 @@ class BannersController extends Controller
         
         return $this->render('Banners/back/list.html.twig', array('banners' => $banners));
     }
+    /*
+     * Banners 2 in front
+     */
+    public function bannersCategorie($categorie)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $banners = $dm->getRepository('App:Banners')->byCategorie($categorie);
+        return $this->render('Banners/front/banners.html.twig', array('banners' => $banners));
+    }
     
     /*
      * Banners 2 in front

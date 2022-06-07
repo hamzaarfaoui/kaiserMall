@@ -50,10 +50,27 @@ class SousCategoriesRepository extends ServiceEntityRepository
     public function findOneByQB($id)
     {
         $qb = $this->createQueryBuilder('u')
-                ->Select('u.id', 'u.name', 'u.content', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner')
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner')
                 ->where('u.id = :id')->setMaxResults(1)
                 ->setParameter(':id', $id);
 
+        return $qb->getQuery()->execute();
+    }
+    public function findOneBySlug($slug)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name', 'u.content', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner')
+                ->where('u.slug = :slug')->setMaxResults(1)
+                ->setParameter(':slug', $slug);
+
+        return $qb->getQuery()->execute();
+    }
+    public function findInIndex()
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner')
+                ->where('u.showInIndex = 1')
+                ->orderBy('u.orderInIndex', 'ASC');
         return $qb->getQuery()->execute();
     }
 }

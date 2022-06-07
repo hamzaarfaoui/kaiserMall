@@ -182,6 +182,9 @@ class ProductsRepository extends ServiceEntityRepository
             }elseif ($params['tri'] == 3){
                 $qb->orderBy('u.nbrView', 'DESC');
             }
+        }else{
+
+            $qb->orderBy('u.position', 'ASC');
         }
         if(isset($params['marques'])){
             $qb->andWhere('u.marque IN (:marques)')
@@ -201,15 +204,18 @@ class ProductsRepository extends ServiceEntityRepository
         }
         return $qb->getQuery()->execute();
     }
-    public function listProductsBycategories($categorie)
+    public function listProductsBycategories($categorie, $limit = 0)
     {
         $qb = $this->createQueryBuilder('u');
             $qb
-            ->Select('u.id', 'u.name', 'u.price', 'u.pricePromotion', 'u.image', 's.name AS store_name')
+            ->Select('u.id', 'u.name', 'u.slug', 'u.price', 'u.pricePromotion', 'u.image', 'u.qte', 'u.createdAt', 's.name AS store_name')
             ->leftJoin('u.store', 's')
            ->where('u.sousCategorie = :sc')
-            ->orderBy('u.position', 'ASC')
-            ->setParameter('sc', $categorie);    
+            ->orderBy('u.position', 'ASC');
+            if($limit>0){
+                $qb->setMaxResults($limit);
+            }
+            $qb->setParameter('sc', $categorie);    
             
         
         return $qb->getQuery()->execute();
