@@ -44,6 +44,9 @@
     width: 100%;
     box-shadow: 0px 0px 24px 1px #ccc;
 }
+#store{
+    border: none;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -73,6 +76,7 @@
                             <div class="row">
                                 {% for product in products %}
                                     {% if(product.qte>0) %}
+                                    {% set productsLength = products|length %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-6 col-xs-6">
                                         <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">

@@ -639,6 +639,10 @@ height: 216px !important;
     
 }
 @media screen and (min-width: 750px){
+    .slick-dotted.slick-slider {
+        margin-bottom: 0;
+        height: inherit !important;
+    }
     img.banner-1{
 
     }

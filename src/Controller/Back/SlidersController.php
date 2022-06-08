@@ -41,6 +41,21 @@ class SlidersController extends Controller
         $slider = $dm->getRepository('App:Sliders')->find($id);
         $products_liste = array();
         $find_products = $dm->getRepository('App:ListHasProducts')->bySlider($slider->getId());
+        if(count($find_products) == 1){
+            $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
+            $query = array();
+            $query['slug'] = $product->getSlug();
+            $query['sousCategorie'] = $product->getSousCategorie();
+            $products = $dm->getRepository('App:Products')->produitsLiees($query);
+            $product->setNbrView($product->getNbrView()+1);
+            $dm->persist($product);
+            $dm->flush();
+             return $this->render('Products/front/details.html.twig', array(
+                'product' => $product,
+                'products' => $products,
+                'categorie' => $product->getSousCategorie()
+            ));
+        }
         
         $paginator  = $this->get('knp_paginator');
         $listProducts = $dm->getRepository('App:ProductsList')->getListesBySlider($slider->getId())[0];
