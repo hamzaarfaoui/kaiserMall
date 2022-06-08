@@ -68,4 +68,16 @@ class ProductsListRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->execute();
     }
+
+    public function getListesByBanner($banner)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('u.name', 'b.image AS banner')
+            ->leftJoin('u.banner', 'b')
+            ->where('u.banner = :banner')
+            ->setParameter('banner', $banner);
+        
+        return $qb->getQuery()->execute();
+    }
 }

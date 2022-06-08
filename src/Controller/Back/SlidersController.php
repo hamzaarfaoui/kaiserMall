@@ -50,11 +50,7 @@ class SlidersController extends Controller
             $product->setNbrView($product->getNbrView()+1);
             $dm->persist($product);
             $dm->flush();
-             return $this->render('Products/front/details.html.twig', array(
-                'product' => $product,
-                'products' => $products,
-                'categorie' => $product->getSousCategorie()
-            ));
+            return $this->redirectToRoute('product_page', array('slug' => $product->getSlug()));
         }
         
         $paginator  = $this->get('knp_paginator');

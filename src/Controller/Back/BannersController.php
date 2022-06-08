@@ -60,33 +60,36 @@ class BannersController extends Controller
     public function showInFront(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $slider = $dm->getRepository('App:Banners')->find($id);
+        $banner = $dm->getRepository('App:Banners')->find($id);
         $products_liste = array();
-        $produit = $slider->getProduct();
-        $categorie = $produit->getSousCategorie();
-        $products = $dm->getRepository('App:Products')->liees($categorie);
-        foreach ($products as $p){
-            if($p->getId()!=$produit->getId()){
-                $products_liste[] = $p;
-            }
+        $find_products = $dm->getRepository('App:ListHasProducts')->byBanner($banner->getId());
+        if(count($find_products) == 1){
+            $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
+            $query = array();
+            $query['slug'] = $product->getSlug();
+            $query['sousCategorie'] = $product->getSousCategorie();
+            $products = $dm->getRepository('App:Products')->produitsLiees($query);
+            $product->setNbrView($product->getNbrView()+1);
+            $dm->persist($product);
+            $dm->flush();
+            return $this->redirectToRoute('product_page', array('slug' => $product->getSlug()));
         }
+        
         $paginator  = $this->get('knp_paginator');
-        $products_liste = $paginator->paginate(
+        $listProducts = $dm->getRepository('App:ProductsList')->getListesByBanner($banner->getId())[0];
+        
+        foreach ($find_products as $p){
+            $products_liste[] = $p;
+        }
+        $products = $paginator->paginate(
             $products_liste, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             20 /*limit per page*/
         );
-        $find_products = $dm->getRepository('App:Products')->findBy(array('sousCategorie' => $categorie));
-        $products_price = array();
-        foreach ($find_products as $product) {
-            $products_price[] = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice();
-        }
-        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie));
-        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie);
-        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $categorie));
-        $min = count($products_price) > 0 ? min($products_price) : 0;
-        $max = count($products_price) > 0 ? max($products_price) : 0;
-        return $this->render('Banners/front/detailsFront.html.twig', array('product' => $produit, 'products' => $products_liste, 'categorie' => $categorie,'min' => $min, 'couleurs' => $couleurs,'caracteristiques' => $caracteristiques,'max'=>$max, 'marques'=>$marques));
+        return $this->render('Banners/front/detailsFront.html.twig', array(
+            'products' => $products,
+            'listProducts' => $listProducts
+        ));
     }
     
     /*

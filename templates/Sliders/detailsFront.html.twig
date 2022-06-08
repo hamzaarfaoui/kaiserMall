@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}{{ listProducts.name }}{% endblock %}
+{% block title %}{{ listProducts.name }}ddd{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
 <style type="text/css">
@@ -47,6 +47,20 @@
 #store{
     border: none;
 }
+.list-products-container {
+    margin-left: inherit;
+    width: 91%;
+    text-align: center;
+}
+.section-products{
+    margin-left: 5%;
+}
+@media only screen and (max-width: 991px){}
+#aside {
+    margin-bottom: 0;
+    display: none;
+}
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -78,8 +92,16 @@
                                     {% if(product.qte>0) %}
                                     {% set productsLength = products|length %}
                                     <!-- Product Single -->
+                                    {% if(productsLength == 2 or productsLength == 4) %}
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="product tow-in-row product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
+                                    {% elseif(productsLength == 3 or productsLength == 6 or productsLength == 9) %}
+                                    <div class="col-md-4 col-sm-6 col-xs-6">
+                                        <div class="product three-in-row product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
+                                    {% else %}
                                     <div class="col-md-3 col-sm-6 col-xs-6">
-                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
+                                    {% endif %}
                                         <div class="product-thumb">
                                             <div class="product-label">
                                                 {% if(product.createdAt != null) %}

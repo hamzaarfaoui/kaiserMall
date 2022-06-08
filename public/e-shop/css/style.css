@@ -793,6 +793,9 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
 .banner>img {
   width: 100%;
   height: 350px !important;
+  background: transparent;
+  border: none;
+  box-shadow: 1px -5px 18px 14px #ddd;
 }
 
 
@@ -862,7 +865,9 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
   border-radius: 18px;
   /* float: right; */
   position: relative;
-  left: 148px;
+  left: 150px;
+  top: 23px;
+  width: 26%;
 }
 
 .product .product-countdown {
@@ -958,6 +963,7 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
   position: absolute;
   left: 0;
   top: 0;
+  width: 100%;
 }
 
 .product.product-single .product-label>span {

@@ -260,7 +260,7 @@ width: 91%;
 }
 .product.product-single{
 
-height: 291px !important;
+height: 291px;
 }
 .slick-track{
     width: inherit;
@@ -486,7 +486,7 @@ top: 3px;
     }
     .banner>img {
         width: 100%;
-        height: 196px !important;
+        height: 136px !important;
     }
     .categorie-products {
         background-color: #fff;
@@ -636,9 +636,99 @@ height: 216px !important;
     .home-category #navigation{
         display: none;
     }
+    .product .product-label>span.sale{
+        font-size: 10px;
+        padding: 0px 0;
+        text-align: center;
+        width: 30%;
+        left: 64%;
+        top: 0;
+    }
+    .section-products {
+        width: 100%;
+        margin-left: 0;
+        background-color: #FFF;
+        box-shadow: 0px 0px 24px 1px #ccc;
+        padding-bottom: 70px;
+    }
+    .header-cart .custom-menu{
+
+    }
+    .header-cart .custom-menu a{
+
+    }
     
 }
 @media screen and (min-width: 750px){
+    .product.tow-in-row{
+
+        height: 678px !important;
+
+        border: 1px solid #ccc;
+    }
+    .product.three-in-row{
+        height: 528px !important;
+        border: 0.2px solid #ccc;
+    }
+    .product.tow-in-row img{
+
+        height: 500px;
+
+    }
+    .product.three-in-row img{
+        height: 326px;
+    }
+    .product.tow-in-row .sale{
+
+        font-size: 24px;
+
+        position: relative;
+
+        left: 468px !important;
+
+        top: 10px !important;
+
+        width: 13% !important;
+
+        /* right: -24px; */
+    }
+    .product.three-in-row .sale{
+        font-size: 24px;
+        position: relative;
+        left: 78% !important;
+        top: 10px !important;
+        width: 20% !important;
+        /* right: -24px; */
+    }
+    .product.tow-in-row .product-name{
+
+        font-size: 24px;
+
+        margin-top: 27px;
+
+    }
+    .product.three-in-row .product-name{
+        font-size: 24px;
+
+        margin-top: 27px;
+    }
+    .product.tow-in-row .product-price{
+
+        font-size: 34px;
+
+    }
+    .product.three-in-row .product-price{
+        font-size: 28px;
+    }
+    
+    .product.tow-in-row .product-old-price{
+
+        margin-left: 10px;
+
+    }
+    .product.three-in-row .product-old-price{
+        margin-left: 13px;
+    }
     .slick-dotted.slick-slider {
         margin-bottom: 0;
         height: inherit !important;
@@ -672,7 +762,7 @@ height: 216px !important;
         /* z-index: 9999; */
     }
     .in-filter .product-single, .other-products .product-single{
-            height: 339px !important;
+            height: 339px;
     }
     .slick-next{
         display: block;
