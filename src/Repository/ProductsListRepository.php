@@ -57,4 +57,15 @@ class ProductsListRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->execute();
     }
+    public function getListesBySlider($slider)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('u.name', 's.image AS slider')
+            ->leftJoin('u.slider', 's')
+            ->where('u.slider = :slider')
+            ->setParameter('slider', $slider);
+        
+        return $qb->getQuery()->execute();
+    }
 }

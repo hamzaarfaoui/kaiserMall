@@ -51,11 +51,12 @@ class ListHasProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
             $qb
-            ->Select('p.id', 'p.name', 'p.image')
+            ->Select('p.id', 'p.name', 'p.image', 'p.price', 'p.pricePromotion', 'p.qte', 'p.createdAt', 'p.slug')
             ->leftJoin('u.product', 'p')
             ->leftJoin('u.listProduct', 'l')
             ->where('l.slider = :slider')
             ->orderBy('u.position', 'ASC')
+            ->setMaxResults(1)
             ->setParameter('slider', $slider);    
             
         
