@@ -265,6 +265,13 @@ height: 291px;
 .slick-track{
     width: inherit;
 }
+.section-cart{
+    width: 90%;
+    margin-left: 4.5%;
+    background-color: #FFF;
+    box-shadow: 0px 0px 24px 1px #ccc;
+    /* padding-bottom: 70px; */
+}
 @media screen and (max-width: 750px){
     .flexslider .slides img {
         min-height: 163px;
@@ -327,9 +334,9 @@ height: 291px;
     }
     .bouton-gris.btn-2 i{
         
-position: relative;
-        
-top: 3px;
+    position: relative;
+            
+    top: 3px;
     }
     .slider-bloc{
         height: 250px;
@@ -384,8 +391,8 @@ top: 3px;
         /* transform: translate(-50%, -50%); */
     }
     .header-search{
-        width: 104%;
-        max-width: 600px;
+        width: 60%;
+        /* max-width: 600px; */
     }
     .header-btns{
         position: relative;
@@ -393,17 +400,23 @@ top: 3px;
         left: 220px;
         width: 50%;
         height: 10%;
+        /* display: none; */
+        display: none;
     }
     .header-logo .logo>img {
         width: 100%;
-        height: 47px;
+        height: 35px;
         /* max-height: 46px; */
     }
     #header .categories{
         display: none;
     }
     #header{
-        height: 146px;
+        height: 65px;
+        z-index: 999;
+        position: fixed;
+        top: 0;
+        padding-top: 0;
     }
     .inscription-form{
         margin: 0;
@@ -425,10 +438,15 @@ top: 3px;
         width: 100px;
     }
     .search-input{
-        width: 85%;
+        width: 80%;
+        height: 37px;
+        padding-right: inherit !important;
+        display: inline-block;
     }
     .header-search>form .search-btn {
-        width: 12%;
+        width: 19%;
+        height: 37px;
+        display: inline-block;
     }
     .product.product-details .product-name{
 
@@ -545,7 +563,7 @@ top: 3px;
     }
     .in-filter .product-single, .other-products .product-single{
         
-height: 216px !important;
+    height: 216px !important;
     }
     .section-title {
         position: relative;
@@ -657,9 +675,128 @@ height: 216px !important;
     .header-cart .custom-menu a{
 
     }
-    
+    /** start table **/
+    table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
+    /** end table **/
+    .section-cart{
+
+    }
+    #breadcrumb{
+
+background-color: #FFF;
+
 }
+.valide-cart{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 999;
+}    
+.continue-achat{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 999;
+}
+.header-logo{
+    margin-right: inherit;
+    width: 20%;
+}
+.header-search>form .search-input::placeholder {
+      font-size: 0.8em;
+    }
+}
+
+
 @media screen and (min-width: 750px){
+.continue-achat{
+    right: 208px;
+}
+
+    #breadcrumb{
+
+background-color: #FFF;
+
+}
+    #breadcrumb .container{
+        
+width: 100%;
+        
+position: relative;
+        
+left: 3.5%;
+    }
+    .section-cart .container{
+        margin-right: inherit;
+        margin-left: inherit;
+        width: inherit;
+    }
+    .section-cart td{
+        
+        width: 22%;
+    }
+    .section-cart .thumb p{
+        
+    margin-top: 10px;
+    }
+    .section-cart .container .cancel-product{
+
+    position: inherit;
+
+    }
+    .header-logo {
+        position: relative;
+        left: 20px;
+    }
     .product.tow-in-row{
 
         height: 678px !important;
@@ -804,7 +941,6 @@ height: 216px !important;
     }
     .header-search>form .search-input
     .header-search>form .search-input::placeholder {
-      color: blue;
       font-size: 1.5em;
     }
     .category-nav{
@@ -831,7 +967,7 @@ height: 216px !important;
     #header {
         padding-top: 36px;
         padding-bottom: 0px;
-        margin-bottom: 55px;
+        /* margin-bottom: 55px; */
         height: 103px;
         box-shadow: 10px 8px 24px -12px #ccc;
     }
