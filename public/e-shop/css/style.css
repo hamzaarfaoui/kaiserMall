@@ -713,6 +713,7 @@ color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px
     -webkit-transform: translateX(0%);
     -ms-transform: translateX(0%);
     transform: translateX(0%);
+    top: 71px;
   }
   #responsive-nav .dropdown .custom-menu {
     display: none;

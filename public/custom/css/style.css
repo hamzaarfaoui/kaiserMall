@@ -300,7 +300,7 @@ height: 291px;
         text-align: right;
         position: relative;
         border: none;
-        bottom: 224px;
+        bottom: 175px;
         width: 30%;
         left: 60%;
     }
@@ -315,10 +315,16 @@ height: 291px;
     .section-cart .table-list-products-in-cart .delete{
         text-align: left;
         position: relative;
-        bottom: 239px;
-        left: 329px;
+        bottom: 329px;
+        left: 354px;
         border: none;
         width: 30%;
+        z-index: 9999;
+    }
+    .section-cart .table-list-products-in-cart .delete .main-btn{
+    width: 25px;
+    height: 25px;
+    line-height: 28px;
     }
     .flexslider .slides img {
         /* min-height: 163px; */
@@ -364,6 +370,7 @@ height: 291px;
     .categories-sliders-bloc{
         background-color: transparent;
         box-shadow: none;
+        margin-bottom: 0;
     }
     #header {
         padding-top: 15px;
@@ -404,7 +411,7 @@ height: 291px;
         position: relative;
         left: 4%;
         margin-top: 5px;
-        height: 126px;
+        height: 149px;
     }
     .filter-bloc, .filter-price{
         display: none;
@@ -440,13 +447,16 @@ height: 291px;
         /* transform: translate(-50%, -50%); */
     }
     .header-search{
-        width: 60%;
+        width: 85%;
         /* max-width: 600px; */
+        position: relative;
+        left: -35px;
+        top: 6px;
     }
     .header-btns{
-        position: relative;
-        top: 0;
-        left: 36%;
+        position: absolute;
+        top: 6px;
+        left: 80%;
         width: 50%;
         height: 44px;
         /* display: none; */
@@ -454,14 +464,14 @@ height: 291px;
     }
     .header-logo .logo>img {
         width: 100%;
-        height: 35px;
+        height: 21px;
         /* max-height: 46px; */
     }
     #header .categories{
         display: none;
     }
     #header{
-        height: 65px;
+        height: 71px;
         z-index: 999;
         position: fixed;
         top: 0;
@@ -489,26 +499,28 @@ height: 291px;
     }
     .search-input{
         width: 80%;
-        height: 37px;
+        height: 40px;
+        font-size: 16px !important;
         padding-right: inherit !important;
         display: inline-block;
     }
     .header-search>form .search-btn {
         width: 19%;
-        height: 37px;
+        height: 40px;
         display: inline-block;
+        font-size: 15px;
     }
     .product.product-details .product-name{
 
-        font-size: 26px;
+    font-size: 26px;
 
-        text-align: center;
+    text-align: center;
 
-        position: relative;
+    position: relative;
 
-        bottom: 638px;
+    bottom: 0;
 
-        /* top: 0; */
+    /* top: 0; */
 
     }
     .price-skew{
@@ -546,11 +558,11 @@ height: 291px;
     }
     .add-to-cart{
 
-        /* font-size: 15px; */
-
-        /* position: relative; */
-
-        bottom: 6px;
+            position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    z-index: 9999;
     }
     .banner>img {
         width: 100%;
@@ -562,7 +574,7 @@ height: 291px;
         width: 98%;
         position: relative;
         left: 5px;
-        margin-top: 85px;
+        margin-top: 10%;
         height: 389px;
         margin-bottom: 35px;
         border: 1px solid #e5e4e4;
@@ -602,18 +614,20 @@ height: 291px;
     .other-products {
         background-color: #fff;
         padding-top: 0;
-        width: 96%;
+        width: 100%;
         position: relative;
-        left: 3%;
-        margin-top: 0;
+        left: 0;
+        margin-top: 17px;
         height: auto;
         margin-bottom: 35px;
-        border: 1px solid #ccc;
+        border: none;
+        border-right: none;
         padding-bottom: 0;
+        box-shadow: 1px 2px 9px 0px #ddd;
     }
     .in-filter .product-single, .other-products .product-single{
         
-    height: 216px !important;
+        height: 243px !important;
     }
     .section-title {
         position: relative;
@@ -702,7 +716,7 @@ height: 291px;
         text-align: center;
     }
     .home-category #navigation{
-        display: none;
+        /* display: none; */
     }
     .product .product-label>span.sale{
         font-size: 10px;
@@ -726,15 +740,15 @@ height: 291px;
 
     }
     /** start table **/
-    table {
+    .section-cart table {
     border: 0;
   }
 
-  table caption {
+  .section-cart table caption {
     font-size: 1.3em;
   }
   
-  table thead {
+  .section-cart table thead {
     border: none;
     clip: rect(0 0 0 0);
     height: 1px;
@@ -745,20 +759,19 @@ height: 291px;
     width: 1px;
   }
   
-  table tr {
-    border-bottom: 3px solid #ddd;
+  .section-cart table tr {
     display: block;
     margin-bottom: .625em;
   }
   
-  table td {
+  .section-cart table td {
     border-bottom: 1px solid #ddd;
     display: block;
     font-size: .8em;
     text-align: right;
   }
   
-  table td::before {
+  .section-cart table td::before {
     /*
     * aria-label has no advantage, it won't be read inside a table
     content: attr(aria-label);
@@ -769,51 +782,98 @@ height: 291px;
     text-transform: uppercase;
   }
   
-  table td:last-child {
+  .section-cart table td:last-child {
     border-bottom: 0;
   }
     /** end table **/
     .section-cart{
 
-    }
-    #breadcrumb{
-
-background-color: #FFF;
-
-}
-.valide-cart{
-    position: fixed;
-    bottom: 0;
-    left: 0;
     width: 100%;
-    text-align: center;
-    z-index: 999;
-    height: 70px;
-    line-height: 52px;
-    font-size: 22px;
-}    
-.continue-achat{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 999;
-}
-.header-logo{
-    margin-right: inherit;
-    width: 20%;
-}
-.header-search>form .search-input::placeholder {
-      font-size: 0.8em;
+
+    margin-left: 0;
+
+    padding-top: 0;
     }
-    .flexslider{
+        #breadcrumb{
+
+    background-color: #FFF;
+
+    }
+    .valide-cart{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 999;
+        height: 70px;
+        line-height: 52px;
+        font-size: 22px;
+    }    
+    .continue-achat{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 999;
+    }
+    .header-logo{
+        margin-right: inherit;
+        width: 13%;
+        top: -23px;
+        position: relative;
+    }
+    .header-search>form .search-input::placeholder {
+          font-size: 0.8em;
+        }
+        .flexslider{
+            
+        }
+        .shopping-cart-table>tbody>tr>.qty .input {
+        width: 60px;
+        height: 30px;
+    }
+    .product-details {
+        bottom: 0;
+        position: relative;
+        background-color: #FFF;
+        padding: 15px;
+        /* border: 1px solid #f9f2f2; */
+        /* border-radius: 20px; */
+    }
+    .shopping-cart-table tfoot{
+        width: 100%;
+    }
+    .shopping-cart-table tfoot th{
+        width: 50%;
+    }
+    .shopping-cart-table tfoot .empty{
+        display: none;
+    }
+    #responsive-nav.open .category-nav{
+        display: block;
+    }
+    #responsive-nav.open .category-nav .category-header{
+        display: block;
+    }
+    .header-account{
+        display: none !important;
+    }
+    .header-cart{
+
+}
+    .nav-toggle-btn .main-btn {
+
+    }
+    .header-container{
         
+position: relative;
+        
+padding-left: 3px;
+        
+padding-right: 3px;
     }
-    .shopping-cart-table>tbody>tr>.qty .input {
-    width: 60px;
-    height: 30px;
-}
 }
 
 
@@ -856,6 +916,7 @@ left: 3.5%;
     .header-logo {
         position: relative;
         left: 20px;
+        width: 20%;
     }
     .product.tow-in-row{
 
@@ -1048,8 +1109,10 @@ left: 3.5%;
     }
     .header-search{
         max-width: 605px;
-        width: 681px;
-    position: relative;left: 31%;}
+        width: 75%;
+        position: relative;
+        left: 31%;
+        }
     .btn-login{
         width: 50%;
     }
@@ -1067,7 +1130,7 @@ left: 3.5%;
     }
 }
 @media screen and (max-width: 750){
-    
+
     .header-search{
         max-width: 605px;
         width: 427px;

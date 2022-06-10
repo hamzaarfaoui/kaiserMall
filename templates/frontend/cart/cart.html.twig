@@ -73,7 +73,9 @@
                                                         {% endfor %}
                                                     </select>
                                                 </td>
-                                                <td class="total text-center"><strong class="primary-color"><span class="total-product" id="total-product{{ product.id }}">
+                                                <td class="total text-center">
+                                                    <p>Total</p>
+                                                    <strong class="primary-color"><span class="total-product" id="total-product{{ product.id }}">
                                                             {% set price = 0 %}
                                                             {% if(product.pricePromotion!=null) %}
                                                                 {% set price = product.pricePromotion  %}
