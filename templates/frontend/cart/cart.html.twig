@@ -56,7 +56,7 @@
                             <tbody class="table-list-products-in-cart">
                                 {% if(products|length > 0) %}
                                     {% for product in products %}
-                                        <tr class="product-in-cart{{ product.id }}" data-id="{{ product.id }}">
+                                        <tr class="product-in-cart{{ product.id }} product-in-cart-row" data-id="{{ product.id }}">
                                             <form action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
                                                 <td class="thumb text-center"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                                                     <p><a href="{{ path('product_page', {slug:product.slug}) }}">{{ product.name }}</a></p>
@@ -81,7 +81,7 @@
                                                                 {% set price = product.price  %}
                                                             {% endif %}
                                                             {{ price * panier[product.id] }}</span> TND</strong></td>
-                                                <td class="text-center"><button type="button" class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
+                                                <td class="text-center delete"><button type="button" class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
                                             </form>
                                     
                                         </tr>
