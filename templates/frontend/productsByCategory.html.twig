@@ -53,8 +53,18 @@
 {% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
-    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
     <!-- /NAVIGATION -->
 
 

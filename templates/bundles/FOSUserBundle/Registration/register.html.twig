@@ -2,14 +2,24 @@
 {% block title %}Création d'un compte{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
-    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
     <!-- /NAVIGATION -->
     <!-- BREADCRUMB -->
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="{{ path('index_page') }}">Acceuil</a></li>
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
                 <li class="active">Création d'un compte</li>
             </ul>
         </div>

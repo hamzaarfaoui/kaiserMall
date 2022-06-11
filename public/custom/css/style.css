@@ -265,14 +265,24 @@ height: 291px;
 .slick-track{
     width: inherit;
 }
-.section-cart{
+.section-cart, .section-login, .section-register{
     width: 90%;
     margin-left: 4.5%;
     background-color: #FFF;
     box-shadow: 0px 0px 24px 1px #ccc;
     /* padding-bottom: 70px; */
 }
+
 @media screen and (max-width: 750px){
+    .section-login{
+
+    padding-bottom: 1px;
+
+    }
+    .section-login h1,.section-register h1{
+        font-size: 23px;
+        text-align: center;
+    }
     .section-cart .table-list-products-in-cart .product-in-cart-row{
         border: none !important;
         border-radius: 5px;
@@ -447,20 +457,23 @@ height: 291px;
         /* transform: translate(-50%, -50%); */
     }
     .header-search{
-        width: 85%;
+        /* width: 85%; */
         /* max-width: 600px; */
-        position: relative;
-        left: -30px;
-        top: 6px;
+        /* position: relative; */
+        /* left: -30px; */
+        /* top: 0; */
+        margin-top: -14px;
+        width: 100%;
     }
     .header-btns{
-        position: absolute;
-        top: 6px;
-        left: 81%;
-        width: 46%;
-        height: 44px;
+        /* position: relative; */
+        /* top: 0; */
+        /* left: 81%; */
+        width: 100%;
+        height: 57px;
         /* display: none; */
-        display: inline-block;
+        /* display: inline-block; */
+        margin-top: -14px;
     }
     .header-logo .logo>img {
         width: 100%;
@@ -503,6 +516,7 @@ height: 291px;
         font-size: 16px !important;
         padding-right: inherit !important;
         display: inline-block;
+        padding-left: 8px !important;
     }
     .header-search>form .search-btn {
         width: 19%;
@@ -800,9 +814,11 @@ height: 291px;
     }
         #breadcrumb{
 
-    background-color: #FFF;
+background-color: #FFF;
 
-    }
+display: none;
+
+}
     .valide-cart{
         position: fixed;
         bottom: 0;
@@ -824,8 +840,8 @@ height: 291px;
     }
     .header-logo{
         margin-right: inherit;
-        width: 13%;
-        top: -23px;
+        /* width: 13%; */
+        top: 0;
         position: relative;
     }
     .header-search>form .search-input::placeholder {
@@ -866,26 +882,70 @@ height: 291px;
     }
     .header-cart{
 
+width: 56%;
+
+position: relative;
+
+/* right: 0; */
 }
     .nav-toggle-btn .main-btn {
 
     }
     .header-container{
         
-position: relative;
-        
-padding-left: 3px;
-        
-padding-right: 3px;
+        position: relative;
+                
+        padding-left: 3px;
+                
+        padding-right: 3px;
     }
     
     .header-container .pull-left{
         width: 80%;
     }
+    .no-account{
+        
+        margin-top: 20px;
+                
+        text-align: center;
+    }
+    .header-cart .dropdown-toggle .text-uppercase{
+        display: none;
+    }
+    .search-bloc{
+        
+        padding-right: 0;
+                
+        padding-left: 17px;
+    }
+    .header-btns-bloc{
+        
+        padding-left: 0;
+                
+        padding-right: 0;
+                
+        text-align: right;
+    }
+    .header-btns .main-btn{
+
+position: fixed;
+
+right: 19%;
+
+}
+    .category-pc{
+        display: none !important;
+    }
 }
 
 
 @media screen and (min-width: 750px){
+    .section-login{
+
+    }
+    .no-account{
+
+    }
     .header-container .pull-left{
         width: 60%;
     }
@@ -927,7 +987,7 @@ padding-right: 3px;
     .header-logo {
         position: relative;
         left: 20px;
-        width: 13%;
+        width: 100%;
     }
     .product.tow-in-row{
 

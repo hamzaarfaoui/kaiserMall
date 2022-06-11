@@ -250,6 +250,8 @@ textarea.input {
 .section {
   padding-top: 30px;
   padding-bottom: 30px;
+  position: relative;
+  top: 41px;
 }
 
 .section-grey {
@@ -368,9 +370,13 @@ textarea.input {
   /* right: 0px; */
   width: 77px;
   height: 45px;
-  background-color: #00c853;
+  background-color: #39b54a;
   border: none;
-color: #FFF;font-size: 22px;padding-top: 5px;/* border-radius: 0px 24px 24px 0px; */}
+  color: #FFF;
+  font-size: 22px;
+  padding-top: 5px;
+  /* border-radius: 0px 24px 24px 0px; */
+  }
 
 /*----------------------------*\
   Account header

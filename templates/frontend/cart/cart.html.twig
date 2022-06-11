@@ -4,14 +4,24 @@
 {% block body %}
     
     <!-- NAVIGATION -->
-    {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
     <!-- /NAVIGATION -->
     <!-- BREADCRUMB -->
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="{{ path('index_page') }}">Kaiser</a></li>
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
                 <li class="active">Panier</li>
             </ul>
         </div>

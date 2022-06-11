@@ -1,6 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 <!-- section -->
-<div class="section">
+<div class="section section-login">
     <!-- container -->
     <div class="container">
         <div class="row">
@@ -35,14 +35,16 @@
                         <input class="primary-btn btn-login" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
                         <br>
                         <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
-                        <a href="{{ path('test_email') }}">Test email</a>
+                        {#<a href="{{ path('test_email') }}">Test email</a>#}
                    </div>
                     
                 </form>
             </div>
             <div class="col-md-6">
-                <h1>Pas encore inscrit ?</h1>
-                <a href="{{ path('fos_user_registration_register') }}" class="primary-btn register-link">Cliquer içi pour créer un compte</a><br><br>
+                <div class="no-account">
+                    <h1>Pas encore inscrit ?</h1>
+                    <a href="{{ path('fos_user_registration_register') }}" class="primary-btn register-link">Cliquer içi pour créer un compte</a><br><br>
+                </div>
             </div>
         </div>
     </div>
