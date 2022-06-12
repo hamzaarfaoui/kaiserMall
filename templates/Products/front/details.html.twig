@@ -160,10 +160,7 @@
                                 {% endif %}
                             </div>
                             <h1 class="product-name">{{ product.fullname }}</h1>
-                            <div class="product-btns">
-                                
-                                
-                            </div>
+                            <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
                                     <br><br>
                             {#
                             <div>
@@ -198,11 +195,7 @@
                                     <div class="product-price price-skew-mobile"><span>{{product.price}} TND</span><span class="span-price"></span></div>
                                 {% endif %}
                                 
-                                <div>
-                                {% if is_granted('AUTHENTIFICATED_FULLY') %}
-                                    <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
-                                {% endif %}
-                                </div>
+                                
                             </div>
                             <div class="bloc-btn-chart">
                                 <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>

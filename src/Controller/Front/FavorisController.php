@@ -12,14 +12,21 @@ class FavorisController extends Controller
     /*
      * Products in favavoris page
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
+        $paginator  = $this->get('knp_paginator');
+        ///
         $favoris = $dm->getRepository('App:Favoris')->findBy(array('user' => $this->getUser()));
-        $products = array();
+        $find_products = array();
         foreach ($favoris as $f){
-            $products[] = $f->getProduct();
+            $find_products[] = $f->getProduct();
         }
+        $products = $paginator->paginate(
+            $find_products, /* query NOT result */
+            $request->query->get('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
         return $this->render('Products/front/favoris/favoris.html.twig', array('products' => $products));
     }
     
