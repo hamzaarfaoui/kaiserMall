@@ -931,6 +931,7 @@ textarea.input {
 
 .product.product-single .product-thumb>img {
   width: 100%;
+  height: auto !important;
 }
 
 .product.product-single .product-thumb:after {

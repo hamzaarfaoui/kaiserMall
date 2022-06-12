@@ -590,6 +590,7 @@ height: 291px;
         border-radius: 45px;
         bottom: 284px;
         /* width: 64%; */
+        position: relative;
     }
     .span-price {
         display: inline-block;
@@ -659,6 +660,7 @@ height: 291px;
     }
     .badge-bloc{
         text-align: center;
+        display: none;
     }
     .other-products {
         background-color: #fff;
@@ -710,10 +712,13 @@ height: 291px;
     }
     .add-to-favoris{
 
-        position: relative;
-        left: 0;
+position: relative;
 
-    }
+left: -20px;
+
+top: 9px;
+
+}
     .slick-track {
         position: relative;
         top: 0;
@@ -777,9 +782,9 @@ height: 291px;
         font-size: 10px;
         padding: 0px 0;
         text-align: center;
-        width: 30%;
-        left: 64%;
-        top: 0;
+        width: 40px;
+        right: 3px;
+        top: 3px;
     }
     .section-products {
         width: 100%;
@@ -1015,6 +1020,29 @@ height: 291px;
 
 
 @media screen and (min-width: 991px){
+    .other-products{
+
+width: 94%;
+
+left: 3%;
+
+border: none;
+
+box-shadow: 1px -5px 18px 0px #ddd;
+
+height: auto;
+
+}
+    .other-products .container{
+        
+position: relative;
+        
+left: 0;
+        
+width: 100%;
+        
+margin-bottom: 0;
+    }
     .header-btns{
         position: relative;
         top: 1px;
@@ -1086,6 +1114,15 @@ height: 291px;
     }
     .section{
         top: 50px;
+    }
+    .section.product{
+        top: 79px;
+    }
+    .section.product .container{
+        top: 0;
+        position: relative;
+        left: 0;
+        width: 94%;
     }
     /*.menu-nav{
         display: none !important;
@@ -1247,7 +1284,7 @@ height: 291px;
         /* z-index: 9999; */
     }
     .in-filter .product-single, .other-products .product-single{
-            height: 339px;
+            height: auto !important;
     }
     .slick-next{
         display: block;
@@ -1286,6 +1323,7 @@ height: 291px;
     }
     .badge-bloc{
         text-align: right;
+        display: none;
     }
     .quick-view{
         width: 73px;

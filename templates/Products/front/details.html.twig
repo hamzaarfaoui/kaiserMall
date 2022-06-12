@@ -20,38 +20,37 @@
             bottom: -20px;
             left: 34px;
           }
-        .price-skew {
-            padding-left: 30px;
-            padding-right: 30px;
-    height: 61px;
-    font-size: 28px;
+.price-skew {
+    /* padding-left: 30px; */
+    /* padding-right: 30px; */
+    /* height: 61px; */
+    font-size: 39px;
     font-weight: bold;
-  line-height: 60px;
-  color: #fff;
-  color: #424242;
-  font-family: arial;
-  background: #fdd835;
-  text-align: center;
-  position: relative;
+    line-height: 60px;
+    color: #fff;
+    color: #39b54a;
+    font-family: arial;
+    /* background: #fdd835; */
+    text-align: center;
+    position: relative;
 }
 
 .span-price {
-  display: inline-block;
-  width: 50px;
-  height: 100%;
-  transform: skew(20deg);
-  -webkit-transform: skew(20deg);
-  background: #fdd835;
-  position: absolute;
-  left: -25px;
-  top: 0;
+      display: inline-block;
+    width: 20px;
+    height: 100%;
+    transform: skew(20deg);
+    /* -webkit-transform: skew(20deg); */
+    /* background: #fdd835; */
+    /* position: absolute; */
+    /* left: -25px; */
+    /* top: 0;*/
 }
 .span-price::before,
 .span-price::after {
   content: "";
   width: 4px;
   height: 100%;
-  background: #fdd835;
   position: absolute;
   top: 0;
   left: -8px;
@@ -62,7 +61,7 @@
 .add-to-cart{
     font-size: 27px;
     font-weight: 100;
-    background-color: #dc2a2a !important;
+    background-color: #39b54a !important;
 }
 .product.product-single .product-name{
     font-size: 12px;
@@ -90,6 +89,33 @@
 }
 .product.product-single .product-thumb>img{
     height: 250px;
+}
+.product .product-old-price{
+    position: relative;
+    bottom: 5px;
+}
+.product .product-label>span.sale {
+    background-color: #f44336;
+    font-weight: 100;
+    padding: 3px 10px;
+    border-radius: 18px;
+    float: right;
+    position: absolute;
+    /* left: 150px; */
+    top: 58px;
+    right: 15px;
+    width: 50px;
+}
+@media screen and (max-width: 991px){
+    .product .fiche>span.sale {
+        font-size: 16px !important;
+        padding: 3px 6px !important;
+        text-align: center !important;
+        width: 60px !important;
+        left: 50px !important;
+        position: absolute !important;
+        top: 134px !important;
+    }
 }
 </style>
 
@@ -147,7 +173,7 @@
                                 <div class="product-price price-skew"><span>{{product.price}} TND</span><span class="span-price"></span></div>
                             {% endif %}
                             </div><br>
-                            <div class="product-label">
+                            <div class="product-label fiche">
                                 {#{% set today = "now"|date("d/m/Y") %}
                                 {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
                                 {{difference.days < 7?'<span>New </span>':''}}#}
@@ -198,7 +224,7 @@
                                 
                             </div>
                             <div class="bloc-btn-chart">
-                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> J'achéte</button>
                             </div>
                             
                             {#<strong>Vendeur :</strong>
@@ -246,50 +272,53 @@
                     </div>
                 </div>
                 <!-- section title -->
-                {% for p in products %}
-                    {% if(p.qte>0) %}
-                        <!-- Product Single -->
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <div class="product product-single {{product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 339px;">
-                                <div class="product-thumb">
-                                    <div class="product-label">
-                                        {#{% set today = "now"|date("d/m/Y") %}
-                                        {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
-                                        {{difference.days < 7?'<span>New </span>':''}}#}
-                                        {% if(p.pricePromotion < p.price) %}
-                                            <span class="sale">
-                                                {% set difference = p.price - p.pricePromotion %}
-                                                {% set pourcentage = (difference/p.price)*100 %}
-                                                -{{pourcentage|round}}%
-                                            </span>
-                                        {% endif %}
-                                    </div>
-                                    <a href="{{ path('product_page', {slug:p.slug}) }}" class="main-btn quick-view"> Détails</a>
-                                    <img src="{{ asset('uploads/products/images/') }}{{ p.image }}" alt="">
-                                </div>
-                                <div class="product-body">
-                                    {% if(p.pricePromotion != null) %}
-                                        <h3 class="product-price">{{p.pricePromotion}} TND<del class="product-old-price">  {{p.price}} TND</del></h3>
-                                    {% else %}
-                                        <h3 class="product-price">{{p.price}} TND</h3>
-                                    {% endif %}
-                                    {#<div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o empty"></i>
-                                    </div>#}
-                                    <h2 class="product-name"><a href="#">{{ p.name|slice(0, 30) }}</a></h2>
-                                    {#<div class="product-btns">
-                                        <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                                        <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-                                        <button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                    </div>#}
-                                </div>
+                {% for product in products %}
+                    {% if(product.qte>0) %}
+                    <!-- Product Single -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                        <div class="product-thumb">
+                            <div class="product-label">
+                                {% if(product.createdAt != null) %}
+                            {% set today = "now"|date("now") %}
+                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                            {{difference.days < 7?'<span>New </span>':''}}
+                            {% endif %}
+                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                <span class="sale">
+                                    {% set difference = product.price - product.pricePromotion %}
+                                    {% set pourcentage = (difference/product.price)*100 %}
+                                    -{{pourcentage|round}}%
+                                </span>
+                            {% endif %}
                             </div>
+                            <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
+                            <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
                         </div>
-                        <!-- /Product Single -->
+                        <div class="product-body">
+                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                            {% else %}
+                                <h3 class="product-price">{{product.price}} TND</h3>
+                            {% endif %}
+                            {#<div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            </div>#}
+                            <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                            {#<div class="product-btns text-center">
+                                {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                    <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                {% endif %}
+                                <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                            </div>#}
+                        </div>
+                    </div>
+                    </div>
+                    <!-- /Product Single -->
                     {% endif %}
                 {% endfor %}
             </div>
