@@ -244,7 +244,7 @@ font-weight: 100;}
     width: 94%;
     left: 3% !important;
     position: relative;
-    margin-bottom: 82px;
+    margin-bottom: 0 !important;
 }
 .breadcrumb{
     display: block;
@@ -1009,6 +1009,10 @@ height: 291px;
 
 
 @media screen and (min-width: 991px){
+    .header-btns{
+        position: relative;
+        top: 1px;
+    }
     .delete-adress{
         position: inherit;
         right: inherit;
@@ -1075,7 +1079,7 @@ height: 291px;
 
     }
     .section{
-        top: 0;
+        top: 50px;
     }
     /*.menu-nav{
         display: none !important;
@@ -1096,6 +1100,10 @@ height: 291px;
     #breadcrumb{
 
     background-color: #FFF;
+
+    position: relative;
+
+    top: 57px;
 
     }
     #breadcrumb .container{
@@ -1128,6 +1136,8 @@ height: 291px;
         position: relative;
         left: 20px;
         width: 100%;
+        position: relative;
+        top: 5px;
     }
     .product.tow-in-row{
 
@@ -1295,13 +1305,18 @@ height: 291px;
     }
     .categories-sliders-bloc{
         display: block;
+        top: 78px;
     }
     #header {
-        padding-top: 36px;
+        padding-top: 21px;
         padding-bottom: 0px;
         /* margin-bottom: 55px; */
-        height: 103px;
+        height: 75px;
         box-shadow: 10px 8px 24px -12px #ccc;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 9999;
     }
     .bouton-gris.btn-2{
         display: none;
@@ -1322,7 +1337,8 @@ height: 291px;
         max-width: 605px;
         width: 75%;
         position: relative;
-        left: 31%;
+        left: 24%;
+        top: 2px;
         }
     .btn-login{
         width: 50%;
