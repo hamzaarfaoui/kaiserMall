@@ -265,7 +265,7 @@ height: 291px;
 .slick-track{
     width: inherit;
 }
-.section-cart, .section-login, .section-register{
+.section-cart, .section-login, .section-register, .section-bloc{
     width: 90%;
     margin-left: 4.5%;
     background-color: #FFF;
@@ -273,7 +273,40 @@ height: 291px;
     /* padding-bottom: 70px; */
 }
 
-@media screen and (max-width: 750px){
+@media screen and (max-width: 991px){
+    .edit-password-btn{
+        width: 100%;
+    }
+    #responsive-nav.open{
+        width: 70%;
+    }
+    .adress-btns{
+        text-align: right;
+    }
+    .bloc-adress{
+        margin-top: 20px
+    }
+    .edit-adress-btn{
+        position: inherit;
+        right: inherit;
+        width: 30px;
+        height: 30px;
+        padding: 7px 10px;
+    }
+    .delete-adress{
+        position: inherit;
+        right: inherit;
+        width: 30px;
+        height: 30px;
+        padding: 7px 10px;
+    }
+    .submit-profile-btn{
+        width: 100%;
+        font-size: 24px;
+    }
+    .text-registration-confirmer{
+        margin-top: 50px;
+    }
     .section-login{
 
     padding-bottom: 1px;
@@ -788,6 +821,9 @@ height: 291px;
     font-size: .8em;
     text-align: right;
   }
+  .section-cart table td.cart-clean{
+    text-align: center;
+  }
   
   .section-cart table td::before {
     /*
@@ -812,13 +848,13 @@ height: 291px;
 
     padding-top: 0;
     }
-        #breadcrumb{
+    #breadcrumb{
 
-background-color: #FFF;
+    background-color: #FFF;
 
-display: none;
+    display: none;
 
-}
+    }
     .valide-cart{
         position: fixed;
         bottom: 0;
@@ -882,12 +918,12 @@ display: none;
     }
     .header-cart{
 
-width: 56%;
+    width: 56%;
 
-position: relative;
+    position: relative;
 
-/* right: 0; */
-}
+    /* right: 0; */
+    }
     .nav-toggle-btn .main-btn {
 
     }
@@ -909,7 +945,7 @@ position: relative;
                 
         text-align: center;
     }
-    .header-cart .dropdown-toggle .text-uppercase{
+    .header-cart .text-uppercase{
         display: none;
     }
     .search-bloc{
@@ -928,18 +964,122 @@ position: relative;
     }
     .header-btns .main-btn{
 
-position: fixed;
+    position: fixed;
 
-right: 19%;
+    right: 60px;
 
-}
+    }
     .category-pc{
         display: none !important;
+    }
+    #footer.section{
+
+    width: 100%;
+
+    margin-left: 0;
+
+    }
+    .bloc-step{
+        height: auto;
+        margin-bottom: 15px;
+        text-align: left;
+        text-align: justify;
+        border: 1px solid #39b54a;
+        border-radius: 20px;
+        padding: 11px;
+    }
+    .step-number{
+        border: 1px solid #39b54a;
+        border-radius: 50%;
+        width: 40px;
+        margin-bottom: 40px;
+        font-weight: bold;
+        font-size: 24px;
+        background-color: #39b54a;
+        color: #FFF;
+        display: inline-block;
+        float: left;
+        text-align: center;
+        margin-right: 25px;
+    }
+    .about-text{
+        font-size: 15px;
     }
 }
 
 
-@media screen and (min-width: 750px){
+@media screen and (min-width: 991px){
+    .delete-adress{
+        position: inherit;
+        right: inherit;
+        width: 30px;
+        height: 30px;
+        padding: 7px 10px;
+    }
+    .edit-adress-btn{
+        position: inherit;
+        right: inherit;
+        width: 30px;
+        height: 30px;
+        padding: 7px 10px;
+    }
+    .submit-profile-btn{
+        width: 100%;
+        font-size: 24px;
+    }
+    .text-registration-confirmer{
+        margin-left: 30%;
+        margin-right: 30%;
+        margin-top: 50px;
+    }
+    .container-process{
+        
+        width: 100%;
+    }
+    #responsive-nav{
+        display: none;
+    }
+    .home-category #responsive-nav{
+        display: block;
+    }
+    .bloc-step {
+        /* border: 1px solid #39b54a; */
+        border-radius: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        width: 100%;
+        top: 20px;
+        height: 350px;
+        text-align: justify;
+        position: relative;
+    }
+    .step-number{
+        border: 1px solid #39b54a;
+        border-radius: 50%;
+        width: 40px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 24px;
+        background-color: #39b54a;
+        color: #FFF;
+        /* display: inline-block; */
+        /* float: left; */
+        text-align: center !important;
+        margin-right: 25px;
+    }
+    #footer.section{
+
+    width: 100%;
+
+    margin-left: 0;
+
+    }
+    .section{
+        top: 0;
+    }
+    /*.menu-nav{
+        display: none !important;
+    }*/
     .section-login{
 
     }
@@ -1215,6 +1355,7 @@ right: 19%;
     .register-link{
         width: 100%;
     }
+
 }
 @media screen and (min-width: 450px) and (max-width: 750px){
     

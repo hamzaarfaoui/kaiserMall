@@ -1,6 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 <!-- section -->
-<div class="section">
+<div class="section section-bloc">
     <!-- container -->
     <div class="container">
         
@@ -9,7 +9,7 @@
                     <h1>Mes Infos</h1>  
                     <form action="{{ path('fos_user_profile_edit') }}" method="post" id="profile-form">
                     <div class="form-group">
-                        <span class="text-uppercase">{{form_label(form.username)}}</span>
+                        <span class="text-uppercase">{{form_label(form.username)}} (Login)</span>
                         {{ form_widget(form.username, { 'attr': {'class': 'input' , 'placeholder':'Username', 'required':true} }) }}
                     </div>
                     <div class="form-group">
@@ -28,28 +28,14 @@
                         <span class="text-uppercase">{{form_label(form.phone)}}</span>
                         {{ form_widget(form.phone, { 'attr': {'class': 'input' , 'placeholder':'Télephone', 'required':true} }) }}<br>
                     </div>
-                    <div class="form-group">
-                        <span class="text-uppercase">{{form_label(form.adress)}}</span>
-                        {{ form_widget(form.adress, { 'attr': {'class': 'input' , 'placeholder':'Adresse', 'required':true} }) }}<br>
-                    </div>
-                    <div class="form-group">
-                        <span class="text-uppercase">{{form_label(form.city)}}</span>
-                        {{ form_widget(form.city, { 'attr': {'class': 'input' , 'placeholder':'Gouvernaurat', 'required':true} }) }}<br>
-                    </div>
                     {{ form_widget(form._token) }}
-                    <div class="text-right">
-                        <input type="submit" class="primary-btn" value="Enregistrer" />
-                    </div>
+                    <input type="submit" class="primary-btn submit-profile-btn" value="Enregistrer" />
                     </form>
                 </div>
                 <div class="col-md-6">
-                    <h1>Autres</h1> 
-                    <a href="{{ path('fos_user_change_password') }}" class="btn btn-lg btn btn-primary text-right">Modifier Mot de passe</a><br><br>
-                    {#<hr>
-                    {{ render(controller(
-                        'App\\Controller\\Front\\AdressesUserController::index'
-                    )) }}
-                    <a href="#" class="btn btn-lg btn btn-primary" style="width: 100%;"><i class="fa fa-phone"></i> Télephones</a><br><br>#}
+                    <div class="bloc-adress">
+                        <a href="{{ path('fos_user_change_password') }}" class="btn btn-lg btn btn-primary text-right">Modifier Mot de passe</a><br><br>
+                    </div>
                 </div>
             </div>
         

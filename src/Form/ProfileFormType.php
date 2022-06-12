@@ -14,12 +14,6 @@ class ProfileFormType extends AbstractType
     {
         $builder->add('nom')
                 ->add('prenom')
-                ->add('adress', TextType::class, array(
-                    'label' => 'Adresse'
-                ))
-                ->add('city', TextType::class, array(
-                    'label' => 'Gouvernaurat'
-                ))
                 ->add('phone', TextType::class, array(
                     'label' => 'Télephone'
                 ))

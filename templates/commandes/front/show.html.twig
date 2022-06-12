@@ -4,23 +4,32 @@
 {% block body %}
     
     <!-- NAVIGATION -->
-    {% include 'includes/front/nav.html.twig' %}
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
     <!-- /NAVIGATION -->
     <!-- BREADCRUMB -->
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="{{ path('index_page') }}">Kaiser Mall</a></li>
-                <li><a href="{{ path('cart_page') }}">Panier</a></li>
-                <li><a href="{{ path('livraison_page') }}">Adresse de livraison</a></li>
-                <li class="active">Commande</li>
+                <li><a href="{{ path('index_page') }}">Kaiser</a></li>
+                <li><a href="{{ path('list_page') }}">Commandes</a></li>
+                <li class="active">Détails commande</li>
             </ul>
         </div>
     </div>
     <!-- /BREADCRUMB -->
     <!-- section -->
-    <div class="section">
+    <div class="section section-bloc">
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -28,12 +37,12 @@
                 <div class="col-md-12">
                     <div class="order-summary clearfix">
                         <div class="section-title">
-                            <h3 class="title">Commande : {{ commande.status == 1?'Validé':'En attente' }}</h3>
+                            <h3 class="title">Commande : le {{commande.createdAt|date('d/m/Y')}} à {{commande.createdAt|date('H:i')}}</h3>
                         </div>
                         <table class="shopping-cart-table table">
                             <thead>
                                 <tr>
-                                    <th>Produits</th>
+                                    <th>{{commande.facture.product|length>1 ? 'Produits' : 'Produit'}}</th>
                                     <th></th>
                                     <th>Vendeur</th>
                                     <th class="text-center">Prix unitaire</th>
@@ -42,7 +51,7 @@
                                 </tr>
                             </thead>
                             <tbody class="table-list-products-in-cart">
-                                    {% for product in commande.facture[0] %}
+                                    {% for product in commande.facture.product %}
                                         <tr>
                                             <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
                                             <td class="details">
@@ -76,10 +85,10 @@
                                 </tr>#}
                                 <tr>
                                     <th>Adresse</th>
-                                    <th colspan="2">{{ commande.facture[1].adresse }} {{ commande.facture[1].ville }}, Tunisie</th>
+                                    <th colspan="2">{{ commande.facture.livraison.adresse }} {{ commande.facture.livraison.ville }}, Tunisie</th>
                                     <th>Total</th>
                                     <th colspan="2" class="total">
-                                        <span class="total-cart">{{ commande.facture[3] }}</span> TND
+                                        <span class="total-cart">{{ commande.facture.prix }}</span> TND
                                         <input type="hidden" name="totalCart" id="totalCart">
                                     </th>
                                 </tr>

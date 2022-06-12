@@ -23,7 +23,7 @@ class AdresseUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Document\AdressesUser'
+            'data_class' => 'App\Entity\AdressesUser'
         ));
     }
 

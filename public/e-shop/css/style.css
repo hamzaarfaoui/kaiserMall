@@ -580,7 +580,7 @@ textarea.input {
   display: block;
   padding: 15px;
   color: #30323A;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .menu-nav .menu-list>li>a:hover, .menu-nav .menu-list>li>a:focus, .menu-nav .menu-list>li.dropdown.open>a {
@@ -703,7 +703,7 @@ textarea.input {
     left: 0;
     top: 0;
     bottom: 0;
-    max-width: 270px;
+    /* max-width: 270px; */
     width: 0%;
     overflow: hidden;
     background-color: #FFF;
@@ -715,7 +715,6 @@ textarea.input {
     z-index: 990;
   }
   #responsive-nav.open {
-    width: 100%;
     -webkit-transform: translateX(0%);
     -ms-transform: translateX(0%);
     transform: translateX(0%);
@@ -757,7 +756,7 @@ textarea.input {
     position: static;
   }
   .menu-nav .menu-header {
-    display: block;
+    /* display: block; */
   }
   .menu-nav .menu-list {
     float: none;

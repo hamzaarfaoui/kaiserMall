@@ -3,8 +3,18 @@
 {% block stylesheets %}{% endblock %}
 {% block body %}
     <!-- NAVIGATION -->
-    {% include 'includes/front/nav.html.twig' %}
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
     <!-- /NAVIGATION -->
     <!-- BREADCRUMB -->
     <div id="breadcrumb">

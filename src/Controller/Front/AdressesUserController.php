@@ -79,11 +79,7 @@ class AdressesUserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $dm->persist($adresseUser);
             $dm->flush();
-            return new JsonResponse(array(
-                'adresse' => $adresseUser,
-                'id' => $adresseUser->getId(),
-                'html' => $this->renderView('user/adresses/singleAdresse.html.twig', ['adresse' => $adresseUser])
-            ));
+            return $this->redirectToRoute('fos_user_profile_edit');
         }
         return $this->render('user/adresses/form.html.twig', array(
             'adresse' => $adresseUser,
