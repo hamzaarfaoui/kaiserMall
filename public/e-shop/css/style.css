@@ -127,12 +127,13 @@ hr {
 }
 
 .icon-btn.main-btn, .icon-btn.primary-btn {
-  width: 40px;
+  width: auto;
   height: 40px;
   line-height: 40px;
   text-align: center;
-  padding: 0px;
+  padding: 2px 16px;
   border: none;
+  font-weight: 100;
 }
 
 .main-btn {

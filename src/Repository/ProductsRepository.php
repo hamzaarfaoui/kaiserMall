@@ -261,6 +261,17 @@ class ProductsRepository extends ServiceEntityRepository
                 ->setParameter('keywords', $keywords);
         return $qb->getQuery()->execute();
     }
+    public function produitsCriteres($id)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('c.id', 'c.name')
+                ->leftJoin('u.valeurs', 'v')
+                ->leftJoin('v.caracteristique', 'c')
+                ->where('u.id = :id')
+                ->groupBy('c.id')
+                ->setParameter('id', $id);
+        return $qb->getQuery()->execute();
+    }
 
     
 //    public function byPriceAsc()

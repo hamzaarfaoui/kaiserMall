@@ -480,9 +480,7 @@ class ProductBackController extends Controller
         $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        $marque_id = $request->get('marque');
-        $marque = $dm->getRepository('App:Marques')->find($marque_id);
-        $product->setMarque($marque);
+        
         $p = $dm->getRepository('App:Products')->find($id);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
@@ -491,10 +489,10 @@ class ProductBackController extends Controller
             $dm->persist($store);
         }
         
-        if($request->get('sc')){
-            $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
-            $product->setSousCategorie($sc);
-        }
+        // if($request->get('sc')){
+        //     $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
+        //     $product->setSousCategorie($sc);
+        // }
         if($request->get('couleur')){
             $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
             $product->setCouleur($couleur);

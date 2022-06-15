@@ -229,9 +229,12 @@ class FrontController extends Controller
         $product->setNbrView($product->getNbrView()+1);
         $dm->persist($product);
         $dm->flush();
+        $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
+
         return $this->render('Products/front/details.html.twig', array(
             'product' => $product,
             'products' => $products,
+            'caracteristiques' => $caracteristiques,
             'categorie' => $product->getSousCategorie()
         ));
     }

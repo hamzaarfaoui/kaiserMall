@@ -242,10 +242,12 @@ box-shadow: 1px 2px 9px 0px #ddd;
 font-weight: 100;}
 .section-banners{
     width: 94%;
-    left: 3% !important;
-    position: relative;
+    left: 0% !important;
+    position: relative !important;
     margin-bottom: 0 !important;
+    top: 40px;
 }
+
 .breadcrumb{
     display: block;
 }
@@ -274,6 +276,26 @@ height: 291px;
 }
 
 @media screen and (max-width: 991px){
+    .noUi-horizontal {
+        height: 10px;
+        margin-bottom: 68px;
+        width: 84%;
+        left: 8%;
+        margin-top: 55px;
+    }
+    .filter-btn{
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+        z-index: 999;
+        left: 0;
+        border-radius: inherit;
+        padding: 5px 10px !important;
+        font-weight: 100;
+        font-size: 24px;
+    }
     .edit-password-btn{
         width: 100%;
     }
@@ -588,7 +610,7 @@ height: 291px;
         text-align: center;
         position: relative;
         border-radius: 45px;
-        bottom: 284px;
+        /* bottom: 284px; */
         /* width: 64%; */
         position: relative;
     }
@@ -714,9 +736,15 @@ height: 291px;
 
 position: relative;
 
-left: -20px;
+left: 0;
+
+font-weight: 100;
 
 top: 9px;
+
+width: 100% !important;
+
+text-align: center !important;
 
 }
     .slick-track {
@@ -1016,32 +1044,61 @@ top: 9px;
     .about-text{
         font-size: 15px;
     }
+    .slider.product-details{
+        margin: 0 !important;
+        padding: 0;
+    }
+    .product-details .col-md-5, .product-details .col-md-7, .product-details .col-sm-6, .product-details .col-xs-6{
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+    .valeur-product{
+        display: inline-block;
+        margin: 5px;
+        padding: 3px;
+        height: 26px;
+        border: 0.5px solid #ccc;
+    }
 }
 
 
 @media screen and (min-width: 991px){
+    .valeur-product{
+        display: inline-block;
+        margin: 5px;
+        padding: 3px;
+        height: 26px;
+        border: 0.5px solid #ccc;
+    }
+    .banners-home .section-banners{
+        left: 3% !important;
+        top: 0;
+    }
+    .filter-btn{
+        display: none !important;
+    }
     .other-products{
 
-width: 94%;
+    width: 94%;
 
-left: 3%;
+    left: 3%;
 
-border: none;
+    border: none;
 
-box-shadow: 1px -5px 18px 0px #ddd;
+    box-shadow: 1px -5px 18px 0px #ddd;
 
-height: auto;
+    height: auto;
 
-}
+    }
     .other-products .container{
         
-position: relative;
-        
-left: 0;
-        
-width: 100%;
-        
-margin-bottom: 0;
+    position: relative;
+            
+    left: 0;
+            
+    width: 100%;
+            
+    margin-bottom: 0;
     }
     .header-btns{
         position: relative;
@@ -1306,13 +1363,13 @@ margin-bottom: 0;
     }
     .bloc-btn-chart{
 
-        text-align: end;
+    /* text-align: end; */
 
-        position: relative;
+    position: relative;
 
-        top: 0;
+    top: 0;
 
-        right: -14px;
+    right: -14px;
 
     }
     .add-to-favoris{

@@ -44,6 +44,12 @@
     width: 100%;
     box-shadow: 0px 0px 24px 1px #ccc;
 }
+h5{
+    font-weight: 100;
+}
+#myModal{
+    padding-right: 0px !important;
+}
 @media only screen and (max-width: 991px){}
 #aside {
     margin-bottom: 0;
@@ -94,7 +100,7 @@
                     
                     <!-- aside widget -->
                     <div class="aside filter-bloc">
-                        <h3 >Prix :</h3>
+                        <h5 >Prix :</h5>
                             <div id="price-slider"></div>
                             <input type="hidden" name="minp" id="minp" value="{{min-2}}">
                             <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
@@ -140,6 +146,64 @@
                 <div id="main" class="col-md-10">
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="primary-btn filter-btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-bars-filter"></i> Filtrer</button>
+
+                        <!-- Modal -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Filtrer les produits</h4>
+                              </div>
+                              <div class="modal-body">
+                                <h5>Prix :</h5>
+                                    <div id="price-slider-modal"></div>
+                                    <input type="hidden" name="minp" id="minp-modal" value="{{min-2}}">
+                                    <input type="hidden" name="maxp" id="maxp-modal" value="{{max+2}}">
+                                    <hr>
+                                <h5>Marques</h5>
+                                <ul>
+                                    {% for marque in marques %}
+                                        <li>
+                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                            <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                <h5>Couleurs</h5>
+                                <ul>
+                                    {% for couleur in couleurs %}
+                                        <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                       <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                                    {% endfor %}
+                                </ul>
+                                {% for caracteristique in caracteristiques %}
+                                {% if(caracteristique.name != 'Couleur') %}
+                                <h5>{{ caracteristique.name }}</h5>
+                                <ul>
+                                    {% for valeur in caracteristique.valeurs %}
+                                        <li>
+                                            <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                            <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                                {% if not loop.last %}<hr>{% endif %}
+                                {% endfor %}
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="primary-btn validate-filter-modal" data-dismiss="modal">Valider</button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
                         <div class="pull-left">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
@@ -258,24 +322,39 @@
     
         var minp = $('#minp').val();
         var maxp = $('#maxp').val();
-    var dollarPrefixFormat = wNumb({prefix: ' TND', decimals: 0})
-  var slider = document.getElementById('price-slider');
-  if (slider) {
-    noUiSlider.create(slider, {
-      start: [{{min-2}}, {{max+2}}],
-      connect: true,
-      tooltips: [dollarPrefixFormat, dollarPrefixFormat],
-      pips: {
-            mode: 'steps',
-            density: 5,
-            format: dollarPrefixFormat
-        },
-      range: {
-        'min': {{min - 2}},
-        'max': {{max+ 2}}
+        var dollarPrefixFormat = wNumb({prefix: ' TND', decimals: 0})
+      var slider = document.getElementById('price-slider');
+      if($('.aside').css('display') == 'none'){
+        slider = document.getElementById('price-slider-modal');
+        minp = $('#minp-modal').val();
+        maxp = $('#maxp-modal').val();
       }
-    });
-  }
+      $('.validate-filter-modal').click(function (argument) {
+          slider = document.getElementById('price-slider');
+          minp = $('#minp').val();
+            maxp = $('#maxp').val();
+      });
+      $('.filter-btn').click(function (argument) {
+          slider = document.getElementById('price-slider-modal');
+            minp = $('#minp-modal').val();
+            maxp = $('#maxp-modal').val();
+      });
+      if (slider) {
+        noUiSlider.create(slider, {
+          start: [{{min-2}}, {{max+2}}],
+          connect: true,
+          tooltips: [dollarPrefixFormat, dollarPrefixFormat],
+          pips: {
+                mode: 'steps',
+                density: 5,
+                format: dollarPrefixFormat
+            },
+          range: {
+            'min': {{min - 2}},
+            'max': {{max+ 2}}
+          }
+        });
+      }
     slider.noUiSlider.on('set', function( values, handle ) {
             var min = values[0];
             var max = values[1];
