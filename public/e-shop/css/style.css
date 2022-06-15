@@ -1027,7 +1027,9 @@ textarea.input {
 
 .product.product-single.product-hot {
   border: 0.5px solid #e8e8e8;
-  height: 360px;
+}
+.categorie-products-container .product.product-single.product-hot {
+  height: 296px !important;
 }
 
 .product.product-single.product-hot .product-btns {
@@ -1038,6 +1040,9 @@ textarea.input {
 .product.product-single.product-hot-promotion {
   border: 1px solid #f44336;
 }
+.categorie-products-container .product.product-single.product-hot-promotion {
+  height: 296px !important;
+} 
 
 .product.product-single.product-hotpromotion .product-btns {
   opacity: 1;
