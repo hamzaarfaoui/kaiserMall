@@ -109,8 +109,11 @@ h5{
                         <ul>
                             {% for marque in marques %}
                                 <li>
-                                    <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                    <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                    <label for="marque{{marque.id}}" class="container-label"> 
+                                        {{marque.name}}
+                                        <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                         <span class="checkmark"></span>
+                                    </label>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -128,8 +131,11 @@ h5{
                         <ul>
                             {% for valeur in caracteristique.valeurs %}
                                 <li>
-                                    <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                    <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
+                                    <label for="valeur{{valeur.id}}" class="container-label">
+                                        {{valeur.name}}
+                                        <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                         <span class="checkmark"></span>
+                                     </label>
                                 </li>
                             {% endfor %}
                         </ul>

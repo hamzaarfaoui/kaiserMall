@@ -336,19 +336,21 @@ class FrontController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $search = $request->get('search');
         //$products = $dm->getRepository('App:Products')->findAll();
-        $keywords = $dm->getRepository('App:Keywords')->byName($search);
-        $products = array();
-        foreach ($keywords as $keyword){
-            $products[] = $keyword->getProduct();
+        $keywords_array = $dm->getRepository('App:Keywords')->byName($search);
+        $keywords = array();
+        foreach ($keywords_array as $keyword) {
+            $keywords[] = $keyword['id'];
         }
+        $find_products = $dm->getRepository('App:Products')->byKeyword($keywords);
+        
         $paginator  = $this->get('knp_paginator');
-        $products_list = $paginator->paginate(
-            $products, /* query NOT result */
+        $products = $paginator->paginate(
+            $find_products, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             20 /*limit per page*/
         );
         return $this->render('frontend/searchResult.html.twig', array(
-            'products' => $products_list,
+            'products' => $products,
             'search' => $search
         ));
     }

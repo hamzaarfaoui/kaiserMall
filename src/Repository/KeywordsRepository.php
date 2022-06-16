@@ -50,7 +50,7 @@ class KeywordsRepository extends ServiceEntityRepository
     public function byName($chaine)
     {
         $qb = $this->createQueryBuilder('u')
-                ->Select('u')
+                ->Select('u.id')
                 ->where('u.name LIKE :name')
                 ->groupBy('u.product')
                 ->setParameter('name', '%'.$chaine.'%');

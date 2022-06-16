@@ -47,4 +47,14 @@ class ValeursRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function byCaracteristique($caracteristique)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('u.id', 'u.name')
+            ->where('u.caracteristique = :caracteristique')
+            ->setParameter('caracteristique', $caracteristique);
+        
+        return $qb->getQuery()->execute();
+    }
 }

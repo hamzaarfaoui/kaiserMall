@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}{{ listProducts.name }}ddd{% endblock %}
+{% block title %}{{ listProducts.name }}{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
 <style type="text/css">
@@ -25,9 +25,9 @@
 .couleur-label-checked{
     border: 1px solid #000;
 }
-.section-products{
-    width: 90%;
-    margin-left: 4.5%;
+.section-products {
+    width: 94.5%;
+    margin-left: 2.5%;
     background-color: #FFF;
     box-shadow: 0px 0px 24px 1px #ccc;
     padding-bottom: 70px;
@@ -44,21 +44,15 @@
     width: 100%;
     box-shadow: 0px 0px 24px 1px #ccc;
 }
-#store{
-    border: none;
+h5{
+    font-weight: 100;
 }
-.list-products-container {
-    margin-left: inherit;
-    width: 91%;
-    text-align: center;
-}
-.section-products{
-    margin-left: 5%;
+#myModal{
+    padding-right: 0px !important;
 }
 @media only screen and (max-width: 991px){}
 #aside {
     margin-bottom: 0;
-    display: none;
 }
 }
 </style>
@@ -79,7 +73,16 @@
     </div>
     <!-- /NAVIGATION -->
 
-
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">{{listProducts.name}}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
 
     <!-- section -->
     <div class="section section-products in-filter">
@@ -88,11 +91,142 @@
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
+                <div id="aside" class="col-md-2">
+                    
+                    <!-- start if mobile -->
+                    <!-- end if mobile -->
+                    <!-- aside widget -->
+                    
+                    
+                    <!-- aside widget -->
+                    <div class="aside filter-bloc">
+                        <h5 >Prix :</h5>
+                            <div id="price-slider"></div>
+                            <input type="hidden" name="minp" id="minp" value="{{min-2}}">
+                            <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
+                            <hr>
+                        <h5>Marques</h5>
+                        <ul>
+                            {% for marque in marques %}
+                                <li>
+                                    <label for="marque{{marque.id}}" class="container-label"> 
+                                        {{marque.name}}
+                                        <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                         <span class="checkmark"></span>
+                                    </label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <h5>Couleurs</h5>
+                        <ul>
+                            {% for couleur in couleurs %}
+                                <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                               <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                            {% endfor %}
+                        </ul>
+                        {% for caracteristique in caracteristiques %}
+                        {% if(caracteristique.name != 'Couleur') %}
+                        <h5>{{ caracteristique.name }}</h5>
+                        <ul>
+                            {% for valeur in caracteristique.valeurs %}
+                                <li>
+                                    <label for="valeur{{valeur.id}}" class="container-label">
+                                        {{valeur.name}}
+                                        <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                         <span class="checkmark"></span>
+                                     </label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if not loop.last %}<hr>{% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- /aside widget -->
+                    
+                </div>
+                <!-- /ASIDE -->
                 
 
                 <!-- MAIN -->
-                <div id="main" class="col-md-12">
+                <div id="main" class="col-md-10">
+                    <!-- store top filter -->
+                    <div class="store-filter clearfix">
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="primary-btn filter-btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-bars-filter"></i> Filtrer</button>
 
+                        <!-- Modal -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Filtrer les produits</h4>
+                              </div>
+                              <div class="modal-body">
+                                <h5>Prix :</h5>
+                                    <div id="price-slider-modal"></div>
+                                    <input type="hidden" name="minp" id="minp-modal" value="{{min-2}}">
+                                    <input type="hidden" name="maxp" id="maxp-modal" value="{{max+2}}">
+                                    <hr>
+                                <h5>Marques</h5>
+                                <ul>
+                                    {% for marque in marques %}
+                                        <li>
+                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                            <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                <h5>Couleurs</h5>
+                                <ul>
+                                    {% for couleur in couleurs %}
+                                        <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                       <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                                    {% endfor %}
+                                </ul>
+                                {% for caracteristique in caracteristiques %}
+                                {% if(caracteristique.name != 'Couleur') %}
+                                <h5>{{ caracteristique.name }}</h5>
+                                <ul>
+                                    {% for valeur in caracteristique.valeurs %}
+                                        <li>
+                                            <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                            <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                                {% if not loop.last %}<hr>{% endif %}
+                                {% endfor %}
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="primary-btn validate-filter-modal" data-dismiss="modal">Valider</button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="pull-left">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            {{ knp_pagination_render(products) }}
+                        </div>
+                    </div>
+                    <!-- /store top filter -->
                     <!-- STORE -->
                     <div id="store">
                         <div id="list-produits">
@@ -161,6 +295,24 @@
                         </div>
                     </div>
                     <!-- /STORE -->
+                    <!-- store bottom filter -->
+                    <div class="store-filter clearfix">
+                        <div class="pull-left">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            {{ knp_pagination_render(products) }}
+                        </div>
+                    </div>
+                    <!-- /store bottom filter -->
                 </div>
                 <!-- /MAIN -->
             </div>
@@ -171,6 +323,178 @@
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
+   <script src="{{ asset('custom/js/nouislider.min.js') }}"></script>
+    <script src="{{ asset('custom/js/wNumb.js') }}"></script>
+
+    <script>
+        ///filter by range price
+    // PRICE SLIDER
+    
+        var minp = $('#minp').val();
+        var maxp = $('#maxp').val();
+        var dollarPrefixFormat = wNumb({prefix: ' TND', decimals: 0})
+      var slider = document.getElementById('price-slider');
+      if($('.aside').css('display') == 'none'){
+        slider = document.getElementById('price-slider-modal');
+        minp = $('#minp-modal').val();
+        maxp = $('#maxp-modal').val();
+      }
+      $('.validate-filter-modal').click(function (argument) {
+          slider = document.getElementById('price-slider');
+          minp = $('#minp').val();
+            maxp = $('#maxp').val();
+      });
+      $('.filter-btn').click(function (argument) {
+          slider = document.getElementById('price-slider-modal');
+            minp = $('#minp-modal').val();
+            maxp = $('#maxp-modal').val();
+      });
+      if (slider) {
+        noUiSlider.create(slider, {
+          start: [{{min-2}}, {{max+2}}],
+          connect: true,
+          tooltips: [dollarPrefixFormat, dollarPrefixFormat],
+          pips: {
+                mode: 'steps',
+                density: 5,
+                format: dollarPrefixFormat
+            },
+          range: {
+            'min': {{min - 2}},
+            'max': {{max+ 2}}
+          }
+        });
+      }
+    slider.noUiSlider.on('set', function( values, handle ) {
+            var min = values[0];
+            var max = values[1];
+            
+        minp = min;
+        maxp = max;
+            var categorie =$('#categorieId').val();
+
+            var caracteristiques = [];
+            $("input[name='valeur']:checked").each(function(){
+                caracteristiques.push($(this).val());
+            });
+            var marques = [];
+            $("input[name='marque']:checked").each(function(){
+                marques.push($(this).val());
+            });
+            var couleurs = [];
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs},
+            method: "POST",
+            error: function (data) {
+                console.log(data['marques']);
+            },
+            beforeSend:function(){
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                console.log(data['range']);
+                $('#list-produits').html(data['products']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    
+    
+    /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
+        var categorie =$('#categorieId').val();
+        var caracteristiques = [];
+        var marques = [];
+        var categories = [];
+        
+        $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
+        
+            var myVal = $(this).val();
+            var caracteristiques = [];
+            var couleurs = [];
+            var marques = [];
+            var tri = $(this).val();
+            $("input[name='valeur']:checked").each(function(){
+                caracteristiques.push($(this).val());
+            });
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
+            $("input[name='marque']:checked").each(function(){
+                marques.push($(this).val());
+            });
+            $.ajax({
+                url: '{{ path('tri_product') }}',
+                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de trier les produit');
+                },
+                beforeSend:function(){
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+                }
+                ,
+                success: function (data) {
+                    console.log(data['nbr']);
+                    {#console.log('caracteristique');
+                    console.log($(this).data('valeur'));
+                    #}
+                    $('#list-produits').html(data['products']);
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+            console.log(caracteristiques);
+        });
+        
+        
+        $('.couleur-radio').change(function () {
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.toggleClass('couleur-label-checked');
+            });
+        
+    ////// Tri profuct by facteur
+    $('.filter-product').change(function(){
+    
+        var valeur = $(this).val();
+        $('.filter-product').val($(this).val());
+        var caracteristiques = [];
+        var couleurs = [];
+        var marques = [];
+        $("input[name='valeur']:checked").each(function(){
+            caracteristiques.push($(this).val());
+        });
+        $("input[name='couleur']:checked").each(function(){
+            couleurs.push($(this).val());
+        });
+        $("input[name='marque']:checked").each(function(){
+            marques.push($(this).val());
+        });
+        var tri = $(this).val();
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de trier les produit');
+            },
+            beforeSend:function(){
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                
+                $('#list-produits').html(data['products']);
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    
+    
+</script>
 <script>
 // window.onscroll = function() {myFunction()};
 

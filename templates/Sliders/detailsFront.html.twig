@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}{{ listProducts.name }}ddd{% endblock %}
+{% block title %}{{ listProducts.name }}{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
 <style type="text/css">
@@ -55,6 +55,17 @@
 .section-products{
     margin-left: 5%;
 }
+#main{
+        padding: inherit !important;
+        padding-right: inherit !important;
+    }
+.product.three-in-row .sale{
+    left: inherit !important;
+}
+.list-products-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
 @media only screen and (max-width: 991px){}
 #aside {
     margin-bottom: 0;
@@ -79,7 +90,16 @@
     </div>
     <!-- /NAVIGATION -->
 
-
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">{{listProducts.name}}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
 
     <!-- section -->
     <div class="section section-products in-filter">

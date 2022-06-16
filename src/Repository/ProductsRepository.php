@@ -174,6 +174,11 @@ class ProductsRepository extends ServiceEntityRepository
         if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
             $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
         }
+
+        if(isset($params['list'])){
+            $qb->andWhere('u.marque IN (:marques)')
+            ->setParameter('marques', $params['marques']);
+        }
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
                 $qb->orderBy('u.pricePromotion', 'DESC');
@@ -253,10 +258,13 @@ class ProductsRepository extends ServiceEntityRepository
     
     
     
-    public function byKeyword($keyword)
+    public function byKeyword($keywords)
     {
         $qb = $this->createQueryBuilder('u')
-                ->where($qb->expr()->in('u.keywords', ':keywords'))
+                ->select('u.id', 'u.name', 'u.slug', 'u.image', 'u.qte', 'u.price', 'u.pricePromotion', 'u.createdAt')
+                ->leftJoin('u.keywords', 'k')
+                ->where('k.id IN (:keywords)')
+                ->andWhere('u.qte > 0')
                 ->orderBy('u.createdAt', 'desc')
                 ->setParameter('keywords', $keywords);
         return $qb->getQuery()->execute();
@@ -270,6 +278,39 @@ class ProductsRepository extends ServiceEntityRepository
                 ->where('u.id = :id')
                 ->groupBy('c.id')
                 ->setParameter('id', $id);
+        return $qb->getQuery()->execute();
+    }
+    public function BannerCriteres($list)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('c.id', 'c.name')
+                ->leftJoin('u.valeurs', 'v')
+                ->leftJoin('v.caracteristique', 'c')
+                ->where('u.id IN (:list)')
+                ->andWhere('c.code IS NOT NULL')
+                ->groupBy('c.id')
+                ->setParameter('list', $list);
+        return $qb->getQuery()->execute();
+    }
+    public function BannerMarques($list)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('m.id', 'm.name')
+                ->leftJoin('u.marque', 'm')
+                ->where('u.id IN (:list)')
+                ->groupBy('m.id')
+                ->setParameter('list', $list);
+        return $qb->getQuery()->execute();
+    }
+
+    public function BannerCouleurs($list)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('c.id', 'c.code')
+                ->leftJoin('u.couleur', 'c')
+                ->where('u.id IN (:list)')
+                ->groupBy('c.id')
+                ->setParameter('list', $list);
         return $qb->getQuery()->execute();
     }
 

@@ -374,6 +374,7 @@ textarea.input {
   top: 0px;
   /* right: 0px; */
   width: 77px;
+  z-index: 9999;
   height: 40px;
   background-color: #39b54a;
   border: none;

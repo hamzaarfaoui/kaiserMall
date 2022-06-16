@@ -77,18 +77,38 @@ class BannersController extends Controller
         
         $paginator  = $this->get('knp_paginator');
         $listProducts = $dm->getRepository('App:ProductsList')->getListesByBanner($banner->getId())[0];
-        
+        $list_ids = array();
+        $products_price = array();
         foreach ($find_products as $p){
             $products_liste[] = $p;
+            $list_ids[] = $p['id'];
+            $products_price[] = $p['pricePromotion']?$p['pricePromotion']:$p['price'];
         }
         $products = $paginator->paginate(
             $products_liste, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             20 /*limit per page*/
         );
+        
+        
+        $min = count($products_price) > 0 ? min($products_price) : 0;
+        $max = count($products_price) > 0 ? max($products_price) : 0;
+        $caracteristiques_liste = $dm->getRepository('App:Products')->BannerCriteres($list_ids);
+        $caracteristiques = array();
+        foreach ($caracteristiques_liste as $c) {
+            $valeurs = $dm->getRepository('App:Valeurs')->byCaracteristique($c['id']);
+            $caracteristiques[] = ['id' => $c['id'], 'name' => $c['name'], 'valeurs' => $valeurs];
+        }
+        $marques = $dm->getRepository('App:Products')->BannerMarques($list_ids);
+        $couleurs = $dm->getRepository('App:Products')->BannerCouleurs($list_ids);
         return $this->render('Banners/front/detailsFront.html.twig', array(
             'products' => $products,
-            'listProducts' => $listProducts
+            'marques' => $marques,
+            'caracteristiques' => $caracteristiques,
+            'couleurs' => $couleurs,
+            'listProducts' => $listProducts,
+            'min' => $min,
+            'max' => $max,
         ));
     }
     
