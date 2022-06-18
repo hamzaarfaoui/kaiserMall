@@ -267,6 +267,12 @@ margin-left: 2%;
 
 width: 97%;
 }
+.list-products-container.without-filter{
+
+margin-left: 0 !important;
+
+width: 100% !important;
+}
 .product{
     
 }
@@ -800,7 +806,7 @@ height: 291px;
     }
     .in-filter .product-single, .other-products .product-single{
         
-        height: 243px !important;
+height: auto !important;
     }
     .section-title {
         position: relative;
@@ -1062,12 +1068,13 @@ height: 291px;
     }
     .header-cart{
 
-    width: 56%;
+/* width: 56%; */
 
-    position: relative;
+position: fixed;
 
-    /* right: 0; */
-    }
+right: 0;
+
+}
     .nav-toggle-btn .main-btn {
 
     }
@@ -1164,11 +1171,29 @@ height: 291px;
         height: 26px;
         border: 0.5px solid #ccc;
     }
+    .in-promotion-filter{
+        position: relative;
+        padding-top: 12px;
+        /* padding-left: 8px; */
+        padding-bottom: 3px;
+    }
+    .in-promotion-filter label{
+        /* font-weight: 100 !important; */
+    }
 }
 
 
 @media screen and (min-width: 991px){
-
+    .in-promotion-filter{
+        position: relative;
+        padding-top: 12px;
+        padding-left: 8px;
+        background-color: #f4f4f4;
+        border: 0.5px solid #ccc;
+    }
+    .in-promotion-filter label{
+        font-weight: 100 !important;
+    }
     .cart-btn-modal{
         float: right;
         position: relative;
@@ -1187,6 +1212,9 @@ height: 291px;
     #main{
         padding: 18px 71px;
         padding-right: 17px;
+    }
+    #main.full-main-width{
+        padding: inherit;
     }
     #aside ul{
         padding-top: 12px;
@@ -1617,11 +1645,10 @@ height: 291px;
     .register-link{
         width: 100%;
     }
-
 }
 @media screen and (min-width: 450px) and (max-width: 750px){
     
     .categorie-products{
-            margin-top: 160px;
+            margin-top: 0;
     }
 }

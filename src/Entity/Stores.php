@@ -91,12 +91,18 @@ class Stores
      */
     private $productsLists;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Banners::class, mappedBy="store")
+     */
+    private $banners;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->telephonesStore = new ArrayCollection();
         $this->adressesStore = new ArrayCollection();
         $this->productsLists = new ArrayCollection();
+        $this->banners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,6 +348,36 @@ class Stores
             // set the owning side to null (unless already changed)
             if ($productsList->getStore() === $this) {
                 $productsList->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Banners[]
+     */
+    public function getBanners(): Collection
+    {
+        return $this->banners;
+    }
+
+    public function addBanner(Banners $banner): self
+    {
+        if (!$this->banners->contains($banner)) {
+            $this->banners[] = $banner;
+            $banner->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBanner(Banners $banner): self
+    {
+        if ($this->banners->removeElement($banner)) {
+            // set the owning side to null (unless already changed)
+            if ($banner->getStore() === $this) {
+                $banner->setStore(null);
             }
         }
 

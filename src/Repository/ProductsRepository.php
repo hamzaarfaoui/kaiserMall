@@ -170,7 +170,9 @@ class ProductsRepository extends ServiceEntityRepository
             $qb->where('u.sousCategorie = :sc')
             ->leftJoin('u.valeurs', 'v')
             ->setParameter('sc', $params['categorie']);    
-            
+        if(isset($params['inPromotion'])){
+            $qb->andWhere('u.pricePromotion < u.price');
+        }    
         if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
             $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
         }
@@ -213,7 +215,9 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u')
             ->leftJoin('u.valeurs', 'v');
-            
+        if(isset($params['inPromotion'])){
+            $qb->andWhere('u.pricePromotion < u.price');
+        }    
         if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
             $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
         }

@@ -33,8 +33,8 @@
     padding-bottom: 70px;
 }
 .section-banners{
-    width: 90% !important;
-    margin-left: 4.5%;
+    width: 94.5% !important;
+    margin-left: 2.5%;
     position: inherit !important;
     left: inherit !important;
     margin-top: 20px;
@@ -105,6 +105,14 @@ h5{
                             <input type="hidden" name="minp" id="minp" value="{{min-2}}">
                             <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
                             <hr>
+                        <div class="in-promotion-filter">
+                            <label for="inPromotion" class="container-label">
+                                En promotion
+                                <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <hr>
                         <h5>Marques</h5>
                         <ul>
                             {% for marque in marques %}
@@ -171,12 +179,23 @@ h5{
                                     <input type="hidden" name="minp" id="minp-modal" value="{{min-2}}">
                                     <input type="hidden" name="maxp" id="maxp-modal" value="{{max+2}}">
                                     <hr>
+                                <div class="in-promotion-filter">
+                                    <label for="inPromotion" class="container-label">
+                                        En promotion
+                                        <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <hr>
                                 <h5>Marques</h5>
                                 <ul>
                                     {% for marque in marques %}
                                         <li>
-                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                            <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                            <label for="marque{{marque.id}}" class="container-label"> 
+                                                {{marque.name}}
+                                                <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                                 <span class="checkmark"></span>
+                                            </label>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -194,8 +213,11 @@ h5{
                                 <ul>
                                     {% for valeur in caracteristique.valeurs %}
                                         <li>
-                                            <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                            <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
+                                            <label for="valeur{{valeur.id}}" class="container-label">
+                                                {{valeur.name}}
+                                                <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                                 <span class="checkmark"></span>
+                                             </label>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -236,7 +258,7 @@ h5{
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-6 col-xs-6">
-                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
                                         <div class="product-thumb">
                                             <div class="product-label">
                                                 {% if(product.createdAt != null) %}
@@ -368,7 +390,7 @@ h5{
         minp = min;
         maxp = max;
             var categorie =$('#categorieId').val();
-
+            var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
             var caracteristiques = [];
             $("input[name='valeur']:checked").each(function(){
                 caracteristiques.push($(this).val());
@@ -383,7 +405,7 @@ h5{
             });
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs},
+            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs, inPromotion: inPromotion},
             method: "POST",
             error: function (data) {
                 console.log(data['marques']);
@@ -402,13 +424,14 @@ h5{
     
     
     /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
-        var categorie =$('#categorieId').val();
+        
         var caracteristiques = [];
         var marques = [];
         var categories = [];
         
-        $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
-        
+        $('input[name="marque"], input[name="couleur"], input[name="valeur"], input[name="inPromotion"]').change(function(){
+            var categorie =$('#categorieId').val();
+            var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
             var myVal = $(this).val();
             var caracteristiques = [];
             var couleurs = [];
@@ -425,7 +448,7 @@ h5{
             });
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri, inPromotion: inPromotion},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
@@ -454,7 +477,8 @@ h5{
         
     ////// Tri profuct by facteur
     $('.filter-product').change(function(){
-    
+        var categorie =$('#categorieId').val();
+        var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
         var valeur = $(this).val();
         $('.filter-product').val($(this).val());
         var caracteristiques = [];
@@ -472,7 +496,7 @@ h5{
         var tri = $(this).val();
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+            data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri, inPromotion: inPromotion},
             method: "POST",
             error: function (data) {
                 console.log('Erreur de trier les produit');

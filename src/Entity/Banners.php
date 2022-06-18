@@ -57,6 +57,11 @@ class Banners
      */
     private $position;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Stores::class, inversedBy="banners")
+     */
+    private $store;
+
 
     public function getId(): ?int
     {
@@ -165,6 +170,18 @@ class Banners
     public function setPosition(?int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getStore(): ?Stores
+    {
+        return $this->store;
+    }
+
+    public function setStore(?Stores $store): self
+    {
+        $this->store = $store;
 
         return $this;
     }

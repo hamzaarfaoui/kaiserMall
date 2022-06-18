@@ -61,6 +61,9 @@ class ProductController extends Controller
         $caracteristiques = [];
         $marques = [];
         $couleurs = [];
+        if($request->get('inPromotion') && $request->get('inPromotion') == 1){
+            $query['inPromotion'] = $caracteristiques;
+        }
         if(!empty($request->get('caracteristiques'))){
             foreach ($request->get('caracteristiques') as $item){
                 $valeur = $dm->getRepository('App:Valeurs')->find($item);

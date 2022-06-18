@@ -87,7 +87,7 @@ h5{
     <!-- section -->
     <div class="section section-products in-filter">
         <!-- container -->
-        <div class="container list-products-container">
+        <div class="container list-products-container{% if(products|length <= 10) %} without-filter{% endif %}">
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
@@ -99,12 +99,21 @@ h5{
                     
                     
                     <!-- aside widget -->
+                    {% if(products|length > 10) %}
                     <div class="aside filter-bloc">
                         <h5 >Prix :</h5>
                             <div id="price-slider"></div>
                             <input type="hidden" name="minp" id="minp" value="{{min-2}}">
                             <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
                             <hr>
+                        <div class="in-promotion-filter">
+                            <label for="inPromotion" class="container-label">
+                                En promotion
+                                <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <hr>
                         <h5>Marques</h5>
                         <ul>
                             {% for marque in marques %}
@@ -143,6 +152,7 @@ h5{
                         {% if not loop.last %}<hr>{% endif %}
                         {% endfor %}
                     </div>
+                    {% endif %}
                     <!-- /aside widget -->
                     
                 </div>
@@ -150,7 +160,7 @@ h5{
                 
 
                 <!-- MAIN -->
-                <div id="main" class="col-md-10">
+                <div id="main full-main-width" class="{% if(products|length > 10) %}col-md-10{% else %}col-md-12{% endif %}">
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
                         <!-- Trigger the modal with a button -->
@@ -172,6 +182,14 @@ h5{
                                     <input type="hidden" name="minp" id="minp-modal" value="{{min-2}}">
                                     <input type="hidden" name="maxp" id="maxp-modal" value="{{max+2}}">
                                     <hr>
+                                <div class="in-promotion-filter">
+                                    <label for="inPromotion" class="container-label">
+                                        En promotion
+                                        <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <hr>
                                 <h5>Marques</h5>
                                 <ul>
                                     {% for marque in marques %}
@@ -211,7 +229,7 @@ h5{
 
                           </div>
                         </div>
-                        <div class="pull-left">
+                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
@@ -236,7 +254,7 @@ h5{
                                     {% if(product.qte>0) %}
                                     {% set productsLength = products|length %}
                                     <!-- Product Single -->
-                                    {% if(productsLength == 2 or productsLength == 4) %}
+                                    {% if(productsLength == 2) %}
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="product tow-in-row product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
                                     {% elseif(productsLength == 3 or productsLength == 6 or productsLength == 9) %}
@@ -297,7 +315,7 @@ h5{
                     <!-- /STORE -->
                     <!-- store bottom filter -->
                     <div class="store-filter clearfix">
-                        <div class="pull-left">
+                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">

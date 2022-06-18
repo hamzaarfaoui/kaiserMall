@@ -62,10 +62,8 @@
 .product.three-in-row .sale{
     left: inherit !important;
 }
-.list-products-container {
-    margin-left: 0 !important;
-    width: 100% !important;
-}
+
+
 @media only screen and (max-width: 991px){}
 #aside {
     margin-bottom: 0;
@@ -122,7 +120,7 @@
                                     {% if(product.qte>0) %}
                                     {% set productsLength = products|length %}
                                     <!-- Product Single -->
-                                    {% if(productsLength == 2 or productsLength == 4) %}
+                                    {% if(productsLength == 2) %}
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="product tow-in-row product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
                                     {% elseif(productsLength == 3 or productsLength == 6 or productsLength == 9) %}
