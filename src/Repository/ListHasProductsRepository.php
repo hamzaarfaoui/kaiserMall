@@ -72,6 +72,7 @@ class ListHasProductsRepository extends ServiceEntityRepository
             ->leftJoin('u.listProduct', 'l')
             ->where('l.banner = :banner')
             ->orderBy('u.position', 'ASC')
+            ->groupBy('p.id')
             ->setParameter('banner', $banner);    
             
         

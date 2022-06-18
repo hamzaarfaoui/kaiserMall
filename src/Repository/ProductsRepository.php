@@ -209,6 +209,51 @@ class ProductsRepository extends ServiceEntityRepository
         }
         return $qb->getQuery()->execute();
     }
+    public function byBanner($params)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin('u.valeurs', 'v');
+            
+        if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
+            $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
+        }
+
+        if(isset($params['list'])){
+            $qb->leftJoin('u.listHasProducts', 'lhp')
+            ->leftJoin('lhp.listProduct', 'lp')
+            ->andWhere('lp.id = :list')
+            ->setParameter('list', $params['list']);
+        }
+        if(isset($params['tri'])&&!empty($params['tri'])){
+            if ($params['tri'] == 1){
+                $qb->orderBy('u.pricePromotion', 'DESC');
+            }elseif ($params['tri'] == 2){
+                $qb->orderBy('u.pricePromotion', 'ASC');
+            }elseif ($params['tri'] == 3){
+                $qb->orderBy('u.nbrView', 'DESC');
+            }
+        }else{
+
+            $qb->orderBy('u.position', 'ASC');
+        }
+        if(isset($params['marques'])){
+            $qb->andWhere('u.marque IN (:marques)')
+            ->setParameter('marques', $params['marques']);
+        }
+        if(isset($params['couleurs'])){
+            $qb->andWhere('u.couleur IN (:couleurs)')
+            ->setParameter('couleurs', $params['couleurs']);
+        }
+        if(isset($params['valeurs'])){
+            $qb->andWhere('v.id IN (:valeurs)')
+            ->setParameter('valeurs', $params['valeurs']);
+        }
+        if(isset($params['store'])&&!empty($params['store'])){
+            $qb->andWhere('u.store = :store')
+            ->setParameter('store', $params['store']);
+        }
+        return $qb->getQuery()->execute();
+    }
     public function listProductsBycategories($categorie, $limit = 0)
     {
         $qb = $this->createQueryBuilder('u');
@@ -309,6 +354,7 @@ class ProductsRepository extends ServiceEntityRepository
                 ->Select('c.id', 'c.code')
                 ->leftJoin('u.couleur', 'c')
                 ->where('u.id IN (:list)')
+                ->andWhere('c.code IS NOT NULL')
                 ->groupBy('c.id')
                 ->setParameter('list', $list);
         return $qb->getQuery()->execute();

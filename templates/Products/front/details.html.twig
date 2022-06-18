@@ -246,6 +246,22 @@
                             <div class="bloc-btn-chart">
                                 <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> J'achéte</button>
                             </div>
+                            <div id="cartModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-dialog-centered">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title" style="color: #000;">Poduit ajouter en panier</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <button class="btn main-btn continue-achat-btn-modal" data-dismiss="modal" aria-hidden="true">Continuer mes achats</button>
+                                            <a href="{{ path('cart_page') }}" class="primary-btn cart-btn-modal">Valider mon panier</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
                             {#<strong>Vendeur :</strong>
                             <div class="text-center">

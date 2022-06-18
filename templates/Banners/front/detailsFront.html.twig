@@ -320,6 +320,7 @@ h5{
         </div>
         <!-- /container -->
     </div>
+    <input type="hidden" id="listProducts" value="{{listProducts.id}}">
     <!-- /section -->
 {% endblock %}
 {% block javascripts %}
@@ -371,7 +372,7 @@ h5{
             
         minp = min;
         maxp = max;
-            var categorie =$('#categorieId').val();
+            var listProducts =$('#listProducts').val();
 
             var caracteristiques = [];
             $("input[name='valeur']:checked").each(function(){
@@ -387,7 +388,7 @@ h5{
             });
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {min:min, max:max, categorie:categorie, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs},
+            data: {min:min, max:max, listProducts:listProducts, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs},
             method: "POST",
             error: function (data) {
                 console.log(data['marques']);
@@ -406,10 +407,10 @@ h5{
     
     
     /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
-        var categorie =$('#categorieId').val();
+        var listProducts =$('#listProducts').val();
         var caracteristiques = [];
         var marques = [];
-        var categories = [];
+        var listProducts = [];
         
         $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
         
@@ -429,7 +430,7 @@ h5{
             });
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+                data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
@@ -476,7 +477,7 @@ h5{
         var tri = $(this).val();
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {caracteristiques:caracteristiques, categorie:categorie, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+            data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
             method: "POST",
             error: function (data) {
                 console.log('Erreur de trier les produit');

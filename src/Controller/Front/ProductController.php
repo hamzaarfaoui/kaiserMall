@@ -88,6 +88,9 @@ class ProductController extends Controller
         }elseif(!empty($request->get('categories'))){
             $query['categories'] = $request->get('categories');
         }
+        if($request->get('listProducts')){
+            $query['list'] = $request->get('listProducts');
+        }
         $query['tri'] = $request->get('tri');
         $query['minimum'] = intval($request->get('min'));
         $query['maximum'] = intval($request->get('max'));
@@ -95,7 +98,11 @@ class ProductController extends Controller
             $query['store'] = $request->get('store');
         }
         if (count($caracteristiques) >= 1) {$query['valeurs'] = $caracteristiques;}
-        $products_list = $dm->getRepository('App:Products')->byCategorie($query);
+        if(isset($query['categorie'])){
+            $products_list = $dm->getRepository('App:Products')->byCategorie($query);
+        }else{
+            $products_list = $dm->getRepository('App:Products')->byBanner($query);
+        }
         // $products_list = array();
         // foreach ($products as $product){
             
@@ -147,6 +154,8 @@ class ProductController extends Controller
             'c' => $query['tri'],
             'nbr' => count($products_list),
             'message' => 'Tout est bon',
+            'filter_by_categorie' => isset($query['categories']) ? true : false,
+            'filter_by_listProducts' => isset($query['list']) ? true : false,
             'products' => $this->renderView('frontend/partials/triProduct.html.twig', array('products' => $products_list))
         ));
     }

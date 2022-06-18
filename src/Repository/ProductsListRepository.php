@@ -73,7 +73,7 @@ class ProductsListRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
             $qb
-            ->Select('u.name', 'b.image AS banner')
+            ->Select('u.id', 'u.name', 'b.image AS banner')
             ->leftJoin('u.banner', 'b')
             ->where('u.banner = :banner')
             ->setParameter('banner', $banner);
