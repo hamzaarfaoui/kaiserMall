@@ -224,7 +224,7 @@ class FrontController extends Controller
         $product = $dm->getRepository('App:Products')->findOneBy(array('slug' => $slug));
         $query = array();
         $query['slug'] = $slug;
-        $query['sousCategorie'] = $product->getSousCategorie()->getId();
+        $query['store'] = $product->getStore()->getId();
         $products = $dm->getRepository('App:Products')->produitsLiees($query);
         $product->setNbrView($product->getNbrView()+1);
         $dm->persist($product);

@@ -151,6 +151,11 @@ class Products
      */
     private $listHasProducts;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $liees = [];
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -562,6 +567,18 @@ class Products
                 $listHasProduct->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLiees(): ?array
+    {
+        return $this->liees;
+    }
+
+    public function setLiees(?array $liees): self
+    {
+        $this->liees = $liees;
 
         return $this;
     }

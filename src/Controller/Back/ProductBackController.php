@@ -102,6 +102,18 @@ class ProductBackController extends Controller
     }
 
     /*
+     * Produits liees
+     */
+    public function liees($id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $product = $dm->getRepository('App:Products')->find($id);
+        return $this->render('Products/back/liees.html.twig', array(
+            'product' => $product
+        ));
+    }
+
+    /*
      * modal add product to sliders or banners
      */
     public function addToSliderOrBannersModal(Request $request)

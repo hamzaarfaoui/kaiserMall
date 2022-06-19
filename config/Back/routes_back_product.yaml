@@ -8,7 +8,11 @@ dashboard_product_index_by_store:
     
 dashboard_product_details:
     path: /{id}/details
-    controller: App\Controller\Back\ProductBackController::details    
+    controller: App\Controller\Back\ProductBackController::details 
+
+dashboard_product_liees:
+    path: /{id}/liees
+    controller: App\Controller\Back\ProductBackController::liees    
     
 dashboard_product_back_new:
     path: /new
