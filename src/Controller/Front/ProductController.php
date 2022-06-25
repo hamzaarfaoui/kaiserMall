@@ -106,50 +106,6 @@ class ProductController extends Controller
         }else{
             $products_list = $dm->getRepository('App:Products')->byBanner($query);
         }
-        // $products_list = array();
-        // foreach ($products as $product){
-            
-        //     $valeurs_id = array();
-        //     foreach ($product->getValeurs() as $v){
-        //         $valeurs_id[] = $v->getId();
-        //     }
-        //     if(!empty($request->get('categorie'))){
-        //         if($product->getSousCategorie()->getId() == $categorie->getId()){
-        //             foreach ($caracteristiques as $caracteristique){
-        //                 if(in_array($caracteristique, $valeurs_id)){
-        //                     $products_list[] = $product;
-        //                 }
-        //             }
-        //         }
-        //     }elseif(!empty($request->get('categories'))){
-        //         foreach ($caracteristiques as $caracteristique){
-        //             if(in_array($caracteristique, $valeurs_id)){
-        //                 $products_list[] = $product;
-        //             }
-        //         }
-        //     }
-        // }
-        // foreach ($products as $product){
-            
-        //     if(!empty($request->get('marques'))){
-        //         if($product->getSousCategorie()->getId() == $categorie->getId()){
-        //             if(in_array($product->getMarque(), $marques)){
-        //                 if(!in_array($product, $products_list)){
-        //                     $products_list[] = $product;
-        //                 }
-        //             }
-        //         }
-        //     }elseif(!empty($request->get('categories'))){
-        //         foreach ($caracteristiques as $caracteristique){
-        //             if(in_array($caracteristique, $valeurs_id)){
-        //                 $products_list[] = $product;
-        //             }
-        //         }
-        //     }
-        // }
-        
-        
-        // if(count($products_list)==0){$products_list=$products;}
         
         return new JsonResponse(array(
             'status' => 'OK',

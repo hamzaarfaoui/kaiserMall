@@ -9,6 +9,7 @@ use App\Entity\Marchands;
 use App\Entity\AdressesStore;
 use App\Entity\AdressesUser;
 use App\Entity\TelephonesUser;
+use App\Entity\Banners;
 use App\Entity\TelephonesStore;
 use App\Entity\ProductsList;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,14 @@ class StoresBackController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
-        return $this->render('stores/back/show.html.twig', array('store' => $store));
+        $banner = $dm->getRepository('App:Banners')->findOneBy(array('store' => $id));
+        if(!$banner){
+            $banner = new Banners();
+            $banner->setStore($store);
+            $dm->persist($banner);
+            $dm->flush();
+        }
+        return $this->render('stores/back/show.html.twig', array('store' => $store, 'banner' => $banner));
     }
     
     /*
@@ -135,6 +143,10 @@ class StoresBackController extends Controller
         $store->setMarchand($marchand);
         $dm->persist($store);
         /*end store document*/
+        /*store banner*/
+        $banner = new Banners();
+        $banner->setStore($store);
+        $dm->persist($banner);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." a été ajoutée");
         return $this->redirectToRoute('dashboard_stores_back_details', array('id' => $store->getId()));

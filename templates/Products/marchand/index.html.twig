@@ -107,9 +107,6 @@
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                <a href="{{path('marchand_product_details', {id:product.id})}}" class="btn btn-sm btn-primary">
-                                                    <i class="fa fa-search"></i> Détails
-                                                </a>
                                                 <a href="{{ path('marchand_product_back_edit', {id : product.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{product.id}}"><i class="fa fa-trash"></i> Supprimer</button>
 

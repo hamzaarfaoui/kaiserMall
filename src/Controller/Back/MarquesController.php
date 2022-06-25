@@ -63,8 +63,8 @@ class MarquesController extends Controller
         }
         $couleurs_list = '<h3>Couleur</h3><div class="row">';
         foreach ($couleurs as $couleur) {
-            $couleurs_list .= '<div class="col-md-1"><input type="radio" style="display: none;" name="couleur" class="couleur-radio"id="couleur-'.$couleur->getId().'" value="'.$couleur->getId().'" >';
-            $couleurs_list .= '<label for="couleur-'.$couleur->getId().'" class="couleur-label" style="background-color: '.$couleur->getCode().';"></label></div>';
+            $couleurs_list .= '<input type="radio" name="couleur" class="couleur-radio"id="couleur-'.$couleur->getId().'" value="'.$couleur->getId().'" >
+                <label for="couleur-'.$couleur->getId().'" class="couleur-label"><div style="background-color: '.$couleur->getCode().';height: 35px;width: 35px;"></div></label>';
         }
         $couleurs_list .= '</div>';
         $options = '<option value="">Sélectionner une marque</option>';

@@ -17,10 +17,10 @@ class CommandesController extends Controller
     public function listCommandes($id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $commandes = $dm->getRepository('App:Commandes')->liste();
+        $commandes = $dm->getRepository('App:Commandes')->listeInDash();
         $commandes_liste = array();
         foreach ($commandes as $commande){
-            foreach ($commande->getFacture()[0] as $facture){
+            foreach ($commande->getFacture()['product'] as $facture){
                 if($facture['id_vendeur'] == $id){
                     if(!in_array($commande, $commandes_liste)){
                         $commandes_liste [] = $commande;
@@ -29,24 +29,23 @@ class CommandesController extends Controller
                 }
             }
         }
+
         $list = array();
         
         foreach ($commandes_liste as $c){
             $montant = 0;
-            foreach ($c->getFacture()[0] as $f){
+            foreach ($c->getFacture()['product'] as $f){
                 if($f['id_vendeur'] == $id){
                     $montant += $f['price']*$f['quantite'];
                 }
             }
             $list [] = array(
-                        'id'=>$c->getId(),
-                        'client'=>$c->getFacture()[2]['nom_prenom'],
-                        'montant' => $montant,
-                        'date' => $c->getCreatedAt(),
-                        'status' => $c->getStatus()
-                    );
-            
-            
+                'id'=>$c->getId(),
+                'client'=>$c->getFacture()['client']['nom_prenom'],
+                'montant' => $montant,
+                'date' => $c->getCreatedAt(),
+                'status' => $c->getStatus()
+            );
         }
         return $this->render('commandes/marchand/index.html.twig', array('commandes' => $list, 'store' => $id));
     }

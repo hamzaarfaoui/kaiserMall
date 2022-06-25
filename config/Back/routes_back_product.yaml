@@ -33,6 +33,9 @@ dashboard_product_back_new_traitement_by_store:
 dashboard_remove_img_from_gallery:
     path: /remove_img_from_gallery/{id_product}/{name}
     controller: App\Controller\Back\ProductBackController::removeImgFromGalleryAction
+dashboard_remove_img_from_product:
+    path: /remove_img_from_product/{id_product}/{name}
+    controller: App\Controller\Back\ProductBackController::removeImgFromProductAction
     
 dashboard_product_back_edit:
     path: /{id}/edit

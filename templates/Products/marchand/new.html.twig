@@ -20,6 +20,34 @@
     <link href="{{ asset('template/assets/admin/layout3/css/custom.css') }}" rel="stylesheet" type="text/css">
     <!-- END THEME STYLES -->
 
+    <link rel="stylesheet" href="{{ asset('ckeditor/css/samples.css')}}">
+    <style type="text/css">
+        .caracteristiques{
+            position: relative;
+            bottom: 2px;
+            left: 5px;
+        }
+        .couleur-radio{
+            display: none !important;
+        }
+        .couleur-label{
+            cursor: pointer;
+            height: 43px;
+            width: 43px;
+            padding-left: 3px;
+            padding-top: 3px;
+        }
+        .couleur-label div::before{
+
+        }
+        .couleur-label div::after{
+            content: '';
+        }
+        .couleur-label-checked{
+            border: 1px solid #000;
+        }
+    </style>
+
 {% endblock %}
 {% block title %}Tableau de bord | Nouveau produit{% endblock %}
 {% block body %}>
@@ -169,7 +197,7 @@
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <label>Déscription</label>
-                                                                    <textarea class="form-control" rows="3" name="descriptionC"></textarea>
+                                                                    <textarea class="form-control" rows="3" id="editor1" name="descriptionC"></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -197,25 +225,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="tab-pane" id="tab_images">
-                                                    <h3>Caractéristiques</h3>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="row">
-                                                                {% for caracteristique in caracteristiques %}
-                                                                    <div class="col-md-3">
-                                                                        <h5>{{caracteristique.name}}</h5>
-                                                                        {% for valeur in caracteristique.valeurs %}
-                                                                            <div class="form-group">
-
-                                                                                <input id="{{valeur.id}}" type="radio" name="valeur{{caracteristique.id}}" value="{{valeur.id}}">
-                                                                                <label for="{{valeur.id}}">{{valeur.name}}</label>
-                                                                            </div>
-                                                                        {% endfor %}
-                                                                    </div>
-                                                                {% endfor %}
-                                                            </div>
+                                                            <div id="couleurs"></div>
+                                                            
                                                         </div>
                                                     </div>
+                                                    <h3>Caractéristiques</h3>
+                                                    <div id="caracteristiques"><h5 style="text-align: center;">Sélectionner une catégorie</h5></div>
                                                 </div>
                                                 <div class="tab-pane" id="tab_reviews">
                                                     <h3>Promotion</h3>
@@ -298,6 +315,9 @@
     <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
     <script src="{{ asset('template/assets/global/plugins/typeahead/handlebars.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('template/assets/global/plugins/typeahead/typeahead.bundle.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('ckeditor/ckeditor.js')}}"></script>
+    <script src="{{ asset('ckeditor/js/sample.js')}}"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
@@ -309,6 +329,12 @@
     <script src="{{ asset('template/assets/global/plugins/plupload/js/plupload.full.min.js') }}" type="text/javascript"></script>   
     {% include 'marchand/js.html.twig' %}
     <script>
+                CKEDITOR.replace( 'editor1', {
+                    removeButtons: 'PasteFromWord'
+                } );
+            </script>
+    <script>
+
         $('#cm').change(function(){
                 var id = $(this).val();
                 if(id=='rien'){
@@ -409,6 +435,13 @@
                         {
                             $('#marque').prop('disabled', false);
                             $('#marque').html(result['options']);
+                            $('#caracteristiques').html(result['caracteristiques']);
+                            $('#couleurs').html(result['couleurs']);
+                            $('.couleur-radio').change(function () {
+                                $('.couleur-label').removeClass('couleur-label-checked');
+                                var label = $('label[for="' + $(this).attr('id') + '"]');
+                                label.addClass('couleur-label-checked');
+                            });
                         }
                     });
                 }
@@ -418,7 +451,6 @@
             Metronic.init(); // init metronic core componets
             Layout.init(); // init layout
             Demo.init(); // init demo(theme settings page)
-            ComponentsFormTools.init();
         });
     </script>
 {% endblock %}

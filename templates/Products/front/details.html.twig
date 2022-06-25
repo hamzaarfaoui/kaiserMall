@@ -139,7 +139,7 @@
             <ul class="breadcrumb">
                 <li><a href="{{ path('index_page') }}">Accueil</a></li>
                 <li><a href="{{ path('product_by_category', {slug:categorie.slug}) }}">{{categorie.name}}</a></li>
-                <li class="active">{{product.fullname}}</li>
+                <li class="active">{{product.fullname ? product.fullname : product.name}}</li>
             </ul>
         </div>
     </div>
@@ -188,7 +188,7 @@
                                     </span>
                                 {% endif %}
                             </div>
-                            <h1 class="product-name">{{ product.fullname }}</h1>
+                            <h1 class="product-name">{{product.fullname ? product.fullname : product.name}}</h1>
                             <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i> Ajouter au favoris</button>
                                     <br><br>
                             {#

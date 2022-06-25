@@ -1,10 +1,11 @@
-
+{% if(is_granted('ROLE_MARCHAND')) %}
 {% for store in stores %}
     <li class="menu-dropdown">
         <a href="{{ path('marchand_stores_details', {id:store.id}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
             Infos génerales </a>
     </li>
 {% endfor %}
+{% endif %}
 {% for store in stores %}
 <li class="menu-dropdown mega-menu-dropdown ">
     <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
@@ -29,12 +30,6 @@
 <li class="menu-dropdown">
     <a href="{{path('marchand_commandes_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Commandes </a>
-</li>
-{% endfor %}
-{% for store in stores %}
-<li class="menu-dropdown">
-    <a href="{{ path('marchand_stores_visuels', {id:store.id}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
-        Visuels </a>
 </li>
 {% endfor %}
 {% for store in stores %}

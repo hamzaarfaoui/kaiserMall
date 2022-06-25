@@ -83,7 +83,7 @@
                                             <i class="fa fa-check"></i> Valider
                                         </a>
                                     {% elseif(commande.status == 2) %}
-                                        <h2 style="color: #fff;background-color: green;padding: 10px;text-align: center">Vous avez validé cette commande</h2>
+                                        <h2 style="color: #fff;background-color: green;padding: 10px;text-align: center">Commande validée</h2>
                                     {% endif %}
                                     <h2>Prix : <b>{{montant}} TND</b></h2>
                                     <h2>Date : <b>Le {{commande.createdAt|date('d/m/Y')}} à {{commande.createdAt|date('H:i')}}</b></h2>

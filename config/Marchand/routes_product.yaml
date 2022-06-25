@@ -12,7 +12,7 @@ marchand_product_back_new:
 
 marchand_product_back_new_traitement:
     path: /new_traitement/{id}
-    controller: App\Controller\Front\Marchand\ProductsController::newnewProductTraitement     
+    controller: App\Controller\Front\Marchand\ProductsController::newProductTraitement     
     
 marchand_product_back_edit:
     path: /{id}/edit

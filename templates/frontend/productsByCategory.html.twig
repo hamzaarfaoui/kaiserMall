@@ -417,6 +417,7 @@ h5{
             success: function (data) {
                 console.log(data['range']);
                 $('#list-produits').html(data['products']);
+                paginateTable();
                 //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
             }
         });

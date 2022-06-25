@@ -20,7 +20,7 @@
             <div class="container">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="{{ path('index_page') }}"><img src="{{ asset('template/assets/admin/layout3/img/logo-default.png') }}" alt="logo" class="logo-default"></a>
+                    <a href="{{ path('index_page') }}"><img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default"></a>
                 </div>
                 <!-- END LOGO -->
                 <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -47,9 +47,11 @@
                 <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
                 <div class="hor-menu ">
                     <ul class="nav navbar-nav">
+                        {% if(is_granted('ROLE_MARCHAND')) %}
                         <li class="active">
                             <a href="{{ path('marchand_homepage') }}">Tableau de bord</a>
                         </li>
+                        {% endif %}
                         {{ render(controller(
                             'App\\Controller\\Front\\Marchand\\MarchandController::listStore'
                         )) }}
@@ -72,7 +74,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
                 <h2>à propos</h2>
                 <p>
-                    Votre tableau de bors pour piloter votre store dans EMOL.
+                    Votre tableau de bors pour piloter votre store dans Kaiser.
                 </p>
             </div>
             {#<div class="col-md-3 col-sm-6 col-xs12 footer-block">
@@ -91,8 +93,7 @@
             <div class="col-md-3 col-sm-9 col-xs-12 footer-block">
                 <h2>Contacts</h2>
                 <address class="margin-bottom-40">
-                    Télephone: 20 336 265<br>
-                    Email: <a href="mailto:hamzaarfaoui106@gmail.com">hamzaarfaoui106@gmail.com</a>
+                    Email: <a href="mailto:hamzaarfaoui106@gmail.com">administration@kaiser.tn</a>
                 </address>
             </div>
         </div>
@@ -102,7 +103,7 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
     <div class="container">
-        2020 &copy; Kaiser Mall. Tous les droits sont réservés.
+        {{ 'now' | date('Y') }} &copy; Kaiser. Tous les droits sont réservés.
     </div>
 </div>
 <div class="scroll-to-top">

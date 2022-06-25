@@ -42,6 +42,7 @@ function myFunction() {
     categories.style.display = "none";*/
   }
 }#}
+
 </script>
 <!-- jQuery Plugins -->
 <script src="{{ asset('e-shop/js/jquery.min.js') }}"></script>
@@ -51,5 +52,35 @@ function myFunction() {
 <script src="{{ asset('e-shop/js/jquery.zoom.min.js') }}"></script>
 <script src="{{ asset('e-shop/js/main.js') }}"></script>
 <script src="{{ asset('custom/js/adresse.js') }}"></script>
+<script src="{{ asset('custom/js/products-paginations.js') }}"></script>
+<script type="text/javascript">
+  function paginateTable() {
+    if( !$('.pagination').length ){
+      $('.store-filter .pull-right').html('<div class="pagination"></div>');
+    }
+      var rowsShown = 3;
+      var rowsTotal = $('.product-single').length;
+      var numPages = rowsTotal/rowsShown;
+      if(rowsTotal > 4){
+          for(i = 0;i < numPages;i++) {
+              var pageNum = i + 1;
+              $('.pagination').append('<li class="page-item"><a class="page-link" rel="'+i+'">'+pageNum+'</a> ');
+          }
+          $('#list-produits .col-md-3, #list-produits .col-sm-6, #list-produits .col-xs-6').hide();
+          $('#list-produits .col-md-3, #list-produits .col-sm-6, #list-produits .col-xs-6').slice(0, rowsShown).show();
+          $('.pagination .page-item:first').addClass('active');
+          $('.pagination a').bind('click', function(){
+
+              $('.pagination .page-item').removeClass('active');
+              $(this).parent().addClass('active');
+              var currPage = $(this).attr('rel');
+              var startItem = currPage * rowsShown;
+              var endItem = startItem + rowsShown;
+              $('#list-produits .col-md-3, #list-produits .col-sm-6, #list-produits .col-xs-6').css('opacity','0.0').hide().slice(startItem, endItem).
+              css('display','table-row').animate({opacity:1}, 300);
+          });
+      }
+  }
+</script>
 {% include 'frontend/cart/js.html.twig' %}
 

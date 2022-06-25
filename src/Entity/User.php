@@ -99,7 +99,7 @@ class User extends BaseUser
     /** @ORM\OneToMany(targetEntity="TelephonesUser", mappedBy="user") */
     protected $telephoneUser;
     
-    /** @ORM\ManyToOne(targetEntity="TelephonesUser") */
+    /** @ORM\ManyToOne(targetEntity="User") */
     protected $owner;
 
     /**      * @return mixed      */

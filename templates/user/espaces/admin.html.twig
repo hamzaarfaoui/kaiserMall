@@ -35,6 +35,106 @@
             <!-- END PAGE BREADCRUMB -->
             <!-- BEGIN PAGE CONTENT INNER -->
             <div class="row margin-top-10">
+                <div class="col-md-12 col-sm-12">
+                    <!-- BEGIN PORTLET-->
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption caption-md">
+                                <i class="icon-bar-chart theme-font-color hide"></i>
+                                <span class="caption-subject theme-font-color bold uppercase">Commandes</span>
+                            </div>
+                            <div class="actions">
+                                <div class="btn-group btn-group-devided" data-toggle="buttons">
+                                    <span class="col-2">
+                                        <input type="text" name="debg" max="{{deb}}" class="debg" placeholder="Date de début" {% if(deb) %}value="{{deb}}"{% endif %}>
+                                    </span>
+                                    <span class="col-2">
+                                        <input type="text" name="fing" max="{{fin}}" class="fing" placeholder="Date de fin" {% if(fin) %}value="{{fin}}"{% endif %}>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row number-stats margin-bottom-30">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="stat-left">
+                                        <div class="stat-chart">
+                                            <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
+                                            <div id="sparkline_bar"></div>
+                                        </div>
+                                        <div class="stat-number">
+                                            <div class="title">
+                                                Total
+                                            </div>
+                                            <div class="number">
+                                                2460
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="stat-right">
+                                        <div class="stat-chart">
+                                            <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
+                                            <div id="sparkline_bar2"></div>
+                                        </div>
+                                        <div class="stat-number">
+                                            <div class="title">
+                                                New
+                                            </div>
+                                            <div class="number">
+                                                719
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-scrollable table-scrollable-borderless">
+                                <table class="table table-hover table-light">
+                                    <thead>
+                                        <tr class="uppercase">
+                                            <th colspan="2">
+                                                MEMBER
+                                            </th>
+                                            <th>
+                                                Earnings
+                                            </th>
+                                            <th>
+                                                CASES
+                                            </th>
+                                            <th>
+                                                CLOSED
+                                            </th>
+                                            <th>
+                                                RATE
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="fit">
+                                            <img class="user-pic" src="{{ asset('template/assets/admin/layout3/img/avatar4.jpg') }}">
+                                        </td>
+                                        <td>
+                                            <a href="javascript:;" class="primary-link">Brain</a>
+                                        </td>
+                                        <td>
+                                            $345
+                                        </td>
+                                        <td>
+                                            45
+                                        </td>
+                                        <td>
+                                            124
+                                        </td>
+                                        <td>
+                                            <span class="bold theme-font-color">80%</span>
+                                        </td>
+                                    </tr>                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END PORTLET-->
+                </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="dashboard-stat2">
                         <div class="display">

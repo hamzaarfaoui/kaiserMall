@@ -1,6 +1,10 @@
 dashboard_banners_index:
     path: /list
     controller: App\Controller\Back\BannersController::listAction
+
+dashboard_banners_principales:
+    path: /principales
+    controller: App\Controller\Back\BannersController::principalesAction
     
 dashboard_banners_details:
     path: /{id}/details

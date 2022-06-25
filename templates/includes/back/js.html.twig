@@ -21,7 +21,20 @@
 <script type="text/javascript" src="{{asset('template/slick/slick.min.js')}}"></script>
 <script src="{{ asset('template/temp/assets/extra-libs/DataTables/datatables.min.js')}}"></script>
 <script>
-    
+    $( ".deb" ).datepicker({ dateFormat: 'dd-mm-yy',maxDate: 0,navigationAsDateFormat: true, nextText: 'Suiv >', prevText: '< Préc' }).bind("change",function(){
+        var minValue = $(this).val();
+        minValue = $.datepicker.parseDate("dd-mm-yy", minValue);
+        minValue.setDate(minValue.getDate());
+        $(".fin").datepicker( "option", "minDate", minValue );
+    })
+    $( ".fin" ).datepicker({ dateFormat: 'dd-mm-yy', maxDate: 0,navigationAsDateFormat: true, nextText: 'Suiv >', prevText: '< Préc' });
+    $( ".debg" ).datepicker({ dateFormat: 'dd-mm-yy',maxDate: 0,navigationAsDateFormat: true, nextText: 'Suiv >', prevText: '< Préc' }).bind("change",function(){
+        var minValue = $(this).val();
+        minValue = $.datepicker.parseDate("dd-mm-yy", minValue);
+        minValue.setDate(minValue.getDate());
+        $(".fing").datepicker( "option", "minDate", minValue );
+    })
+    $( ".fing" ).datepicker({ dateFormat: 'dd-mm-yy', maxDate: 0,navigationAsDateFormat: true, nextText: 'Suiv >', prevText: '< Préc' });
     $('#zero_config').DataTable({
         "language": {
             "zeroRecords": "Aucun résultat trouvé",

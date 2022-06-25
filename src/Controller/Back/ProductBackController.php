@@ -408,11 +408,11 @@ class ProductBackController extends Controller
         }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-            }
+        $valeurs = $request->get('valeurs');
+        foreach ($valeurs as $v){
+            $valeur = $dm->getRepository('App:Valeurs')->find($v);
+            $product->addValeur($valeur);
+            $dm->persist($product);
         }
         /*start keywords*/
         $keywords_input = $request->get('keywords');
@@ -425,14 +425,17 @@ class ProductBackController extends Controller
             $dm->persist($keyword);
             $product->addKeyword($keyword);
         }
-        
+        if($request->get('couleur')){
+            $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
+            $product->setCouleur($couleur);
+        }
         /*end kewords*/
         /*start Caractéristique valeur document*/
         $dm->persist($product);
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été ajoutée");
-        return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));
+        return $this->redirectToRoute('marchand_product_back_edit', array('id' => $product->getId()));
     }
     
     /*
@@ -474,6 +477,22 @@ class ProductBackController extends Controller
         $image = $dm->getRepository('App:MediasImages')->findOneBy(array('product'=>$id_product, 'name' => $name));
         $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));
         $dm->remove($image);
+        $dm->flush();
+        return new JsonResponse([
+            'message' => 'image supprimmé'
+        ]);
+    }
+    /*
+     * remove img from product
+     */
+    public function removeImgFromProductAction(Request $request, $id_product, $name)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $fileSystem = new Filesystem();
+        $product = $dm->getRepository('App:Products')->find($id_product);
+        $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$name, ''.$name.''));
+        $product->setImage(null);
+        $dm->persist($product);
         $dm->flush();
         return new JsonResponse([
             'message' => 'image supprimmé'
@@ -558,13 +577,16 @@ class ProductBackController extends Controller
         /*end promotion document*/
 		
 		/*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-                $valeur->addProduct($product);
-                $dm->persist($valeur);
-            }
+        /* remove products valeurs */
+        foreach ($product->getValeurs() as $valeur) {
+            $product->removeValeur($valeur);
+            $dm->persist($product);
+        }
+        /* add selected valeurs */
+        foreach ($valeurs as $v){
+            $valeur = $dm->getRepository('App:Valeurs')->find($v);
+            $product->addValeur($valeur);
+            $dm->persist($product);
         }
         
         /*start keywords*/
@@ -590,7 +612,7 @@ class ProductBackController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été modifié");
-        return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));
+        return $this->redirectToRoute('marchand_product_back_edit', array('id' => $product->getId()));
     }
     
     /*

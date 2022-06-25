@@ -96,7 +96,7 @@ class ProductsController extends Controller
     /*
      * New Product traitement
      */
-    public function newnewProductTraitement(Request $request, $id)
+    public function newProductTraitement(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
         $product = new Products();
@@ -178,14 +178,13 @@ class ProductsController extends Controller
         }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-                $valeur->addProduct($product);
-                $dm->persist($valeur);
-            }
+        $valeurs = $request->get('valeurs');
+        foreach ($valeurs as $v){
+            $valeur = $dm->getRepository('App:Valeurs')->find($v);
+            $product->addValeur($valeur);
+            $dm->persist($product);
         }
+
         /*start keywords*/
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);
@@ -199,13 +198,17 @@ class ProductsController extends Controller
         }
         
         /*end kewords*/
+        if($request->get('couleur')){
+            $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
+            $product->setCouleur($couleur);
+        }
         /*start Caractéristique valeur document*/
         $dm->persist($product);
         /*end store document*/
         
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été ajoutée");
-        return $this->redirectToRoute('marchand_product_details', array('id' => $product->getId()));
+        return $this->redirectToRoute('marchand_product_back_edit', array('id' => $product->getId()));
     }
     
     
@@ -219,21 +222,17 @@ class ProductsController extends Controller
         $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
         $medias = $dm->getRepository('App:MediasImages')->findBy(array('product' => $product));
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
-        $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
-        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
-        $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
-        $marques = $dm->getRepository('App:Marques')->findAll();
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $stores = $dm->getRepository('App:Stores')->findAll();
+        $couleurs = $dm->getRepository('App:couleurs')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         return $this->render('Products/marchand/edit.html.twig', array(
             'product' => $product,
             'categoriesMere' => $categoriesMere,
             'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
+            'couleurs' => $couleurs,
             'medias'=>$medias,
-            'sousCategories1' => $sousCategories1,
-            'sousCategories2' => $sousCategories2,
-            'marques' => $marques
                 ));
     }
     
@@ -245,34 +244,25 @@ class ProductsController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $product->setName($request->get('nom'));
+        $product->setFullName($request->get('nom'));
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        if($request->get('marque')){
-            $marque_id = $request->get('marque');
-            $marque = $dm->getRepository('App:Marques')->find($marque_id);
-            $product->setMarque($marque);
-        }
         
-        if($request->get('sc')){
-            $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
-            $product->setSousCategorie($sc);
-        }
+        $valeurs = $request->get('valeurs');
         /*start medias Images document*/
-        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
+        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name']) && count($_FILES["images"]['name']) > 0 && $_FILES["images"]["name"][0] != "") {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
-                if(isset($_FILES["images"]['name']) && !empty($_FILES['images']['name'][$count])){
                 
-                    $mediaImage = new MediasImages();
-                    $file = $_FILES['images']['name'][$count];
-                    $File_Ext = substr($file, strrpos($file, '.'));
-                    $fileName = md5(uniqid()) . $File_Ext;
-                    $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
-                    move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
-                    $mediaImage->setName($fileName);
-                    $mediaImage->setProduct($product);
-                    $dm->persist($mediaImage);
-                }
+                $mediaImage = new MediasImages();
+                $file = $_FILES['images']['name'][$count];
+                $File_Ext = substr($file, strrpos($file, '.'));
+                $fileName = md5(uniqid()) . $File_Ext;
+                $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
+                move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
+                $mediaImage->setName($fileName);
+                $mediaImage->setProduct($product);
+                $dm->persist($mediaImage);
             }
         }
         /*end medias Images document*/
@@ -302,13 +292,16 @@ class ProductsController extends Controller
         }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-                $valeur->addProduct($product);
-                $dm->persist($valeur);
-            }
+        /* remove products valeurs */
+        foreach ($product->getValeurs() as $valeur) {
+            $product->removeValeur($valeur);
+            $dm->persist($product);
+        }
+        /* add selected valeurs */
+        foreach ($valeurs as $v){
+            $valeur = $dm->getRepository('App:Valeurs')->find($v);
+            $product->addValeur($valeur);
+            $dm->persist($product);
         }
         
         /*start keywords*/
@@ -334,7 +327,7 @@ class ProductsController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été modifié");
-        return $this->redirectToRoute('marchand_product_details', array('id' => $product->getId()));
+        return $this->redirectToRoute('marchand_product_back_edit', array('id' => $product->getId()));
     }
     
     /*

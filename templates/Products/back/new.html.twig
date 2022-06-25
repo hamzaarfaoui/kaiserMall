@@ -31,14 +31,19 @@
         }
         .couleur-label{
             cursor: pointer;
-            height: 40px;
-            width: 40px;
+            height: 43px;
+            width: 43px;
+            padding-left: 3px;
+            padding-top: 3px;
         }
-        .couleur-label::before{
+        .couleur-label div::before{
+
+        }
+        .couleur-label div::after{
             content: '';
         }
         .couleur-label-checked{
-            border: 2px solid #39b54a;
+            border: 1px solid #000;
         }
     </style>
 {% endblock %}
@@ -444,6 +449,11 @@
                             $('#marque').html(result['options']);
                             $('#caracteristiques').html(result['caracteristiques']);
                             $('#couleurs').html(result['couleurs']);
+                            $('.couleur-radio').change(function () {
+                                $('.couleur-label').removeClass('couleur-label-checked');
+                                var label = $('label[for="' + $(this).attr('id') + '"]');
+                                label.addClass('couleur-label-checked');
+                            });
                         }
                     });
                 }
