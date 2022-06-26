@@ -121,6 +121,11 @@ class SousCategories
      */
     private $listesTitle;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $show_list_products;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -464,6 +469,18 @@ class SousCategories
     public function setListesTitle(?string $listesTitle): self
     {
         $this->listesTitle = $listesTitle;
+
+        return $this;
+    }
+
+    public function getShowListProducts(): ?int
+    {
+        return $this->show_list_products;
+    }
+
+    public function setShowListProducts(?int $show_list_products): self
+    {
+        $this->show_list_products = $show_list_products;
 
         return $this;
     }

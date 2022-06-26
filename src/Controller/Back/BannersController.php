@@ -35,11 +35,16 @@ class BannersController extends Controller
     /*
      * Banners 2 in front
      */
-    public function bannersCategorie($categorie)
+    public function bannersCategorie($id_categorie)
     {
         $dm = $this->getDoctrine()->getManager();
-        $banners = $dm->getRepository('App:Banners')->byCategorie($categorie);
-        return $this->render('Banners/front/banners.html.twig', array('banners' => $banners));
+        $categorie = $dm->getRepository('App:SousCategories')->find($id_categorie);
+        $banners = $dm->getRepository('App:Banners')->byCategorie($id_categorie);
+        $products = array();
+        if($categorie->getShowListProducts() == 1){
+            $products = $dm->getRepository('App:ListHasProducts')->byBanner($banners[0]['id']);
+        }
+        return $this->render('Banners/front/banners.html.twig', array('banners' => $banners, 'categorie' => $categorie, 'products' => $products));
     }
     
     /*

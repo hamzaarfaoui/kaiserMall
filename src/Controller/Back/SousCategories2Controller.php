@@ -131,6 +131,18 @@ class SousCategories2Controller extends Controller
         $dm->flush();
         return new JsonResponse(array('message' => 'categorie updated'));
     }
+    /*
+     * sousCategorie2 showBanners
+     */
+    public function sc2ShowListProducts(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
+        $categorie->setShowListProducts($request->get('show_list_products'));
+        $dm->persist($categorie);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'categorie updated'));
+    }
 
     /*
      * sousCategorie2 coulerus

@@ -5,7 +5,7 @@
     <!-- /section -->
     {% endif %}
     {% if(categorie.show_banners == 1) %}
-        {{ render(controller('App\\Controller\\Back\\BannersController::bannersCategorie', {categorie:categorie.id})) }}
+        {{ render(controller('App\\Controller\\Back\\BannersController::bannersCategorie', {id_categorie:categorie.id})) }}
     {% endif %}
 {% endfor %}
 

@@ -67,3 +67,6 @@ dashboard_sc2_show_products:
 dashboard_sc2_show_banners:
     path: /sc2_show_banners
     controller: App\Controller\Back\SousCategories2Controller::sc2ShowBanners    
+dashboard_sc2_show_list_products:
+    path: /sc2_show_list_products
+    controller: App\Controller\Back\SousCategories2Controller::sc2ShowListProducts    
