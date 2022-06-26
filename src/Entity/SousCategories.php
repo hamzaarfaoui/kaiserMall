@@ -116,6 +116,11 @@ class SousCategories
      */
     private $show_banners;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $listesTitle;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -447,6 +452,18 @@ class SousCategories
     public function setShowBanners(?bool $show_banners): self
     {
         $this->show_banners = $show_banners;
+
+        return $this;
+    }
+
+    public function getListesTitle(): ?string
+    {
+        return $this->listesTitle;
+    }
+
+    public function setListesTitle(?string $listesTitle): self
+    {
+        $this->listesTitle = $listesTitle;
 
         return $this;
     }

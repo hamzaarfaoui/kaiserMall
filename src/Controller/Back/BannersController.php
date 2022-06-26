@@ -159,6 +159,7 @@ class BannersController extends Controller
         
         $dm = $this->getDoctrine()->getManager();
         $banner = new Banners();
+        
         if($request->get('isThree') && $request->get('isThree')){
             $request->getSession()->getFlashBag()->add('danger', "La banniére vous devez choisir une option : 2 par ligne ou 3 par ligne");
             return $this->redirectToRoute('dashboard_product_details', array('id' => $product->getId()));
@@ -185,6 +186,8 @@ class BannersController extends Controller
             }else{
                 $banner->setImage($banner->getImage());
             }
+            $banner->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $banner->setFin(new \DateTime(''.$request->get('datefin').''));
             $productsList = new ProductsList();
             if($request->get('titre') && !empty($request->get('titre'))){
                 $productsList->setName($request->get('titre'));
@@ -195,7 +198,7 @@ class BannersController extends Controller
             $dm->flush();
             $request->getSession()->getFlashBag()->add('success', "La banniére a été ajoutée");
         }
-        return $this->redirectToRoute('dashboard_banners_details', array('id' => $banner->getId()));
+        return $this->redirectToRoute('dashboard_banners_edit', array('id' => $banner->getId()));
     }
     
     /*
@@ -229,6 +232,8 @@ class BannersController extends Controller
             );
             $banner->setImage($fileName);
         }
+        $banner->setDebut(new \DateTime(''.$request->get('datedebut').''));
+        $banner->setFin(new \DateTime(''.$request->get('datefin').''));
         if($request->get('titre') && !empty($request->get('titre'))){
             $productsList = $banner->getProductsList();
             $productsList->setName($request->get('titre'));
@@ -237,7 +242,7 @@ class BannersController extends Controller
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "La banniére a été modifiée");
         
-        return $this->redirectToRoute('dashboard_banners_index');
+        return $this->redirectToRoute('dashboard_banners_edit', array('id' => $banner->getId()));
     }
     
     /*

@@ -53,8 +53,12 @@ class BannersRepository extends ServiceEntityRepository
             ->Select('u.id', 'u.image', 'l.name', 'u.status', 'l.id AS id_list')
             ->leftJoin('u.productsList', 'l')
             ->where('u.sousCategories = :id')
+            ->andWhere('u.debut <= :deb')
+            ->andWhere('u.fin >= :fin')
             ->orderBy('u.position', 'ASC')
-            ->setParameter('id', $id);    
+            ->setParameter('id', $id)
+            ->setParameter('deb', date('Y-m-d H:i:s'))
+            ->setParameter('fin', date('Y-m-d H:i:s'));    
             
         
         return $qb->getQuery()->execute();

@@ -60,14 +60,23 @@
                                 <input type="hidden" name="categorie" value="{{categorie}}">
                                 <div class="form-body">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Titre</label>
+                                                <label class="control-label col-md-4">Titre</label>
                                                 <input type="text" class="form-control" name="titre">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <label class="control-label col-md-4">Début</label>
+                                            <input type="datetime-local" id="from" class="form-control" name="datedebut" placeholder="Date de début">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label col-md-4">Fin</label>
+                                            <input type="datetime-local" id="to" class="form-control" name="datefin" placeholder="Date de fin">
+                                        </div>
+                                        <div class="col-md-3">
                                             <div class="form-group">
+                                                <br>
                                                 <label class="control-label col-md-3">Status</label>
                                                 <input type="checkbox" checked class="make-switch" name="status" data-size="small">
                                             </div>
