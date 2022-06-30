@@ -57,26 +57,26 @@ class ProductsListRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->execute();
     }
-    public function getListesBySlider($slider)
+    public function getListesBySlider($slug)
     {
         $qb = $this->createQueryBuilder('u');
             $qb
             ->Select('u.name', 's.image AS slider')
             ->leftJoin('u.slider', 's')
-            ->where('u.slider = :slider')
-            ->setParameter('slider', $slider);
+            ->where('u.slug = :slug')
+            ->setParameter('slug', $slug);
         
         return $qb->getQuery()->execute();
     }
 
-    public function getListesByBanner($banner)
+    public function getListesByBanner($slug)
     {
         $qb = $this->createQueryBuilder('u');
             $qb
             ->Select('u.id', 'u.name', 'b.image AS banner')
             ->leftJoin('u.banner', 'b')
-            ->where('u.banner = :banner')
-            ->setParameter('banner', $banner);
+            ->where('u.slug = :slug')
+            ->setParameter('slug', $slug);
         
         return $qb->getQuery()->execute();
     }

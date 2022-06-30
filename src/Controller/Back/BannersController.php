@@ -42,7 +42,7 @@ class BannersController extends Controller
         $banners = $dm->getRepository('App:Banners')->byCategorie($id_categorie);
         $products = array();
         if(isset($categorie['show_list_products']) && $categorie['show_list_products'] == 1){
-            $products = $dm->getRepository('App:ListHasProducts')->byBanner($banners[0]['id']);
+            $products = $dm->getRepository('App:ListHasProducts')->byBanner($banners[0]['slug']);
         }
         return $this->render('Banners/front/banners.html.twig', array('banners' => $banners, 'categorie' => $categorie, 'products' => $products));
     }
@@ -72,12 +72,11 @@ class BannersController extends Controller
     /*
      * Banner details in front
      */
-    public function showInFront(Request $request, $id)
+    public function showInFront(Request $request, $slug)
     {
         $dm = $this->getDoctrine()->getManager();
-        $banner = $dm->getRepository('App:Banners')->find($id);
         $products_liste = array();
-        $find_products = $dm->getRepository('App:ListHasProducts')->byBanner($banner->getId());
+        $find_products = $dm->getRepository('App:ListHasProducts')->byBanner($slug);
         if(count($find_products) == 1){
             $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
             $query = array();
@@ -91,7 +90,7 @@ class BannersController extends Controller
         }
         
         $paginator  = $this->get('knp_paginator');
-        $listProducts = $dm->getRepository('App:ProductsList')->getListesByBanner($banner->getId())[0];
+        $listProducts = $dm->getRepository('App:ProductsList')->getListesByBanner($slug)[0];
         $list_ids = array();
         $products_price = array();
         foreach ($find_products as $p){
@@ -195,6 +194,19 @@ class BannersController extends Controller
             $banner->setFin(new \DateTime(''.$request->get('datefin').''));
             $productsList = new ProductsList();
             if($request->get('titre') && !empty($request->get('titre'))){
+                $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('titre'));
+
+                // Replace sequences of spaces with hyphen
+                $slug = preg_replace('/  */', '-', $slug);
+
+                // The above means "a space, followed by a space repeated zero or more times"
+                // (should be equivalent to / +/)
+
+                // You may also want to try this alternative:
+                $slug = preg_replace('/\\s+/', '-', $slug);
+                $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+                $productsList->setSlug($slug);
+                $productsList->setCouleur($request->get('couleur'));
                 $productsList->setName($request->get('titre'));
             }
             $productsList->setBanner($banner);
@@ -241,6 +253,19 @@ class BannersController extends Controller
         $banner->setFin(new \DateTime(''.$request->get('datefin').''));
         if($request->get('titre') && !empty($request->get('titre'))){
             $productsList = $banner->getProductsList();
+            $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('titre'));
+
+            // Replace sequences of spaces with hyphen
+            $slug = preg_replace('/  */', '-', $slug);
+
+            // The above means "a space, followed by a space repeated zero or more times"
+            // (should be equivalent to / +/)
+
+            // You may also want to try this alternative:
+            $slug = preg_replace('/\\s+/', '-', $slug);
+            $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+            $productsList->setSlug($slug);
+            $productsList->setCouleur($request->get('couleur'));
             $productsList->setName($request->get('titre'));
         }
         $dm->persist($banner);
@@ -259,6 +284,14 @@ class BannersController extends Controller
         $fileSystem = new Filesystem();
         $banner = $dm->getRepository('App:Banners')->find($id);
         $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$banner->getImage(), ''.$banner->getImage().''));
+        $listProducts = $dm->getRepository('App:ProductsList')->findOneBy(array('banner' => $id));
+        if($listProducts){
+            foreach ($listProducts->getListHasProducts() as $item) {
+                $dm->remove($item);
+            }
+            $dm->remove($listProducts);
+
+        }
         $dm->remove($banner);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "La banniére est supprimée");

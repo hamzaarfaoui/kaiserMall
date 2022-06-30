@@ -49,6 +49,16 @@ class ProductsList
      */
     private $listHasProducts;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $couleur;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->listHasProducts = new ArrayCollection();
@@ -145,6 +155,30 @@ class ProductsList
                 $listHasProduct->setListProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?string $couleur): self
+    {
+        $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

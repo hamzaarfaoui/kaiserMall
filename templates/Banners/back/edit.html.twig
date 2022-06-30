@@ -7,9 +7,11 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/typeahead/typeahead.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('spectrum/css/spectrum.css')}}" />
    {# <link href="{{ asset('template/bootstrapFileInput/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('template/bootstrapFileInput/themes/explorer-fa/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('spectrum/css/spectrum.css')}}" />
     #}<!-- END PAGE LEVEL STYLES -->
 {% endblock %}
 {% block title %}Tableau de bord | Nouvelle banniére{% endblock %}
@@ -92,6 +94,14 @@
                                                 <input type="checkbox" checked class="make-switch" name="status" data-size="small">
                                             </div>
                                         </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <br>
+                                                <label class="control-label col-md-3">Couleur</label>
+                                                <input type="text" name="couleur" class="couleur" id="newcolor" value="{{banner.productsList.couleur}}">
+                                            </div>
+                                        </div>
+                                        
                                         <div class="col-md-12">
                                             <label>Image</label> <br>
                                             <div class="file-loading">
@@ -115,6 +125,8 @@
 {% endblock %}
 {% block javascripts %}
     <!-- BEGIN PAGE LEVEL PLUGINS -->
+
+    <script type="text/javascript" src="{{ asset('spectrum/js/spectrum.js')}}"></script>
         <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bootstrapFileInput/js/fileinput.js') }}"></script>
     <script src="{{ asset('bootstrapFileInput/js/locales/fr.js') }}" type="text/javascript"></script>
@@ -131,6 +143,14 @@
     <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script>
+        $('.couleur').spectrum({
+            color: $('.couleur').val(),
+            showInput: true,
+            className: "full-spectrum",
+            showInitial: true,
+            showSelectionPalette: true,
+            preferredFormat: "hex",
+        });
         $("#kv-explorer").fileinput({
             'theme': 'explorer-fa',
             'uploadUrl': '#',
@@ -147,7 +167,6 @@
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features
-            TableAdvanced.init();
         });
     </script>
 {% endblock %}

@@ -35,12 +35,11 @@ class SlidersController extends Controller
     /*
      * Slider details in front
      */
-    public function showInFront(Request $request, $id)
+    public function showInFront(Request $request, $slug)
     {
         $dm = $this->getDoctrine()->getManager();
-        $slider = $dm->getRepository('App:Sliders')->find($id);
         $products_liste = array();
-        $find_products = $dm->getRepository('App:ListHasProducts')->bySlider($slider->getId());
+        $find_products = $dm->getRepository('App:ListHasProducts')->bySlider($slug);
         if(count($find_products) == 1){
             $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
             $query = array();
@@ -54,7 +53,7 @@ class SlidersController extends Controller
         }
         
         $paginator  = $this->get('knp_paginator');
-        $listProducts = $dm->getRepository('App:ProductsList')->getListesBySlider($slider->getId())[0];
+        $listProducts = $dm->getRepository('App:ProductsList')->getListesBySlider($slug)[0];
         
         foreach ($find_products as $p){
             $products_liste[] = $p;
@@ -116,6 +115,18 @@ class SlidersController extends Controller
         $productsList = new ProductsList();
         if($request->get('titre') && !empty($request->get('titre'))){
             $productsList->setName($request->get('titre'));
+            $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('titre'));
+
+            // Replace sequences of spaces with hyphen
+            $slug = preg_replace('/  */', '-', $slug);
+
+            // The above means "a space, followed by a space repeated zero or more times"
+            // (should be equivalent to / +/)
+
+            // You may also want to try this alternative:
+            $slug = preg_replace('/\\s+/', '-', $slug);
+            $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+            $productsList->setSlug($slug);
         }
         $productsList->setSlider($slider);
         $dm->persist($productsList);
@@ -159,6 +170,18 @@ class SlidersController extends Controller
         if($request->get('titre') && !empty($request->get('titre'))){
             $productsList = $slider->getProductsList();
             $productsList->setName($request->get('titre'));
+            $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('titre'));
+
+            // Replace sequences of spaces with hyphen
+            $slug = preg_replace('/  */', '-', $slug);
+
+            // The above means "a space, followed by a space repeated zero or more times"
+            // (should be equivalent to / +/)
+
+            // You may also want to try this alternative:
+            $slug = preg_replace('/\\s+/', '-', $slug);
+            $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+            $productsList->setSlug($slug);
         }
         $dm->persist($slider);
         $dm->flush();

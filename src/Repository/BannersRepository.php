@@ -50,17 +50,16 @@ class BannersRepository extends ServiceEntityRepository
     public function byCategorie($id)
     {
         $qb = $this->createQueryBuilder('u')
-            ->Select('u.id', 'u.image', 'l.name', 'u.status', 'l.id AS id_list')
+            ->Select('u.id', 'u.image', 'l.name', 'u.status', 'l.id AS id_list', 'l.slug', 'sc.show_products', 'sc.show_banners', 'sc.show_list_products', 'l.couleur')
             ->leftJoin('u.productsList', 'l')
+            ->leftJoin('u.sousCategories', 'sc')
             ->where('u.sousCategories = :id')
             ->andWhere('u.debut <= :deb')
             ->andWhere('u.fin >= :fin')
             ->orderBy('u.position', 'ASC')
             ->setParameter('id', $id)
             ->setParameter('deb', date('Y-m-d H:i:s'))
-            ->setParameter('fin', date('Y-m-d H:i:s'));    
-            
-        
+            ->setParameter('fin', date('Y-m-d H:i:s'));   
         return $qb->getQuery()->execute();
     }
     public function byCategorieBack($id)

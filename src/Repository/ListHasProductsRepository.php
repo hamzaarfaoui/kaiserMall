@@ -47,7 +47,7 @@ class ListHasProductsRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function bySlider($slider)
+    public function bySlider($slug)
     {
         $qb = $this->createQueryBuilder('u');
             $qb
@@ -55,14 +55,14 @@ class ListHasProductsRepository extends ServiceEntityRepository
             ->leftJoin('u.product', 'p')
             ->leftJoin('p.sousCategorie', 'sc')
             ->leftJoin('u.listProduct', 'l')
-            ->where('l.slider = :slider')
+            ->where('l.slug = :slug')
             ->orderBy('u.position', 'ASC')
-            ->setParameter('slider', $slider);    
+            ->setParameter('slug', $slug);    
             
         
         return $qb->getQuery()->execute();
     }
-    public function byBanner($banner)
+    public function byBanner($slug)
     {
         $qb = $this->createQueryBuilder('u');
             $qb
@@ -70,10 +70,10 @@ class ListHasProductsRepository extends ServiceEntityRepository
             ->leftJoin('u.product', 'p')
             ->leftJoin('p.sousCategorie', 'sc')
             ->leftJoin('u.listProduct', 'l')
-            ->where('l.banner = :banner')
+            ->where('l.slug = :slug')
             ->orderBy('u.position', 'ASC')
             ->groupBy('p.id')
-            ->setParameter('banner', $banner);    
+            ->setParameter('slug', $slug);    
             
         
         return $qb->getQuery()->execute();
