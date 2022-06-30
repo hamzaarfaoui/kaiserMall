@@ -1,10 +1,10 @@
 {% for categorie in sc2 %}
     <!-- section -->
-    {% if(categorie.show_products == 1) %}
+    {% if(categorie.show_products == 1 and categorie.show_list_products == 0) %}
     {{ render(controller('App\\Controller\\Front\\FrontController::productInIndex', {id:categorie.id})) }}
     <!-- /section -->
     {% endif %}
-    {% if(categorie.show_banners == 1) %}
+    {% if((categorie.show_banners == 1 or categorie.show_list_products == 1) and categorie.id > 0) %}
         {{ render(controller('App\\Controller\\Back\\BannersController::bannersCategorie', {id_categorie:categorie.id})) }}
     {% endif %}
 {% endfor %}

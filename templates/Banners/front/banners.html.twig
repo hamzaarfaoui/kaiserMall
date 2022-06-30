@@ -1,4 +1,4 @@
-{% if(categorie.getShowListProducts() == null or categorie.getShowListProducts() == 0) %}
+{% if((categorie.show_list_products == null or categorie.show_list_products == 0) and banners|length > 0) %}
 <div class="section-banners">
     <!-- row -->
     <div class="row">
@@ -17,7 +17,7 @@
     </div>
     <!-- /row -->
 </div>
-{% elseif(categorie.getShowListProducts() == 1 and products|length > 0) %}
+{% elseif(categorie.show_list_products != null and categorie.show_list_products == 1 and products|length > 0) %}
     {% set list_name = banners[0].name %}
     {% set banner = banners[0] %}
     <div class="section categorie-products">

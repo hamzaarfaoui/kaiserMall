@@ -209,7 +209,7 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->find($id);
-        $banners = $dm->getRepository('App:banners')->byCategorie($id);
+        $banners = $dm->getRepository('App:banners')->byCategorieBack($id);
         return $this->render('categories/sc2/banners.html.twig', array('banners' => $banners, 'categorie' => $categorie));
     }
 

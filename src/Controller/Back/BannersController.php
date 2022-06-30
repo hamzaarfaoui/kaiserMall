@@ -38,10 +38,10 @@ class BannersController extends Controller
     public function bannersCategorie($id_categorie)
     {
         $dm = $this->getDoctrine()->getManager();
-        $categorie = $dm->getRepository('App:SousCategories')->find($id_categorie);
+        $categorie = $dm->getRepository('App:SousCategories')->findOneInIndex($id_categorie)[0];
         $banners = $dm->getRepository('App:Banners')->byCategorie($id_categorie);
         $products = array();
-        if($categorie->getShowListProducts() == 1){
+        if(isset($categorie['show_list_products']) && $categorie['show_list_products'] == 1){
             $products = $dm->getRepository('App:ListHasProducts')->byBanner($banners[0]['id']);
         }
         return $this->render('Banners/front/banners.html.twig', array('banners' => $banners, 'categorie' => $categorie, 'products' => $products));

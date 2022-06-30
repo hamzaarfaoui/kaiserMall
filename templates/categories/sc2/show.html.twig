@@ -111,7 +111,7 @@
                                     <input type="checkbox" id="show_banners" data-id="{{categorie.id}}" {{categorie.show_banners != null and categorie.show_banners == 1 ? 'checked' : ''}}> Affichier les bannières<br> dans l'acceuil
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="checkbox" id="show_list_products" data-id="{{categorie.id}}" {{categorie.show_list_products != null and categorie.show_list_products == 1 ? 'checked' : ''}}> Affichier les bannières<br> dans l'acceuil
+                                    <input type="checkbox" id="show_list_products" data-id="{{categorie.id}}" {{categorie.show_list_products != null and categorie.show_list_products == 1 ? 'checked' : ''}}> Affichier les produits de la bannière<br> dans l'acceuil
                                 </div>
                                 <div class="col-md-2">
                                     <a href="{{ path('dashboard_sc2_banners', {id : categorie.id}) }}" class="btn btn-primary" style="float: right;">Bannières</a>

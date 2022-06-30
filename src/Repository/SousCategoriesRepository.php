@@ -68,9 +68,19 @@ class SousCategoriesRepository extends ServiceEntityRepository
     public function findInIndex()
     {
         $qb = $this->createQueryBuilder('u')
-                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner')
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner', 'u.show_list_products')
                 ->where('u.showInIndex = 1')
                 ->orderBy('u.orderInIndex', 'ASC');
+        return $qb->getQuery()->execute();
+    }
+    public function findOneInIndex($id)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner', 'u.show_list_products')
+                ->where('u.id = :id')
+                ->orderBy('u.orderInIndex', 'ASC')
+                ->setMaxResults(1)
+                ->setParameter(':id', $id);
         return $qb->getQuery()->execute();
     }
 }
