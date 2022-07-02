@@ -51,8 +51,11 @@ class SlidersRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
             $qb
-            ->Select('u.id', 'u.image', 'l.name AS list_name', 'l.id AS list_id', 'l.slug')
+            ->Select('u.id', 'u.image', 'l.name AS list_name', 'l.id AS list_id', 'l.slug', 'COUNT(p.id) as nb_products')
             ->leftJoin('u.productsList', 'l')
+            ->leftJoin('l.listHasProducts', 'p')
+            ->groupBy('l.id')
+            ->having('nb_products > 0')
             ->orderBy('u.ordre', 'ASC');
         
         return $qb->getQuery()->execute();

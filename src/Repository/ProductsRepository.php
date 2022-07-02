@@ -51,11 +51,14 @@ class ProductsRepository extends ServiceEntityRepository
     public function produitsLiees($params)
     {
         $qb = $this->createQueryBuilder('u')
-                ->where('u.slug != :slug')
-                ->andWhere('u.store = :store')
-                ->setMaxResults(4)
-                ->setParameter('slug', $params['slug'])
-                ->setParameter('store', $params['store']);
+                ->where('u.slug != :slug');
+        if(isset($params['store'])){
+            $qb->andWhere('u.store = :store')
+            ->setParameter('store', $params['store']);
+        }
+                
+                $qb->setMaxResults(4)
+                ->setParameter('slug', $params['slug']);
 
         return $qb->getQuery()->execute();
     }

@@ -41,11 +41,22 @@ class CommandesRepository extends ServiceEntityRepository
  ->getSingleScalarResult();
     }
     
-    public function listeInDash()
+    public function listeInDash($params)
     {
-        $qb = $this->createQueryBuilder('u')
-                ->orderBy('u.createdAt', 'desc')
-                ->setMaxResults(6);
+        $qb = $this->createQueryBuilder('u');
+        
+        if(isset($params['this_month'])){
+            $month = date('m');
+            $qb->select('DAY(u.createdAt) as day_cmd','COUNT(u.id) as nb_cmd')
+            ->where('MONTH(u.createdAt) = :month')
+            ->groupBy('day_cmd')
+            ->setParameter('month', $month);
+        }
+        if(isset($params['this_year'])){
+            $qb->select('MONTH(u.createdAt) as month_cmd','COUNT(u.id) as nb_cmd')
+            ->groupBy('month_cmd');
+        }
+            
         return $qb->getQuery()->execute();
     }
     // /**

@@ -13,6 +13,8 @@ class UserController extends Controller
     public function dashboard()
     {
         $dm = $this->getDoctrine()->getManager();
+        $params = array('this_month' => true);
+        $commandes = $dm->getRepository('App:Commandes')->listeInDash($params);
         $nombreCmdValide = $dm->getRepository('App:Commandes')->nombreCmdValide();
         $nombreCmdEnCours = $dm->getRepository('App:Commandes')->nombreCmdEnCours();
         $deb = date("d-m-Y");
@@ -20,6 +22,7 @@ class UserController extends Controller
         return $this->render('user/espaces/admin.html.twig',array(
             'nombre_commandes_valide' => $nombreCmdValide,
             'nombre_commandes_en_cours' => $nombreCmdEnCours,
+            'commandes' => $commandes,
             'deb' => $deb,
             'fin' => $fin
         ));

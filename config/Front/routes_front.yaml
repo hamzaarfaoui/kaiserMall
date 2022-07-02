@@ -65,11 +65,11 @@ livraison_page:
     controller: App\Controller\Front\CartController::livraison    
     
 slider_front_details:
-    path: /{slug}
+    path: /offres/{slug}
     controller: App\Controller\Back\SlidersController::showInFront    
     
 banner_front_details:
-    path: /{slug}
+    path: /nouveautes/{slug}
     controller: App\Controller\Back\BannersController::showInFront    
     
 new_products:
