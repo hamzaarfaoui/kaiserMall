@@ -52,21 +52,12 @@
                                 <span class="caption-subject theme-font-color bold uppercase">Commandes</span>
                             </div>
                             <div class="actions">
-                                <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                    <label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-                                        <input type="radio" name="options" class="toggle" id="today">Ce mois ci</label>
-                                    <label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-                                        <input type="radio" name="options" class="toggle" id="option2">Cette année</label>
-                                    <span class="col-2">
-                                        <input type="text" name="debg" max="{{deb}}" class="debg" placeholder="Date de début" {% if(deb) %}value="{{deb}}"{% endif %} class="form-control">
-                                    </span>
-                                    <span class="col-2">
-                                        <input type="text" name="fing" max="{{fin}}" class="fing" placeholder="Date de fin" {% if(fin) %}value="{{fin}}"{% endif %} class="form-control">
-                                    </span>
-                                    <span class="col-2">
-                                        <button type="button" id="by_period" class="btn btn-sm btn-primary">Filtrer</button>
-                                    </span>
-                                </div>
+                                <select id="filter" class="form-control">
+                                    <option value="this_year">Cette année</option>
+                                    {% for k,month in months %}
+                                        <option value="{{k}}">{{month}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -1640,34 +1631,67 @@
 <script src="{{ asset('template/assets/global/plugins/jquery.sparkline.min.js') }}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <script type="text/javascript" src="{{ asset('custom/js/loader.js') }}"></script>
+<script type="text/javascript" src="{{ asset('custom/js/dash.js') }}"></script>
 <script>
+
 google.charts.load('current',{packages:['corechart']});
 google.charts.setOnLoadCallback(drawChart);
+    $(document).ready(function () {
+        $('#filter').change(function (argument) {
+            var filter = $(this).val();
+            var url = '{{ path('dashboard_cmd_filter', {'filter': 'valeurselectionnee'}) }}';
+            url = url.replace("valeurselectionnee", filter);
+            $.ajax({
 
+                url: url,
+                method: "GET",
+                error: function ()
+                {
+                    alert('une erreur');
+                },
+                beforeSend: function ()
+                {
+                    
+                },
+                success: function (data)
+                {
+                    if(data.result.length > 1){
+                        createChart(data.result)
+                    }
+                }
+            });
+        });
+    });
+function createChart(result) {
+    console.log(result);
+    var data = new google.visualization.arrayToDataTable(result);
+    // Set Options
+    var options = {
+      title: '',
+      hAxis: {title: 'Mois'},
+      vAxis: {title: ''},
+      legend: 'none'
+    };
+    // Draw
+    var chart = new google.visualization.LineChart(document.getElementById('myChart'));
+    chart.draw(data, options);
+}
 function drawChart() {
 // Set Data
 var data = google.visualization.arrayToDataTable([
   ['Price', 'Commandes'],
-  {% for commande in commandes %}
-  [{{commande.nb_cmd|number_format}}, {{commande.day_cmd|number_format}}],
-  {% endfor %}
+  {{commandes|raw}}
 ]);
-var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
 // Set Options
 var options = {
-  hAxis: {title: 'Jour'},
-  vAxis: {title: 'Commandes'},
+  title: '',
+  hAxis: {title: 'Mois'},
+  vAxis: {title: ''},
   legend: 'none'
 };
 // Draw
 var chart = new google.visualization.LineChart(document.getElementById('myChart'));
-chart.draw(view, options);
+chart.draw(data, options);
 }
 </script>
 <script>

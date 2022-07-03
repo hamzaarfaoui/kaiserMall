@@ -9,3 +9,4 @@ admin_check:
 admin_logout:
     path:  /logout
     defaults: { _controller: FOSUserBundle:Security:logout } 
+ 

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Products;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
 {
@@ -13,8 +15,13 @@ class UserController extends Controller
     public function dashboard()
     {
         $dm = $this->getDoctrine()->getManager();
-        $params = array('this_month' => true);
+        $params = array('this_year' => true);
         $commandes = $dm->getRepository('App:Commandes')->listeInDash($params);
+        $commandes_chart = "";
+        $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
+        foreach ($commandes as $key => $commande) {
+            $commandes_chart .= "['".$months[$commande['date_cmd']]."', ".intval($commande['nb_cmd'])."],";
+        }
         $nombreCmdValide = $dm->getRepository('App:Commandes')->nombreCmdValide();
         $nombreCmdEnCours = $dm->getRepository('App:Commandes')->nombreCmdEnCours();
         $deb = date("d-m-Y");
@@ -22,10 +29,33 @@ class UserController extends Controller
         return $this->render('user/espaces/admin.html.twig',array(
             'nombre_commandes_valide' => $nombreCmdValide,
             'nombre_commandes_en_cours' => $nombreCmdEnCours,
-            'commandes' => $commandes,
+            'commandes' => $commandes_chart,
             'deb' => $deb,
-            'fin' => $fin
+            'fin' => $fin,
+            'months' => $months
         ));
+    }
+
+    /*
+    * filterCommandes
+    */
+    public function filterCommandes(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $filter = $request->get('filter') == "this_year" ? array('this_year' => true) : ['month' => $request->get('filter')];
+        $commandes = $dm->getRepository('App:Commandes')->listeInDash($filter);
+        $commandes_chart = array(['Price', 'Commandes']);
+        if($request->get('filter') == "this_year"){
+            $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
+            foreach ($commandes as $key => $commande) {
+                $commandes_chart[] = [$months[$commande['date_cmd']], intval($commande['nb_cmd'])];
+            }
+        }else{
+            foreach ($commandes as $key => $commande) {
+                $commandes_chart[] = [$commande['date_cmd'], intval($commande['nb_cmd'])];
+            }
+        }
+        return new JsonResponse(array('result' => $commandes_chart));
     }
     
     /*

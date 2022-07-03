@@ -45,16 +45,16 @@ class CommandesRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
         
-        if(isset($params['this_month'])){
-            $month = date('m');
-            $qb->select('DAY(u.createdAt) as day_cmd','COUNT(u.id) as nb_cmd')
-            ->where('MONTH(u.createdAt) = :month')
-            ->groupBy('day_cmd')
-            ->setParameter('month', $month);
-        }
+        
         if(isset($params['this_year'])){
-            $qb->select('MONTH(u.createdAt) as month_cmd','COUNT(u.id) as nb_cmd')
-            ->groupBy('month_cmd');
+            $qb->select('MONTH(u.createdAt) as date_cmd','COUNT(u.id) as nb_cmd')
+            ->groupBy('date_cmd');
+        }else{
+            $month = $params['month'];
+            $qb->select('DAY(u.createdAt) as date_cmd','COUNT(u.id) as nb_cmd')
+            ->where('MONTH(u.createdAt) = :month')
+            ->groupBy('date_cmd')
+            ->setParameter('month', $month);
         }
             
         return $qb->getQuery()->execute();

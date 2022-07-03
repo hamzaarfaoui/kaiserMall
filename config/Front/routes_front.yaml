@@ -79,4 +79,7 @@ new_products:
 products_in_promotion:
     path: /products_in_promotion
     controller: App\Controller\Front\ProductController::productsInPromotion    
+dashboard_cmd_filter:
+    path:  /filter/commandes
+    controller: App\Controller\UserController::filterCommandes
     
