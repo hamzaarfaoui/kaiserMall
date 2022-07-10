@@ -93,7 +93,16 @@
                                 <!-- /Cart -->
 
                                 <!-- Mobile nav toggle-->
+                                <button class="search-btn"><i class="fa fa-search"></i></button>
+                                <form action="{{ path('search_result') }}" method="post">
+                                    <div class="search-popup">
+                                        <input class="input search-input" name="search" required="true" type="text" placeholder="Que chercher vous" style="padding-left: 20px;">
+
+                                        <button type="submit" class="search-btn-form"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
                                 <li class="nav-toggle">
+                                    
                                     <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
                                 </li>
                                 <!-- / Mobile nav toggle -->

@@ -195,7 +195,7 @@ text-transform: capitalize;}
     
 background-color: #fff;
     
-padding-top: 20px;
+padding-top: 15px;
     
 width: 94%;
     
@@ -641,18 +641,18 @@ height: 291px;
         height: 57px;
         /* display: none; */
         /* display: inline-block; */
-        margin-top: -14px;
+        margin-top: -49px;
     }
     .header-logo .logo>img {
         width: 100%;
-        height: 21px;
+        height: 44px;
         /* max-height: 46px; */
     }
     #header .categories{
         display: none;
     }
     #header{
-        height: 71px;
+        height: 60px;
         z-index: 999;
         position: fixed;
         top: 0;
@@ -679,19 +679,17 @@ height: 291px;
         width: 100px;
     }
     .search-input{
-        width: 80%;
+        width: 75%;
         height: 40px;
+        position: relative;
         font-size: 16px !important;
         padding-right: inherit !important;
         display: inline-block;
         padding-left: 8px !important;
+        left: -15px;
+        border-radius: 17px 0px 0px 17px;
     }
-    .header-search>form .search-btn {
-        width: 19%;
-        height: 40px;
-        display: inline-block;
-        font-size: 15px;
-    }
+    
     .product.product-details .product-name{
 
     font-size: 26px;
@@ -1034,8 +1032,9 @@ height: 291px;
     .header-logo{
         margin-right: inherit;
         /* width: 13%; */
-        top: 0;
+        top: 10px;
         position: relative;
+        left: 9px;
     }
     .header-search>form .search-input::placeholder {
           font-size: 0.8em;
@@ -1106,12 +1105,7 @@ height: 291px;
     .header-cart .text-uppercase{
         display: none;
     }
-    .search-bloc{
-        
-        padding-right: 0;
-                
-        padding-left: 17px;
-    }
+    
     .header-btns-bloc{
         
         padding-left: 0;
@@ -1122,11 +1116,16 @@ height: 291px;
     }
     .header-btns .main-btn{
 
-    position: fixed;
+position: fixed;
 
-    right: 60px;
+right: 62px;
 
-    }
+border-radius: 57px;
+
+width: 40px;
+
+padding: 2px 14px;
+}
     .category-pc{
         display: none !important;
     }
@@ -1191,6 +1190,9 @@ height: 291px;
 
 
 @media screen and (min-width: 991px){
+    .search-popup{
+        display: none;
+    }
     .title-list-products{
         position: relative;
         top: 47px;
@@ -1642,7 +1644,7 @@ height: 291px;
         display: none;
     }
 }
-@media screen and (max-width: 750){
+@media screen and (max-width: 750px){
 
     .header-search{
         max-width: 605px;
@@ -1656,6 +1658,94 @@ height: 291px;
     }
     .register-link{
         width: 100%;
+    }
+    .categorie-products-container .product.product-single, .categorie-products-container .product.product-single.product-hot {
+        height: 255px !important;
+    }
+    .categorie-products-container .product.product-single.product-hot-promotion{
+        height: 255px !important;
+    }
+    .header-search{
+        
+        /*padding-right: 0;
+                
+        padding-left: 17px;*/
+        display: none;
+    }
+    .search-btn{
+
+    position: fixed;
+
+    right: 94px !important;
+
+    float: left;
+
+    top: 10px;
+
+    margin-right: 15px;
+
+    width: 40px;
+
+    height: 40px;
+
+    line-height: 40px;
+
+    text-align: center;
+
+    border-radius: 57px;
+
+    color: #30323A;
+
+    background-color: #FFF;
+
+    border: 1px solid #DADADA;
+    }
+    .search-btn-form{
+
+    background-color: #39b54a;
+
+    border: 1px solid #39b54a;
+
+    color: #FFF;
+
+    position: relative;
+
+    right: 19px;
+
+    height: 40px;
+
+    width: 40px;
+
+    top: -1px;
+
+    border-radius: 0px 17px 17px 0px;
+}
+    .header-btns>li .header-btns-icon{
+        border-radius: 57px;
+    }
+    .header-cart .header-btns-icon .qty{
+        
+        right: -5px;
+                
+        top: -7px;
+    }
+    .search-popup {
+        display: none;
+        position: fixed;
+        height: 67px;
+        width: 97.7%;
+        left: 4px;
+        top: 60px;
+        background-color: #FFF;
+        padding-top: 14px;
+        border-radius: 17px;
+        box-shadow: 0px 1px 4px -1px #757575;
+    }
+    .header-search>form .search-btn {
+        width: 19%;
+        height: 40px;
+        display: inline-block;
+        font-size: 15px;
     }
 }
 @media screen and (min-width: 450px) and (max-width: 750px){

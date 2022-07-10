@@ -2,11 +2,6 @@
 {% block title %}Produits{% endblock %}
 {% block stylesheets %}
     <style>
-        #store{
-            width: 1348px;
-            position: relative;
-            right: 9%;
-        }
     </style>
 {% endblock %}
 {% block body %}
@@ -227,7 +222,7 @@
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-6 col-xs-6">
-                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
                                         <div class="product-thumb">
                                             <div class="product-label">
                                                 {% if(product.createdAt != null) %}
