@@ -55,8 +55,13 @@ class ListHasProductsRepository extends ServiceEntityRepository
             ->leftJoin('u.product', 'p')
             ->leftJoin('p.sousCategorie', 'sc')
             ->leftJoin('u.listProduct', 'l')
-            ->where('l.slug = :slug')
+            ->leftJoin('p.store', 's')
+            ->where('s.debutOffre <= :deb')
+            ->andWhere('s.finOffre >= :fin')
+           ->andWhere('l.slug = :slug')
             ->orderBy('u.position', 'ASC')
+            ->setParameter('deb', date('Y-m-d H:i:s'))
+            ->setParameter('fin', date('Y-m-d H:i:s'))
             ->setParameter('slug', $slug);    
             
         
@@ -70,9 +75,14 @@ class ListHasProductsRepository extends ServiceEntityRepository
             ->leftJoin('u.product', 'p')
             ->leftJoin('p.sousCategorie', 'sc')
             ->leftJoin('u.listProduct', 'l')
-            ->where('l.slug = :slug')
+            ->leftJoin('p.store', 's')
+            ->where('s.debutOffre <= :deb')
+            ->andWhere('s.finOffre >= :fin')
+           ->andWhere('l.slug = :slug')
             ->orderBy('u.position', 'ASC')
             ->groupBy('p.id')
+            ->setParameter('deb', date('Y-m-d H:i:s'))
+            ->setParameter('fin', date('Y-m-d H:i:s'))
             ->setParameter('slug', $slug);    
             
         

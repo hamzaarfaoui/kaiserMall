@@ -125,6 +125,21 @@
                                                         <input type="email" class="form-control" name="email" placeholder="" value="{{store.marchand.user.email}}">
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label col-md-4">Prix</label>
+                                                        <input type="number" id="from" class="form-control" name="prix" placeholder="Prix" required="true" value="{{store.prix}}">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label col-md-4">Début</label>
+                                                        <input type="datetime-local" id="from" class="form-control" name="datedebut" placeholder="Date de début" value="{{store.debutOffre|date('Y-m-d H:i')}}" required="true">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label col-md-4">Fin</label>
+                                                        <input type="datetime-local" id="to" class="form-control" name="datefin" placeholder="Date de fin" value="{{store.finOffre|date('Y-m-d H:i')}}" required="true">
+                                                    </div>
+                                                </div>   
+                                                <br><br>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab_meta">

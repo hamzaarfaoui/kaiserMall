@@ -96,6 +96,21 @@ class Stores
      */
     private $banners;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prix;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $debutOffre;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $finOffre;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -380,6 +395,42 @@ class Stores
                 $banner->setStore(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrix(): ?int
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(?int $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getDebutOffre(): ?\DateTimeInterface
+    {
+        return $this->debutOffre;
+    }
+
+    public function setDebutOffre(?\DateTimeInterface $debutOffre): self
+    {
+        $this->debutOffre = $debutOffre;
+
+        return $this;
+    }
+
+    public function getFinOffre(): ?\DateTimeInterface
+    {
+        return $this->finOffre;
+    }
+
+    public function setFinOffre(?\DateTimeInterface $finOffre): self
+    {
+        $this->finOffre = $finOffre;
 
         return $this;
     }

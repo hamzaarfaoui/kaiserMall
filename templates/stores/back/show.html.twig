@@ -80,16 +80,21 @@
                                 {% endif %}
                                 <h3>Propriétaire</h3>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <b>Nom & prenom : </b>{{store.marchand.user.nom}} {{store.marchand.user.prenom}}
                                         <br><br>
                                         <b>Numéro du registre commerciale : </b>{{store.marchand.nrc}}
                                         <br><br>
                                         <b>Matricule discale : </b>{{store.marchand.matriculeFiscale}}
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <b>Username : </b>{{store.marchand.user.username}}<br><br>
                                         <b>Email : </b>{{store.marchand.user.email}}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <b>Offre : </b>{{store.prix}} DT<br><br>
+                                        <b>Début : </b>{{store.debutOffre|date('d/m/Y H:i')}}<br><br>
+                                        <b>Fin : </b>{{store.finOffre|date('d/m/Y H:i')}}
                                     </div>
                                 </div>
                                     <hr>

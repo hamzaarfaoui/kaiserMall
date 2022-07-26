@@ -16,7 +16,8 @@ class UserController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $params = array('this_year' => true);
-        $commandes = $dm->getRepository('App:Commandes')->listeInDash($params);
+        $commandes = $dm->getRepository('App:Factures')->listeInDash($params);
+        $categories = $dm->getRepository('App:CategoriesMere')->liste();
         $commandes_chart = "";
         $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
         foreach ($commandes as $key => $commande) {
@@ -30,6 +31,7 @@ class UserController extends Controller
             'nombre_commandes_valide' => $nombreCmdValide,
             'nombre_commandes_en_cours' => $nombreCmdEnCours,
             'commandes' => $commandes_chart,
+            'categories' => $categories,
             'deb' => $deb,
             'fin' => $fin,
             'months' => $months
@@ -42,20 +44,37 @@ class UserController extends Controller
     public function filterCommandes(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
-        $filter = $request->get('filter') == "this_year" ? array('this_year' => true) : ['month' => $request->get('filter')];
-        $commandes = $dm->getRepository('App:Commandes')->listeInDash($filter);
+        $filter = $request->get('period') == "this_year" ? array('this_year' => true) : ['month' => $request->get('period')];
+        $filter['bymarchand'] = $request->get('bymarchand') == 'true' ? true : false;
+        $filter['bycategory'] = $request->get('bycategory') == 'true' ? true : false;
+        $commandes = $dm->getRepository('App:Factures')->listeInDash($filter);
         $commandes_chart = array(['Price', 'Commandes']);
-        if($request->get('filter') == "this_year"){
-            $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
+        $months = ['1' => 'Janvier', '2' => 'Février', '3' => 'Mars', '4' => 'Avril', '5' => 'Mai', '6' => 'Juin', '7' => 'Juillet', '8' => 'Août', '9' => 'Séptembre', '10' => 'octobre', '11' => 'Novembre', '12' => 'Décembre'];
+        
+        $entity = "";
+        if($request->get('period') == "this_year" && $request->get('bymarchand') == 'false' && $request->get('bycategory') == 'false'){
+            $entity = "Mois";
             foreach ($commandes as $key => $commande) {
                 $commandes_chart[] = [$months[$commande['date_cmd']], intval($commande['nb_cmd'])];
             }
-        }else{
+        }
+        if($request->get('period') != "this_year" && $request->get('bymarchand') == 'false' && $request->get('bycategory') == 'false'){
+            $entity = $months[$filter['month']];
             foreach ($commandes as $key => $commande) {
                 $commandes_chart[] = [$commande['date_cmd'], intval($commande['nb_cmd'])];
             }
         }
-        return new JsonResponse(array('result' => $commandes_chart));
+        if($request->get('bymarchand') == 'true' && $request->get('bycategory') == 'false'){
+            $entity = 'Marchands';
+            $commandes_chart = array(['Marchand', 'Commandes']);
+            foreach ($commandes as $key => $commande) {
+                $commandes_chart[] = [$commande['marchand'], intval($commande['nb_cmd'])];
+            }
+        }
+        if($request->get('bymarchand') == 'false' && $request->get('bycategory') == 'true'){
+            $entity = 'Categories';
+        }
+        return new JsonResponse(array('commandes' => $commandes_chart, 'entity' => $entity));
     }
     
     /*

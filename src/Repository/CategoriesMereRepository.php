@@ -47,4 +47,10 @@ class CategoriesMereRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function liste()
+    {
+        $qb = $this->createQueryBuilder('u')
+        ->select('u.id, u.name');
+        return $qb->getQuery()->execute();
+    }
 }

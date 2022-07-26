@@ -102,6 +102,9 @@ class StoresBackController extends Controller
         $store->setName($request->get('storenom'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
+        $store->setPrix($request->get('prix'));
+        $store->getFinOffre(new \DateTime(''.$request->get('datedebut').''));
+        $store->setFinOffre(new \DateTime(''.$request->get('datefin').''));
         if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"])) {
             $file = $_FILES["couvertureC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
@@ -197,6 +200,9 @@ class StoresBackController extends Controller
         $store->setName($request->get('storenom'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
+        $store->setPrix($request->get('prix'));
+        $store->setDebutOffre(new \DateTime(''.$request->get('datedebut').''));
+        $store->setFinOffre(new \DateTime(''.$request->get('datefin').''));
         if (isset($_FILES["couvertureC"]["name"]) && !empty($_FILES["couvertureC"]["name"])) {
             $file = $_FILES["couvertureC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));

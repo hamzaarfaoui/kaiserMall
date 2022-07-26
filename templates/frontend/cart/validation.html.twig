@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody class="table-list-products-in-cart">
-                                    {% for product in commande.facture.product %}
+                                    {% for product in commande.facture.products %}
                                         <tr>
                                             <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
                                             <td class="details">

@@ -1190,6 +1190,9 @@ padding: 2px 14px;
 
 
 @media screen and (min-width: 991px){
+    .header-btns .search-btn{
+        display: none;
+    }
     .search-popup{
         display: none;
     }

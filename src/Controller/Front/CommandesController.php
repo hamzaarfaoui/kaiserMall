@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Commandes;
+use App\Entity\Factures;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommandesController extends Controller
@@ -25,6 +26,7 @@ class CommandesController extends Controller
         
         foreach($products as $product)
         {
+            
             $prix = $product->getPricePromotion()?$product->getPricePromotion():$product->getPrice() ;
             //$prixTTC = ($product->getPrixunitaireht() * $panier[$product->getId()] / $product->getTva()->getMultiplicate());
             $total += $prix * $panier[$product->getId()];
@@ -35,17 +37,19 @@ class CommandesController extends Controller
 //            else
 //            {$commande['tva']['%'.$produit->getTva()->getValeur()] += round($prixTTC - $prixHT,2);}
             $prixPromotion = $product->getPricePromotion() ? round($product->getPricePromotion(), 3) : round($product->getPrice(), 3);
-            $commande['product'][$product->getId()] = array(
+            $commande['products'][$product->getId()] = array(
                 'id' => $product->getId(),
                 'image' => $product->getImage(),
                 'name' => $product->getName(),
                 'quantite' => $panier[$product->getId()],
                 'slug' => $product->getSlug(),
                 'price' => $prixPromotion,
-                'vendeur' => $product->getStore()?$product->getStore()->getName():'SINDBAD',
+                'vendeur' => $product->getStore()?$product->getStore()->getName():'Kaiser',
                 'id_vendeur' => $product->getStore()?$product->getStore()->getId():''
                 //'prixTTC' => round($produit->getPrixunitaireht() / $produit->getTva()->getMultiplicate(),2)
                 );
+            
+
         }  
         
         $commande['livraison'] = array(
@@ -87,7 +91,20 @@ class CommandesController extends Controller
         $commande->setFacture($this->facture($request));
         
         $dm->persist($commande);
-            
+        $session = $request->getSession();
+        $panier = $session->get('panier');
+        $products = $dm->getRepository('App:Products')->findArray(array_keys($session->get('panier')));
+        foreach ($products as $product) {
+            $prixPromotion = $product->getPricePromotion() ? round($product->getPricePromotion(), 3) : round($product->getPrice(), 3);
+            $facture = new Factures();
+            $facture->setPrice($prixPromotion);
+            $facture->setQte($panier[$product->getId()]);
+            $facture->setMarchand($product->getStore());
+            $facture->setClient($this->getUser());
+            $facture->setProduct($product);
+            $facture->setCommande($commande);
+            $dm->persist($facture);
+        }
         
         $dm->flush();
         return new Response($commande->getId());

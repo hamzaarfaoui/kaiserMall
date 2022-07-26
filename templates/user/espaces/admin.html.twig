@@ -52,12 +52,55 @@
                                 <span class="caption-subject theme-font-color bold uppercase">Commandes</span>
                             </div>
                             <div class="actions">
-                                <select id="filter" class="form-control">
-                                    <option value="this_year">Cette année</option>
-                                    {% for k,month in months %}
-                                        <option value="{{k}}">{{month}}</option>
-                                    {% endfor %}
-                                </select>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalFilterCmd">Filtrer</button>
+                                <div class="modal fade" id="modalFilterCmd" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                              <h4 class="modal-title">Filtre Commandes</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>Global</h3>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <select id="filterCmdGlobal" class="form-control">
+                                                            <option value="this_year">Cette année</option>
+                                                            {% for k,month in months %}
+                                                                <option value="{{k}}">{{month}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <select class="filter-by form-control">
+                                                            <option value="0">Sélectionner</option>
+                                                            <option value="1">Par marchand</option>
+                                                            <option value="2">Par catégorie</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-sm-6" id="categoriesMereBloc" style="display: none;">
+                                                        <select class="categoriesMere form-control">
+                                                            {% for category in categories %}
+                                                                <option value="{{category.id}}">{{category.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6" id="sousCategoryBloc" style="display: none;">
+                                                        <select class="sousCategory form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="confirmFilterGlobal" class="btn btn-info">Valider</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -1637,14 +1680,46 @@
 google.charts.load('current',{packages:['corechart']});
 google.charts.setOnLoadCallback(drawChart);
     $(document).ready(function () {
-        $('#filter').change(function (argument) {
-            var filter = $(this).val();
-            var url = '{{ path('dashboard_cmd_filter', {'filter': 'valeurselectionnee'}) }}';
-            url = url.replace("valeurselectionnee", filter);
+        var bycategory = false;
+        var bymarchand = false;
+        $(".filter-by").change(function (argument) {
+            if($(this).val() == 2) { $('#categoriesMereBloc').show();bymarchand = false;bycategory = true; }
+            if($(this).val() == 1) { $('#categoriesMereBloc').hide();bymarchand = true;bycategory = false; }
+            if($(this).val() == 0) { $('#categoriesMereBloc').hide();bymarchand = false;bycategory = false; }
+        });
+        $('.categoriesMere').change(function(){
+            var id = $(this).val();
+            if(id=='rien'){
+                $('#sc1').prop('disabled', true);
+            }else{
+                var url = '{{path('dashboard_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
+                url = url.replace("valeurselectionnee", id);
+                $.ajax({
+
+                    url: url,
+                    method: "GET",
+                    error: function ()
+                    {
+                        alert('une erreur');
+                    },
+                    beforeSend: function ()
+                    {
+                        
+                    },
+                    success: function (result)
+                    {
+                        $('#sousCategoryBloc').show();
+                        $('.sousCategory').html(result['options']);
+                    }
+                });
+            }
+        });
+        $('#confirmFilterGlobal').click(function (argument) {
             $.ajax({
 
-                url: url,
+                url: '{{ path('dashboard_cmd_filter') }}',
                 method: "GET",
+                data: {period:$('#filterCmdGlobal').val(), bycategory : bycategory, bymarchand : bymarchand},
                 error: function ()
                 {
                     alert('une erreur');
@@ -1655,26 +1730,45 @@ google.charts.setOnLoadCallback(drawChart);
                 },
                 success: function (data)
                 {
-                    if(data.result.length > 1){
-                        createChart(data.result)
+                    if(data.commandes.length > 1){
+                        var type = data.entity == 'Marchands' || data.entity == 'Categories' ? 'column' : 'line';
+                        console.log(type);
+                        createChart(data.commandes, data.entity, type)
                     }
+                    $('#modalFilterCmd').modal('toggle'); 
                 }
             });
         });
     });
-function createChart(result) {
-    console.log(result);
-    var data = new google.visualization.arrayToDataTable(result);
-    // Set Options
-    var options = {
-      title: '',
-      hAxis: {title: 'Mois'},
-      vAxis: {title: ''},
-      legend: 'none'
-    };
+function createChart(result, entity, typeChart) {
+    console.log(typeChart);
     // Draw
-    var chart = new google.visualization.LineChart(document.getElementById('myChart'));
-    chart.draw(data, options);
+    if(typeChart == 'line'){
+        var data = new google.visualization.arrayToDataTable(result);
+        // Set Options
+        
+        var options = {
+          title: '',
+          hAxis: {title: entity},
+          vAxis: {title: 'Commandes'},
+          legend: 'none'
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('myChart'));
+
+        chart.draw(data, options);
+    }
+    if(typeChart == 'column'){
+        var data = new google.visualization.arrayToDataTable(result);
+
+        var options = {
+          title: 'Commandes',
+          hAxis: {title: entity, titleTextStyle: {color: 'red'}},
+                tooltip: {legend:'none',isHtml:true, textStyle: {color: '#FF0000'}, showColorCode: true}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('myChart'));
+        chart.draw(data, options);
+      }
 }
 function drawChart() {
 // Set Data
@@ -1699,7 +1793,7 @@ jQuery(document).ready(function () {
     Metronic.init(); // init metronic core components
     Layout.init(); // init current layout
     Demo.init(); // init demo features
-    TableAdvanced.init();
+    //TableAdvanced.init();
 });
 </script>
 
