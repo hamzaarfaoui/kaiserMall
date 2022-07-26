@@ -83,6 +83,7 @@
                                                     </div>
                                                     <div class="col-sm-6" id="categoriesMereBloc" style="display: none;">
                                                         <select class="categoriesMere form-control">
+                                                            <option value="0">Sélectionner</option>
                                                             {% for category in categories %}
                                                                 <option value="{{category.id}}">{{category.name}}</option>
                                                             {% endfor %}
@@ -1682,13 +1683,22 @@ google.charts.setOnLoadCallback(drawChart);
     $(document).ready(function () {
         var bycategory = false;
         var bymarchand = false;
+        var categoriesMere = 0;
+        var sousCategory = $('.sousCategory').val() ? $('.sousCategory').val() : 0;
         $(".filter-by").change(function (argument) {
-            if($(this).val() == 2) { $('#categoriesMereBloc').show();bymarchand = false;bycategory = true; }
+            if($(this).val() == 2) { 
+                $('#categoriesMereBloc').show();bymarchand = false;bycategory = true;
+
+            }
             if($(this).val() == 1) { $('#categoriesMereBloc').hide();bymarchand = true;bycategory = false; }
             if($(this).val() == 0) { $('#categoriesMereBloc').hide();bymarchand = false;bycategory = false; }
         });
+        $('.sousCategory').change(function(){
+            sousCategory = $(this).val();
+        });
         $('.categoriesMere').change(function(){
             var id = $(this).val();
+            categoriesMere = id;
             if(id=='rien'){
                 $('#sc1').prop('disabled', true);
             }else{
@@ -1716,10 +1726,10 @@ google.charts.setOnLoadCallback(drawChart);
         });
         $('#confirmFilterGlobal').click(function (argument) {
             $.ajax({
-
+                
                 url: '{{ path('dashboard_cmd_filter') }}',
                 method: "GET",
-                data: {period:$('#filterCmdGlobal').val(), bycategory : bycategory, bymarchand : bymarchand},
+                data: {period:$('#filterCmdGlobal').val(), bycategory : bycategory, bymarchand : bymarchand, categoriesMere : categoriesMere, sousCategory : sousCategory},
                 error: function ()
                 {
                     alert('une erreur');
@@ -1732,7 +1742,6 @@ google.charts.setOnLoadCallback(drawChart);
                 {
                     if(data.commandes.length > 1){
                         var type = data.entity == 'Marchands' || data.entity == 'Categories' ? 'column' : 'line';
-                        console.log(type);
                         createChart(data.commandes, data.entity, type)
                     }
                     $('#modalFilterCmd').modal('toggle'); 
@@ -1741,8 +1750,7 @@ google.charts.setOnLoadCallback(drawChart);
         });
     });
 function createChart(result, entity, typeChart) {
-    console.log(typeChart);
-    // Draw
+     // Draw
     if(typeChart == 'line'){
         var data = new google.visualization.arrayToDataTable(result);
         // Set Options

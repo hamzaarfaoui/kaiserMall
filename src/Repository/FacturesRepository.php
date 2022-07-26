@@ -61,8 +61,24 @@ class FacturesRepository extends ServiceEntityRepository
                 $qb->groupBy('u.marchand');
             }elseif(isset($params['bycategory']) && $params['bycategory']){
                 $qb->leftJoin('u.product', 'p')
-                ->addSelect('sc.name AS sousCategorie');
-                ->groupBy('p.sousCategorie');
+                ->leftJoin('p.sousCategorie', 'sc')
+                ->leftJoin('sc.categorie', 'cat')
+                ->leftJoin('cat.categorieMere', 'cm');
+                if(isset($params['sousCategory']) && $params['sousCategory'] > 0){
+                    $qb->addSelect('sc.name AS categorie')
+                    ->where('cat.id = :id')
+                    ->groupBy('sc.id')
+                    ->setParameter('id', $params['sousCategory']);
+                }elseif(isset($params['categoriesMere']) && $params['categoriesMere'] > 0){
+                    $qb->addSelect('cat.name AS categorie')
+                    ->where('cm.id = :id')
+                    ->groupBy('cat.id')
+                    ->setParameter('id', $params['categoriesMere']);
+                }else{
+                    $qb->addSelect('cm.name AS categorie')
+                    ->groupBy('cm.id');
+                }
+                
             }else{
             $qb->groupBy('date_cmd');
             }
@@ -76,13 +92,30 @@ class FacturesRepository extends ServiceEntityRepository
                 $qb->groupBy('u.marchand');
             }elseif(isset($params['bycategory']) && $params['bycategory']){
                 $qb->leftJoin('u.product', 'p')
-                ->groupBy('p.sousCategorie');
+                ->leftJoin('p.sousCategorie', 'sc')
+                ->leftJoin('sc.categorie', 'cat')
+                ->leftJoin('cat.categorieMere', 'cm');
+                if(isset($params['sousCategory']) && $params['sousCategory'] > 0){
+                    $qb->addSelect('sc.name AS categorie')
+                    ->where('MONTH(c.createdAt) = :month')
+                    ->andWhere('cat.id = :id')
+                    ->groupBy('sc.id')
+                    ->setParameter('id', $params['sousCategory']);
+                }elseif(isset($params['categoriesMere']) && $params['categoriesMere'] > 0){
+                    $qb->addSelect('cat.name AS categorie')
+                    ->where('MONTH(c.createdAt) = :month')
+                    ->andWhere('cm.id = :id')
+                    ->groupBy('cat.id')
+                    ->setParameter('id', $params['categoriesMere']);
+                }else{
+                    $qb->addSelect('cm.name AS categorie')
+                    ->where('MONTH(c.createdAt) = :month')
+                    ->groupBy('cm.id');
+                }
             }else{
-            $qb->groupBy('date_cmd');
+            $qb->where('MONTH(c.createdAt) = :month')->groupBy('date_cmd');
             }
-            $qb->where('MONTH(c.createdAt) = :month')
-            ->groupBy('date_cmd')
-            ->setParameter('month', $month);
+            $qb->setParameter('month', $month);
         }
             
         return $qb->getQuery()->execute();
