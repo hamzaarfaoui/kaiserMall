@@ -16,6 +16,17 @@
     .number-stats .stat-left .stat-number{
         text-align: center !important;
     }
+    .commandes_no_valides td{
+        text-align: left;
+        font-weight: 100;
+    }
+    .commandes_no_valides .adress, .commandes_no_valides .nom{
+        font-size: 9px;
+    }
+    .validate-tag{
+        color: #009624;
+        font-weight: bold;
+    }
 </style>
 {% endblock %}
 {% block title %}Tableau de bord{% endblock %}
@@ -45,6 +56,42 @@
             <div class="row margin-top-10">
                 <div class="col-md-12 col-sm-12">
                     <!-- BEGIN PORTLET-->
+                    <div class="portlet light ">
+                        <div class="portlet-title">
+                            <div class="caption caption-md">
+                                <i class="icon-bar-chart theme-font-color hide"></i>
+                                <span class="caption-subject theme-font-color bold uppercase">Nouvelles Commandes</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <table class="table commandes_no_valides">
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Adresse</th>
+                                    <th>Téléphone</th>
+                                    <th>Produits</th>
+                                    <th>Marchand</th>
+                                    <th></th>
+                                </tr>
+                                {% for commande in commandes_no_valides %}
+                                    <tr>
+                                        <td class="nom">{{commande.nom}} {{commande.prenom}}</td>
+                                        <td class="adress">{{ commande.adress }}</td>
+                                        <td>{{ commande.phone }}</td>
+                                        <td>{{ commande.marchand }}</td>
+                                        <td>
+                                            <ul>
+                                                {% for k,product in commande.products %}
+                                                    <li><a href="{{ path('product_page', {slug:product}) }}">product {% if(commande.products|length > 1) %}{{k+1}}{% endif %}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td id="bloc-validate-{{commande.id}}"><button type="button" class="btn btn-primary btn-sm validate-cmd" data-id="{{commande.id}}">Valider</button></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
                     <div class="portlet light ">
                         <div class="portlet-title">
                             <div class="caption caption-md">
@@ -1695,6 +1742,27 @@ google.charts.setOnLoadCallback(drawChart);
         });
         $('.sousCategory').change(function(){
             sousCategory = $(this).val();
+        });
+        $('.validate-cmd').click(function (argument) {
+            var id = $(this).data('id');
+            $.ajax({
+                url: "{{ path('admin_validate_cmd') }}",
+                method: "POST",
+                data: {id:id},
+                error: function ()
+                {
+                    alert('une erreur');
+                },
+                beforeSend: function ()
+                {
+                    
+                },
+                success: function (result)
+                {
+                    $(this).hide();
+                    $('#bloc-validate-'+id).html('<span class="validate-tag"><i class="fa fa-check"></i>Validé</span>')
+                }
+            });
         });
         $('.categoriesMere').change(function(){
             var id = $(this).val();

@@ -55,7 +55,11 @@ dash:
     
 emp:
     resource: "Back/routes_emp.yaml"
-    prefix:   /employe    
+    prefix:   /employe   
+
+dash_commandes:
+    resource: "Back/routes_commandes.yaml"
+    prefix:   /dash/commandes    
 
 products:
     resource: "Back/routes_back_product.yaml"

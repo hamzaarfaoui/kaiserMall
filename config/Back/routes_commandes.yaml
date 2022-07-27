@@ -1,0 +1,6 @@
+dashboard_commandes_index:
+    path: /list
+    controller: App\Controller\Back\CommandesController::listAction
+dashboard_commandes_statistiques:
+    path: /statistiques
+    controller: App\Controller\Back\CommandesController::statistiquesAction

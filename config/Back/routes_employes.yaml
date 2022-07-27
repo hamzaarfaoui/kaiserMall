@@ -29,3 +29,6 @@ dashboard_employes_status:
 dashboard_employes_delete:
     path: /{id}/delete
     controller: App\Controller\Back\EmployesController::deleteAction    
+admin_validate_cmd:
+    path:  /admin_validate_cmd
+    defaults: { _controller: App\Controller\UserController:validateCommande } 

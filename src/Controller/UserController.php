@@ -17,6 +17,20 @@ class UserController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $params = array('this_year' => true);
         $commandes = $dm->getRepository('App:Factures')->listeInDash($params);
+        $commandes_no_valides_query = $dm->getRepository('App:Factures')->listeNoValideInDash();
+        $commandes_no_valides = array();
+        foreach ($commandes_no_valides_query as $k=>$row) {
+            $products = explode(' , ', $row['products']);
+            $commandes_no_valides[$k]['id'] = $row['id'];
+            $commandes_no_valides[$k]['marchand'] = $row['marchand'];
+            $commandes_no_valides[$k]['nom'] = $row['nom'];
+            $commandes_no_valides[$k]['prenom'] = $row['prenom'];
+            $commandes_no_valides[$k]['adress'] = $row['adress'];
+            $commandes_no_valides[$k]['phone'] = $row['phone'];
+            $commandes_no_valides[$k]['products'] = $products;
+            $commandes_no_valides[$k]['qte'] = $row['qte'];
+            $commandes_no_valides[$k]['price'] = $row['price'];
+        }
         $categories = $dm->getRepository('App:CategoriesMere')->liste();
         $commandes_chart = "";
         $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
@@ -32,10 +46,22 @@ class UserController extends Controller
             'nombre_commandes_en_cours' => $nombreCmdEnCours,
             'commandes' => $commandes_chart,
             'categories' => $categories,
+            'commandes_no_valides' => $commandes_no_valides,
             'deb' => $deb,
             'fin' => $fin,
             'months' => $months
         ));
+    }
+
+    public function validateCommande(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        $commande = $dm->getRepository('App:Commandes')->find($id);
+        $commande->setStatus(2);
+        $dm->persist($commande);
+        $dm->flush();
+        return new JsonResponse(array('message' => 'Commande validée'));
     }
 
     /*

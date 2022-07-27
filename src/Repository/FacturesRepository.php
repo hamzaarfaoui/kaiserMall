@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Factures;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @method Factures|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,6 +48,30 @@ class FacturesRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function listeNoValideInDash()
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('cmd.id', 'u.qte', 'u.price', 'm.name AS marchand', 'c.nom', 'c.prenom', 'c.adressLivraison AS adress', 'c.phone', "GROUP_CONCAT(p.slug SEPARATOR' , ') AS products")
+           ->leftJoin('u.commande', 'cmd')
+           ->leftJoin('u.client', 'c')
+           ->leftJoin('u.marchand', 'm')
+           ->leftJoin('u.product', 'p')
+           ->where('cmd.status = 0')
+           ->groupBy('cmd.id');
+        return $qb->getQuery()->execute();
+    }
+    public function liste()
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('cmd.id', 'u.qte', 'u.price', 'm.name AS marchand', 'c.nom', 'c.prenom', 'c.adressLivraison AS adress', 'c.phone', "GROUP_CONCAT(p.slug SEPARATOR' , ') AS products")
+           ->leftJoin('u.commande', 'cmd')
+           ->leftJoin('u.client', 'c')
+           ->leftJoin('u.marchand', 'm')
+           ->leftJoin('u.product', 'p')
+           ->groupBy('cmd.id');
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
     public function listeInDash($params)
     {
         $qb = $this->createQueryBuilder('u');
