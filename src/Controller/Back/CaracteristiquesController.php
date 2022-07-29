@@ -16,10 +16,10 @@ class CaracteristiquesController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
-        $categories = $dm->getRepository('App:SousCategories')->findAll();
+        $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('Products/back/caracteristiques/list.html.twig', array(
-            'caracteristiques' => $caracteristiques,
-            'categories' => $categories
+            'categoriesMere' => $categoriesMere,
+            'caracteristiques' => $caracteristiques
         ));
     }
     
@@ -58,9 +58,6 @@ class CaracteristiquesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $caracteristique = $dm->getRepository('App:Caracteristiques')->find($id);
         $caracteristique->setName($request->get('nom'));
-        $caracteristique->setCode($request->get('code'));
-        $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
-        $caracteristique->setSousCategorie($categorie);
         $dm->persist($caracteristique);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Caracteristique ".$caracteristique->getName()." a été mis à jour");

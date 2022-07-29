@@ -7,16 +7,16 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
     <!-- END PAGE LEVEL STYLES -->
     <style type="text/css">
-        .commandes_liste td{
+        .clients_liste td{
             text-align: left;
             font-weight: 100;
         }
-        .commandes_liste .adress, .commandes_liste .nom{
-            font-size: 9px;
+        .clients_liste .adress, .clients_liste .nom{
+            font-size: 15px;
         }
     </style>
 {% endblock %}
-{% block title %}Tableau de bord | Commandes{% endblock %}
+{% block title %}Tableau de bord | Clients{% endblock %}
 {% block body %}>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
@@ -26,12 +26,25 @@
             <div class="page-head">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>Commandes <small>Tous</small></h1>
+                    <h1>Clients <small>Tous</small></h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
             <!-- END PAGE HEAD -->
             <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Produits</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Tous</a>
+                </li>
+            </ul>
             <!-- END PAGE BREADCRUMB -->
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -41,34 +54,22 @@
                     <div class="portlet box green-haze">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-globe"></i>Commandes
+                                <i class="fa fa-globe"></i>Clients
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <table class="table table-striped table-hover commandes_liste">
+                            <table class="table table-striped table-hover clients_liste">
                                 <thead>
                                     <tr>
-                                        <th>Client</th>
-                                        <th>Adresse</th>
-                                        <th>Téléphone</th>
-                                        <th>Produits</th>
-                                        <th>Marchand</th>
+                                        <th>Nom & prénom</th>
+                                        <th>Commandes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for commande in commandes %}
+                                    {% for client in clients %}
                                         <tr>
-                                            <td class="nom">{{commande.nom}} {{commande.prenom}}</td>
-                                            <td class="adress">{{ commande.adress }}</td>
-                                            <td>{{ commande.phone }}</td>
-                                            <td>
-                                                <ul>
-                                                    {% for k,product in commande.products %}
-                                                        <li><a href="{{ path('product_page', {slug:product}) }}">product {% if(commande.products|length > 1) %}{{k+1}}{% endif %}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </td>
-                                            <td>{{ commande.marchand }}</td>
+                                            <td class="nom">{{client.nom}} {{client.prenom}}</td>
+                                            <td></td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -76,7 +77,7 @@
                                 <div class="row">
                                 <div class="col-md-12">
                                 <div class="navigation pull-right">
-                                    {{ knp_pagination_render(commandes) }}
+                                    {{ knp_pagination_render(clients) }}
                                 </div>
                                 </div>
                                 </div>

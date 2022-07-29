@@ -16,6 +16,9 @@
     .number-stats .stat-left .stat-number{
         text-align: center !important;
     }
+    #table-stats tbody tr td{
+        font-weight: 100;
+    }
 </style>
 {% endblock %}
 {% block title %}Tableau de bord{% endblock %}
@@ -106,6 +109,12 @@
                         </div>
                         <div class="portlet-body">
                             <div id="myChart" style="width:100%; height:500px;"></div>
+                            <table id="table-stats" style="display: none;" class="table table-hover">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                     <!-- END PORTLET-->
@@ -194,9 +203,21 @@ google.charts.setOnLoadCallback(drawChart);
                 },
                 success: function (data)
                 {
-                    if(data.commandes.length > 1){
+                    var commandes = data.commandes;
+                    $('#table-stats').show();
+                    $('#table-stats thead tr').html('<td>'+commandes[0][0]+'</td><td>'+commandes[0][1]+'</td>');
+                    $('#table-stats tbody').html('');
+                    if(commandes.length > 1){
                         var type = data.entity == 'Marchands' || data.entity == 'Categories' ? 'column' : 'line';
-                        createChart(data.commandes, data.entity, type)
+                        createChart(data.commandes, data.entity, type);
+                        $.each(commandes, function( index, value ) {
+                            if(index > 0){
+                                $('#table-stats tbody').append('<tr><td>'+value[0]+'</td><td>'+value[1]+'</td></tr>');
+                            }
+                        });
+                        
+                    }else{
+                        $('#table-stats tbody').html('<tr><td colspan="2" style="text-align: centrer;">Pas de données</td></tr>');
                     }
                     $('#modalFilterCmd').modal('toggle'); 
                 }

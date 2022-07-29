@@ -6,34 +6,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class CommandesController extends Controller
+class ClientsController extends Controller
 {
 	public function listAction(Request $request)
 	{
 		$dm = $this->getDoctrine()->getManager();
-		$find_commandes = $dm->getRepository('App:Factures')->liste();
-        $commandes_liste = array();
-        foreach ($find_commandes as $k=>$row) {
-            $products = explode(' , ', $row['products']);
-            $commandes_liste[$k]['id'] = $row['id'];
-            $commandes_liste[$k]['marchand'] = $row['marchand'];
-            $commandes_liste[$k]['nom'] = $row['nom'];
-            $commandes_liste[$k]['prenom'] = $row['prenom'];
-            $commandes_liste[$k]['adress'] = $row['adress'];
-            $commandes_liste[$k]['phone'] = $row['phone'];
-            $commandes_liste[$k]['products'] = $products;
-            $commandes_liste[$k]['qte'] = $row['qte'];
-            $commandes_liste[$k]['price'] = $row['price'];
-        }
+		$find_clients = $dm->getRepository('App:Factures')->listeByRole('ROLE_CLIENT');
         $paginator  = $this->get('knp_paginator');
-        $commandes = $paginator->paginate(
-            $commandes_liste, /* query NOT result */
+        $clients = $paginator->paginate(
+            $find_clients, /* query NOT result */
             $request->query->get('page', 1), /*page number*/
             30 /*limit per page*/
         );
-        $commandes->setTemplate('commandes/back/pagination.html.twig');
-		return $this->render('commandes/back/list.html.twig',array('commandes' => $commandes));
+        $clients->setTemplate('clients/pagination.html.twig');
+		return $this->render('clients/list.html.twig',array('clients' => $clients));
 	}
+    public function showAction(Request $request, $id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $commande = $dm->getRepository('App:Factures')->oneElement($id);
+        return $this->render('clients/show.html.twig',array('commande' => $commande));
+    }
 	public function statistiquesAction(Request $request)
 	{
 		$dm = $this->getDoctrine()->getManager();

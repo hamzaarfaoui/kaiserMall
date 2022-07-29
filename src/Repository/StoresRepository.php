@@ -54,4 +54,21 @@ class StoresRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function listeInDash($params)
+    {
+        $qb = $this->createQueryBuilder('u');
+        
+        
+        if(isset($params['this_year'])){
+            $qb->select('MONTH(u.debutOffre) as date_offre','COUNT(DISTINCT(u.id)) as nb_offre','SUM(DISTINCT(u.prix)) as total_offre');
+            $qb->groupBy('date_offre');
+        }else{
+            $month = $params['month'];
+            $qb->select('DAY(u.debutOffre) as date_offre','COUNT(DISTINCT(u.id)) as nb_offre','SUM(DISTINCT(u.prix)) as total_offre');
+            $qb->where('MONTH(u.debutOffre) = :month')->groupBy('date_offre');
+            $qb->setParameter('month', $month);
+        }
+            
+        return $qb->getQuery()->execute();
+    }
 }

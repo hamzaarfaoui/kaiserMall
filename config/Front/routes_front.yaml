@@ -82,4 +82,7 @@ products_in_promotion:
 dashboard_cmd_filter:
     path:  /filter/commandes
     controller: App\Controller\UserController::filterCommandes
+dashboard_cmd_revenu:
+    path:  /filter/revenu
+    controller: App\Controller\UserController::filterRevenu
     

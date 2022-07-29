@@ -15,8 +15,6 @@ class UserController extends Controller
     public function dashboard()
     {
         $dm = $this->getDoctrine()->getManager();
-        $params = array('this_year' => true);
-        $commandes = $dm->getRepository('App:Factures')->listeInDash($params);
         $commandes_no_valides_query = $dm->getRepository('App:Factures')->listeNoValideInDash();
         $commandes_no_valides = array();
         foreach ($commandes_no_valides_query as $k=>$row) {
@@ -31,22 +29,26 @@ class UserController extends Controller
             $commandes_no_valides[$k]['qte'] = $row['qte'];
             $commandes_no_valides[$k]['price'] = $row['price'];
         }
-        $categories = $dm->getRepository('App:CategoriesMere')->liste();
-        $commandes_chart = "";
+        $params = array('this_year' => true);
+        $revenus = $dm->getRepository('App:Stores')->listeInDash($params);
+        $revenus_chart = "";
+        $revenus_table = array();
         $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
-        foreach ($commandes as $key => $commande) {
-            $commandes_chart .= "['".$months[$commande['date_cmd']]."', ".intval($commande['nb_cmd'])."],";
+        foreach ($revenus as $key => $revenu) {
+            if(array_key_exists($revenu['date_offre'], $months)){
+                $revenus_table[] = [$months[$revenu['date_offre']], intval($revenu['total_offre'])];
+                $revenus_chart .= "['".$months[$revenu['date_offre']]."', ".intval($revenu['total_offre'])."],";
+            }else{
+                $revenus_chart .= "['".$months[$revenu['date_offre']]."', 0],";
+                $revenus_table[] = [$months[$revenu['date_offre']],0];
+            }
         }
-        $nombreCmdValide = $dm->getRepository('App:Commandes')->nombreCmdValide();
-        $nombreCmdEnCours = $dm->getRepository('App:Commandes')->nombreCmdEnCours();
         $deb = date("d-m-Y");
         $fin = date("d-m-Y");
         return $this->render('user/espaces/admin.html.twig',array(
-            'nombre_commandes_valide' => $nombreCmdValide,
-            'nombre_commandes_en_cours' => $nombreCmdEnCours,
-            'commandes' => $commandes_chart,
-            'categories' => $categories,
             'commandes_no_valides' => $commandes_no_valides,
+            'revenus_chart' => $revenus_chart,
+            'revenus_table' => $revenus_table,
             'deb' => $deb,
             'fin' => $fin,
             'months' => $months
@@ -65,6 +67,33 @@ class UserController extends Controller
     }
 
     /*
+    * filter revenu
+    */
+    public function filterRevenu(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $filter = $request->get('period') == "this_year" ? array('this_year' => true) : ['month' => $request->get('period')];
+        $revenus = $dm->getRepository('App:Stores')->listeInDash($filter);
+        $revenus_chart = array(['Période', 'Revenu']);
+        $months = ['1' => 'Janvier', '2' => 'Février', '3' => 'Mars', '4' => 'Avril', '5' => 'Mai', '6' => 'Juin', '7' => 'Juillet', '8' => 'Août', '9' => 'Séptembre', '10' => 'octobre', '11' => 'Novembre', '12' => 'Décembre'];
+        
+        $entity = "";
+        if($request->get('period') == "this_year"){
+            $entity = "Mois";
+            foreach ($revenus as $key => $revenu) {
+                $revenus_chart[] = [$months[$revenu['date_offre']], intval($revenu['total_offre'])];
+            }
+        }
+        if($request->get('period') != "this_year"){
+            $entity = $months[$filter['month']];
+            foreach ($revenus as $key => $revenu) {
+                $revenus_chart[] = [$revenu['date_offre'], intval($revenu['total_offre'])];
+            }
+        }
+        return new JsonResponse(array('revenus' => $revenus_chart, 'entity' => $entity));
+    }
+
+    /*
     * filterCommandes
     */
     public function filterCommandes(Request $request)
@@ -75,6 +104,7 @@ class UserController extends Controller
         $filter['bycategory'] = $request->get('bycategory') == 'true' ? true : false;
         $filter['categoriesMere'] = $request->get('categoriesMere') != 0 ? $request->get('categoriesMere') : false;
         $filter['sousCategory'] = $request->get('sousCategory') != 0 ? $request->get('sousCategory') : false;
+        $table = array();
         $commandes = $dm->getRepository('App:Factures')->listeInDash($filter);
         $commandes_chart = array(['Price', 'Commandes']);
         $months = ['1' => 'Janvier', '2' => 'Février', '3' => 'Mars', '4' => 'Avril', '5' => 'Mai', '6' => 'Juin', '7' => 'Juillet', '8' => 'Août', '9' => 'Séptembre', '10' => 'octobre', '11' => 'Novembre', '12' => 'Décembre'];
@@ -82,12 +112,17 @@ class UserController extends Controller
         $entity = "";
         if($request->get('period') == "this_year" && $request->get('bymarchand') == 'false' && $request->get('bycategory') == 'false'){
             $entity = "Mois";
+            $commandes_chart = array(['Mois', 'Commandes']);
+            $table = array(['Mois', 'Comandes']);
             foreach ($commandes as $key => $commande) {
+                $table[] = [$months[$commande['date_cmd']], intval($commande['nb_cmd'])];
                 $commandes_chart[] = [$months[$commande['date_cmd']], intval($commande['nb_cmd'])];
             }
         }
         if($request->get('period') != "this_year" && $request->get('bymarchand') == 'false' && $request->get('bycategory') == 'false'){
             $entity = $months[$filter['month']];
+            $commandes_chart = array(['Jour', 'Commandes']);
+            $table = array(['Jour', 'Comandes']);
             foreach ($commandes as $key => $commande) {
                 $commandes_chart[] = [$commande['date_cmd'], intval($commande['nb_cmd'])];
             }
@@ -95,18 +130,26 @@ class UserController extends Controller
         if($request->get('bymarchand') == 'true' && $request->get('bycategory') == 'false'){
             $entity = 'Marchands';
             $commandes_chart = array(['Marchand', 'Commandes']);
+            $i = 0;
+            $table = array(['Marchand', 'Comandes']);
             foreach ($commandes as $key => $commande) {
-                $commandes_chart[] = [$commande['marchand'], intval($commande['nb_cmd'])];
+                $table[] = [$commande['marchand'], intval($commande['nb_cmd'])];
+                if($i < 21){
+                    $commandes_chart[] = [$commande['marchand'], intval($commande['nb_cmd'])];
+                }
+                $i++;
             }
         }
         if($request->get('bymarchand') == 'false' && $request->get('bycategory') == 'true'){
             $entity = 'Categories';
             $commandes_chart = array(['Categorie', 'Commandes']);
+            $table = array(['Categorie', 'Comandes']);
             foreach ($commandes as $key => $commande) {
+                $table[] = [$commande['categorie'], intval($commande['nb_cmd'])];
                 $commandes_chart[] = [$commande['categorie'], intval($commande['nb_cmd'])];
             }
         }
-        return new JsonResponse(array('commandes' => $commandes_chart, 'entity' => $entity));
+        return new JsonResponse(array('commandes' => $commandes_chart, 'entity' => $entity, 'table' => $table));
     }
     
     /*

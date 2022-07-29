@@ -59,7 +59,11 @@ emp:
 
 dash_commandes:
     resource: "Back/routes_commandes.yaml"
-    prefix:   /dash/commandes    
+    prefix:   /dash/commandes 
+
+dash_clients:
+    resource: "Back/routes_clients.yaml"
+    prefix:   /dash/clients    
 
 products:
     resource: "Back/routes_back_product.yaml"

@@ -1,0 +1,6 @@
+dashboard_clients_index:
+    path: /list
+    controller: App\Controller\Back\ClientsController::listAction
+dashboard_clients_statistiques:
+    path: /statistiques
+    controller: App\Controller\Back\ClientsController::statistiquesAction

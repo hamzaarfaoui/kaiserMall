@@ -83,7 +83,7 @@ class FacturesRepository extends ServiceEntityRepository
             if(isset($params['bymarchand']) && $params['bymarchand']){
                 $qb->leftJoin('u.marchand', 'm');
                 $qb->addSelect('m.name AS marchand');
-                $qb->groupBy('u.marchand');
+                $qb->orderBy('nb_cmd', 'DESC')->groupBy('u.marchand');
             }elseif(isset($params['bycategory']) && $params['bycategory']){
                 $qb->leftJoin('u.product', 'p')
                 ->leftJoin('p.sousCategorie', 'sc')
@@ -92,16 +92,16 @@ class FacturesRepository extends ServiceEntityRepository
                 if(isset($params['sousCategory']) && $params['sousCategory'] > 0){
                     $qb->addSelect('sc.name AS categorie')
                     ->where('cat.id = :id')
-                    ->groupBy('sc.id')
+                    ->orderBy('nb_cmd', 'DESC')->groupBy('sc.id')
                     ->setParameter('id', $params['sousCategory']);
                 }elseif(isset($params['categoriesMere']) && $params['categoriesMere'] > 0){
                     $qb->addSelect('cat.name AS categorie')
                     ->where('cm.id = :id')
-                    ->groupBy('cat.id')
+                    ->orderBy('nb_cmd', 'DESC')->groupBy('cat.id')
                     ->setParameter('id', $params['categoriesMere']);
                 }else{
                     $qb->addSelect('cm.name AS categorie')
-                    ->groupBy('cm.id');
+                    ->orderBy('nb_cmd', 'DESC')->groupBy('cm.id');
                 }
                 
             }else{
@@ -114,7 +114,7 @@ class FacturesRepository extends ServiceEntityRepository
             if(isset($params['bymarchand']) && $params['bymarchand']){
                 $qb->leftJoin('u.marchand', 'm');
                 $qb->addSelect('m.name AS marchand');
-                $qb->groupBy('u.marchand');
+                $qb->orderBy('nb_cmd', 'DESC')->groupBy('u.marchand');
             }elseif(isset($params['bycategory']) && $params['bycategory']){
                 $qb->leftJoin('u.product', 'p')
                 ->leftJoin('p.sousCategorie', 'sc')
@@ -124,18 +124,18 @@ class FacturesRepository extends ServiceEntityRepository
                     $qb->addSelect('sc.name AS categorie')
                     ->where('MONTH(c.createdAt) = :month')
                     ->andWhere('cat.id = :id')
-                    ->groupBy('sc.id')
+                    ->orderBy('nb_cmd', 'DESC')->groupBy('sc.id')
                     ->setParameter('id', $params['sousCategory']);
                 }elseif(isset($params['categoriesMere']) && $params['categoriesMere'] > 0){
                     $qb->addSelect('cat.name AS categorie')
                     ->where('MONTH(c.createdAt) = :month')
                     ->andWhere('cm.id = :id')
                     ->groupBy('cat.id')
-                    ->setParameter('id', $params['categoriesMere']);
+                    ->orderBy('nb_cmd', 'DESC')->setParameter('id', $params['categoriesMere']);
                 }else{
                     $qb->addSelect('cm.name AS categorie')
                     ->where('MONTH(c.createdAt) = :month')
-                    ->groupBy('cm.id');
+                    ->orderBy('nb_cmd', 'DESC')->groupBy('cm.id');
                 }
             }else{
             $qb->where('MONTH(c.createdAt) = :month')->groupBy('date_cmd');
@@ -143,6 +143,18 @@ class FacturesRepository extends ServiceEntityRepository
             $qb->setParameter('month', $month);
         }
             
+        return $qb->getQuery()->execute();
+    }
+    public function listeByRole(string $role)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('cl.id as id_client', 'cl.nom', 'cl.prenom', "COUNT(DISTINCT(cmd.id)) AS commandes")
+                ->leftJoin('u.client', 'cl')
+                ->leftJoin('u.commande', 'cmd')
+                ->where('cl.roles LIKE :role')
+                ->groupBy('cl.id')
+                ->setParameter('role', '%'.$role.'%');
+
         return $qb->getQuery()->execute();
     }
 }
