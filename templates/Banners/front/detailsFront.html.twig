@@ -30,7 +30,8 @@
     margin-left: 2.5%;
     background-color: #FFF;
     box-shadow: 0px 0px 24px 1px #ccc;
-    padding-bottom: 70px;
+    padding-bottom: 0;
+    padding-top: 0;
 }
 .section-banners{
     width: 90% !important;
@@ -39,6 +40,18 @@
     left: inherit !important;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+.list-products-container {
+    /* margin-left: 2%; */
+    width: 97%;
+    padding-left: 0;
+    margin-left: 0 !important;
+}
+.filter-bloc {
+    top: 0 !important;
+    position: relative;
+    border-right: 1px solid #ddd;
+    padding: 31px;
 }
 .banner>img {
     width: 100%;
@@ -53,6 +66,13 @@ h5{
 @media only screen and (max-width: 991px){}
 #aside {
     margin-bottom: 0;
+}
+}
+@media screen and (min-width: 991px)
+{
+#main {
+    padding: 18px 21px;
+    padding-right: 17px;
 }
 }
 </style>
@@ -91,7 +111,7 @@ h5{
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
-                <div id="aside" class="col-md-2">
+                <div class="col-md-3">
                     
                     <!-- start if mobile -->
                     <!-- end if mobile -->
@@ -100,7 +120,7 @@ h5{
                     
                     <!-- aside widget -->
                     {% if(products|length > 10) %}
-                    <div class="aside filter-bloc">
+                    <div id="aside" class="aside filter-bloc">
                         <h5 >Prix :</h5>
                             <div id="price-slider"></div>
                             <input type="hidden" name="minp" id="minp" value="{{min-2}}">
@@ -160,7 +180,7 @@ h5{
                 
 
                 <!-- MAIN -->
-                <div id="main full-main-width" class="{% if(products|length > 10) %}col-md-10{% else %}col-md-12{% endif %}">
+                <div id="main full-main-width" class="{% if(products|length > 10) %}col-md-9{% else %}col-md-12{% endif %}">
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
                         <!-- Trigger the modal with a button -->

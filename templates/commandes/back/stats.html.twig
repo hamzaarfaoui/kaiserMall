@@ -204,13 +204,14 @@ google.charts.setOnLoadCallback(drawChart);
                 success: function (data)
                 {
                     var commandes = data.commandes;
+                    var table = data.table;
                     $('#table-stats').show();
-                    $('#table-stats thead tr').html('<td>'+commandes[0][0]+'</td><td>'+commandes[0][1]+'</td>');
+                    $('#table-stats thead tr').html('<td>'+table[0][0]+'</td><td>'+table[0][1]+'</td>');
                     $('#table-stats tbody').html('');
                     if(commandes.length > 1){
                         var type = data.entity == 'Marchands' || data.entity == 'Categories' ? 'column' : 'line';
                         createChart(data.commandes, data.entity, type);
-                        $.each(commandes, function( index, value ) {
+                        $.each(table, function( index, value ) {
                             if(index > 0){
                                 $('#table-stats tbody').append('<tr><td>'+value[0]+'</td><td>'+value[1]+'</td></tr>');
                             }

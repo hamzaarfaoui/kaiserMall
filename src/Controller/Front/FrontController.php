@@ -156,6 +156,18 @@ class FrontController extends Controller
             'categories' => $categories
         ));
     }
+    /*
+     * partial categories
+     */
+    public function partialCategories()
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
+        $categories = $dm->getRepository('App:CategoriesMere')->findAll();
+        return $this->render('categories/partial.html.twig', array(
+            'categories' => $categories
+        ));
+    }
     
     /*
      * About page

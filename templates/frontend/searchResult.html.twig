@@ -24,7 +24,7 @@
         <div class="container">
             <ul class="breadcrumb">
                 <li><a href="{{ path('index_page') }}">Accueil</a></li>
-                <li class="active">Produits</li>
+                <li class="active">Recherche</li>
             </ul>
         </div>
     </div>
@@ -193,7 +193,8 @@
                 <!-- /ASIDE -->#}
 
                 <!-- MAIN -->
-                <div id="main" class="col-md-10">
+                <div id="main" class="col-md-12">
+                    {% if(products|length) %}
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
                         <div class="pull-left">
@@ -291,6 +292,12 @@
                         </div>
                     </div>
                     <!-- /store bottom filter -->
+                    {% else %}
+                        <div class="text-center">
+                            <h3>Aucun résultat</h3>    
+                        </div>
+                        
+                    {% endif %}
                 </div>
                 <!-- /MAIN -->
             </div>

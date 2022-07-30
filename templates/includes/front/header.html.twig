@@ -47,6 +47,12 @@
                                 </a>
                             </div>
                         </div>
+                        {% if app.request.get('_route') != 'index_page' %}
+                        <button type="button" class="menu-cat-btn"><i class="fa fa-bars"></i> Categories</button>
+                        <div class="partial-categories">
+                            {{ render(controller('App\\Controller\\Front\\FrontController::partialCategories')) }}
+                        </div>
+                        {% endif %}
                         <!-- /Logo -->
                     </div>
                     <div class="col-md-6 col-sm-8 col-xs-8 search-bloc">
