@@ -1199,6 +1199,9 @@ padding: 2px 14px;
     .patial-categories .category-nav{
         display: none;
     }
+    .partial-categories .category-nav .category-list>li>a{
+        padding: 10px 15px;
+    }
     .menu-cat-btn{
         display: block;
         position: fixed;
