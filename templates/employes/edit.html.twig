@@ -88,6 +88,16 @@
                                                 <input type="number" class="form-control" required="true" placeholder="Télephone" name="phone" value="{{employe.phone}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Role</label>
+                                                <select name="role" class="form-control">
+                                                    <option value="ROLE_COMMERCIAL" {{role == 'ROLE_COMMERCIAL' ? 'selected' : ''}}>Commercial</option>
+                                                    <option value="ROLE_GESTIONNEAIRE_STOCK" {{role == 'ROLE_GESTIONNEAIRE_STOCK' ? 'selected' : ''}}>Gestionnaire de stock</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <button type="submit" class="btn btn-sm btn-primary">Enregister</button>
                                         </div>

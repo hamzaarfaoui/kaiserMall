@@ -200,7 +200,7 @@ class ProductEmpController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été ajoutée");
-        return $this->redirectToRoute('manager_product_details', array('id' => $product->getId()));
+        return $this->redirectToRoute('manager_product_back_edit', array('id' => $product->getId()));
     }
     
     /*
@@ -259,10 +259,7 @@ class ProductEmpController extends Controller
             $product->setSousCategorie($sc);
         }
         /*start medias Images document*/
-        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
-            foreach ($product->getMediasImages() as $img){
-                $dm->remove($img);
-            }
+        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name']) && count($_FILES["images"]['name']) > 0 && $_FILES["images"]["name"][0] != "") {
             for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
                 
                 $mediaImage = new MediasImages();
@@ -336,7 +333,7 @@ class ProductEmpController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été modifié");
-        return $this->redirectToRoute('manager_product_details', array('id' => $product->getId()));
+        return $this->redirectToRoute('manager_product_back_edit', array('id' => $product->getId()));
     }
     
     /*

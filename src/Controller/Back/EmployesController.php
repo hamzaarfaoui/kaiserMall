@@ -62,13 +62,13 @@ class EmployesController extends Controller
         $employe->setEmail($request->get('email'));
         $employe->setUsername($request->get('username'));
         $employe->setPhone($request->get('phone'));
-        $employe->addRole($request->get('role'));
+        $employe->setRoles([$request->get('role')]);
         $employe->setEnabled(1);
         $options = [
                 'cost' => 11,
                 //'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
             ];
-        $pass = $request->get('username');
+        $pass = $request->get('password');
         $password = password_hash($pass, PASSWORD_BCRYPT, $options);
         $employe->setPassword($password);
         $employe->setCreatedAt(new \DateTime('now'));
@@ -76,7 +76,7 @@ class EmployesController extends Controller
         $dm->persist($employe);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "l'employé ".$employe->getNom()." ".$employe->getPrenom(). " a été ajoutée");
-        return $this->redirectToRoute('dashboard_employes_details', array('id' => $employe->getId()));
+        return $this->redirectToRoute('dashboard_employes_edit', array('id' => $employe->getId()));
     }
     
     /*
@@ -86,7 +86,8 @@ class EmployesController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $employe = $dm->getRepository('App:User')->find($id);
-        return $this->render('employes/edit.html.twig', array('employe' => $employe));
+        $role = $employe->getRoles()[0];
+        return $this->render('employes/edit.html.twig', array('employe' => $employe, 'role' => $role));
     }
     
     /*
@@ -101,12 +102,13 @@ class EmployesController extends Controller
         $employe->setEmail($request->get('email'));
         $employe->setUsername($request->get('username'));
         $employe->setPhone($request->get('phone'));
+        $employe->setRoles([$request->get('role')]);
         $employe->setCreatedAt(new \DateTime('now'));
         $employe->setUpdatedAt(new \DateTime('now'));
         $dm->persist($employe);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "l'employé ".$employe->getNom()." ".$employe->getPrenom(). " a été mis à jour");
-        return $this->redirectToRoute('dashboard_employes_details', array('id' => $employe->getId()));
+        return $this->redirectToRoute('dashboard_employes_edit', array('id' => $employe->getId()));
     }
     
     /*

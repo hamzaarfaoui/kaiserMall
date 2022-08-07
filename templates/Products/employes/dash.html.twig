@@ -1,0 +1,72 @@
+{% if((productsByNbrAddToCart|length>0)or(productsByNbrViews|length>0)or(productsByNbrAddToFavorite|length>0)) %}
+<div class="portlet light ">
+    <div class="portlet-title">
+        <div class="caption caption-md">
+            <i class="icon-bar-chart theme-font hide"></i>
+            <span class="caption-subject theme-font bold uppercase">Produits propulaires</span>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        {% if(productsByNbrAddToCart|length>0) %}
+        <h3><b>Les plus ajoutés au panier</b></h3>
+        <div class="row">
+            {% for product in productsByNbrAddToCart %}
+                <div class="col-md-2">
+                    <div class="thumbnail">
+                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="Nature" style="width:100%;height: 180px;">
+                        <div class="caption">
+                            <b>{{product.name|slice(0, 12)}}</b>
+                        </div>
+                            <span class="badge badge-success">{{ product.nbrAddToCart }}</span>
+                        <div class="text-right">
+                            <a href="{{path('marchand_product_details', {id:product.id})}}" class="btn btn-sm btn-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if(productsByNbrViews|length>0) %}
+        <hr>
+        <h3><b>Par nombre de vue</b></h3>
+        <div class="row">
+            {% for product in productsByNbrViews %}
+                <div class="col-md-2">
+                    <div class="thumbnail">
+                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="Nature" style="width:100%;height: 180px;">
+                        <div class="caption">
+                            <b>{{product.name|slice(0, 12)}}</b>
+                        </div>
+                            <span class="badge badge-success">{{ product.nbrView }}</span>
+                        <div class="text-right">
+                            <a href="{{path('marchand_product_details', {id:product.id})}}" class="btn btn-sm btn-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if(productsByNbrAddToFavorite|length>0) %}
+        <hr>
+        <h3><b>Les plus ajoutés au favoris</b></h3>
+        <div class="row">
+            {% for product in productsByNbrAddToFavorite %}
+                <div class="col-md-2">
+                    <div class="thumbnail">
+                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="Nature" style="width:100%;height: 180px;">
+                        <div class="caption">
+                            <b>{{product.name|slice(0, 12)}}</b>
+                        </div>
+                            <span class="badge badge-success">{{ product.nbrAddToFavorite }}</span>
+                        <div class="text-right">
+                            <a href="{{path('marchand_product_details', {id:product.id})}}" class="btn btn-sm btn-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
