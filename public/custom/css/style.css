@@ -1190,6 +1190,29 @@ padding: 2px 14px;
 
 
 @media screen and (min-width: 991px){
+    .filter-bloc {
+        top: 0 !important;
+        position: relative;
+        border-right: 1px solid #ddd;
+    }
+    .filter-title{
+                
+        padding: 4px 31px;
+                
+        padding-top: 16px;
+                
+        background-color: #39b54a;
+                
+        color: #FFF;
+    }
+    .filter-title h3{
+        color: #FFF;
+    }
+    .filter-content{
+
+         padding: 31px;
+
+    }
     .partial-categories{
         display: none;
         left: 221px;
@@ -1236,8 +1259,8 @@ padding: 2px 14px;
         position: relative;
         padding-top: 12px;
         padding-left: 8px;
-        background-color: #f4f4f4;
-        border: 0.5px solid #ccc;
+        /* background-color: #f4f4f4; */
+        /* border: 0.5px solid #ccc; */
     }
     .in-promotion-filter label{
         font-weight: 100 !important;
@@ -1258,17 +1281,20 @@ padding: 2px 14px;
         font-weight: 100;
     }
     #main{
-        padding: 18px 71px;
-        padding-right: 17px;
+        /* padding: 18px 71px; */
+        padding-right: 0px;
+        padding-top: 14px;
     }
     #main.full-main-width{
-        padding: inherit;
+        padding: 18px 71px;
+        padding-right: 55px;
+        padding-top: 14px;
     }
     #aside ul{
         padding-top: 12px;
         padding-left: 8px;
-        background-color: #f4f4f4;
-        border: 0.5px solid #ccc;
+        /* background-color: #f4f4f4; */
+        /* border: 0.5px solid #ccc; */
     }
     #aside ul li label{
         font-weight: 100;

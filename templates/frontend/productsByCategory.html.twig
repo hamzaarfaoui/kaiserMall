@@ -47,12 +47,7 @@
     padding-left: 0;
     margin-left: 0 !important;
 }
-.filter-bloc {
-    top: 0 !important;
-    position: relative;
-    border-right: 1px solid #ddd;
-    padding: 31px;
-}
+
 .banner>img {
     width: 100%;
     box-shadow: 0px 0px 24px 1px #ccc;
@@ -68,13 +63,7 @@ h5{
     margin-bottom: 0;
 }
 }
-@media screen and (min-width: 991px)
-{
-#main {
-    padding: 18px 21px;
-    padding-right: 17px;
-}
-}
+
 </style>
 {% endblock %}
 {% block body %}
@@ -119,57 +108,61 @@ h5{
                     
                     <!-- aside widget -->
                     <div id="aside" class="aside filter-bloc">
-                        <h3>Filtrer</h3>
-                        <h5 >Prix :</h5>
-                            <div id="price-slider"></div>
-                            <input type="hidden" name="minp" id="minp" value="{{min-2}}">
-                            <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
-                            <hr>
-                        <div class="in-promotion-filter">
-                            <label for="inPromotion" class="container-label">
-                                En promotion
-                                <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
-                                <span class="checkmark"></span>
-                            </label>
+                        <div class="filter-title">
+                            <h3>Filtrer</h3>
                         </div>
-                        <hr>
-                        <h5>Marques</h5>
-                        <ul>
-                            {% for marque in marques %}
-                                <li>
-                                    <label for="marque{{marque.id}}" class="container-label"> 
-                                        {{marque.name}}
-                                        <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                         <span class="checkmark"></span>
-                                    </label>
-                                </li>
+                        <div class="filter-content">
+                            <h5 >Prix :</h5>
+                                <div id="price-slider"></div>
+                                <input type="hidden" name="minp" id="minp" value="{{min-2}}">
+                                <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
+                                <hr>
+                            <div class="in-promotion-filter">
+                                <label for="inPromotion" class="container-label">
+                                    En promotion
+                                    <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <hr>
+                            <h5>Marques</h5>
+                            <ul>
+                                {% for marque in marques %}
+                                    <li>
+                                        <label for="marque{{marque.id}}" class="container-label"> 
+                                            {{marque.name}}
+                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                             <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <hr>
+                            <h5>Couleurs</h5>
+                            <ul>
+                                {% for couleur in couleurs %}
+                                    <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                   <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                                {% endfor %}
+                            </ul>
+                            {% for caracteristique in caracteristiques %}
+                            {% if(caracteristique.name != 'Couleur') %}
+                            <h5>{{ caracteristique.name }}</h5>
+                            <ul>
+                                {% for valeur in caracteristique.valeurs %}
+                                    <li>
+                                        <label for="valeur{{valeur.id}}" class="container-label">
+                                            {{valeur.name}}
+                                            <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
+                                             <span class="checkmark"></span>
+                                         </label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if not loop.last %}<hr>{% endif %}
                             {% endfor %}
-                        </ul>
-                        <hr>
-                        <h5>Couleurs</h5>
-                        <ul>
-                            {% for couleur in couleurs %}
-                                <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
-                               <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
-                            {% endfor %}
-                        </ul>
-                        {% for caracteristique in caracteristiques %}
-                        {% if(caracteristique.name != 'Couleur') %}
-                        <h5>{{ caracteristique.name }}</h5>
-                        <ul>
-                            {% for valeur in caracteristique.valeurs %}
-                                <li>
-                                    <label for="valeur{{valeur.id}}" class="container-label">
-                                        {{valeur.name}}
-                                        <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                         <span class="checkmark"></span>
-                                     </label>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                        {% if not loop.last %}<hr>{% endif %}
-                        {% endfor %}
+                        </div>
                     </div>
                     <!-- /aside widget -->
                     
@@ -252,7 +245,7 @@ h5{
 
                           </div>
                         </div>
-                        <div class="pull-left">
+                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
@@ -331,7 +324,7 @@ h5{
 
                     <!-- store bottom filter -->
                     <div class="store-filter clearfix">
-                        <div class="pull-left">
+                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
