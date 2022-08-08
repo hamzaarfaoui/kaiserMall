@@ -47,7 +47,7 @@ class AfterLoginEmployeRedirection implements AuthenticationSuccessHandlerInterf
             $redirection = new RedirectResponse($this->router->generate('commercialstores_back_index'));
         
         }elseif (in_array('ROLE_GESTIONNEAIRE_STOCK', $rolesTab, true)){
-            $redirection = new RedirectResponse($this->router->generate('manager_product_index'));
+            $redirection = new RedirectResponse($this->router->generate('commercialstores_back_index'));
         
         }
         return $redirection;

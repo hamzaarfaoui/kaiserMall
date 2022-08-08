@@ -25,10 +25,6 @@
             <!-- BEGIN PAGE BREADCRUMB -->
             <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
-                    <i class="fa fa-circle"></i>
-                </li>
-                <li>
                     <a class="active">Marchands</a>
                     <i class="fa fa-circle"></i>
                 </li>
@@ -47,11 +43,13 @@
                             <div class="caption">
                                 <i class="fa fa-globe"></i>Marchands
                             </div>
-                            <div class="tools">
-                                <a href="{{ path('dashboard_stores_back_new') }}" style="color: #FFF;font-size: 14px;" title="ajouter une catégorie">
-                                    <i class="fa fa-plus"></i> Ajouter
-                                </a>
-                            </div>
+                            {% if is_granted('ROLE_COMMERCIAL') %}
+                                <div class="tools">
+                                    <a href="{{ path('commercialstores_back_new') }}" style="color: #FFF;font-size: 14px;" title="ajouter une catégorie">
+                                        <i class="fa fa-plus"></i> Ajouter
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="portlet-body">
                             <div class="row">
@@ -86,31 +84,10 @@
                                             <td>{{store.name}}</td>
                                             <td>{{store.products|length}}</td>
                                             <td>
-                                                <a href="{{ path('dashboard_stores_back_details', {id : store.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
-                                                <a href="{{ path('dashboard_stores_back_edit', {id : store.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{store.id}}"><i class="fa fa-trash"></i> Supprimer</button>
-
-                                                <!-- Modal -->
-                                                <div id="myModal{{store.id}}" class="modal fade" role="dialog">
-                                                  <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                      <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Suppression</h4>
-                                                      </div>
-                                                      <div class="modal-body">
-                                                        <p>Etes-vous sùre de vouloir supprimer le marchand {{store.name}} ?</p>
-                                                      </div>
-                                                      <div class="modal-footer">
-                                                        <a href="{{ path('dashboard_stores_back_delete', {id : store.id}) }}" class="btn btn-danger">Oui</a>
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
-                                                      </div>
-                                                    </div>
-
-                                                  </div>
-                                                </div>
+                                                <a href="{{ path('commercialstores_back_details', {id : store.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Produits</a>
+                                                {% if is_granted('ROLE_COMMERCIAL') %}
+                                                    <a href="{{ path('commercialstores_back_edit', {id : store.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}

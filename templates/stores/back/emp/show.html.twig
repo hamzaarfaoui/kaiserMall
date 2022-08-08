@@ -1,18 +1,9 @@
 {% extends "layoutAdmin.html.twig" %}
 {% block stylesheets %}
-    <!-- BEGIN PAGE LEVEL STYLES -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/typeahead/typeahead.css') }}">
-    <link {{ asset('template/assets/global/css/components-rounded.css') }}" id="style_components" rel="stylesheet" type="text/css"/>
-    <link {{ asset('template/assets/global/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
-    <link {{ asset('template/assets/admin/layout4/css/layout.css') }}" rel="stylesheet" type="text/css"/>
-    <link id="style_color" {{ asset('template/assets/admin/layout4/css/themes/light.css') }}" rel="stylesheet" type="text/css"/>
-    {# <link href="{{ asset('template/bootstrapFileInput/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css"/>
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}" media="all" rel="stylesheet" type="text/css"/>
-     <link href="{{ asset('template/bootstrapFileInput/themes/explorer-fa/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/select2/select2.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
      #}<!-- END PAGE LEVEL STYLES -->
 {% endblock %}
 {% block title %}Tableau de bord | {{store.name}}{% endblock %}
@@ -25,7 +16,7 @@
             <div class="page-head">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>{{store.name}} <small>Détails</small></h1>
+                    <h1>{{store.name}} <small>Produits</small></h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
@@ -33,16 +24,13 @@
             <!-- BEGIN PAGE BREADCRUMB -->
             <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <a href="{{ path('commercialstores_back_index') }}">Marchands</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="{{ path('dashboard_stores_back_index') }}">Marchands</a>
-                    <i class="fa fa-circle"></i>
+                    <a class="active">{{ store.name }}</a>
                 </li>
-                <li>
-                    {{store.name}}
-                </li>
+
             </ul>
             <!-- END PAGE BREADCRUMB -->
             <!-- END PAGE HEADER-->
@@ -56,15 +44,7 @@
                                     <i class="icon-basket font-green-sharp"></i>
                                     <span class="caption-subject font-green-sharp bold uppercase">
                                         {{ store.name }} </span>
-                                    <span class="caption-helper">Détails</span>
-                                </div>
-                                <div class="actions btn-set">
-                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_stores_back_index') }}">
-                                        <i class="fa fa-chevron-left"></i> Retour </a>
-                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_product_index_by_store', {id:store.id}) }}">
-                                        <i class="fa fa-list"></i> Produits </a>
-                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_stores_back_edit', {id:store.id}) }}">
-                                        <i class="fa fa-pencil"></i> Modifier </a>
+                                    <span class="caption-helper">Produits</span>
                                 </div>
                             </div>
                             <div class="portlet-body">
@@ -76,49 +56,29 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
-                                <h3>Propriétaire</h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <b>Nom & prenom : </b>{{store.marchand.user.nom}} {{store.marchand.user.prenom}}
-                                        <br><br>
-                                        <b>Numéro du registre commerciale : </b>{{store.marchand.nrc}}
-                                        <br><br>
-                                        <b>Matricule discale : </b>{{store.marchand.matriculeFiscale}}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>Username : </b>{{store.marchand.user.username}}<br><br>
-                                        <b>Email : </b>{{store.marchand.user.email}}
-                                    </div>
-                                </div>
-                                    <hr>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <img class="img-circle" src="{{ asset('/uploads/shops/logos/') }}{{ store.logo }}" style="height: 200px;width: 200px;">
-                                    </div>
-                                    <div class="col-md-9">
-                                        <img src="{{ asset('/uploads/shops/couvertures/') }}{{ store.imageCouverture }}" style="height: 300px;width: 100%;">
-                                    </div>
-                                </div>
-                                
-                                <hr>
-                                
-                                {{store.getDescription()}}
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h4>Adresse{{store.adressesStore|length>1?'s':''}}</h4>
-                                        {% for adresse in store.adressesStore %}
-                                            <i class="fa fa-map-marker"></i> {{adresse.rue}}<br>
+                                <table class="table table-striped" id="sample_5">
+                                    <thead>
+                                        <tr>
+                                            <th>Produit</th>
+                                            <th>Prix</th>
+                                            <th>Quantité</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for product in store.products %}
+                                            <tr>
+                                                <td>{{ product.name }}</td>
+                                                <td>{{ product.price }} DT</td>
+                                                <td>{{ product.qte }}</td>
+                                                <td>
+                                                    <a href="{{ path('manager_product_back_edit', {id : product.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
+                                                </td>
+                                                
+                                            </tr>
                                         {% endfor %}
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h4>Télephone{{store.telephonesStore|length>1?'s':''}}</h4>
-                                        {% for phone in store.telephonesStore %}
-                                            <i class="fa fa-phone"></i> {{phone.numero}}<br>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
@@ -131,26 +91,12 @@
 {% endblock %}
 {% block javascripts %}
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') }}"></script>
-    <script src="{{ asset('template/assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/typeahead/handlebars.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/typeahead/typeahead.bundle.min.js') }}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js') }}"></script>
-    <script src="{{ asset('template/assets/global/plugins/plupload/js/plupload.full.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script>
         
@@ -158,6 +104,7 @@
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features
+            TableAdvanced.init();
         });
     </script>
 {% endblock %}

@@ -46,9 +46,15 @@
         <div class="page-header-inner">
             <!-- BEGIN LOGO -->
             <div class="page-logo">
+                {% if (is_granted('ROLE_SUPER_ADMIN'))%}
                 <a href="{{ path('backoffice_homepage') }}">
                     <img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default logo-dash"/>
                 </a>
+                {% else %}
+                <a href="{{ path('commercialstores_back_index') }}">
+                    <img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default logo-dash"/>
+                </a>
+                {% endif %}
                 {% if (is_granted('ROLE_SUPER_ADMIN'))%}
                 <div class="menu-toggler sidebar-toggler">
                     <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->

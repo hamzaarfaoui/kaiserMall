@@ -9,7 +9,7 @@
     <link href="{{ asset('template/assets/global/css/components-rounded.css') }}" id="style_components" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('template/assets/global/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('template/assets/admin/layout4/css/layout.css') }}" rel="stylesheet" type="text/css"/>
-    <link id="style_color" {{ asset('template/assets/admin/layout4/css/themes/light.css') }}" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="{{ asset('template/assets/admin/layout4/css/themes/light.css') }}" rel="stylesheet" type="text/css"/>
     {# <link href="{{ asset('template/bootstrapFileInput/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css"/>
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}" media="all" rel="stylesheet" type="text/css"/>
      <link href="{{ asset('template/bootstrapFileInput/themes/explorer-fa/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
@@ -33,16 +33,11 @@
             <!-- BEGIN PAGE BREADCRUMB -->
             <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <a href="{{ path('commercialstores_back_index') }}">Marchands</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="{{ path('dashboard_stores_back_index') }}">Marchands</a>
-                    <i class="fa fa-circle"></i>
-                </li>
-                <li>
-                    <a href="{{ path('dashboard_stores_back_details', {id:store.id}) }}">{{ store.name }}</a>
-                    <i class="fa fa-circle"></i>
+                    <a class="active">{{store.name}}</a>
                 </li>
                 <li>
                     Paramétres
@@ -53,7 +48,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-horizontal form-row-seperated" action="{{ path('dashboard_stores_back_edit_traitement', {id:store.id}) }}" method="post" role="form" enctype="multipart/form-data">
+                    <form class="form-horizontal form-row-seperated" action="{{ path('commercialstores_back_edit_traitement', {id:store.id}) }}" method="post" role="form" enctype="multipart/form-data">
                         <div class="portlet light">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -125,6 +120,21 @@
                                                         <input type="email" class="form-control" name="email" placeholder="" value="{{store.marchand.user.email}}">
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label col-md-4">Prix</label>
+                                                        <input type="number" id="from" class="form-control" name="prix" placeholder="Prix" required="true" value="{{store.prix}}">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label col-md-4">Début</label>
+                                                        <input type="datetime-local" id="from" class="form-control" name="datedebut" placeholder="Date de début" value="{{store.debutOffre|date('Y-m-d H:i')}}" required="true">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label col-md-4">Fin</label>
+                                                        <input type="datetime-local" id="to" class="form-control" name="datefin" placeholder="Date de fin" value="{{store.finOffre|date('Y-m-d H:i')}}" required="true">
+                                                    </div>
+                                                </div>   
+                                                <br><br>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab_meta">

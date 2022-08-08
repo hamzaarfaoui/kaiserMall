@@ -9,7 +9,9 @@ use App\Entity\Marchands;
 use App\Entity\AdressesStore;
 use App\Entity\AdressesUser;
 use App\Entity\TelephonesUser;
+use App\Entity\Banners;
 use App\Entity\TelephonesStore;
+use App\Entity\ProductsList;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -22,7 +24,7 @@ class StoresCommercialController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $stores = $dm->getRepository('App:Stores')->findAll();
-        return $this->render('stores/back/list.html.twig', array('stores' => $stores));
+        return $this->render('stores/back/emp/list.html.twig', array('stores' => $stores));
     }
     
     /*
@@ -32,7 +34,7 @@ class StoresCommercialController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
-        return $this->render('stores/back/show.html.twig', array('store' => $store));
+        return $this->render('stores/back/emp/show.html.twig', array('store' => $store));
     }
     
     /*
@@ -40,7 +42,7 @@ class StoresCommercialController extends Controller
      */
     public function newAction()
     {
-        return $this->render('stores/back/new.html.twig');
+        return $this->render('stores/back/emp/new.html.twig');
     }
     
     /*
@@ -72,13 +74,30 @@ class StoresCommercialController extends Controller
         /*start marchand document*/
         $marchand->setMatriculeFiscale($request->get('matricule'));
         $marchand->setNrc($request->get('nrc'));
+        
         $marchand->setUser($user);
         $dm->persist($marchand);
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('storenom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $s = $dm->getRepository('App:Stores')->findOneBy(array('slug'=>$slug));
+        if($slug){$slug = $slug.'-'.rand(1,25412).'-'.rand(1,2541222).$request->get('nrc').$request->get('matricule');}
+        $store->setSlug($slug);
         /*end marchand document*/
         /*start store document*/
         $store->setName($request->get('storenom'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
+        $store->setPrix($request->get('prix'));
+        $store->getFinOffre(new \DateTime(''.$request->get('datedebut').''));
+        $store->setFinOffre(new \DateTime(''.$request->get('datefin').''));
         if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"])) {
             $file = $_FILES["couvertureC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
@@ -120,9 +139,13 @@ class StoresCommercialController extends Controller
         $store->setMarchand($marchand);
         $dm->persist($store);
         /*end store document*/
+        /*store banner*/
+        $banner = new Banners();
+        $banner->setStore($store);
+        $dm->persist($banner);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." a été ajoutée");
-        return $this->redirectToRoute('dashboard_stores_back_details', array('id' => $store->getId()));
+        return $this->redirectToRoute('commercialstores_back_edit', array('id' => $store->getId()));
     }
     
     /*
@@ -132,7 +155,7 @@ class StoresCommercialController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $store = $dm->getRepository('App:Stores')->find($id);
-        return $this->render('stores/back/edit.html.twig', array('store' => $store));
+        return $this->render('stores/back/emp/edit.html.twig', array('store' => $store));
     }
     
     /*
@@ -170,12 +193,15 @@ class StoresCommercialController extends Controller
         $store->setName($request->get('storenom'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
+        $store->setPrix($request->get('prix'));
+        $store->setDebutOffre(new \DateTime(''.$request->get('datedebut').''));
+        $store->setFinOffre(new \DateTime(''.$request->get('datefin').''));
         if (isset($_FILES["couvertureC"]["name"]) && !empty($_FILES["couvertureC"]["name"])) {
             $file = $_FILES["couvertureC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
             move_uploaded_file(
-                    $_FILES["couvertureC"]["tmp_name"], $this->getParameter('images_shop_logo') . "/" . $fileName
+                    $_FILES["couvertureC"]["tmp_name"], $this->getParameter('images_shop_couvertures') . "/" . $fileName
             );
             $store->setImageCouverture($fileName);
         }
@@ -213,7 +239,8 @@ class StoresCommercialController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." a été mis à jour");
-        return $this->redirectToRoute('dashboard_stores_back_details', array('id' => $store->getId()));
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
     }
     
     /*
