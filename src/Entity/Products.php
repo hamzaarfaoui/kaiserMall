@@ -156,6 +156,11 @@ class Products
      */
     private $liees = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProductsLiees::class, mappedBy="productMain")
+     */
+    private $productInList;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -163,6 +168,7 @@ class Products
         $this->mediasVideos = new ArrayCollection();
         $this->valeurs = new ArrayCollection();
         $this->listHasProducts = new ArrayCollection();
+        $this->productInList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -579,6 +585,36 @@ class Products
     public function setLiees(?array $liees): self
     {
         $this->liees = $liees;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductsLiees[]
+     */
+    public function getProductInList(): Collection
+    {
+        return $this->productInList;
+    }
+
+    public function addProductInList(ProductsLiees $productInList): self
+    {
+        if (!$this->productInList->contains($productInList)) {
+            $this->productInList[] = $productInList;
+            $productInList->setProductMain($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductInList(ProductsLiees $productInList): self
+    {
+        if ($this->productInList->removeElement($productInList)) {
+            // set the owning side to null (unless already changed)
+            if ($productInList->getProductMain() === $this) {
+                $productInList->setProductMain(null);
+            }
+        }
 
         return $this;
     }

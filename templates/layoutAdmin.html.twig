@@ -86,40 +86,14 @@
                         <li class="dropdown dropdown-user dropdown-dark">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <span class="username username-hide-on-mobile" style="color: #757575;">
-                                    {{app.user.username}} </span>
+                                    {{app.user.nom}} {{app.user.prenom}}</span>
                                 <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-                                <img alt="" class="img-circle" src="{{ asset('template/assets/admin/layout4/img/avatar9.jpg') }}" style="border: 2px solid #757575;"/>
+                                <img alt="" class="img-circle" src="{{ asset('template/assets/admin/layout4/img/avatar.png') }}" style="border: 2px solid #757575;"/>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
-                                    <a href="extra_profile.html">
-                                        <i class="icon-user"></i> My Profile </a>
-                                </li>
-                                <li>
-                                    <a href="page_calendar.html">
-                                        <i class="icon-calendar"></i> My Calendar </a>
-                                </li>
-                                <li>
-                                    <a href="inbox.html">
-                                        <i class="icon-envelope-open"></i> My Inbox <span class="badge badge-danger">
-                                            3 </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="page_todo.html">
-                                        <i class="icon-rocket"></i> My Tasks <span class="badge badge-success">
-                                            7 </span>
-                                    </a>
-                                </li>
-                                <li class="divider">
-                                </li>
-                                <li>
-                                    <a href="extra_lock.html">
-                                        <i class="icon-lock"></i> Lock Screen </a>
-                                </li>
-                                <li>
                                     <a href="{{ path('fos_user_security_logout') }}">
-                                        <i class="icon-key"></i> Log Out </a>
+                                        <i class="icon-key"></i> Déconnexion </a>
                                 </li>
                             </ul>
                         </li>
@@ -138,7 +112,7 @@
     <!-- BEGIN CONTAINER -->
     <div class="page-container"> 
         <!-- BEGIN SIDEBAR -->
-        {% if (is_granted('ROLE_ADMIN'))%}
+        {% if (is_granted('ROLE_SUPER_ADMIN'))%}
         <div class="page-sidebar-wrapper">
             <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
             <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
@@ -354,11 +328,8 @@
             </div>
         </div>
         {% endif %}
-        <!-- END SIDEBAR -->
-        <!-- BEGIN CONTENT -->
-    {% block body %}{% endblock %}
-    <!-- END CONTENT -->
-</div>
+        {% block body %}{% endblock %}
+    </div>
 <!-- END CONTAINER -->
 
 
