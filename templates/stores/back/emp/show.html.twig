@@ -46,6 +46,10 @@
                                         {{ store.name }} </span>
                                     <span class="caption-helper">Produits</span>
                                 </div>
+                                <div class="actions btn-set">
+                                    <a class="btn green-haze btn-circle" href="{{ path('manager_product_back_new_by_store', {id : store.id}) }}">
+                                        <i class="fa fa-plus"></i> Ajouter un produit </a>
+                                </div>
                             </div>
                             <div class="portlet-body">
                                 {% if app.session.flashBag.has('success') %}

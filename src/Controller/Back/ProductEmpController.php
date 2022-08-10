@@ -100,7 +100,130 @@ class ProductEmpController extends Controller
         ));
     }
     
-    
+    public function newTraitementByStoreAction(Request $request, $id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $product = new Products();
+        $product->setName($request->get('nom'));
+        $product->setfullName($request->get('nomcomplet'));
+        $product->setPrice($request->get('price'));
+        $product->setQte($request->get('qte'));
+        $product->setContent($request->get('descriptionC'));
+        $store = $dm->getRepository('App:Stores')->find($id);
+        $store->addProduct($product);
+        $product->setStore($store);
+        $slug = preg_replace('/[^A-Za-z0-9. -]/', '', $request->get('nom'));
+
+        // Replace sequences of spaces with hyphen
+        $slug = preg_replace('/  */', '-', $slug);
+
+        // The above means "a space, followed by a space repeated zero or more times"
+        // (should be equivalent to / +/)
+
+        // You may also want to try this alternative:
+        $slug = preg_replace('/\\s+/', '-', $slug);
+        $p = $dm->getRepository('App:Products')->findOneBy(array('slug'=>$slug));
+        if($product){$slug = $slug.rand(1,25412).'-'.rand(1,2541222).$request->get('price').$request->get('qte');}
+        $product->setSlug($slug);
+        $product->setNbrAddToCart(0);
+        $product->setNbrView(0);
+        $product->setNbrAddToFavorite(0);
+        $dm->persist($store);
+        if($request->get('marque')){
+        $marque_id = $request->get('marque');
+        $marque = $dm->getRepository('App:Marques')->find($marque_id);
+        $product->setMarque($marque);
+        }
+        if($request->get('sc')){
+            $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
+            $product->setSousCategorie($sc);
+        }
+        /*start medias Images document*/
+        if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name'])) {
+            for ($count = 0; $count < count($_FILES["images"]["name"]); $count++) {
+                if(isset($_FILES["images"]['name']) && !empty($_FILES['images']['name'][$count])){
+                    $mediaImage = new MediasImages();
+                    $file = $_FILES['images']['name'][$count];
+                    $File_Ext = substr($file, strrpos($file, '.'));
+                    $fileName = md5(uniqid()) . $File_Ext;
+                    $path = $this->getParameter('images_products_img_gallery') . '/' . $fileName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$count], $path);
+                    $mediaImage->setName($fileName);
+                    $mediaImage->setProduct($product);
+                    $dm->persist($mediaImage);
+                }
+            }
+        }
+        /*end medias Images document*/
+        if (isset($_FILES["iconeC"]['name']) && !empty($_FILES["iconeC"]['name'])) {
+            $file = $_FILES["iconeC"]["name"];
+            $File_Ext = substr($file, strrpos($file, '.'));
+            $fileName = md5(uniqid()) . $File_Ext;
+            move_uploaded_file(
+                    $_FILES["iconeC"]["tmp_name"], $this->getParameter('images_products_img') . "/" . $fileName
+            );
+            $product->setImage($fileName);
+        }
+        /*start promotion document*/
+        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
+            $promotion = null;
+            if($request->get('promotion')){
+                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
+            }else{
+                $promotion = new Promotions(); 
+                $promotion->setProduct($product);
+            }
+
+            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
+            $promotion->setFixe($request->get('fixe'));
+            $promotion->setCreatedAt(new \DateTime('now'));
+            $product->setPricePromotion($request->get('fixe'));
+            $dm->persist($promotion);
+        }
+        /*end promotion document*/
+        /*start Caractéristique valeur document*/
+        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
+        foreach ($valeurs as $valeur){
+            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
+                $product->addValeur($valeur);
+            }
+        }
+        
+        /*start Caractéristique valeur document*/
+        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
+        foreach ($valeurs as $valeur){
+            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
+                $product->addValeur($valeur);
+                $valeur->addProduct($product);
+                $dm->persist($valeur);
+            }
+        }
+        if($request->get('couleur')){
+            $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
+            $product->setCouleur($couleur);
+        }
+        /*start keywords*/
+        $keywords_input = $request->get('keywords');
+        $keywords_array = explode(",", $keywords_input);
+        foreach ($keywords_array as $item) {
+            $keyword = new Keywords();
+            $keyword->setName($item);
+            $keyword->setProduct($product);
+            $keyword->setCategorie($product->getSousCategorie());
+            $dm->persist($keyword);
+            $product->addKeyword($keyword);
+        }
+        
+        /*end kewords*/
+        /*start Caractéristique valeur document*/
+        $dm->persist($product);
+        /*end store document*/
+        
+        $dm->flush();
+        $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été ajoutée");
+        return $this->redirectToRoute('manager_product_back_edit', array('id' => $product->getId()));
+    }
     /*
      * New Product traitement
      */

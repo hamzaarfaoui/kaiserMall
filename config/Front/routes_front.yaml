@@ -1,3 +1,9 @@
+dashboard_sc1_by_cm:
+    path: /sc1_by_cm/{cm}
+    controller: App\Controller\Back\SousCategories1Controller::Souscategories1bycm    
+dashboard_sc2_by_sc1:
+    path: /sc2_by_sc1/{sc1}
+    controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1   
 test_email:
     path: /test_email
     controller: App\Controller\Front\FrontController::testEmail

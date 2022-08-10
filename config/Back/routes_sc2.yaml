@@ -6,9 +6,7 @@ dashboard_sc2_greffer:
     path: /greffer
     controller: App\Controller\Back\SousCategories2Controller::grefferAction    
     
-dashboard_sc2_by_sc1:
-    path: /sc2_by_sc1/{sc1}
-    controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1   
+
     
 dashboard_add_sc2_on_index:
     path: /add_sc2_on_index/{id}

@@ -297,6 +297,10 @@ class ProductBackController extends Controller
                 $dm->persist($valeur);
             }
         }
+        if($request->get('couleur')){
+            $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
+            $product->setCouleur($couleur);
+        }
         /*start keywords*/
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);

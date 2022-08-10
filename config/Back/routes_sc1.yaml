@@ -2,9 +2,7 @@ dashboard_sc1_index:
     path: /list
     controller: App\Controller\Back\SousCategories1Controller::listAction
     
-dashboard_sc1_by_cm:
-    path: /sc1_by_cm/{cm}
-    controller: App\Controller\Back\SousCategories1Controller::Souscategories1bycm    
+
     
 dashboard_sc1_details:
     path: /{id}/details
