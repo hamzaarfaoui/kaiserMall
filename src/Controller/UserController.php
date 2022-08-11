@@ -21,6 +21,7 @@ class UserController extends Controller
             $products = explode(' , ', $row['products']);
             $commandes_no_valides[$k]['id'] = $row['id'];
             $commandes_no_valides[$k]['marchand'] = $row['marchand'];
+            $commandes_no_valides[$k]['marchand_id'] = $row['marchand_id'];
             $commandes_no_valides[$k]['nom'] = $row['nom'];
             $commandes_no_valides[$k]['prenom'] = $row['prenom'];
             $commandes_no_valides[$k]['adress'] = $row['adress'];

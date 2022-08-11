@@ -93,6 +93,7 @@ class StoresCommercialController extends Controller
         /*end marchand document*/
         /*start store document*/
         $store->setName($request->get('storenom'));
+        $store->setLink($request->get('lien'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
         $store->setPrix($request->get('prix'));
@@ -191,6 +192,7 @@ class StoresCommercialController extends Controller
         /*end marchand document*/
         /*start store document*/
         $store->setName($request->get('storenom'));
+        $store->setLink($request->get('lien'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
         $store->setPrix($request->get('prix'));

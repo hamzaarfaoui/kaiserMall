@@ -81,7 +81,6 @@
                                         <td class="nom">{{commande.nom}} {{commande.prenom}}</td>
                                         <td class="adress">{{ commande.adress }}</td>
                                         <td>{{ commande.phone }}</td>
-                                        <td>{{ commande.marchand }}</td>
                                         <td>
                                             <ul>
                                                 {% for k,product in commande.products %}
@@ -89,6 +88,7 @@
                                                 {% endfor %}
                                             </ul>
                                         </td>
+                                        <td><a href="{{path('dashboard_stores_back_edit', {id : commande.marchand_id})}}">{{ commande.marchand }}</a></td>
                                         <td id="bloc-validate-{{commande.id}}"><button type="button" class="btn btn-primary btn-sm validate-cmd" data-id="{{commande.id}}">Valider</button></td>
                                     </tr>
                                 {% endfor %}

@@ -51,19 +51,19 @@ class FacturesRepository extends ServiceEntityRepository
     public function listeNoValideInDash()
     {
         $qb = $this->createQueryBuilder('u');
-        $qb->select('cmd.id', 'u.qte', 'u.price', 'm.name AS marchand', 'c.nom', 'c.prenom', 'c.adressLivraison AS adress', 'c.phone', "GROUP_CONCAT(p.slug SEPARATOR' , ') AS products")
+        $qb->select('cmd.id', 'u.qte', 'u.price', 'm.name AS marchand', 'c.nom', 'c.prenom', 'c.adressLivraison AS adress', 'c.phone', "GROUP_CONCAT(p.slug SEPARATOR' , ') AS products", 'm.id AS marchand_id')
            ->leftJoin('u.commande', 'cmd')
            ->leftJoin('u.client', 'c')
            ->leftJoin('u.marchand', 'm')
            ->leftJoin('u.product', 'p')
-           ->where('cmd.status = 0')
+           ->where('cmd.status < 2')
            ->groupBy('cmd.id');
         return $qb->getQuery()->execute();
     }
     public function liste()
     {
         $qb = $this->createQueryBuilder('u');
-        $qb->select('cmd.id', 'u.qte', 'u.price', 'm.name AS marchand', 'c.nom', 'c.prenom', 'c.adressLivraison AS adress', 'c.phone', "GROUP_CONCAT(p.slug SEPARATOR' , ') AS products")
+        $qb->select('cmd.id', 'u.qte', 'u.price', 'm.name AS marchand', 'c.nom', 'c.prenom', 'c.adressLivraison AS adress', 'c.phone', "GROUP_CONCAT(p.slug SEPARATOR' , ') AS products", 'm.id AS marchand_id')
            ->leftJoin('u.commande', 'cmd')
            ->leftJoin('u.client', 'c')
            ->leftJoin('u.marchand', 'm')

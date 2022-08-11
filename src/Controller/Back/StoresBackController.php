@@ -100,6 +100,7 @@ class StoresBackController extends Controller
         /*end marchand document*/
         /*start store document*/
         $store->setName($request->get('storenom'));
+        $store->setLink($request->get('lien'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
         $store->setPrix($request->get('prix'));
@@ -152,7 +153,7 @@ class StoresBackController extends Controller
         $dm->persist($banner);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." a été ajoutée");
-        return $this->redirectToRoute('dashboard_stores_back_details', array('id' => $store->getId()));
+        return $this->redirectToRoute('dashboard_stores_back_edit', array('id' => $store->getId()));
     }
     
     /*
@@ -198,6 +199,7 @@ class StoresBackController extends Controller
         /*end marchand document*/
         /*start store document*/
         $store->setName($request->get('storenom'));
+        $store->setLink($request->get('lien'));
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
         $store->setPrix($request->get('prix'));
@@ -246,7 +248,7 @@ class StoresBackController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." a été mis à jour");
-        return $this->redirectToRoute('dashboard_stores_back_details', array('id' => $store->getId()));
+        return $this->redirectToRoute('dashboard_stores_back_edit', array('id' => $store->getId()));
     }
     
     /*

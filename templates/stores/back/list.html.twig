@@ -1,12 +1,13 @@
 {% extends "layoutAdmin.html.twig" %}
 {% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL STYLES -->
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/select2/select2.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
-     #}<!-- END PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL STYLES -->
 {% endblock %}
-{% block title %}Tableau de bord | {{store.name}}{% endblock %}
+{% block title %}Tableau de bord | Marchands{% endblock %}
 {% block body %}>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
@@ -16,7 +17,7 @@
             <div class="page-head">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>{{store.name}} <small>Produits</small></h1>
+                    <h1>Marchands <small>Tous</small></h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
@@ -24,64 +25,75 @@
             <!-- BEGIN PAGE BREADCRUMB -->
             <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <a href="{{ path('commercialstores_back_index') }}">Marchands</a>
+                    <a class="active">Marchands</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a class="active">{{ store.name }}</a>
+                    Tous
                 </li>
-
             </ul>
             <!-- END PAGE BREADCRUMB -->
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-horizontal form-row-seperated" action="{{ path('dashboard_stores_back_new_traitement') }}" method="post" role="form" enctype="multipart/form-data">
-                        <div class="portlet light">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="icon-basket font-green-sharp"></i>
-                                    <span class="caption-subject font-green-sharp bold uppercase">
-                                        {{ store.name }} </span>
-                                    <span class="caption-helper">Produits</span>
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-globe"></i>Marchands
+                            </div>
+                            {% if is_granted('ROLE_COMMERCIAL') %}
+                                <div class="tools">
+                                    <a href="{{ path('commercialstores_back_new') }}" style="color: #FFF;font-size: 14px;" title="ajouter une catégorie">
+                                        <i class="fa fa-plus"></i> Ajouter
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="portlet-body">
-                                {% if app.session.flashBag.has('success') %}
-                                    <div class="alert alert-success">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        {% for msg in app.session.flashBag.get('success') %}
-                                            <i class="fa fa-check"></i> {{ msg }}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <table class="table table-striped" id="sample_5">
-                                    <thead>
+                            <table class="table table-striped table-hover" id="sample_5">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Nombre de produits
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for store in stores %}
                                         <tr>
-                                            <th>Produit</th>
-                                            <th>Prix</th>
-                                            <th>Quantité</th>
-                                            <th></th>
+                                            <td>{{store.name}}</td>
+                                            <td>{{store.products|length}}</td>
+                                            <td>
+                                                <a href="{{ path('dashboard_stores_back_details', {id : store.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Produits</a>
+                                                <a href="{{ path('dashboard_stores_back_edit', {id : store.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for product in store.products %}
-                                            <tr>
-                                                <td>{{ product.name }}</td>
-                                                <td>{{ product.price }} DT</td>
-                                                <td>{{ product.qte }}</td>
-                                                <td>
-                                                    <a href="{{ path('manager_product_back_edit', {id : product.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
-                                                </td>
-                                                
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
             <!-- END PAGE CONTENT-->
@@ -99,7 +111,6 @@
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script>
-        
         jQuery(document).ready(function () {
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout

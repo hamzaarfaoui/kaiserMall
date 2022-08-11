@@ -515,7 +515,7 @@ class ProductBackController extends Controller
         $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        
+        $valeurs = $request->get('valeurs');
         $p = $dm->getRepository('App:Products')->find($id);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
@@ -616,7 +616,7 @@ class ProductBackController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été modifié");
-        return $this->redirectToRoute('marchand_product_back_edit', array('id' => $product->getId()));
+        return $this->redirectToRoute('dashboard_product_back_edit', array('id' => $product->getId()));
     }
     
     /*

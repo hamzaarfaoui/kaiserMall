@@ -197,6 +197,13 @@ class SlidersController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $slider = $dm->getRepository('App:Sliders')->find($id);
+        $productsList = $dm->getRepository('App:ProductsList')->findOneBy(array('slider' => $slider));
+        foreach ($productsList->getListHasProducts() as $item) {
+            $dm->remove($item);
+            $dm->flush();
+        }
+        $dm->remove($productsList);
+        $dm->flush();
         $fileSystem->remove(array('symlink', $this->getParameter('images_sliders')."/".$slider->getImage(), ''.$slider->getImage().''));
         $dm->remove($slider);
         $dm->flush();

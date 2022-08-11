@@ -235,7 +235,7 @@
                                                                 {% for valeur in caracteristique.valeurs %}
                                                                     <div class="form-group">
 
-                                                                        <input id="{{valeur.id}}" type="checkbox" name="valeur{{caracteristique.id}}" value="{{valeur.id}}" {% for val in product.valeurs %}{{val.id==valeur.id?'checked="true"':''}}{% endfor %}>
+                                                                        <input id="{{valeur.id}}" type="checkbox" name="valeurs[]" value="{{valeur.id}}" {% for val in product.valeurs %}{{val.id==valeur.id?'checked="true"':''}}{% endfor %}>
                                                                         <label for="{{valeur.id}}">{{valeur.name}}</label>
                                                                     </div>
                                                                 {% endfor %}
