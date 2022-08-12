@@ -283,12 +283,8 @@ class ProductEmpController extends Controller
             $product->setImage($fileName);
         }
         if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
-            if($request->get('promotion')){
-                $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
-            }else{
-                $promotion = new Promotions(); 
-                $promotion->setProduct($product);
-            }
+            $promotion = new Promotions(); 
+            $promotion->setProduct($product);
 
             $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
             $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
@@ -336,8 +332,9 @@ class ProductEmpController extends Controller
         $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
-        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
+        $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
+        $couleurs = $dm->getRepository('App:couleurs')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $marques = $dm->getRepository('App:Marques')->findAll();
         $stores = $dm->getRepository('App:Stores')->findAll();
         $gallery = $dm->getRepository('App:MediasImages')->findBy(array('product'=>$product));
@@ -347,6 +344,7 @@ class ProductEmpController extends Controller
             'caracteristiques' => $caracteristiques,
             'promotion' => $promotion,
             'stores' => $stores,
+            'couleurs' => $couleurs,
             'gallery' => $gallery,
             'sousCategories1' => $sousCategories1,
             'sousCategories2' => $sousCategories2,
@@ -362,14 +360,13 @@ class ProductEmpController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $product->setName($request->get('nom'));
+        $product->setfullName($request->get('nomcomplet'));
         $product->setPrice($request->get('price'));
+        $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        if($request->get('marque')){
-        $marque_id = $request->get('marque');
-        $marque = $dm->getRepository('App:Marques')->find($marque_id);
-        $product->setMarque($marque);
-        }
+        $valeurs = $request->get('valeurs');
+        $p = $dm->getRepository('App:Products')->find($id);
         if($request->get('store')){
             $store = $dm->getRepository('App:Stores')->find($request->get('store'));
             $store->addProduct($product);
@@ -377,9 +374,13 @@ class ProductEmpController extends Controller
             $dm->persist($store);
         }
         
-        if($request->get('sc')){
-            $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
-            $product->setSousCategorie($sc);
+        // if($request->get('sc')){
+        //     $sc = $dm->getRepository('App:SousCategories')->find($request->get('sc'));
+        //     $product->setSousCategorie($sc);
+        // }
+        if($request->get('couleur')){
+            $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
+            $product->setCouleur($couleur);
         }
         /*start medias Images document*/
         if (isset($_FILES["images"]['name']) && !empty($_FILES["images"]['name']) && count($_FILES["images"]['name']) > 0 && $_FILES["images"]["name"][0] != "") {
@@ -407,7 +408,7 @@ class ProductEmpController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
+        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe') && !empty($request->get('fixe'))){
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
             }else{
@@ -422,15 +423,24 @@ class ProductEmpController extends Controller
             $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
         }
+        if($request->get('haspromotion') == 0){
+            $promotion = $dm->getRepository('App:Promotions')->findOneBy(array('product' => $product));
+            $dm->remove($promotion);
+            $dm->flush();
+        }
         /*end promotion document*/
+        
         /*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-                $valeur->addProduct($product);
-                $dm->persist($valeur);
-            }
+        /* remove products valeurs */
+        foreach ($product->getValeurs() as $valeur) {
+            $product->removeValeur($valeur);
+            $dm->persist($product);
+        }
+        /* add selected valeurs */
+        foreach ($valeurs as $v){
+            $valeur = $dm->getRepository('App:Valeurs')->find($v);
+            $product->addValeur($valeur);
+            $dm->persist($product);
         }
         
         /*start keywords*/

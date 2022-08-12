@@ -95,6 +95,19 @@
                                 </div>
                             </div>
                             <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {% for label, messages in app.flashes %}
+                                            {% for message in messages %}
+                                                <div class="alert alert-dismissible alert-{{ label }}">
+                                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                    {{ message|trans({}, 'alert') }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
                                 <div class="tabbable">
                                     <ul class="nav nav-tabs">
                                         <li class="active">
@@ -221,7 +234,7 @@
                                                     <h3>Couleur</h3>
                                                     {% for couleur in couleurs %}
                                                         <input type="radio" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
-                                                        <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
+                                                        <label for="couleur-{{couleur.id}}" class="couleur-label {{couleur.id == product.couleur.id ? 'couleur-label-checked' : ''}}"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
                                                     {% endfor %}
                                                 </div>
                                             </div>

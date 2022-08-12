@@ -61,6 +61,22 @@
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('commercialstores_back_index') }}">Stores</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('commercialstores_back_details', {id : product.store.id}) }}">{{product.store.name}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Produits</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Paramétres</a>
+            </ul>
             <!-- END PAGE HEAD -->
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -76,11 +92,24 @@
                                     <span class="caption-helper">Paramétres</span>
                                 </div>
                                 <div class="actions btn-set">
-                                    <a class="btn green-haze btn-circle" href="{{ path('manager_product_index') }}">
+                                    <a class="btn green-haze btn-circle" href="{{ path('commercialstores_back_details', {id : product.store.id}) }}">
                                         <i class="fa fa-list"></i> Tous </a>
                                 </div>
                             </div>
                             <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {% for label, messages in app.flashes %}
+                                            {% for message in messages %}
+                                                <div class="alert alert-dismissible alert-{{ label }}">
+                                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                    {{ message|trans({}, 'alert') }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
                                 <div class="tabbable">
                                     <ul class="nav nav-tabs">
                                         <li class="active">
@@ -112,6 +141,16 @@
                                             <div class="form-body">
                                                 <h3>Infos générale</h3>
                                                 <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Nom complet: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="text" class="form-control" name="nomcomplet" placeholder="" value="{{product.fullname}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label">Nom: <span class="required">
@@ -122,6 +161,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label">Prix: <span class="required">
@@ -143,48 +183,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group">
-                                                            <label>Catégorie</label>
-                                                            <select id="cm" class="form-control">
-                                                                {% for cm in categoriesMere %}
-                                                                    <option value="{{cm.id}}" {{product.sousCategorie.categorie.categorieMere.id==cm.id?'selected="true"':''}}>{{cm.name}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group" style="margin-left: 10px">
-                                                            <label>Sous categorie</label>
-                                                            <select id="sc1" class="form-control">
-                                                                
-                                                                {% for sc1 in sousCategories1 %}
-                                                                    <option value="{{sc1.id}}" {{product.sousCategorie.categorie.id==sc1.id?'selected="true"':''}}>{{sc1.name}}</option>
-                                                                {% endfor %}
-                                                                
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group" style="margin-left: 10px">
-                                                            <label>Sous catégorie 2</label>
-                                                            <select id="sc2" class="form-control" name="sc">
-                                                                {% if(product.sousCategorie!=null) %}
-                                                                    <option value="{{product.sousCategorie.id}}" selected="true">{{product.sousCategorie.name}}</option>
-                                                                {% endif %}
-                                                            </select>
-                                                        </div>
-                                                    </div>   
-                                                    <div class="col-md-3">
-                                                        <div class="form-group" style="margin-left: 10px">
-                                                            <label>Marque</label>
-                                                            <select id="marque" class="form-control" name="marque">
-                                                                {% for marque in marques %}
-                                                                    <option value="{{marque.id}}" {% if(product.marque!=null) %}{% if(product.marque.id == marque.id) %}selected="true"{% endif %}{% endif %}>{{marque.name}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                      
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Déscription</label>
@@ -198,6 +197,7 @@
                                                 <h3>Images</h3>
                                                 <div class="col-md-12">
                                                     <label>Image d'ouveture</label> <br>
+                                                    <img style="height: 400px;" src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
                                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                                         <div class="input-group input-large">
                                                             <div class="form-control uneditable-input span3" data-trigger="fileinput">
@@ -216,7 +216,6 @@
                                                         </div>
                                                     </div>
                                                     <br>
-                                                    Autres Images <br>
                                                     <div class="form-group">
                                                         <div class="file-loading">
                                                             <label>Autres Images</label>
@@ -232,6 +231,15 @@
                                                 </div>
                                         </div>
                                         <div class="tab-pane" id="tab_images">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h3>Couleur</h3>
+                                                    {% for couleur in couleurs %}
+                                                        <input type="radio" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                                        <label for="couleur-{{couleur.id}}" class="couleur-label {{product.couleur and (couleur.id == product.couleur.id) ? 'couleur-label-checked' : ''}}"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
                                             <h3>Caractéristiques</h3>
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -242,7 +250,7 @@
                                                                 {% for valeur in caracteristique.valeurs %}
                                                                     <div class="form-group">
 
-                                                                        <input id="{{valeur.id}}" type="radio" name="valeur{{caracteristique.id}}" value="{{valeur.id}}" {% for val in product.valeurs %}{{val.id==valeur.id?'checked="true"':''}}{% endfor %}>
+                                                                        <input id="{{valeur.id}}" type="checkbox" name="valeurs[]" value="{{valeur.id}}" {% for val in product.valeurs %}{{val.id==valeur.id?'checked="true"':''}}{% endfor %}>
                                                                         <label for="{{valeur.id}}">{{valeur.name}}</label>
                                                                     </div>
                                                                 {% endfor %}
@@ -254,9 +262,15 @@
                                         </div>
                                         <div class="tab-pane" id="tab_reviews">
                                             <h3>Promotion</h3>
+                                            
+                                                
                                             <div id="phones">
                                                 <div class="blocPhone">
                                                 <div class="row">
+                                                    <div class="col-md-12">
+                                                        <input type="hidden" name="haspromotion" id="haspromotion" value="1">
+                                                        <button type="button" class="btn btn-success pull-right disable-promotion">Annuler la promotion</button>
+                                                    </div>
                                                     <div class="col-md-4">
                                                         <input type="hidden" name="promotion" value="{{promotion?promotion.id:''}}">
                                                         Début <br>
@@ -268,8 +282,9 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         Montant<br>
-                                                        <input type="number" class="form-control" name="fixe" placeholder="Montant" value="{{promotion?promotion.fixe:''}}">
+                                                        <input type="number" class="form-control" id="amount-promotion" name="fixe" placeholder="Montant" value="{{promotion?promotion.fixe:''}}">
                                                     </div>
+                                                    
                                                 </div>
                                                 </div>
                                             </div>
@@ -298,6 +313,11 @@
     <!-- END CONTENT -->
 {% endblock %}
 {% block javascripts %}
+<!-- END PAGE LEVEL PLUGINS-->
+<!-- BEGIN:File Upload Plugin JS files-->
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+     <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bootstrapFileInput/js/fileinput.js') }}"></script>
     <script src="{{ asset('bootstrapFileInput/js/locales/fr.js') }}" type="text/javascript"></script>
@@ -317,16 +337,14 @@
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js') }}"></script>
     <script src="{{ asset('template/assets/global/plugins/plupload/js/plupload.full.min.js') }}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
     <script>
                 CKEDITOR.replace( 'editor1', {
                     removeButtons: 'PasteFromWord'
                 } );
             </script>
-    <!-- END PAGE LEVEL PLUGINS -->
     <script>
-        
         $("#file-3").fileinput({
                 theme: 'fa',
                 showUpload: false,
@@ -338,13 +356,13 @@
                 overwriteInitial: false,
                 initialPreviewAsData: true,
                 initialPreview: [
-                    {% for photo in gallery %}
+                    {% for photo in product.getMediasImages() %}
                     '{{ asset("uploads/products/gallery/") }}{{ photo.name }}',
                     {% endfor %}
                 ],
                 initialPreviewFileType: 'image',
                 initialPreviewConfig: [
-                    {% for k,photo in gallery %}
+                    {% for k,photo in product.getMediasImages() %}
                         {caption: "photo{{k+1}}", url: '{{path('dashboard_remove_img_from_gallery', {'id_product' : product.id, 'name' : photo.name})}}', key: '{{k+1}}'},
                     {% endfor %}
                 ]
@@ -363,12 +381,18 @@
             overwriteInitial: false,
             initialPreviewAsData: true,
         });
+        $(".disable-promotion").click(function(){
+            $("#from").val("");
+            $("#to").val("");
+            $("#amount-promotion").val("");
+            $("#haspromotion").val(0);
+        });
             $('#cm').change(function(){
                 var id = $(this).val();
                 if(id==''){
                     $('#sc1').prop('disabled', true);
                 }else{
-                    var url = '{{path('manager_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
+                    var url = '{{path('dashboard_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
                     url = url.replace("valeurselectionnee", id);
                     $.ajax({
 
@@ -395,7 +419,7 @@
                 if(id==''){
                     $('#sc2').prop('disabled', true);
                 }else{
-                    var url = '{{path('manager_sc2_by_sc1', {'sc1': 'valeurselectionnee'})}}';
+                    var url = '{{path('dashboard_sc2_by_sc1', {'sc1': 'valeurselectionnee'})}}';
                     url = url.replace("valeurselectionnee", id);
                     $.ajax({
 
@@ -444,6 +468,8 @@
                     });
                 }
             });
+
+            
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features

@@ -65,7 +65,7 @@
             <div class="page-head">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>{{store.name}} <small>Produits</small></h1>
+                    <h1>{{store.name}} <small>Nouveau Produit</small></h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
@@ -73,11 +73,11 @@
             <!-- BEGIN PAGE BREADCRUMB -->
             <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <a href="{{ path('commercialstores_back_index') }}">Stores</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="{{ path('dashboard_stores_back_details', {id : store.id}) }}">{{store.name}}</a>
+                    <a href="{{ path('commercialstores_back_details', {id : store.id}) }}">{{store.name}}</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
@@ -102,7 +102,7 @@
                                     <span class="caption-helper">Nouveau</span>
                                 </div>
                                 <div class="actions btn-set">
-                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_stores_back_index') }}">
+                                    <a class="btn green-haze btn-circle" href="{{ path('commercialstores_back_details', {id : store.id}) }}">
                                         <i class="fa fa-list"></i> Tous </a>
                                 </div>
                             </div>
