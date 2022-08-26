@@ -90,8 +90,8 @@
                                     <span class="caption-helper">Paramétres</span>
                                 </div>
                                 <div class="actions btn-set">
-                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_stores_back_index') }}">
-                                        <i class="fa fa-list"></i> Tous </a>
+                                    <a class="btn green-haze btn-circle" href="{{ path('dashboard_product_liees', {id : product.id}) }}">
+                                        <i class="fa fa-list"></i> Produits liées </a>
                                 </div>
                             </div>
                             <div class="portlet-body">
@@ -234,7 +234,7 @@
                                                     <h3>Couleur</h3>
                                                     {% for couleur in couleurs %}
                                                         <input type="radio" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
-                                                        <label for="couleur-{{couleur.id}}" class="couleur-label {{couleur.id == product.couleur.id ? 'couleur-label-checked' : ''}}"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
+                                                        <label for="couleur-{{couleur.id}}" class="couleur-label {{product.couleur and couleur.id == product.couleur.id ? 'couleur-label-checked' : ''}}"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
                                                     {% endfor %}
                                                 </div>
                                             </div>

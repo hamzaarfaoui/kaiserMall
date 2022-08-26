@@ -235,15 +235,20 @@ class FrontController extends Controller
         //$product = $dm->getRepository('App:Products')->findOneBy(array('slug' => $slug));
         $product = $dm->getRepository('App:Products')->findOneBy(array('slug' => $slug));
         $query = array();
-        $query['slug'] = $slug;
-        $query['store'] = $product->getStore()->getId();
-        $products = $dm->getRepository('App:Products')->produitsLiees($query);
+        
         $product->setNbrView($product->getNbrView()+1);
         $dm->persist($product);
         $dm->flush();
         $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
-
+        $productsLiees = array();
+        $liees = $dm->getRepository('App:Others')->findBy(array('main' => $product->getId()));
+        foreach ($liees as $liee) {
+            $productsLiees[] = $liee->getLiee();
+        }
+        $query['liees'] = implode(', ', $productsLiees);
+        $products = $dm->getRepository('App:Products')->produitsLiees($query);
         return $this->render('Products/front/details.html.twig', array(
+            'id_product' => $product->getId(),
             'product' => $product,
             'products' => $products,
             'caracteristiques' => $caracteristiques,

@@ -91,4 +91,8 @@ dashboard_cmd_filter:
 dashboard_cmd_revenu:
     path:  /filter/revenu
     controller: App\Controller\UserController::filterRevenu
+
+dashboard_product_add_remove_liees:
+    path: /add_remove_liees
+    controller: App\Controller\Back\ProductBackController::addAndRemove
     

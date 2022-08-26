@@ -14,6 +14,7 @@ use App\Entity\MediasImages;
 use App\Entity\Promotions;
 use App\Entity\Keywords;
 use App\Entity\ListHasProducts;
+use App\Entity\Others;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,9 +109,42 @@ class ProductBackController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
+        $productsLiees = array();
+        $liees = $dm->getRepository('App:Others')->findBy(array('main' => $product->getId()));
+        foreach ($liees as $liee) {
+            $productsLiees[] = $liee->getLiee();
+        }
         return $this->render('Products/back/liees.html.twig', array(
-            'product' => $product
+            'product' => $product,
+            'productsLiee' => $productsLiees
         ));
+    }
+
+    /*
+     * Produits add and remove liees
+     */
+    public function addAndRemove(Request $request)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $main = $request->get('main');
+        $liee = $request->get('liee');
+        $action = $request->get('action');
+        $msg = '';
+        if($action == 'add'){
+            $other = new Others();
+            $other->setMain($main);
+            $other->setLiee($liee);
+            $dm->persist($other);
+            $dm->flush();
+            $msg = 'Product added to others';
+        }
+        if($action == 'remove'){
+            $other = $dm->getRepository('App:Others')->findOneBy(array('main' => $main, 'liee' => $liee));
+            $dm->remove($other);
+            $dm->flush();
+            $msg = 'Product removed from others';
+        }
+        return new JsonResponse(array('message' => $msg));
     }
 
     /*

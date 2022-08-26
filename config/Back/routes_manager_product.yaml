@@ -49,3 +49,7 @@ manager_sc1_by_cm:
 manager_sc2_by_sc1:
     path: /sc2_by_sc1/{sc1}
     controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1      
+
+manager_product_liees:
+    path: /{id}/liees
+    controller: App\Controller\Back\ProductEmpController::liees

@@ -102,7 +102,7 @@
                                                     {% if(produit.id != product.id and produit.qte > 0) %}
                                                     <tr id="products_{{ produit.id }}" data-id="{{ produit.id }}">
                                                         <td><img src="{{ asset('uploads/products/images/') }}{{ produit.image }}" width="100" height="80"></td>
-                                                        <td><a href="{{path('dashboard_product_back_edit', {id : produit.id})}}">{{produit.name}}</a></td>
+                                                        <td><a href="{{path('manager_product_back_edit', {id : produit.id})}}">{{produit.name}}</a></td>
                                                         <td>{% if(produit.pricePromotion and produit.price > produit.pricePromotion) %}<del>{{produit.price}} TND</del> - {{produit.pricePromotion}} TND{% else %}{{produit.price}} TND{% endif %} </td>
                                                         <td>{{produit.sousCategorie.name}}</td>
                                                         <td>

@@ -39,6 +39,24 @@ class ProductEmpController extends Controller
         $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
         return $this->render('Products/back/emp/listByStore.html.twig', array('products' => $products, 'store' => $store));
     }
+
+    /*
+     * Produits liees
+     */
+    public function liees($id)
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $product = $dm->getRepository('App:Products')->find($id);
+        $productsLiees = array();
+        $liees = $dm->getRepository('App:Others')->findBy(array('main' => $product->getId()));
+        foreach ($liees as $liee) {
+            $productsLiees[] = $liee->getLiee();
+        }
+        return $this->render('Products/back/emp/liees.html.twig', array(
+            'product' => $product,
+            'productsLiee' => $productsLiees
+        ));
+    }
     
     /*
      * Product details

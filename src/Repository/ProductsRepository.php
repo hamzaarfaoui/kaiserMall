@@ -56,19 +56,9 @@ class ProductsRepository extends ServiceEntityRepository
     public function produitsLiees($params)
     {
         $qb = $this->createQueryBuilder('u')
-                ->leftJoin('u.store', 's')
-                ->where('s.debutOffre <= :deb')
-                ->andWhere('s.finOffre >= :fin')
-                ->andWhere('u.slug != :slug');
-        if(isset($params['store'])){
-            $qb->andWhere('u.store = :store')
-            ->setParameter('store', $params['store']);
-        }
                 
-                $qb->setMaxResults(4)
-                ->setParameter('deb', date('Y-m-d H:i:s'))
-                ->setParameter('fin', date('Y-m-d H:i:s'))
-                ->setParameter('slug', $params['slug']);
+                ->where('u.id IN(:liee)')->setMaxResults(4)
+                ->setParameter(':liee', $params['liees']);
 
         return $qb->getQuery()->execute();
     }
