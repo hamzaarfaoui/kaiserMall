@@ -245,7 +245,7 @@ h5{
 
                           </div>
                         </div>
-                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
+                        <div class="pull-left">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
@@ -256,8 +256,8 @@ h5{
                                 </select>
                             </div>
                         </div>
-                        <div class="pull-right">
-                            {{ knp_pagination_render(products) }}
+                        <div class="pull-right pagination-container">
+                            
                         </div>
                     </div>
                     <!-- /store top filter -->
@@ -266,7 +266,7 @@ h5{
                     <div id="store">
                         <div id="list-produits">
                             <!-- row -->
-                            <div class="row">
+                            <div class="row products">
                                 {% for product in products %}
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
@@ -323,8 +323,8 @@ h5{
                     <!-- /STORE -->
 
                     <!-- store bottom filter -->
-                    <div class="store-filter clearfix">
-                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
+                    <div class="store-filter bottom-filter clearfix">
+                        <div class="pull-left">
                             <div class="sort-filter">
                                 <span class="text-uppercase">Trier par :</span>
                                 <select class="input filter-product" style="width: 236px;">
@@ -335,8 +335,8 @@ h5{
                                 </select>
                             </div>
                         </div>
-                        <div class="pull-right">
-                            {{ knp_pagination_render(products) }}
+                        <div class="pull-right pagination-container">
+                            
                         </div>
                     </div>
                     <!-- /store bottom filter -->
@@ -356,6 +356,8 @@ h5{
 {% block javascripts %}
     <script src="{{ asset('custom/js/nouislider.min.js') }}"></script>
     <script src="{{ asset('custom/js/wNumb.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('custom/js/jquery.simplePagination.js') }}"></script>
+    <script src="{{ asset('custom/js/products-paginations.js') }}"></script>
 
     <script>
         ///filter by range price
@@ -430,7 +432,7 @@ h5{
             success: function (data) {
                 console.log(data['range']);
                 $('#list-produits').html(data['products']);
-                paginateTable();
+                pagination();
                 //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
             }
         });
@@ -439,6 +441,7 @@ h5{
     
     /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
         
+    pagination();
         var caracteristiques = [];
         var marques = [];
         var categories = [];
@@ -477,6 +480,7 @@ h5{
                     console.log($(this).data('valeur'));
                     #}
                     $('#list-produits').html(data['products']);
+                    pagination();
                     //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
                 }
             });
@@ -522,6 +526,7 @@ h5{
             success: function (data) {
                 
                 $('#list-produits').html(data['products']);
+                pagination();
                 //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
             }
         });

@@ -1,26 +1,22 @@
-$(document).ready(function(){
-    $('.tab-mot-pagination').append('<div id="nav-mot"></div>');
-    //$('.tab-mot').after('<div id="nav-mot"></div>');
-    var rowsShown = 7;
-    var rowsTotal = $('.tab-mot tbody tr').length;
-    var numPages = rowsTotal/rowsShown;
-    if(rowsTotal > 8){
-        for(i = 0;i < numPages;i++) {
-            var pageNum = i + 1;
-            $('#nav-mot').append('<a rel="'+i+'">'+pageNum+'</a> ');
-        }
-        $('.tab-mot tbody tr').hide();
-        $('.tab-mot tbody tr').slice(0, rowsShown).show();
-        $('#nav-mot a:first').addClass('active');
-        $('#nav-mot a').bind('click', function(){
+// jQuery Plugin: http://flaviusmatis.github.io/simplePagination.js/
 
-            $('#nav-mot a').removeClass('active');
-            $(this).addClass('active');
-            var currPage = $(this).attr('rel');
-            var startItem = currPage * rowsShown;
-            var endItem = startItem + rowsShown;
-            $('.tab-mot tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).
-            css('display','table-row').animate({opacity:1}, 300);
-        });
+function pagination() {
+    var items = $(".product-single");
+    var numItems = items.length;
+    var perPage = 20;
+
+    items.slice(perPage).hide();
+    if(numItems > 20){
+    $('.pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
     }
-});
+}

@@ -3,25 +3,27 @@
         {% if(product.qte>0) %}
         <!-- Product Single -->
         <div class="col-md-3 col-sm-6 col-xs-6">
-            <div class="product product-single {{product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+            <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
             <div class="product-thumb">
                 <div class="product-label">
-                    {#{% set today = "now"|date("d/m/Y") %}
-                    {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
-                    {{difference.days < 7?'<span>New </span>':''}}#}
-                    {% if(product.pricePromotion<product.price != null) %}
-                        <span class="sale">
-                            {% set difference = product.price - product.pricePromotion %}
-                            {% set pourcentage = (difference/product.price)*100 %}
-                            -{{pourcentage|round}}%
-                        </span>
-                    {% endif %}
+                    {% if(product.createdAt != null) %}
+                {% set today = "now"|date("now") %}
+                {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                {{difference.days < 7?'<span>New </span>':''}}
+                {% endif %}
+                {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                    <span class="sale">
+                        {% set difference = product.price - product.pricePromotion %}
+                        {% set pourcentage = (difference/product.price)*100 %}
+                        -{{pourcentage|round}}%
+                    </span>
+                {% endif %}
                 </div>
                 <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
                 <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
             </div>
             <div class="product-body">
-                {% if(product.pricePromotion<product.price != null) %}
+                {% if(product.pricePromotion and product.pricePromotion<product.price) %}
                     <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
                 {% else %}
                     <h3 class="product-price">{{product.price}} TND</h3>
