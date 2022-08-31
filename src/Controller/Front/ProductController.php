@@ -103,8 +103,10 @@ class ProductController extends Controller
         if (count($caracteristiques) >= 1) {$query['valeurs'] = $caracteristiques;}
         if(isset($query['categorie'])){
             $products_list = $dm->getRepository('App:Products')->byCategorie($query);
+            $view = 'frontend/partials/triProduct.html.twig';
         }else{
             $products_list = $dm->getRepository('App:Products')->byBanner($query);
+            $view = 'frontend/partials/triProductBanner.html.twig';
         }
         
         return new JsonResponse(array(
@@ -115,7 +117,7 @@ class ProductController extends Controller
             'message' => 'Tout est bon',
             'filter_by_categorie' => isset($query['categories']) ? true : false,
             'filter_by_listProducts' => isset($query['list']) ? true : false,
-            'products' => $this->renderView('frontend/partials/triProduct.html.twig', array('products' => $products_list))
+            'products' => $this->renderView($view, array('products' => $products_list))
         ));
     }
 }

@@ -405,7 +405,8 @@ h5{
             'max': {{max+ 2}}
           }
         });
-      }
+      
+
     slider.noUiSlider.on('set', function( values, handle ) {
             var min = values[0];
             var max = values[1];
@@ -445,13 +446,13 @@ h5{
             }
         });
     });
+    }
     pagination();
     
     /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
         var listProducts =$('#listProducts').val();
         var caracteristiques = [];
         var marques = [];
-        var listProducts = [];
         
         $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
         
