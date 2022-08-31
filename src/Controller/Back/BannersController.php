@@ -76,7 +76,7 @@ class BannersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $products_liste = array();
-        $find_products = $dm->getRepository('App:ListHasProducts')->byBanner($slug);
+        $products = $dm->getRepository('App:ListHasProducts')->byBanner($slug);
         if(count($find_products) == 1){
             $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
             $query = array();
@@ -89,20 +89,14 @@ class BannersController extends Controller
             return $this->redirectToRoute('product_page', array('slug' => $product->getSlug()));
         }
         
-        $paginator  = $this->get('knp_paginator');
         $listProducts = $dm->getRepository('App:ProductsList')->getListesByBanner($slug)[0];
         $list_ids = array();
         $products_price = array();
-        foreach ($find_products as $p){
+        foreach ($products as $p){
             $products_liste[] = $p;
             $list_ids[] = $p['id'];
             $products_price[] = $p['pricePromotion']?$p['pricePromotion']:$p['price'];
         }
-        $products = $paginator->paginate(
-            $products_liste, /* query NOT result */
-            $request->query->get('page', 1), /*page number*/
-            20 /*limit per page*/
-        );
         
         
         $min = count($products_price) > 0 ? min($products_price) : 0;
