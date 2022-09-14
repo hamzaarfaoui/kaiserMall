@@ -3,7 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock %}</title>
+        <title>Kaiser{% block title %}{% endblock %}</title>
+        <meta name="keywords" content="kaiser, kaisermall, Iphone, chaussures, basket, bijoux, coiffeuse, lit, salon, pull homme, pull femme"/>
+        <meta name="description" content="Ventes des smartphone Android et IPhone, mode femme robe, pull, jupe, chaussures et accessoires, mode homme veste, pull pantallon, chaussures"/>
+        {% block meta %}{% endblok %}
         {% include 'includes/front/css.html.twig' %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
         <link rel="icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
