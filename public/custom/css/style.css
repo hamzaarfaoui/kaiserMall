@@ -199,6 +199,7 @@ text-transform: capitalize;}
 .list-links li>a{
     text-transform: inherit;
     z-index: 9999;
+    width: 100%;
 }
 .list-links .list-links-title{
     font-size: 14px;
