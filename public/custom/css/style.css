@@ -390,7 +390,7 @@ height: 291px;
 /****/
 @media screen and (max-width: 991px){
     .dropdown-backdrop{
-        z-index: inherit;
+        z-index: inherit !important;
     }
     .list-products-container{margin-left: 3.3% !important;}
     .title-list-products{
