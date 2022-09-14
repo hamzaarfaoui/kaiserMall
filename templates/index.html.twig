@@ -1,31 +1,17 @@
 {% extends "base.html.twig" %}
 {% block title %}{% endblock %}
 {% block stylesheets %}
-    <link type="text/css" rel="stylesheet" href="{{ asset('e-shop/css/nav.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/flexslider.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/style.css') }}" />
     <style>
         .slick-slide {
-    width: 200px;
-}
-.section-banners {
-    width: 94% !important;
-    left: 9.7% !important;
-    position: relative !important;
-    margin-bottom: 82px !important;
-}
-@media screen and (max-width: 991px){
-.slick-list{
-    width: fit-content;
-    height: 309px;
-}
-}
-@media screen and (min-width: 991px){
-.slick-list{
-}
-}
+            width: 200px;
+        }
+        .section-banners {
+            width: 94% !important;
+            left: 9.7% !important;
+            position: relative !important;
+            margin-bottom: 82px !important;
+        }
     </style>
-}
 {% endblock %}
 {% block body %}
     <div class="categories-sliders-bloc home-category">
@@ -139,8 +125,6 @@
 
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('carrousel/js/modernizr.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('carrousel/js/jquery.flexslider.js') }}"></script>
     <script type="text/javascript">
         
     $(window).load(function(){

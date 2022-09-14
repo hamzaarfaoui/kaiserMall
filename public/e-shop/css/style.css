@@ -1845,6 +1845,7 @@ textarea.input {
   }
   .store-filter .pull-right, .store-filter .pull-left {
     float: none !important;
+    text-align: center;
   }
   .store-filter .pull-right {
     margin-top: 15px;
