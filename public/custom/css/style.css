@@ -198,6 +198,7 @@ text-transform: capitalize;}
 }
 .list-links li>a{
     text-transform: inherit;
+    z-index: 9999;
 }
 .list-links .list-links-title{
     font-size: 14px;
@@ -440,6 +441,7 @@ height: 291px;
     }
     #responsive-nav.open{
         width: 70%;
+        top: 60px;
     }
     .adress-btns{
         text-align: right;
@@ -964,6 +966,7 @@ height: 291px;
         padding-bottom: 70px;
         position: relative;
         top: 66px;
+        padding-top: 10px;
     }
     .header-cart .custom-menu{
 
