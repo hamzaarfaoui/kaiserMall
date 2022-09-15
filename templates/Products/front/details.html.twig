@@ -1,5 +1,9 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ product.name }}{% endblock %}
+{% block metas %}
+<meta name="description" content="Kaisermall - {{product.sousCategorie.name}}" />
+<meta name="keywords" content="kaiser, kaisermall, {{product.sousCategorie.name}}, {{product.sousCategorie.categorie.name}}, {{product.sousCategorie.categorie.categorieMere.name}}" />
+{% endblock %}
 {% block stylesheets %}
 <link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/flexslider.css') }}" />
 <link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/style.css') }}" />

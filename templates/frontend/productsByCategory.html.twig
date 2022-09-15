@@ -1,5 +1,9 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ categorie.name }}{% endblock %}
+{% block metas %}
+<meta name="description" content="Kaisermall - {{categorie.name}}" />
+<meta name="keywords" content="kaiser, kaisermall, {{categorie.name}}" />
+{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
 <style type="text/css">
@@ -41,12 +45,6 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.list-products-container {
-    /* margin-left: 2%; */
-    width: 97%;
-    padding-left: 0;
-    margin-left: 0 !important;
-}
 
 .banner>img {
     width: 100%;
@@ -62,7 +60,7 @@ h5{
     margin-right: 0;
     margin-left: 0;
 }
-@media only screen and (min-width: 991px){}
+@media only screen and (min-width: 991px){
 .list-products-container {
     /* margin-left: 2%; */
     width: 99% !important;
@@ -77,9 +75,6 @@ h5{
 @media only screen and (max-width: 991px){}
 #aside {
     margin-bottom: 0;
-}
-.list-products-container {
-    margin-left: inherit !important;
 }
 }
 

@@ -1,5 +1,9 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ listProducts.name }}{% endblock %}
+{% block metas %}
+<meta name="description" content="Kaisermall - {{listProducts.name}}" />
+<meta name="keywords" content="kaiser, kaisermall, {{listProducts.name}}" />
+{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
 <style type="text/css">
