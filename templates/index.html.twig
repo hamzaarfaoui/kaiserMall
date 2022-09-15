@@ -20,6 +20,20 @@
     </style>
 {% endblock %}
 {% block body %}
+<!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
     <div class="categories-sliders-bloc home-category">
         <div id="navigation">
             <!-- container -->

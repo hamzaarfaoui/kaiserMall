@@ -792,7 +792,7 @@ height: 291px;
         position: relative;
         left: 5px;
         /* margin-top: 10%; */
-        height: 294px;
+        height: 319px;
         margin-bottom: 35px;
         border: 1px solid #e5e4e4;
         border-radius: 0px;
@@ -914,23 +914,23 @@ height: 291px;
     }
     .slick-prev, .slick-next {
         width: 40px;
-        height: 40px;
-        background: #366534;
-        opacity: 0.5;
-        border-radius: 56px;
-        top: 121px;
+        height: 27px;
+        background: #161f15;
+        opacity: 0.8;
+        border-radius: 9px;
+        top: 222px;
         z-index: 22;
     }
     .slick-next {
         width: 40px;
-        height: 40px;
+        height: 27px;
         background: #30323A;
-        border-radius: 56px;
+        border-radius: 9px;
         z-index: 22;
         /* position: relative; */
         /* top: 121px; */
         right: 0 !important;
-        left: 303px;
+        left: 330px;
     }
     .slick-prev {
         left: 28px;
