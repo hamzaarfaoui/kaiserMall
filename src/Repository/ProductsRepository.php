@@ -187,8 +187,9 @@ class ProductsRepository extends ServiceEntityRepository
         if(isset($params['inPromotion'])){
             $qb->andWhere('u.pricePromotion < u.price');
         }    
-        if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
+        if (isset($params['minimum']) && isset($params['minimum'])){
             $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
+            
         }
 
         if(isset($params['list'])){
@@ -237,7 +238,7 @@ class ProductsRepository extends ServiceEntityRepository
         if(isset($params['inPromotion'])){
             $qb->andWhere('u.pricePromotion < u.price');
         }    
-        if ((isset($params['minimum']) && !empty($params['minimum'])) && (isset($params['minimum'])&&!empty($params['minimum']))){
+        if (isset($params['minimum']) && isset($params['minimum'])){
             $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
         }
 
