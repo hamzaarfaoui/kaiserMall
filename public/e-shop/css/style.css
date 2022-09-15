@@ -1723,10 +1723,11 @@ textarea.input {
 
 .slick-prev, .slick-next {
   width: 40px;
-  height: 40px;
-  background: #30323A;
-  border-radius: 56px;
+  height: 26px;
+  background: #8a8b8a;
+  border-radius: 0;
   z-index: 22;
+  top: inherit;
 }
 
 .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
@@ -1738,11 +1739,13 @@ textarea.input {
 }
 
 .slick-prev {
-  left: -56px;
+  left: 2%;
+  bottom: 0;
 }
 
 .slick-next {
-  right: 15px;
+  right: 2%;
+  bottom: 0;
 }
 
 .custom-nav .slick-prev, .custom-nav .slick-next {

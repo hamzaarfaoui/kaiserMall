@@ -233,7 +233,7 @@ box-shadow: 1px 2px 9px 0px #ddd;
     position: relative;
     left: 3%;
     margin-top: 0;
-    height: 370px;
+    height: 389px;
     margin-bottom: 65px;
     border: 1px solid #e5e4e4;
     border-radius: 0px;
@@ -389,6 +389,10 @@ height: 291px;
 }
 /****/
 @media screen and (max-width: 991px){
+    .slider{
+        
+margin: 0px !important;
+    }
     .dropdown-backdrop{
         z-index: inherit !important;
     }

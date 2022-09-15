@@ -179,29 +179,27 @@
             });
         });
 
-        {% for categorie in sc2 %}
-            $('#product-slick-{{categorie.id}}').slick({
-                slidesToShow: 5,
-                slidesToScroll: 3,
-                autoplay: false,
-                infinite: true,
-                speed: 300,
-                dots: true,
-                arrows: false,
-                appendDots: '.product-slick-dots-1',
-                variableWidth: true,
-                responsive: [
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            dots: false,
-                            arrows: true,
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                        }
-                    },
-                ]
-            });
-        {% endfor %}
+        $('.product-slick').slick({
+            slidesToShow: 6,
+            slidesToScroll: 3,
+            autoplay: false,
+            infinite: true,
+            speed: 300,
+            dots: true,
+            arrows: true,
+            appendDots: '.product-slick-dots-1',
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 480,
+                    settings: {
+                        dots: false,
+                        arrows: true,
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                    }
+                },
+            ]
+        });
     </script>
 {% endblock %}
