@@ -633,7 +633,7 @@ font-size: 13px;
     .product.product-single .product-thumb>img{
         width: 95%;
         position: relative;
-        left: 1.5%;
+        /* left: 1.5%; */
         margin-top: 5px;
         height: 163px;
     }
