@@ -82,13 +82,6 @@ text-transform: capitalize;}
     position: relative;
     bottom: 2px;
 }
-.bouton-gris:hover{
-    background-color: #357d3f;
-    color: #FFF;
-    text-decoration: none;
-    padding: 2px 10px;
-    border-radius: 20px;
-}
 .category-nav{
     border-bottom: 1px solid #78909c;
 }
@@ -258,6 +251,7 @@ box-shadow: 1px 2px 9px 0px #ddd;
     border-radius: 0;
     height: 41px;
     padding-top: 9px;
+    padding-right: 0;
     width: 100%;
 }
 .categorie-products-container .section-title h3{
@@ -389,6 +383,9 @@ height: 291px;
 }
 /****/
 @media screen and (max-width: 991px){
+    .list-products-container #main{
+        padding: inherit;
+    }
     .slider{
         
 margin: 0px !important;
@@ -396,7 +393,7 @@ margin: 0px !important;
     .dropdown-backdrop{
         z-index: inherit !important;
     }
-    .list-products-container{margin-left: 3.3% !important;}
+    .list-products-container{margin-left: inherit;margin-right: inherit;width: 100%;}
     .title-list-products{
         position: relative;
         top: 33px;
@@ -440,7 +437,7 @@ margin: 0px !important;
         bottom: 0;
         width: 100%;
         height: 50px;
-        z-index: 999;
+        z-index: 99999;
         left: 0;
         border-radius: inherit;
         padding: 5px 10px !important;
@@ -717,7 +714,7 @@ font-size: 13px;
         padding-right: 11px;
         padding-left: 18px;
         padding: inherit;
-        /* margin: 0px; */
+        /* margin: 2px; */
     }
     .logo-store {
         position: relative;
@@ -866,6 +863,7 @@ font-size: 13px;
         margin-top: 15px;
         border-bottom: 1px solid #DADADA;
         text-align: center;
+        padding-right: 6% !important;
     }
     .section.product{
 
@@ -971,12 +969,14 @@ font-size: 13px;
         /* display: none; */
     }
     .product .product-label>span.sale{
-        font-size: 10px;
+        font-size: 13px;
         padding: 0px 0;
         text-align: center;
         width: 40px;
-        right: 3px;
-        top: 3px;
+        right: 7px;
+        top: 12px;
+        padding-top: 2px;
+        /* border-radius: inherit; */
     }
     .section-products {
         width: 100%;
