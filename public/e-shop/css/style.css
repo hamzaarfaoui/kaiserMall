@@ -1039,7 +1039,7 @@ textarea.input {
 }
 
 .product.product-single.product-hot-promotion {
-  /* border: 1px solid #f44336; */
+  border: 0.5px solid #e8e8e8;
 }
 .categorie-products-container .product.product-single.product-hot-promotion {
   height: 296px;
