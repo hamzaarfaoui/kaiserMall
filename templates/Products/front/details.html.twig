@@ -99,7 +99,7 @@
 }
 .product.product-single .product-thumb>img{
     height: 250px;
-    width: 183px;
+    width: 100%;
     position: relative;
 }
 .product .product-old-price{
@@ -121,11 +121,63 @@
 .flexslider .slides img{
     height: auto;
 }
+.slider.product-details{
+    padding: 0px;
+    box-shadow: none;
+    
+}
+.flex-direction-nav a:before{
+    font-size: 30px;
+    color: #FFF;
+    height: 80px;
+    width: 37px;
+    padding: 4px;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding-top: 9px;
+}
+.slides{
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+    }
 @media screen and (max-width: 991px){
+    .col-xs-6{
+        padding-right: 3px;
+        padding-left: 2px;
+    }
+    .row{
+        margin-right: inherit;
+        margin-left: inherit;
+    }
     .product .fiche>span.sale {
         display: none !important;
     }
+    .flex-direction-nav a{
+        top: 26%;
+    }
+    .slider.product-details{
+        
+    }
+    .flex-direction-nav .flex-next {
+        opacity: 1;
+        right: 0;
+    }
+    .flex-direction-nav .flex-prev {
+        opacity: 1;
+        left: 0;
+    }
+    .section.product{
+        padding-top: 0;
+    }
 }
+@media screen and (min-width: 991px){
+    
+    .slider.product-details{
+        border-right: 1px solid #ccc;
+    }
+}
+
 </style>
 
 {% endblock %}
@@ -434,7 +486,7 @@
 <script type="text/javascript">
     $(window).load(function(){
       $('.flexslider').flexslider({
-        animation: "slide",
+        //animation: "slide",
         controlNav: "thumbnails",
         start: function(slider){
           $('body').removeClass('loading');
