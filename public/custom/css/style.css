@@ -191,7 +191,7 @@ text-transform: capitalize;}
 }
 .list-links li>a{
     text-transform: inherit;
-    z-index: 9999;
+    /* z-index: 9999; */
     width: 100%;
 }
 .list-links .list-links-title{
@@ -691,7 +691,7 @@ font-size: 13px;
     }
     #header{
         height: 60px;
-        z-index: 999;
+        z-index: 9999;
         position: fixed;
         top: 0;
         padding-top: 0;
