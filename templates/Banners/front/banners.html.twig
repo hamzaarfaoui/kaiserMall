@@ -8,7 +8,7 @@
             {% set banner_division = 12/nb_banners %}
             <div class="col-md-{{banner_division}} col-sm-6">
                 <a class="banner banner-1" href="{{ path('banner_front_details', {slug: banner.slug}) }}">
-                    <img class="img-thumbnail banner-{{nb_banners}}" src="{{ asset('/uploads/banners/') }}{{ banner.image }}" alt="" style="height: 250px;">
+                    <img class="img-thumbnail banner-{{nb_banners}}" src="{{ asset('/uploads/banners/') }}{{ banner.image }}" alt="{{banner.name}}" style="height: 250px;">
                 </a>
             </div>
             <!-- /banner -->
