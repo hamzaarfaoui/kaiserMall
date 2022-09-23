@@ -1951,4 +1951,26 @@ top: -5px;
     #responsive-nav.open{
     width: 40%;
 }
+#aside{
+    display: none !important;
+}
+
+}
+@media screen and (min-width: 700px) and (max-width: 991px){
+    #main #list-produits .col-xs-6{
+        width: 25%;
+    }
+    .modal.in .modal-dialog{
+        top: 50px;
+    }
+    .no-index .section-banners {
+        width: 99%;
+        left: 1%;
+        position: relative !important;
+        left: 1% !important;
+        top: 29px;
+        margin-left: inherit;
+        margin-bottom: 0px !important;
+        width: 98% !important;
+    }
 }

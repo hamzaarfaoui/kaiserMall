@@ -284,7 +284,7 @@ h5{
                                 {% for product in products %}
                                     {% if(product.qte>0) %}
                                     <!-- Product Single -->
-                                    <div class="col-md-3 col-sm-6 col-xs-6">
+                                    <div class="col-md-3 col-sm-4 col-xs-6">
                                         <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
                                         <div class="product-thumb">
                                             <div class="product-label">
@@ -363,7 +363,9 @@ h5{
     </div>
                         <input type="hidden" id="categorieId" value="{{categorie.id}}">
     {% if(categorie.show_banners == 1) %}
-        {{ render(controller('App\\Controller\\Back\\BannersController::bannersCategorie', {id_categorie:categorie.id})) }}
+        <div class="no-index">
+            {{ render(controller('App\\Controller\\Back\\BannersController::bannersCategorie', {id_categorie:categorie.id})) }}
+        </div>
     {% endif %}
     <!-- /section -->
 {% endblock %}
