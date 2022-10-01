@@ -297,8 +297,7 @@ class ProductBackController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
-            $promotion = null;
+        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe') && $request->get('haspromotion') == 1){
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
             }else{
@@ -309,7 +308,7 @@ class ProductBackController extends Controller
             $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
             $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
             $promotion->setFixe($request->get('fixe'));
-            $promotion->setCreatedAt(new \DateTime('now'));
+            $promotion->setUpdatedAt(new \DateTime('now'));
             $product->setPricePromotion($request->get('fixe'));
             $dm->persist($promotion);
         }
