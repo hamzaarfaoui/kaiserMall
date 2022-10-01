@@ -621,27 +621,33 @@ class ProductBackController extends Controller
             $dm->persist($product);
         }
         /* add selected valeurs */
-        foreach ($valeurs as $v){
-            $valeur = $dm->getRepository('App:Valeurs')->find($v);
-            $product->addValeur($valeur);
-            $dm->persist($product);
+        if(count($valeurs) > 0){
+            foreach ($valeurs as $v){
+                $valeur = $dm->getRepository('App:Valeurs')->find($v);
+                $product->addValeur($valeur);
+                $dm->persist($product);
+            }
         }
         
         /*start keywords*/
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);
         $keywords_product = $dm->getRepository('App:Keywords')->findBy(array('product'=>$product));
-        foreach ($keywords_product as $k){
-            $product->removeKeyword($k);
-            $dm->remove($k);
+        if(count($keywords_product) > 0){
+            foreach ($keywords_product as $k){
+                $product->removeKeyword($k);
+                $dm->remove($k);
+            }
         }
-        foreach ($keywords_array as $item) {
-                $keyword = new Keywords();
-                $keyword->setName($item);
-                $keyword->setProduct($product);
-                $keyword->setCategorie($product->getSousCategorie());
-                $dm->persist($keyword);
-                $product->addKeyword($keyword);
+        if(count($keywords_array) > 0){
+            foreach ($keywords_array as $item) {
+                    $keyword = new Keywords();
+                    $keyword->setName($item);
+                    $keyword->setProduct($product);
+                    $keyword->setCategorie($product->getSousCategorie());
+                    $dm->persist($keyword);
+                    $product->addKeyword($keyword);
+            }
         }
         
         /*end kewords*/
