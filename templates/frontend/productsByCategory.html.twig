@@ -138,6 +138,7 @@ h5{
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
+                            {% if marques|length > 0 %}
                             <hr>
                             <h5>Marques</h5>
                             <ul>
@@ -151,6 +152,8 @@ h5{
                                     </li>
                                 {% endfor %}
                             </ul>
+                            {% endif %}
+                            {% if couleurs|length > 0 %}
                             <hr>
                             <h5>Couleurs</h5>
                             <ul>
@@ -159,6 +162,7 @@ h5{
                                    <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
                                 {% endfor %}
                             </ul>
+                            {% endif %}
                             {% for caracteristique in caracteristiques %}
                             {% if(caracteristique.name != 'Couleur') %}
                             <h5>{{ caracteristique.name }}</h5>
