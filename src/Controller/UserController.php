@@ -36,12 +36,14 @@ class UserController extends Controller
         $revenus_table = array();
         $months = [1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Séptembre', 10 => 'octobre', 11 => 'Novembre', 12 => 'Décembre'];
         foreach ($revenus as $key => $revenu) {
-            if(array_key_exists($revenu['date_offre'], $months)){
-                $revenus_table[] = [$months[$revenu['date_offre']], intval($revenu['total_offre'])];
-                $revenus_chart .= "['".$months[$revenu['date_offre']]."', ".intval($revenu['total_offre'])."],";
-            }else{
-                $revenus_chart .= "['".$months[$revenu['date_offre']]."', 0],";
-                $revenus_table[] = [$months[$revenu['date_offre']],0];
+            if($revenu['date_offre']){
+                if(array_key_exists($revenu['date_offre'], $months)){
+                    $revenus_table[] = [$months[$revenu['date_offre']], intval($revenu['total_offre'])];
+                    $revenus_chart .= "['".$months[$revenu['date_offre']]."', ".intval($revenu['total_offre'])."],";
+                }else{
+                    $revenus_chart .= "['".$months[$revenu['date_offre']]."', 0],";
+                    $revenus_table[] = [$months[$revenu['date_offre']],0];
+                }
             }
         }
         $deb = date("d-m-Y");
