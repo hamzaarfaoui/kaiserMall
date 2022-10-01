@@ -621,7 +621,7 @@ class ProductBackController extends Controller
             $dm->persist($product);
         }
         /* add selected valeurs */
-        if(count($valeurs) > 0){
+        if(isset($valeurs) && count($valeurs) > 0){
             foreach ($valeurs as $v){
                 $valeur = $dm->getRepository('App:Valeurs')->find($v);
                 $product->addValeur($valeur);
@@ -633,13 +633,13 @@ class ProductBackController extends Controller
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);
         $keywords_product = $dm->getRepository('App:Keywords')->findBy(array('product'=>$product));
-        if(count($keywords_product) > 0){
+        if(isset($keywords_product) && count($keywords_product) > 0){
             foreach ($keywords_product as $k){
                 $product->removeKeyword($k);
                 $dm->remove($k);
             }
         }
-        if(count($keywords_array) > 0){
+        if(isset($keywords_array) && count($keywords_array) > 0){
             foreach ($keywords_array as $item) {
                     $keyword = new Keywords();
                     $keyword->setName($item);
