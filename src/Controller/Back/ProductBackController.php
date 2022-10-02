@@ -298,9 +298,9 @@ class ProductBackController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        $datedeb = isset($request->get('datedeb')) && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
-        $datefin = isset($request->get('datefin')) && !empty($request->get('datefin')) ? $request->get('datefin') : false;
-        $fixe = isset($request->get('fixe')) && !empty($request->get('fixe')) ? $request->get('fixe') : false;
+        $datedeb = $request->get('datedeb') && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
+        $datefin = $request->get('datefin') && !empty($request->get('datefin')) ? $request->get('datefin') : false;
+        $fixe = $request->get('fixe') && !empty($request->get('fixe')) ? $request->get('fixe') : false;
         if($datedeb && $datefin && $fixe){
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
@@ -433,9 +433,9 @@ class ProductBackController extends Controller
             );
             $product->setImage($fileName);
         }
-        $datedeb = isset($request->get('datedeb')) && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
-        $datefin = isset($request->get('datefin')) && !empty($request->get('datefin')) ? $request->get('datefin') : false;
-        $fixe = isset($request->get('fixe')) && !empty($request->get('fixe')) ? $request->get('fixe') : false;
+        $datedeb = $request->get('datedeb') && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
+        $datefin = $request->get('datefin') && !empty($request->get('datefin')) ? $request->get('datefin') : false;
+        $fixe = $request->get('fixe') && !empty($request->get('fixe')) ? $request->get('fixe') : false;
         if($datedeb && $datefin && $fixe){
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
