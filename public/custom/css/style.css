@@ -856,8 +856,7 @@ z-index: 999999999;
         box-shadow: 1px 2px 9px 0px #ddd;
     }
     .in-filter .product-single, .other-products .product-single{
-        
-        height: auto !important;
+        height: 266px !important;
     }
     .section-title {
         position: relative;
