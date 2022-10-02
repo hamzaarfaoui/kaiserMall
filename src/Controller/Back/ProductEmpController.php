@@ -125,6 +125,7 @@ class ProductEmpController extends Controller
         $product->setName($request->get('nom'));
         $product->setfullName($request->get('nomcomplet'));
         $product->setPrice($request->get('price'));
+        $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
         $store = $dm->getRepository('App:Stores')->find($id);
@@ -183,7 +184,10 @@ class ProductEmpController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
+        $datedeb = isset($request->get('datedeb')) && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
+        $datefin = isset($request->get('datefin')) && !empty($request->get('datefin')) ? $request->get('datefin') : false;
+        $fixe = isset($request->get('fixe')) && !empty($request->get('fixe')) ? $request->get('fixe') : false;
+        if($datedeb && $datefin && $fixe){
             $promotion = null;
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
@@ -251,6 +255,7 @@ class ProductEmpController extends Controller
         $product = new Products();
         $product->setName($request->get('nom'));
         $product->setPrice($request->get('price'));
+        $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
         if($request->get('marque')){
@@ -300,7 +305,10 @@ class ProductEmpController extends Controller
             );
             $product->setImage($fileName);
         }
-        if($request->get('datedeb') && $request->get('datefin') && $request->get('fixe')){
+        $datedeb = isset($request->get('datedeb')) && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
+        $datefin = isset($request->get('datefin')) && !empty($request->get('datefin')) ? $request->get('datefin') : false;
+        $fixe = isset($request->get('fixe')) && !empty($request->get('fixe')) ? $request->get('fixe') : false;
+        if($datedeb && $datefin && $fixe){
             $promotion = new Promotions(); 
             $promotion->setProduct($product);
 
