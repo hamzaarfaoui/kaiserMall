@@ -1,8 +1,4 @@
 /vendor
 /var
 /tests
-/public/uploads/banners/
-/public/uploads/sliders/
-/public/uploads/products/images/
-/public/uploads/products/gallery/
-/public/uploads/products/upload/
+/public/uploads

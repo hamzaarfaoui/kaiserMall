@@ -104,7 +104,7 @@ class StoresBackController extends Controller
         $store->setDescription($request->get('descriptionC'));
         $store->setCreatedAt(new \DateTime('now'));
         $store->setPrix($request->get('prix'));
-        $store->getFinOffre(new \DateTime(''.$request->get('datedebut').''));
+        $store->setDebutOffre(new \DateTime(''.$request->get('datedebut').''));
         $store->setFinOffre(new \DateTime(''.$request->get('datefin').''));
         if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"])) {
             $file = $_FILES["couvertureC"]["name"];
