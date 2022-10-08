@@ -749,7 +749,7 @@ class ProductBackController extends Controller
         foreach ($list_sorted as $item) {
             $id = $item[0];
             $position = $item[1];
-            $listHasProduct = $dm->getRepository('App:listHasProducts')->find($id);
+            $listHasProduct = $dm->getRepository('App:ListHasProducts')->find($id);
             $listHasProduct->setPosition($position);
             $dm->persist($listHasProduct);
         }
@@ -767,7 +767,7 @@ class ProductBackController extends Controller
     public function productDeleteFormList(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $listHasProduct = $dm->getRepository('App:listHasProducts')->find($id);
+        $listHasProduct = $dm->getRepository('App:ListHasProducts')->find($id);
         $dm->remove($listHasProduct);
 
         $dm->flush();
