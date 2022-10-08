@@ -1579,11 +1579,7 @@ font-weight: 700;
         height: 528px !important;
         border: 0.2px solid #ccc;
     }
-    .product.tow-in-row img{
-
-        height: 500px;
-
-    }
+    .product.tow-in-row img{/* height: 500px; */}
     .product.three-in-row img{
         /* height: 326px; */
     }
