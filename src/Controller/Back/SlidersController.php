@@ -107,7 +107,6 @@ class SlidersController extends Controller
      */
     public function newTraitementAction(Request $request)
     {
-        
         $dm = $this->getDoctrine()->getManager();
         $slider = new Sliders();
         $slider->setOrdre($request->get('ordre'));
@@ -116,12 +115,12 @@ class SlidersController extends Controller
         }else{
             $slider->setStatus(0);
         }
-        if (isset($_FILES["imageSlider"]["name"]) && !empty($_FILES["imageSlider"]["name"])) {
-            $file = $_FILES["imageSlider"]["name"];
+        if (isset($_FILES["image"]["name"]) && !empty($_FILES["image"]["name"])) {
+            $file = $_FILES["image"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));
             $fileName = md5(uniqid()) . $File_Ext;
             move_uploaded_file(
-                    $_FILES["imageSlider"]["tmp_name"], $this->getParameter('images_sliders') . "/" . $fileName
+                    $_FILES["image"]["tmp_name"], $this->getParameter('images_sliders') . "/" . $fileName
             );
             $slider->setImage($fileName);
         }

@@ -933,7 +933,7 @@ textarea.input {
 
 .product.product-single .product-thumb>img {
   width: 100%;
-  height: 208px;
+  /* height: 208px; */
 }
 
 .product.product-single .product-thumb:after {

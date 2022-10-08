@@ -55,7 +55,6 @@ class SlidersRepository extends ServiceEntityRepository
             ->leftJoin('u.productsList', 'l')
             ->leftJoin('l.listHasProducts', 'p')
             ->groupBy('l.id')
-            ->having('nb_products > 0')
             ->orderBy('u.ordre', 'ASC');
         
         return $qb->getQuery()->execute();
