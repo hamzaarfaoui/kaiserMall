@@ -17,7 +17,8 @@ class CommandesController extends Controller
     public function listCommandes($id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $commandes = $dm->getRepository('App:Commandes')->listeInDash();
+        $params = array('this_year' => true);
+        $commandes = $dm->getRepository('App:Commandes')->listeInDash($params);
         $commandes_liste = array();
         foreach ($commandes as $commande){
             foreach ($commande->getFacture()['product'] as $facture){
@@ -56,7 +57,8 @@ class CommandesController extends Controller
     public function listCommandesInDash($id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $commandes = $dm->getRepository('App:Commandes')->listeInDash();
+        $params = array('this_year' => true);
+        $commandes = $dm->getRepository('App:Commandes')->listeInDash($params);
         $commandes_liste = array();
         foreach ($commandes as $commande){
             foreach ($commande->getFacture()['product'] as $facture){
