@@ -298,11 +298,14 @@ class ProductsController extends Controller
             $dm->persist($product);
         }
         /* add selected valeurs */
-        foreach ($valeurs as $v){
-            $valeur = $dm->getRepository('App:Valeurs')->find($v);
-            $product->addValeur($valeur);
-            $dm->persist($product);
+        if(isset($valeurs) && count($valeurs) > 0){
+                foreach ($valeurs as $v){
+                $valeur = $dm->getRepository('App:Valeurs')->find($v);
+                $product->addValeur($valeur);
+                $dm->persist($product);
+            }
         }
+        
         
         /*start keywords*/
         $keywords_input = $request->get('keywords');
