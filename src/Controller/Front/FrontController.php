@@ -43,10 +43,12 @@ class FrontController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $sc2 = $dm->getRepository('App:SousCategories')->findInIndex();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('index.html.twig', array(
             'sc2' => $sc2,
-            'categories' => $categories
+            'categories' => $categories,
+            'setting' => $setting
         ));
     }
     public function productInIndex($id)
@@ -174,7 +176,9 @@ class FrontController extends Controller
      */
     public function aboutPage()
     {
-        return $this->render('frontend/about.html.twig');
+        $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
+        return $this->render('frontend/about.html.twig', ['setting' => $setting]);
     }
     
     /*
@@ -182,7 +186,9 @@ class FrontController extends Controller
      */
     public function contactPage()
     {
-        return $this->render('frontend/contact.html.twig');
+        $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
+        return $this->render('frontend/contact.html.twig', ['setting' => $setting]);
     }
     
     /*
@@ -223,7 +229,9 @@ class FrontController extends Controller
      */
     public function processOrderPage()
     {
-        return $this->render('frontend/processOrder.html.twig');
+         $dm = $this->getDoctrine()->getManager();
+         $setting = $dm->getRepository('App:Settings')->find(1);
+        return $this->render('frontend/processOrder.html.twig', ['setting' => $setting]);
     }
     
     /*
@@ -264,6 +272,7 @@ class FrontController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $categorie = $dm->getRepository('App:SousCategories')->findOneBySlug($slug)[0];
         $products = $dm->getRepository('App:Products')->listProductsBycategories($categorie['id']);
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie['id']));
         
         $marques = $dm->getRepository('App:Products')->marquesProductsBycategories($categorie['id']);
@@ -282,6 +291,7 @@ class FrontController extends Controller
             'caracteristiques' => $caracteristiques,
             'min' => $min,
             'max'=>$max,
+            'setting' => $setting
         ));
     }
     

@@ -40,6 +40,7 @@ class SlidersController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $products_liste = array();
         $find_products = $dm->getRepository('App:ListHasProducts')->bySlider($slug);
+        $setting = $dm->getRepository('App:Settings')->find(1);
         if(count($find_products) == 1){
             $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
             $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
@@ -61,7 +62,8 @@ class SlidersController extends Controller
                 'product' => $product,
                 'products' => $products,
                 'caracteristiques' => $caracteristiques,
-                'categorie' => $product->getSousCategorie()
+                'categorie' => $product->getSousCategorie(),
+                'setting' => $setting
             ));
         }
         
@@ -78,7 +80,8 @@ class SlidersController extends Controller
         );
         return $this->render('Sliders/detailsFront.html.twig', array(
             'products' => $products,
-            'listProducts' => $listProducts
+            'listProducts' => $listProducts,
+            'setting' => $setting
         ));
     }
     

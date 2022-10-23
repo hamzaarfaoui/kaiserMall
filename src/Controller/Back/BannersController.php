@@ -76,6 +76,7 @@ class BannersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $products_liste = array();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $products = $dm->getRepository('App:ListHasProducts')->byBanner($slug);
         if(count($find_products) == 1){
             $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
@@ -98,7 +99,8 @@ class BannersController extends Controller
                 'product' => $product,
                 'products' => $products,
                 'caracteristiques' => $caracteristiques,
-                'categorie' => $product->getSousCategorie()
+                'categorie' => $product->getSousCategorie(),
+                'setting' => $setting
             ));
         }
         
@@ -130,6 +132,7 @@ class BannersController extends Controller
             'listProducts' => $listProducts,
             'min' => $min,
             'max' => $max,
+            'setting' => $setting
         ));
     }
     

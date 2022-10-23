@@ -6,8 +6,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
     <!-- END PAGE LEVEL STYLES -->
+    <style type="text/css">
+        th{
+            text-align: center;
+        }
+    </style>
 {% endblock %}
-{% block title %}Tableau de bord | Marchands{% endblock %}
+{% block title %}Tableau de bord | Paramètres{% endblock %}
 {% block body %}
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
@@ -17,7 +22,7 @@
             <div class="page-head">
                 <!-- BEGIN PAGE TITLE -->
                 <div class="page-title">
-                    <h1>Marchands <small>Tous</small></h1>
+                    <h1>Paramètres</h1>
                 </div>
                 <!-- END PAGE TITLE -->
             </div>
@@ -25,11 +30,12 @@
             <!-- BEGIN PAGE BREADCRUMB -->
             <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <a class="active">Marchands</a>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    Tous
+                    <a class="active">Paramètres</a>
+                    <i class="fa fa-circle"></i>
                 </li>
             </ul>
             <!-- END PAGE BREADCRUMB -->
@@ -41,15 +47,8 @@
                     <div class="portlet box green-haze">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-globe"></i>Marchands
+                                <i class="fa fa-globe"></i>Paramètres
                             </div>
-                            {% if is_granted('ROLE_COMMERCIAL') %}
-                                <div class="tools">
-                                    <a href="{{ path('commercialstores_back_new') }}" style="color: #FFF;font-size: 14px;" title="ajouter une catégorie">
-                                        <i class="fa fa-plus"></i> Ajouter
-                                    </a>
-                                </div>
-                            {% endif %}
                         </div>
                         <div class="portlet-body">
                             <div class="row">
@@ -68,25 +67,20 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Nom
+                                            Paramètre
                                         </th>
                                         <th>
-                                            Nombre de produits
-                                        </th>
-                                        <th>
-                                            Action
+                                            Status
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for store in stores %}
+                                    {% for setting in settings %}
                                         <tr>
-                                            <td>{{store.name}}</td>
-                                            <td>{{store.products|length}}</td>
                                             <td>
-                                                <a href="{{ path('dashboard_stores_back_details', {id : store.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Produits</a>
-                                                <a href="{{ path('dashboard_stores_back_edit', {id : store.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
+                                                {{setting.name}}
                                             </td>
+                                            <td><input type="checkbox" name="setting{{setting.id}}" class="setting" data-id="{{setting.id}}" {{setting.value == 'true' ? 'checked' : ''}}></td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -112,10 +106,22 @@
     <!-- END PAGE LEVEL PLUGINS -->
     <script>
         jQuery(document).ready(function () {
+            $('.setting').change(function () {
+                var setting = $(this).data('id');
+                var checked_val = $(this).is(':checked') ? 'true' : 'false';
+                $.ajax({
+                    type: "GET", dataType: "json", url: '{{ path('backoffice_settings_update') }}',
+                    data: {setting : setting, value : checked_val},
+                    success: function(response) {
+                        console.log('success');
+                    },error: function(response) {
+                        console.log('erreur');
+                    }
+                });
+            });
             Metronic.init(); // init metronic core components
             Layout.init(); // init current layout
             Demo.init(); // init demo features
-            TableAdvanced.init();
         });
     </script>
 {% endblock %}

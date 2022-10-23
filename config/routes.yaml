@@ -127,7 +127,11 @@ marques_back:
     
 marques:
     resource: "Front/routes_marques.yaml"
-    prefix:   /marques    
+    prefix:   /marques
+
+settings:
+    resource: "Back/routes_settings.yaml"
+    prefix:   /dash/settings    
     
 user_space:
     resource: "routes_user_space.yaml"

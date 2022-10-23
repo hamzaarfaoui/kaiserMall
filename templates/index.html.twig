@@ -38,7 +38,7 @@
             <div class="container">
                 <div id="responsive-nav">
                     <!-- category nav -->
-                    <div class="category-nav category-pc">
+                    <div class="category-nav category-pc {% if(setting.value == 'false') %}hidden-categories-menu{% endif %}">
                         <span class="category-header">Trouver tous </span>
                         <ul class="category-list">
                             {% for categorie in categories %}
@@ -131,7 +131,7 @@
             <!-- /container -->
         </div>
         <!-- HOME -->
-        <div id="carrousel">{{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}</div>
+        <div id="carrousel" {% if(setting.value == 'false') %}class="carrousel-full-width"{% endif %}>{{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}</div>
     </div>
     <!-- /HOME -->
 

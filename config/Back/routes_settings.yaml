@@ -1,0 +1,6 @@
+backoffice_settings:
+    path: /
+    controller: App\Controller\Back\SettingsController::listAction
+backoffice_settings_update:
+    path: /update
+    controller: App\Controller\Back\SettingsController::editAction
