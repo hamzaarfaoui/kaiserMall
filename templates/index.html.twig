@@ -32,7 +32,7 @@
         <!-- /container -->
     </div>
     <!-- /NAVIGATION -->
-    <div class="categories-sliders-bloc home-category">
+    <div class="categories-sliders-bloc home-category {% if(setting.value == 'false') %}hidden-white-backgroud{% endif %}">
         <div id="navigation">
             <!-- container -->
             <div class="container">
@@ -94,7 +94,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <ul class="list-links">
-                                                    <li><a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a></li>
+                                                    <li><a href="{{ path('login') }}" class="text-uppercase">Login</a></li>
                                                     <li><a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a></li>
                                                 </ul>
                                             </div>

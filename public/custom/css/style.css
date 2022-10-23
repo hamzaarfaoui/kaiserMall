@@ -1785,6 +1785,10 @@ width: 100% !important;
         
 display: none !important;
     }
+    .hidden-white-backgroud{
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
 }
 @media screen and (min-width: 750px){
     #store{

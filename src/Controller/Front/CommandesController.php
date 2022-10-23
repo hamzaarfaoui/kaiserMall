@@ -138,13 +138,10 @@ class CommandesController extends Controller
     public function orders()
     {
         $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $commandes = $dm->getRepository('App:Commandes')->findBy(array('user' => $this->getUser()));
-        // foreach ($commandes as $c) {
-        //     var_dump($c->getFacture());
-        // }
-        // die();
         return $this->render('commandes/front/list.html.twig', array(
-            'commandes' => $commandes
+            'commandes' => $commandes,'setting' => $setting
         ));
         
     }
@@ -155,9 +152,10 @@ class CommandesController extends Controller
     public function detailsOrder($id)
     {
         $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $commande = $dm->getRepository('App:Commandes')->find($id);
         return $this->render('commandes/front/show.html.twig', array(
-            'commande' => $commande
+            'commande' => $commande, 'setting' => $setting
         ));
     }
     
@@ -168,7 +166,8 @@ class CommandesController extends Controller
     public function payement()
     {
         $dm = $this->getDoctrine()->getManager();
-        return $this->render('commandes/front/payement.html.twig');
+        $setting = $dm->getRepository('App:Settings')->find(1);
+        return $this->render('commandes/front/payement.html.twig', ['setting' => $setting]);
     }
     
     /*
@@ -177,6 +176,7 @@ class CommandesController extends Controller
     public function livraison()
     {
         $dm = $this->getDoctrine()->getManager();
-        return $this->render('commandes/front/livraison.html.twig');
+        $setting = $dm->getRepository('App:Settings')->find(1);
+        return $this->render('commandes/front/livraison.html.twig', ['setting' => $setting]);
     }
 }

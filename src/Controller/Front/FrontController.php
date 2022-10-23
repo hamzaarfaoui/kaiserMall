@@ -54,11 +54,13 @@ class FrontController extends Controller
     public function productInIndex($id)
     {
         $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $categorie = $dm->getRepository('App:SousCategories')->findOneByQB($id)[0];
         $products = $dm->getRepository('App:Products')->listProductsBycategories($id,10);
         return $this->render('Products/front/index.html.twig', array(
             'products' => $products,
-            'categorie' => $categorie
+            'categorie' => $categorie,
+            'setting' => $setting
         ));
     }
     /*

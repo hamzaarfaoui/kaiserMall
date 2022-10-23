@@ -20,11 +20,12 @@ class CartController extends Controller
     {
         $session = $request->getSession();
         $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         if (!$session->has('panier')){$session->set('panier', array());}
         $products = $dm->getRepository('App:Products')->findArray(array_keys($session->get('panier')));
         return $this->render('frontend/cart/cart.html.twig', array(
             'products' => $products,
-            'panier' => $session->get('panier')
+            'panier' => $session->get('panier'),'setting' => $setting
         ));
     }
     
@@ -210,6 +211,7 @@ class CartController extends Controller
     public function validation(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
+        $setting = $dm->getRepository('App:Settings')->find(1);
         if ($this->getUser())
         {
             $user = $this->getUser();
@@ -220,6 +222,6 @@ class CartController extends Controller
         }
         $prepareCommande = $this->forward('App\Controller\Front\CommandesController::prepareCommande');
         $commande = $dm->getRepository('App:Commandes')->find($prepareCommande->getContent());
-        return $this->render('frontend/cart/validation.html.twig', array('commande' => $commande));
+        return $this->render('frontend/cart/validation.html.twig', array('commande' => $commande,'setting' => $setting));
     }
 }

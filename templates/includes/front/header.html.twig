@@ -48,12 +48,12 @@
                             </div>
                         </div>
                         {% if app.request.get('_route') != 'index_page' %}
-                         {% if(setting.value == 'true') %}
+                         {% if(setting is defined and setting.value == 'true') %}
                         <button type="button" class="menu-cat-btn"><i class="fa fa-bars"></i> Categories</button>
                         <div class="partial-categories">
                             {{ render(controller('App\\Controller\\Front\\FrontController::partialCategories')) }}
                         </div>
-                        
+
                         {% endif %}
                         {% endif %}
                         <!-- /Logo -->
@@ -91,7 +91,7 @@
                                         </ul>
                                     {% else %}
                                         <div class="header-btns user-acc" style="text-align: center;height: 40px;line-height: 40px;">
-                                        <i class="fa fa-user-o"></i> <a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a> / <a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a>
+                                        <i class="fa fa-user-o"></i> <a href="{{ path('login') }}" class="text-uppercase">Login</a> / <a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a>
                                         </div>
                                     {% endif %}
                                 </li>

@@ -95,4 +95,8 @@ dashboard_cmd_revenu:
 dashboard_product_add_remove_liees:
     path: /add_remove_liees
     controller: App\Controller\Back\ProductBackController::addAndRemove
+
+login:
+    path:  /connexion
+    defaults: { _controller: App\Controller\SecurityController::login }
     
