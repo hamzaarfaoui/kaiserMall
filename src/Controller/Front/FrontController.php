@@ -155,9 +155,11 @@ class FrontController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
+        $setting = $dm->getRepository('App:Settings')->find(1);
         $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('includes/front/nav.html.twig', array(
-            'categories' => $categories
+            'categories' => $categories,
+            'setting' => $setting
         ));
     }
     /*
