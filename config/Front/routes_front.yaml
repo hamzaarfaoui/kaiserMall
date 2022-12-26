@@ -6,7 +6,10 @@ dashboard_sc2_by_sc1:
     controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1   
 test_email:
     path: /test_email
-    controller: App\Controller\Front\FrontController::testEmail
+    controller: App\Controller\Front\FrontController::testEmail2
+confirmation_account:
+    path: /confirmation_account
+    controller: App\Controller\Front\FrontController::confirmationAccount
 index_page:
     path: /
     controller: App\Controller\Front\FrontController::indexPage

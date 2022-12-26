@@ -7,7 +7,7 @@
 
 {% block body_text %}
 {% autoescape false %}
-{{ 'registration.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
+{{ 'registration.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl})|raw }}
 {% endautoescape %}
 {% endblock %}
 {% block body_html %}{% endblock %}

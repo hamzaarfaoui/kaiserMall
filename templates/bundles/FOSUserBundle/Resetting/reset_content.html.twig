@@ -1,8 +1,43 @@
 {% trans_default_domain 'FOSUserBundle' %}
+<!-- NAVIGATION -->
+<div id="navigation">
+	<!-- container -->
+	<div class="container">
+		<div id="responsive-nav">
+			<!-- NAVIGATION -->
+			{{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
 
-{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
-    </div>
-{{ form_end(form) }}
+			<!-- /NAVIGATION -->
+		</div>
+	</div>
+	<!-- /container -->
+</div>
+<!-- /NAVIGATION -->
+<!-- BREADCRUMB -->
+<div id="breadcrumb">
+	<div class="container">
+		<ul class="breadcrumb">
+			<li><a href="{{ path('index_page') }}">Accueil</a></li>
+			<li class="active">Mot de passe oublié</li>
+		</ul>
+	</div>
+</div>
+<!-- /BREADCRUMB -->
+<!-- section -->
+<div class="section section-register">
+    <!-- container -->
+    <div class="container">
+        <div class="text-center inscription-form">
+			{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+				<p><b>Nouveau mot de passe</b></p>
+				{{ form_widget(form.plainPassword.first, {'attr': {'class': 'input'}}) }}
+				<br><br>
+				<p><b>Répétez le mot de passe</b></p>
+				{{ form_widget(form.plainPassword.second, {'attr': {'class': 'input'}}) }}
+				<div>
+					<input type="submit" value="Enregistrer" class="primary-btn" style="margin-top: 10px;width: 100%" />
+				</div>
+			{{ form_end(form) }}
+		</div>
+	</div>
+</div>

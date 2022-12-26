@@ -39,9 +39,9 @@ class SlidersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $products_liste = array();
-        $find_products = $dm->getRepository('App:ListHasProducts')->bySlider($slug);
+        $products = $dm->getRepository('App:ListHasProducts')->bySlider($slug);
         $setting = $dm->getRepository('App:Settings')->find(1);
-        if(count($find_products) == 1){
+        if(count($products) == 1){
             $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
             $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
             $query = array();
@@ -66,18 +66,9 @@ class SlidersController extends Controller
                 'setting' => $setting
             ));
         }
-        
-        $paginator  = $this->get('knp_paginator');
-        $listProducts = $dm->getRepository('App:ProductsList')->getListesBySlider($slug)[0];
-        
         foreach ($find_products as $p){
             $products_liste[] = $p;
         }
-        $products = $paginator->paginate(
-            $products_liste, /* query NOT result */
-            $request->query->get('page', 1), /*page number*/
-            20 /*limit per page*/
-        );
         return $this->render('Sliders/detailsFront.html.twig', array(
             'products' => $products,
             'listProducts' => $listProducts,

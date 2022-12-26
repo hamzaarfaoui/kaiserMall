@@ -261,11 +261,13 @@ class ProductsRepository extends ServiceEntityRepository
             $qb->orderBy('u.position', 'ASC');
         }
         if(isset($params['marques'])){
-            $qb->andWhere('u.marque IN (:marques)')
+            $qb->leftJoin('u.marque', 'm')
+			->andWhere('m.name IN (:marques)')
             ->setParameter('marques', $params['marques']);
         }
         if(isset($params['couleurs'])){
-            $qb->andWhere('u.couleur IN (:couleurs)')
+            $qb->leftJoin('u.couleur', 'c')
+			->andWhere('c.code IN (:couleurs)')
             ->setParameter('couleurs', $params['couleurs']);
         }
         if(isset($params['valeurs'])){
@@ -419,13 +421,8 @@ class ProductsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
                 ->Select('m.id', 'm.name')
                 ->leftJoin('u.marque', 'm')
-                ->leftJoin('u.store', 's')
-        ->where('s.debutOffre <= :deb')
-        ->andWhere('s.finOffre >= :fin')
-         ->setParameter('deb', date('Y-m-d H:i:s'))
-        ->setParameter('fin', date('Y-m-d H:i:s'))
                 ->andWhere('u.id IN (:list)')
-                ->groupBy('m.id')
+                ->groupBy('m.name')
                 ->setParameter('list', $list);
         return $qb->getQuery()->execute();
     }
@@ -435,14 +432,9 @@ class ProductsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
                 ->Select('c.id', 'c.code')
                 ->leftJoin('u.couleur', 'c')
-                ->leftJoin('u.store', 's')
-        ->where('s.debutOffre <= :deb')
-        ->andWhere('s.finOffre >= :fin')
-         ->setParameter('deb', date('Y-m-d H:i:s'))
-        ->setParameter('fin', date('Y-m-d H:i:s'))
                 ->andWhere('u.id IN (:list)')
                 ->andWhere('c.code IS NOT NULL')
-                ->groupBy('c.id')
+                ->groupBy('c.code')
                 ->setParameter('list', $list);
         return $qb->getQuery()->execute();
     }

@@ -5,9 +5,17 @@ fos_user:
     registration:
         form:
             type: App\Form\RegistrationFormType
+        confirmation:
+            enabled: false
+            template: Email/registration.html.twig
+    resetting:
+        email:
+            template:   Email/resetting.html.twig
     profile:
         form:
             type: App\Form\ProfileFormType        
     from_email:
-        address: "contact@kaisermall.tn"
+        address: "support@kaisermall.tn"
         sender_name: "Service client"
+    service:
+        mailer: fos_user.mailer.twig_swift

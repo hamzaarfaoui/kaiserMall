@@ -9,77 +9,42 @@ use App\Entity\Contacts;
 use App\Entity\NewsLetter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\MySite;
-use PHPMailer\PHPMailer;
+use App\PHPMailer\PHPMailer;
+use App\PHPMailer\Exception;
+use App\PHPMailer\SMTP;
 class FrontController extends Controller
 {
-    public function testEmail(\Swift_Mailer $mailer)
+    public function confirmationAccount(Request $request)
     {
-        $headers ='From: "Kaisermall"<contact@kaisermall.tn>'."\n";
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-        $body=  '
-        <html xmlns="http://www.w3.org/1999/xhtml">
-        <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        </head>
-        <body>
-        <table width="600" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td align="center"><span style="font-family:Verdana, Geneva, sans-serif; font-size:16px; font-weight:bold;text-transform: uppercase;">Kaisermall</span></td>
-          </tr>
-          <tr>
-            <td align="center">&nbsp;</td>
-          </tr>
-          
-        </table>
-
-        </body>
-        </html>';
-        $mail = new PHPMailer(true);
-        //Server settings
-        $mail->SMTPDebug = 0;                      //Enable verbose debug output => DEBUG_OFF | DEBUG_SERVER | DEBUG_LOWLEVEL
-        $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'localhost';   //Set the SMTP server to send through
-        $mail->SMTPAuth   = false;                                   //Enable SMTP authentication
-        $mail->Username   = '';                     //SMTP username
-        $mail->Password   = '';                               //SMTP password
-        $mail->SMTPSecure = SMTP_SECURE;            //Enable implicit TLS encryption
-        $mail->Port       = 587;
-        $mail->setFrom(MAIL_FROM, $PROJECT_ABBREVIATION.' : Borne d\'orientation');
-        $mail->CharSet = 'UTF-8';
-        //Set who the message is to be sent to
-        $ADRESSES = array('hamzaarfaoui105@gmail.com');
-        for($i=0;$i<count($ADRESSES);$i++){
-            $mail->addAddress($ADRESSES[$i], 'Kaisermall : support');
-        }
-        //Set the subject line
-        $SUBJECT = "Kaisermall : Nouveau compte ";
-        $SUBJECT = '=?UTF-8?B?'.base64_encode($SUBJECT).'?=';
-        $mail->Subject = $SUBJECT;
-        // if ($prenom != "") {
-        //     $mail->Subject = "Borne d'accueil : RDV avec ".$civ." ".$prenom." ".$nom;
-        // } else {
-        //     $mail->Subject = "Borne d'accueil : RDV avec ".$civ." ".$nom;
-        // }
-        $mail->Body    = $body;
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-        //send the message, check for errors
-        if($mail->send()) 
-        {
-            $return = array("status"=>true, "adresses" => $ADRESSES);
-        } 
-        else 
-        {
-            $return = array("status"=>false, "message" => ("Mailer Error: " . $mail->ErrorInfo), "from" => MAIL_FROM, "to" => $ADRESSES);
-        }
         $dm = $this->getDoctrine()->getManager();
-        $sc2 = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
-        $categories = $dm->getRepository('App:CategoriesMere')->findAll();
-        return $this->render('index.html.twig', array(
-            'sc2' => $sc2,
-            'categories' => $categories
-        ));
+		$token = $request->get('token');
+        $user = $dm->getRepository('App:User')->findOneBy(array('confirmationToken' => $token));
+		$user->setEnabled(true);
+		$user->setConfirmationToken(null);
+		$dm->persist($user);
+		$dm->flush();
+		$request->getSession()->getFlashBag()->add('success', "Votre compte est activé, vous pouvez connecté à votre compte");
+        return $this->redirectToRoute('fos_user_security_login');
     }
+	
+	public function testEmail2(\Swift_Mailer $mailer){
+		$message = (new \Swift_Message('Kaiser Mall'))
+		->setFrom('contact@kaisermall.tn')
+		->setTo('hamzaarfaoui105@gmail.com')
+		->setBody(
+			$this->renderView(
+				'test.html.twig'
+			),
+			'text/html'
+		)
+		;
+		if($mailer->send($message)){
+			return $this->redirectToRoute('contact_page');
+		}else{
+			die('no mail sent');
+		}
+
+	}
     /*
      * Index page
      */

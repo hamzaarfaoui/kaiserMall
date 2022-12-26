@@ -1,0 +1,20 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% block subject %}
+{%- autoescape false -%}
+	Confirmation de votre compte
+{%- endautoescape -%}
+{% endblock %}
+
+{% block body_text %}
+	
+{% endblock %}
+{% block body_html %}
+	<center><img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" /></center>
+	<p>Bonjour {{ user.username }} !</p>
+
+	<p>Veuillez cliquez içi <a href="{{confirmationUrl}}" style="font-weight: bold;color: #39b54a;">redéfinir mon mot de passe </a> pour réinitialiser votre mot de passe.</p>
+
+	<p>Cordialement,
+	L'équipe Kaiser MALL</p>
+{% endblock %}
+

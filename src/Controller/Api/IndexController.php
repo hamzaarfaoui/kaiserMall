@@ -24,6 +24,20 @@ class IndexController extends Controller
     }
 
     /*
+    * accueil
+    */
+    public function accueil()
+    {
+        $dm = $this->getDoctrine()->getManager();
+        $sliders = $dm->getRepository('App:Sliders')->getAllSlidersMobile();
+        $banners = $dm->getRepository('App:ProductsList')->getBanners();
+        return new JsonResponse(array(
+            'sliders' => $sliders,
+            'banners' => $banners
+        ));   
+    }
+
+    /*
      * products by category
      */
     public function productsByCategory($category)

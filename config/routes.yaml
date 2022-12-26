@@ -9,7 +9,7 @@ front:
 
 api_index:
     resource: "Api/routes_index.yaml"
-    prefix:   /
+    prefix:   /api
     
 cart:
     resource: "Front/routes_cart.yaml"

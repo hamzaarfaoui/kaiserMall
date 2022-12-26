@@ -72,17 +72,30 @@ class ProductController extends Controller
             $query['valeurs'] = $caracteristiques;
         }
         if(!empty($request->get('marques'))){
-            foreach ($request->get('marques') as $item){
-                $marque = $dm->getRepository('App:Marques')->find($item);
-                $marques[] = $marque;
-            }
+			if($request->get('listProducts')){
+				foreach ($request->get('marques') as $item){
+					$marques[] = $item;
+				}
+			}else{
+				foreach ($request->get('marques') as $item){
+					$marque = $dm->getRepository('App:Marques')->find($item);
+					$marques[] = $marque;
+				}
+			}
             $query['marques'] = $marques;
         }
         if(!empty($request->get('couleurs'))){
-            foreach ($request->get('couleurs') as $item){
-                $couleur = $dm->getRepository('App:Couleurs')->find($item);
-                $couleurs[] = $couleur;
-            }
+			if($request->get('listProducts')){
+				foreach ($request->get('couleurs') as $item){
+					$couleurs[] = $item;
+				}
+			}else{
+				foreach ($request->get('couleurs') as $item){
+					$couleur = $dm->getRepository('App:Couleurs')->find($item);
+					$couleurs[] = $couleur;
+				}
+			}
+            
             $query['couleurs'] = $couleurs;
         }
         if(!empty($request->get('categorie'))){

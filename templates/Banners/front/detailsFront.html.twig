@@ -81,9 +81,6 @@ h5{
 #aside {
     margin-bottom: 0;
 }
-.list-products-container {
-    margin-left: inherit !important;
-}
 }
 @media screen and (min-width: 991px)
 {
@@ -123,11 +120,11 @@ h5{
     <!-- section -->
     <div class="section section-products in-filter">
         <!-- container -->
-        <div class="container list-products-container{% if(products|length <= 10) %} without-filter{% endif %}">
+        <div class="container list-products-container{% if(products|length <= 2) %} without-filter{% endif %}">
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
-                {% if(products|length > 10) %}
+                {% if(products|length > 2) %}
                 <div class="col-md-3">
                     
                     <!-- start if mobile -->
@@ -148,54 +145,35 @@ h5{
                                 <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
                                 <hr>
                             <div class="in-promotion-filter">
-                                <label for="inPromotion" class="container-label">
+								<input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+								<label for="inPromotion">
                                     En promotion
-                                    <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
-                                    <span class="checkmark"></span>
                                 </label>
                             </div>
-                            {% if marques|length > 0 %}
+                            {% if marques|length > 1 %}
                             <hr>
                             <h5>Marques</h5>
                             <ul>
                                 {% for marque in marques %}
                                     <li>
-                                        <label for="marque{{marque.id}}" class="container-label"> 
+										<input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.name}}" data-valeur="{{marque.name}}">
+										<label for="marque{{marque.id}}" class="container-label"> 
                                             {{marque.name}}
-                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                             <span class="checkmark"></span>
                                         </label>
                                     </li>
                                 {% endfor %}
                             </ul>
                             {% endif %}
-                            {% if couleurs|length > 0 %}
+                            {% if couleurs|length > 1 %}
                             <hr>
                             <h5>Couleurs</h5>
                             <ul>
                                 {% for couleur in couleurs %}
-                                    <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                    <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.code}}" >
                                    <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
                                 {% endfor %}
                             </ul>
                             {% endif %}
-                            {% for caracteristique in caracteristiques %}
-                            {% if(caracteristique.name != 'Couleur') %}
-                            <h5>{{ caracteristique.name }}</h5>
-                            <ul>
-                                {% for valeur in caracteristique.valeurs %}
-                                    <li>
-                                        <label for="valeur{{valeur.id}}" class="container-label">
-                                            {{valeur.name}}
-                                            <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                             <span class="checkmark"></span>
-                                         </label>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
-                            {% if not loop.last %}<hr>{% endif %}
-                            {% endfor %}
                         </div>
                     </div>
                     
@@ -207,7 +185,7 @@ h5{
                 
 
                 <!-- MAIN -->
-                <div id="main" class="{% if(products|length > 10) %}col-md-9{% else %}col-md-12 full-main-width{% endif %}">
+                <div id="main" class="{% if(products|length < 2) %}col-md-12 full-main-width{% else %}col-md-9{% endif %}">
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
                         <!-- Trigger the modal with a button -->
@@ -230,12 +208,12 @@ h5{
                                     <input type="hidden" name="maxp" id="maxp-modal" value="{{max+2}}">
                                     <hr>
                                 <div class="in-promotion-filter">
-                                    <label for="inPromotion" class="container-label">
+									<input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                    <label for="inPromotion">
                                         En promotion
-                                        <input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
-                                        <span class="checkmark"></span>
                                     </label>
                                 </div>
+								{% if(marques|length > 1) %}
                                 <hr>
                                 <h5>Marques</h5>
                                 <ul>
@@ -246,6 +224,8 @@ h5{
                                         </li>
                                     {% endfor %}
                                 </ul>
+								{% endif %}
+								{% if(marques|length > 1) %}
                                 <hr>
                                 <h5>Couleurs</h5>
                                 <ul>
@@ -254,6 +234,7 @@ h5{
                                        <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
                                     {% endfor %}
                                 </ul>
+								{% endif %}
                                 {% for caracteristique in caracteristiques %}
                                 {% if(caracteristique.name != 'Couleur') %}
                                 <h5>{{ caracteristique.name }}</h5>
@@ -441,7 +422,7 @@ h5{
         minp = min;
         maxp = max;
             var listProducts =$('#listProducts').val();
-
+			var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
             var caracteristiques = [];
             $("input[name='valeur']:checked").each(function(){
                 caracteristiques.push($(this).val());
@@ -481,12 +462,13 @@ h5{
         var caracteristiques = [];
         var marques = [];
         
-        $('input[name="marque"], input[name="couleur"], input[name="valeur"]').change(function(){
+        $('input[name="marque"], input[name="couleur"], input[name="valeur"], input[name="inPromotion"]').change(function(){
         
             var myVal = $(this).val();
             var caracteristiques = [];
             var couleurs = [];
             var marques = [];
+			var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
             var tri = $(this).val();
             $("input[name='valeur']:checked").each(function(){
                 caracteristiques.push($(this).val());
@@ -499,7 +481,7 @@ h5{
             });
             $.ajax({
                 url: '{{ path('tri_product') }}',
-                data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+                data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri, inPromotion: inPromotion},
                 method: "POST",
                 error: function (data) {
                     console.log('Erreur de trier les produit');
@@ -529,7 +511,7 @@ h5{
         
     ////// Tri profuct by facteur
     $('.filter-product').change(function(){
-    
+		var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
         var valeur = $(this).val();
         $('.filter-product').val($(this).val());
         var caracteristiques = [];
@@ -547,7 +529,7 @@ h5{
         var tri = $(this).val();
         $.ajax({
             url: '{{ path('tri_product') }}',
-            data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri},
+            data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri, inPromotion: inPromotion},
             method: "POST",
             error: function (data) {
                 console.log('Erreur de trier les produit');

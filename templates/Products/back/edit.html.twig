@@ -139,7 +139,7 @@
                                             <div class="form-body">
                                                 <h3>Infos générale</h3>
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label">Nom complet: <span class="required">
                                                                     * </span>
@@ -159,7 +159,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+                                                    <div class="col-md-4">
+														<div class="form-group" style="margin-left: 10px">
+                                                            <label class="col-md-2 control-label">Marque</label>
+															<div class="col-md-10">
+																<select id="marque" class="form-control" name="marque">
+																	<option value="rien">Sélectionner une marque</option>
+																	{% for marque in marques %}
+																		<option value="{{marque.id}}" {{ product.marque and (product.marque.id == marque.id) ? 'selected="true"' : '' }}>{{marque.name}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+                                                        </div>
+													</div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label">Prix: <span class="required">
@@ -315,10 +327,9 @@
 <!-- BEGIN:File Upload Plugin JS files-->
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-     <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bootstrapFileInput/js/fileinput.js') }}"></script>
-    <script src="{{ asset('bootstrapFileInput/js/locales/fr.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('bootstrapFileinput/js/fileinput.js') }}"></script>
+    <script src="{{ asset('bootstrapFileinput/js/locales/fr.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') }}"></script>
     <script src="{{ asset('template/assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js') }}" type="text/javascript"></script>

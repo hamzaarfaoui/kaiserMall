@@ -1,0 +1,20 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% block subject %}
+{%- autoescape false -%}
+	Confirmation de votre compte
+{%- endautoescape -%}
+{% endblock %}
+
+{% block body_text %}
+	
+{% endblock %}
+{% block body_html %}
+	<center><img src="https://www.kaisermall.tn/e-shop/img/logo.png" alt="logo" /></center>
+	<p>Bonjour {{ user.username }} !</p>
+
+	<p>Pour valider votre compte utilisateur, cliquez içi <a href="https://www.kaisermall.tn/confirmation_account?token={{user.confirmationToken}}" style="font-weight: bold;color: #47815b;">Confirmer mon inscription</a></p>
+
+	<p>Cordialement,
+	L'équipe Kaiser MALL</p>
+{% endblock %}
+

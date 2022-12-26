@@ -141,7 +141,7 @@
                                             <div class="form-body">
                                                 <h3>Infos générale</h3>
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label">Nom complet: <span class="required">
                                                                     * </span>
@@ -161,7 +161,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+                                                    <div class="col-md-4">
+														<div class="form-group" style="margin-left: 10px">
+                                                            <label class="col-md-2 control-label">Marque</label>
+															<div class="col-md-10">
+																<select id="marque" class="form-control" name="marque">
+																	<option value="rien">Sélectionner une marque</option>
+																	{% for marque in marques %}
+																		<option value="marque.id" {{ product.marque.id == marque.id ? 'selected="true"' : '' }}>{{marque.name}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+                                                        </div>
+													</div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="col-md-2 control-label">Prix: <span class="required">

@@ -152,7 +152,7 @@
                                     {% for caracteristique in caracteristiques %}
                                         <tr>
                                             <td>{{caracteristique.name}}</td>
-                                            <td>{{caracteristique.sousCategorie.name}}</td>
+                                            <td style="text-align: left;font-weight: 100;">{{caracteristique.sousCategorie.categorie.categorieMere.name}}/{{caracteristique.sousCategorie.categorie.name}}/{{caracteristique.sousCategorie.name}}</td>
                                             <td>
                                                 <a href="{{ path('dashboard_caracteristiques_details', {id : caracteristique.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
                                                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalEdit{{caracteristique.id}}"><i class="fa fa-pencil"></i> Modifier</button>

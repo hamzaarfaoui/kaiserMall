@@ -59,4 +59,16 @@ class SlidersRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->execute();
     }
+    public function getAllSlidersMobile()
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('l.id AS id', "CONCAT('https://www.kaisermall.tn/uploads/sliders/','',u.image) AS image")
+            ->leftJoin('u.productsList', 'l')
+            ->leftJoin('l.listHasProducts', 'p')
+            ->groupBy('l.id')
+            ->orderBy('u.ordre', 'ASC');
+        
+        return $qb->getQuery()->execute();
+    }
 }

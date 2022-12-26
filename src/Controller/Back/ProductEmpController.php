@@ -361,7 +361,7 @@ class ProductEmpController extends Controller
         $sousCategories2 = $dm->getRepository('App:SousCategories')->findAll();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $couleurs = $dm->getRepository('App:couleurs')->findBy(array('sousCategorie' => $product->getSousCategorie()));
-        $marques = $dm->getRepository('App:Marques')->findAll();
+        $marques = $dm->getRepository('App:Marques')->findBy(array('sousCategorie' => $product->getSousCategorie()));
         $stores = $dm->getRepository('App:Stores')->findAll();
         $gallery = $dm->getRepository('App:MediasImages')->findBy(array('product'=>$product));
         return $this->render('Products/back/emp/edit.html.twig', array(
@@ -391,6 +391,11 @@ class ProductEmpController extends Controller
         $product->setPricePromotion($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
+		if($request->get('marque')){
+			$marque_id = $request->get('marque');
+			$marque = $dm->getRepository('App:Marques')->find($marque_id);
+			$product->setMarque($marque);
+        }
         $valeurs = $request->get('valeurs');
         $p = $dm->getRepository('App:Products')->find($id);
         if($request->get('store')){
