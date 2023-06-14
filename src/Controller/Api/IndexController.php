@@ -14,12 +14,12 @@ class IndexController extends Controller
     /*
      * product details
      */
-    public function productDetails($slug)
+    public function productDetails($id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $product = $dm->getRepository('App:Products')->findOneByQB($slug);
+        $product = $dm->getRepository('App:Products')->findOneByQById($id);
         $infos = $product[0];
-        $images = $dm->getRepository('App:MediasImages')->findByQB($infos['id']);
+        $images = $dm->getRepository('App:MediasImages')->findByQBMobile($infos['id']);
         return new JsonResponse(array('infos' => $infos, 'images' => $images));
     }
 
@@ -31,9 +31,17 @@ class IndexController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $sliders = $dm->getRepository('App:Sliders')->getAllSlidersMobile();
         $banners = $dm->getRepository('App:ProductsList')->getBanners();
+        $list_products = array();
+        foreach ($banners as $key => $banner) {
+            if($banner['show_list_products'] == 1 && $key <= 3){
+                $products = $dm->getRepository('App:ListHasProducts')->byBannerMobile($banner['slug']);
+                $list_products[$banner['title']] = $products; 
+            }
+        }
         return new JsonResponse(array(
             'sliders' => $sliders,
-            'banners' => $banners
+            'banners' => $banners,
+            'lists_products' => $list_products
         ));   
     }
 

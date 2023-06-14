@@ -24,10 +24,15 @@ class PromotionsController extends Controller
     /*
      * Promotions list
      */
-    public function liste($id)
+    public function liste()
     {
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         $promotions_list = array();
         $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
         foreach ($products as $product){

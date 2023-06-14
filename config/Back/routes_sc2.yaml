@@ -33,7 +33,7 @@ dashboard_add_couleur:
     controller: App\Controller\Back\SousCategories2Controller::addcouleurAction
 
 dashboard_couleur_delete:
-    path: /add_couleur
+    path: /{id}/delete_couleur
     controller: App\Controller\Back\SousCategories2Controller::deletecouleurAction
     
 dashboard_sc2_show_products_banners_in_index:

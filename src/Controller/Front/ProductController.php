@@ -72,7 +72,7 @@ class ProductController extends Controller
             $query['valeurs'] = $caracteristiques;
         }
         if(!empty($request->get('marques'))){
-			if($request->get('listProducts')){
+			if($request->get('listProducts') || $request->get('store')){
 				foreach ($request->get('marques') as $item){
 					$marques[] = $item;
 				}
@@ -85,7 +85,7 @@ class ProductController extends Controller
             $query['marques'] = $marques;
         }
         if(!empty($request->get('couleurs'))){
-			if($request->get('listProducts')){
+			if($request->get('listProducts') || $request->get('store')){
 				foreach ($request->get('couleurs') as $item){
 					$couleurs[] = $item;
 				}
@@ -98,14 +98,14 @@ class ProductController extends Controller
             
             $query['couleurs'] = $couleurs;
         }
-        if(!empty($request->get('categorie'))){
-            $categorie = $dm->getRepository('App:SousCategories')->find($request->get('categorie'));
-            $query['categorie'] = $categorie->getId();
-        }elseif(!empty($request->get('categories'))){
-            $query['categories'] = $request->get('categories');
+        if($request->get('categorie')){
+            $query['categorie'] = $request->get('categorie');
         }
         if($request->get('listProducts')){
             $query['list'] = $request->get('listProducts');
+        }
+        if($request->get('store')){
+            $query['store'] = $request->get('store');
         }
         $query['tri'] = $request->get('tri');
         $query['minimum'] = intval($request->get('min'));
@@ -117,6 +117,9 @@ class ProductController extends Controller
         if(isset($query['categorie'])){
             $products_list = $dm->getRepository('App:Products')->byCategorie($query);
             $view = 'frontend/partials/triProduct.html.twig';
+        }elseif(isset($query['store'])){
+            $products_list = $dm->getRepository('App:Products')->triByStore($query);
+            $view = 'frontend/partials/triProductStore.html.twig';
         }else{
             $products_list = $dm->getRepository('App:Products')->byBanner($query);
             $view = 'frontend/partials/triProductBanner.html.twig';
@@ -130,6 +133,7 @@ class ProductController extends Controller
             'message' => 'Tout est bon',
             'filter_by_categorie' => isset($query['categories']) ? true : false,
             'filter_by_listProducts' => isset($query['list']) ? true : false,
+            'filter_by_store' => isset($query['store']) ? true : false,
             'products' => $this->renderView($view, array('products' => $products_list))
         ));
     }

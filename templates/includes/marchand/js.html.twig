@@ -21,7 +21,11 @@
 <script type="text/javascript" src="{{asset('template/slick/slick.min.js')}}"></script>
 <script src="{{ asset('template/temp/assets/extra-libs/DataTables/datatables.min.js')}}"></script>
 <script>
-    $('#zero_config').DataTable({
+    $('#zero_config, #zero_config2').DataTable({
+        lengthMenu: [
+            [10, 25, 50, -1],
+            [10, 25, 50, 'All'],
+        ],
         "language": {
             "zeroRecords": "Aucun résultat trouvé",
             "infoEmpty": "Aucune données trouvé",

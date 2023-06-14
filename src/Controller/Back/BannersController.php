@@ -79,7 +79,7 @@ class BannersController extends Controller
         $setting = $dm->getRepository('App:Settings')->find(1);
         $products = $dm->getRepository('App:ListHasProducts')->byBanner($slug);
         if(count($products) == 1){
-            $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
+            $product = $dm->getRepository('App:Products')->find($products[0]['id']);
             $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
             $query = array();
             $query['slug'] = $product->getSlug();

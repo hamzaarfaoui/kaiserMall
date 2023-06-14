@@ -3,11 +3,11 @@ api_accueil:
     controller: App\Controller\Api\IndexController::accueil
 
 api_product_details:
-    path: /api-for-mobile/product-details/{slug}
+    path: /product-details/{id}
     controller: App\Controller\Api\IndexController::productDetails
 
 api_products_by_category:
-    path: /api-for-mobile/products-by-category/{category}
+    path: /products-by-category/{category}
     controller: App\Controller\Api\IndexController::productsByCategory
     
 api_login:

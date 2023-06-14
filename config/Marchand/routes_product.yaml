@@ -1,5 +1,5 @@
 marchand_product_index:
-    path: /list/{id}
+    path: /list
     controller: App\Controller\Front\Marchand\ProductsController::liste    
     
 marchand_product_details:
@@ -7,11 +7,11 @@ marchand_product_details:
     controller: App\Controller\Front\Marchand\ProductsController::details    
 
 marchand_product_back_new:
-    path: /new/{id}
+    path: /new
     controller: App\Controller\Front\Marchand\ProductsController::newProduct    
 
 marchand_product_back_new_traitement:
-    path: /new_traitement/{id}
+    path: /new_traitement
     controller: App\Controller\Front\Marchand\ProductsController::newProductTraitement     
     
 marchand_product_back_edit:
@@ -41,3 +41,6 @@ marchand_sc1_by_cm:
 marchand_sc2_by_sc1:
     path: /sc2_by_sc1/{sc1}
     controller: App\Controller\Back\SousCategories2Controller::Souscategories2bysc1    
+dashboard_product_order_in_store:
+    path: /product_order_in_store
+    controller: App\Controller\Front\Marchand\ProductsController:productOrderInStore

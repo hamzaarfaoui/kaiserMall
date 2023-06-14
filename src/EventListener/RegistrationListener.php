@@ -42,9 +42,10 @@ class RegistrationListener implements EventSubscriberInterface
         
     }
     
-    public function onRegistrationConfirm(FormEvent $event)
+    public function onRegistrationConfirm()
     {
-        $this->router->redirect('fos_user_profile_edit');
+        /*$this->router->generate('fos_user_profile_edit');
+		$event->setResponse(new RedirectResponse($url));*/
     }
     
     public function onChangePassword(FormEvent $event)

@@ -27,3 +27,43 @@
     <!-- /BREADCRUMB -->
 {% include "@FOSUser/Registration/register_content.html.twig" %}
 {% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        var password = $('#fos_user_registration_form_plainPassword_first');
+        var confirmedPassword = $('#fos_user_registration_form_plainPassword_second');
+        var formatSpecialsCaracters = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        var formatNumbersLetters = /^[A-Za-z0-9]*$/;
+        password.keyup(function () {
+            console.log('lettres : '+(/[A-Z]/.test(password.val()) || /[a-z]/.test(password.val())));
+            console.log('numbers : ' + (/[0-9]/.test(password.val())));
+            if(password.val().length < 8){
+                $('#error-password-text').show();
+                $('#error-password-text').html('Mot de passe très courte : au minimum 8 caractères');
+                $('#validate-registration').prop('disabled', true);
+                password.css('border', '1px solid #a94442');
+            }else if(password.val().length > 8 && (!/[A-Z]/.test(password.val()) || !/[a-z]/.test(password.val())) && !/[0-9]/.test(password.val())) {
+                $('#error-password-text').show();
+                $('#error-password-text').html('Mot de passe doit contenir au moins des lettres et des chiffres');
+                $('#validate-registration').prop('disabled', true);
+                password.css('border', '1px solid #a94442');
+            }else{
+                $('#error-password-text').hide();
+                password.css('border', '1px solid #39b54a');
+                $('#validate-registration').prop('disabled', false);
+            }
+        });
+        confirmedPassword.keyup(function () {
+            if(password.val() != confirmedPassword.val()){
+                $('#error-password-confirmed-text').show();
+                $('#error-password-confirmed-text').html('Veuillez resaisir le méme mot de passe');
+                $('#validate-registration').prop('disabled', true);
+                confirmedPassword.css('border', '1px solid #a94442');
+            }else{
+                $('#error-password-confirmed-text').hide();
+                confirmedPassword.css('border', '1px solid #39b54a');
+                $('#validate-registration').prop('disabled', false);
+            }
+        });
+        
+    </script> 
+{% endblock %}

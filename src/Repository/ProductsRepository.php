@@ -28,6 +28,16 @@ class ProductsRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function findOneByQById($id)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name', 'u.price', "CONCAT('https://www.kaisermall.tn/uploads/products/images/','',u.image) image", 'u.qte', 'u.pricePromotion')
+                ->where('u.id = :id')
+                ->setParameter(':id', $id);
+
+        return $qb->getQuery()->execute();
+    }
+
     public function findByQB($sousCategorie)
     {
         $qb = $this->createQueryBuilder('u')
@@ -41,6 +51,25 @@ class ProductsRepository extends ServiceEntityRepository
                 ->setParameter('fin', date('Y-m-d H:i:s'))
                 ->setParameter(':sousCategorie', $sousCategorie);
 
+        return $qb->getQuery()->execute();
+    }
+
+    public function findbyStore($store)
+    {
+        $qb = $this->createQueryBuilder('p');
+            $qb
+            ->Select('p.id', 'p.name', 'p.image', 'p.price', 'p.pricePromotion', 'p.qte', 'p.createdAt', 'p.slug')
+            ->leftJoin('p.store', 's')
+            ->where('s.debutOffre <= :deb')
+            ->andWhere('s.finOffre >= :fin')
+           ->andWhere('s.id = :store')
+            ->orderBy('p.positionInStore', 'ASC')
+            ->groupBy('p.id')
+            ->setParameter('deb', date('Y-m-d H:i:s'))
+            ->setParameter('fin', date('Y-m-d H:i:s'))
+            ->setParameter('store', $store);    
+            
+        
         return $qb->getQuery()->execute();
     }
 
@@ -172,18 +201,16 @@ class ProductsRepository extends ServiceEntityRepository
                 ->setParameter('store', $store);
         return $qb->getQuery()->execute();
     }
-    
-    public function byCategorie($params)
+
+    public function triByStore($params)
     {
         $qb = $this->createQueryBuilder('u');
         $qb->leftJoin('u.store', 's')
         ->where('s.debutOffre <= :deb')
         ->andWhere('s.finOffre >= :fin')
-         ->setParameter('deb', date('Y-m-d H:i:s'))
-        ->setParameter('fin', date('Y-m-d H:i:s'));
-            $qb->andWhere('u.sousCategorie = :sc')
-            ->leftJoin('u.valeurs', 'v')
-            ->setParameter('sc', $params['categorie']);    
+        ->setParameter('deb', date('Y-m-d H:i:s'))
+        ->setParameter('fin', date('Y-m-d H:i:s'))
+        ->leftJoin('u.valeurs', 'v');    
         if(isset($params['inPromotion'])){
             $qb->andWhere('u.pricePromotion < u.price');
         }    
@@ -192,10 +219,58 @@ class ProductsRepository extends ServiceEntityRepository
             
         }
 
-        if(isset($params['list'])){
-            $qb->andWhere('u.marque IN (:marques)')
+        if(isset($params['tri'])&&!empty($params['tri'])){
+            if ($params['tri'] == 1){
+                $qb->orderBy('u.pricePromotion', 'DESC');
+            }elseif ($params['tri'] == 2){
+                $qb->orderBy('u.pricePromotion', 'ASC');
+            }elseif ($params['tri'] == 3){
+                $qb->orderBy('u.nbrView', 'DESC');
+            }
+        }else{
+
+            $qb->orderBy('u.positionInStore', 'ASC');
+        }
+        if(isset($params['marques'])){
+            $qb->leftJoin('u.marque', 'm')
+            ->andWhere('m.name IN (:marques)')
             ->setParameter('marques', $params['marques']);
         }
+        if(isset($params['couleurs'])){
+            $qb->leftJoin('u.couleur', 'c')
+            ->andWhere('c.code IN (:couleurs)')
+            ->setParameter('couleurs', $params['couleurs']);
+        }
+        if(isset($params['valeurs'])){
+            $qb->andWhere('v.id IN (:valeurs)')
+            ->setParameter('valeurs', $params['valeurs']);
+        }
+        if(isset($params['store'])&&!empty($params['store'])){
+            $qb->andWhere('u.store = :store')
+            ->setParameter('store', $params['store']);
+        }
+        return $qb->getQuery()->execute();
+    }
+    
+    public function byCategorie($params)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->leftJoin('u.store', 's')
+        ->where('s.debutOffre <= :deb')
+        ->andWhere('s.finOffre >= :fin')
+        ->setParameter('deb', date('Y-m-d H:i:s'))
+        ->setParameter('fin', date('Y-m-d H:i:s'));
+		$qb->andWhere('u.sousCategorie = :sc')
+		->leftJoin('u.valeurs', 'v')
+		->setParameter('sc', $params['categorie']);    
+        if(isset($params['inPromotion'])){
+            $qb->andWhere('u.pricePromotion < u.price');
+        }    
+        if (isset($params['minimum']) && isset($params['minimum'])){
+            $qb->andWhere($qb->expr()->between('u.pricePromotion', $params['minimum'],$params['maximum']));
+            
+        }
+
         if(isset($params['tri'])&&!empty($params['tri'])){
             if ($params['tri'] == 1){
                 $qb->orderBy('u.pricePromotion', 'DESC');
@@ -290,6 +365,7 @@ class ProductsRepository extends ServiceEntityRepository
             ->where('s.debutOffre <= :deb')
             ->andWhere('s.finOffre >= :fin')
            ->andWhere('u.sousCategorie = :sc')
+		   ->andWhere('u.qte > 0')
             ->orderBy('u.position', 'ASC');
             if($limit>0){
                 $qb->setMaxResults($limit);
@@ -325,43 +401,27 @@ class ProductsRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function marquesProductsBycategories($categorie)
+    public function marquesProductsBycategories($list)
     {
-        $qb = $this->createQueryBuilder('u');
-            $qb
-            ->Select('m.id', 'm.name')
-            ->leftJoin('u.marque', 'm')
-            ->leftJoin('u.store', 's')
-        ->where('s.debutOffre <= :deb')
-        ->andWhere('s.finOffre >= :fin')
-         ->setParameter('deb', date('Y-m-d H:i:s'))
-        ->setParameter('fin', date('Y-m-d H:i:s'))
-            ->andWhere('u.sousCategorie = :sc')
-            ->groupBy('m.id')
-            ->setParameter('sc', $categorie);    
-            
-        
+        $qb = $this->createQueryBuilder('u')
+                ->Select('m.id', 'm.name')
+                ->leftJoin('u.marque', 'm')
+                ->andWhere('u.id IN (:list)')
+                ->groupBy('m.name')
+                ->setParameter('list', $list);
         return $qb->getQuery()->execute();
     }
 
 
-    public function couleursProductsBycategories($categorie)
+    public function couleursProductsBycategories($list)
     {
-        $qb = $this->createQueryBuilder('u');
-            $qb
-            ->Select('c.id', 'c.code')
-            ->leftJoin('u.couleur', 'c')
-            ->leftJoin('u.store', 's')
-        ->where('s.debutOffre <= :deb')
-        ->andWhere('s.finOffre >= :fin')
-         ->setParameter('deb', date('Y-m-d H:i:s'))
-        ->setParameter('fin', date('Y-m-d H:i:s'))
-            ->andWhere('u.sousCategorie = :sc')
-            ->andWhere('c.code IS NOT NULL')
-            ->groupBy('c.id')
-            ->setParameter('sc', $categorie);    
-            
-        
+        $qb = $this->createQueryBuilder('u')
+                ->Select('c.id', 'c.code')
+                ->leftJoin('u.couleur', 'c')
+                ->andWhere('u.id IN (:list)')
+                ->andWhere('c.code IS NOT NULL')
+                ->groupBy('c.code')
+                ->setParameter('list', $list);
         return $qb->getQuery()->execute();
     }
     

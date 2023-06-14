@@ -140,6 +140,9 @@ class CommandesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $setting = $dm->getRepository('App:Settings')->find(1);
         $commandes = $dm->getRepository('App:Commandes')->findBy(array('user' => $this->getUser()));
+        if(count($commandes) == 0){
+            return $this->redirect($this->generateUrl('index_page'));
+        }
         return $this->render('commandes/front/list.html.twig', array(
             'commandes' => $commandes,'setting' => $setting
         ));
@@ -154,6 +157,9 @@ class CommandesController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $setting = $dm->getRepository('App:Settings')->find(1);
         $commande = $dm->getRepository('App:Commandes')->find($id);
+        if(!$commande || $this->getUser()->getId() != $commande->getUser()->getId()){
+            return $this->redirect($this->generateUrl('index_page'));
+        }
         return $this->render('commandes/front/show.html.twig', array(
             'commande' => $commande, 'setting' => $setting
         ));

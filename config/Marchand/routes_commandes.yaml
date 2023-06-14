@@ -1,5 +1,5 @@
 marchand_commandes_index:
-    path: /list/{id}
+    path: /list
     controller: App\Controller\Front\Marchand\CommandesController::listCommandes
     
 marchand_commandes_details:

@@ -88,6 +88,27 @@ class ListHasProductsRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->execute();
     }
+    public function byBannerMobile($slug)
+    {
+        $qb = $this->createQueryBuilder('u');
+            $qb
+            ->Select('p.id', 'p.name', "CONCAT('https://www.kaisermall.tn/uploads/products/images/','',p.image) image", 'p.price', 'p.pricePromotion', 'p.qte', 'p.createdAt', 'p.slug', 'sc.id AS sc_id')
+            ->leftJoin('u.product', 'p')
+            ->leftJoin('p.sousCategorie', 'sc')
+            ->leftJoin('u.listProduct', 'l')
+            ->leftJoin('p.store', 's')
+            ->where('s.debutOffre <= :deb')
+            ->andWhere('s.finOffre >= :fin')
+           ->andWhere('l.slug = :slug')
+            ->orderBy('u.position', 'ASC')
+            ->groupBy('p.id')
+            ->setParameter('deb', date('Y-m-d H:i:s'))
+            ->setParameter('fin', date('Y-m-d H:i:s'))
+            ->setParameter('slug', $slug);    
+            
+        
+        return $qb->getQuery()->execute();
+    }
     public function getListes()
     {
         $qb = $this->createQueryBuilder('u');

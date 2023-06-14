@@ -70,7 +70,7 @@
                                             Nom
                                         </th>
                                         <th>
-                                            Nombre de produits
+                                            Catégorie
                                         </th>
                                         <th>
                                             Action
@@ -81,9 +81,8 @@
                                     {% for marque in marques %}
                                         <tr>
                                             <td>{{marque.name}}</td>
-                                            <td></td>
-                                            <td>
-                                                <a href="{{ path('dashboard_marques_back_details', {id : marque.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
+                                            <td>{{marque.sousCategorie.categorie.categorieMere.name}}/{{marque.sousCategorie.categorie.name}}/{{marque.sousCategorie.name}}</td>
+                                            <td style="font-weight: 100;text-align: left;">
                                                 <a href="{{ path('dashboard_marques_back_edit', {id : marque.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{marque.id}}"><i class="fa fa-trash"></i> Supprimer</button>
 

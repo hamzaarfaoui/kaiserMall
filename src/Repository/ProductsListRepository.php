@@ -51,7 +51,7 @@ class ProductsListRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
             $qb
-            ->Select('u.id AS id_list', 'u.name', 's.image AS slider', 'b.image AS banner')
+            ->Select('u.id AS id_list', 'u.name', 's.id AS slider', 'b.id AS banner')
             ->leftJoin('u.slider', 's')
             ->leftJoin('u.banner', 'b');
         
@@ -61,9 +61,14 @@ class ProductsListRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
             $qb
-            ->Select('u.id AS id',"CONCAT('https://www.kaisermall.tn/uploads/banners/','',b.image) AS image")
+            ->Select('u.id AS id', 'u.name AS title',"CONCAT('https://www.kaisermall.tn/uploads/banners/','',b.image) AS image, c.show_list_products, u.slug")
             ->leftJoin('u.banner', 'b')
-            ->where('u.banner IS NOT NULL');
+            ->leftJoin('b.sousCategories', 'c')
+            ->where('u.banner IS NOT NULL')
+            ->andWhere('b.debut <= :deb')
+            ->andWhere('b.fin >= :fin')
+            ->setParameter('deb', date('Y-m-d H:i:s'))
+            ->setParameter('fin', date('Y-m-d H:i:s'));
         
         return $qb->getQuery()->execute();
     }

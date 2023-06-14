@@ -1,13 +1,13 @@
 marchand_stores_details:
-    path: /{id}/details
+    path: /details-infos
     controller: App\Controller\Front\Marchand\MarchandController::infosStore
     
 marchand_stores_visuels:
-    path: /{id}/visuels
+    path: /visuels
     controller: App\Controller\Front\Marchand\MarchandController::visuels   
     
 marchand_stores_visuels_traitement:
-    path: /{id}/visuels_traitement
+    path: /visuels_traitement
     controller: App\Controller\Front\Marchand\MarchandController::visuelsTraitement       
    
 marchand_stores_add_adress:
@@ -32,4 +32,5 @@ marchand_stores_edit_phone:
     
 marchand_stores_delete_phone:
     path: /{id}/delete_phone
-    controller: App\Controller\Front\Marchand\MarchandController::deletePhoneStore    
+    controller: App\Controller\Front\Marchand\MarchandController::deletePhoneStore
+    

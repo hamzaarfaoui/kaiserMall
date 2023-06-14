@@ -2,6 +2,8 @@
 {% block title %}| Infos Store{% endblock %}
 {% block stylesheets %}
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+    <link href="{{asset('fileInput/css/fileinput.css')}}" media="all" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('fileInput/themes/explorer-fa/theme.css')}}" media="all" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('template/assets/global/plugins/jqvmap/jqvmap/jqvmap.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/assets/global/plugins/morris/morris.css') }}" rel="stylesheet" type="text/css">
     <!-- END PAGE LEVEL PLUGIN STYLES -->
@@ -15,6 +17,11 @@
     <link href="{{ asset('template/assets/admin/layout3/css/layout.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('template/assets/admin/layout3/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color">
     <link href="{{ asset('template/assets/admin/layout3/css/custom.css') }}" rel="stylesheet" type="text/css">
+    <style>
+        .kv-file-remove{
+        display: none;
+        }
+    </style>
     <!-- END THEME STYLES -->
 {% endblock %}
 {% block body %}
@@ -71,7 +78,6 @@
                                     <span class="text-uppercase">{{form_label(form.description)}}</span>
                                     {{ form_widget(form.description, { 'attr': {'class': 'form-control' , 'placeholder':'Prenom', 'required':true, 'rows': '7'} }) }}<br>
                                 </div>
-                                <br>
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-primary btn-sm">Enregistrer</button>
                                 </div>
@@ -220,6 +226,12 @@
 {% endblock %}
 {% block javascripts %}
     <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="{{ asset('fileInput/js/plugins/sortable.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('fileInput/js/plugins/sortable.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('fileInput/js/fileinput.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('fileInput/js/locales/fr.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('fileInput/themes/explorer-fa/theme.js')}}" type="text/javascript"></script>
+    <script src="{{asset('fileInput/js/plugins/canvas-to-blob.js')}}" type="text/javascript"></script>
     <script src="{{ asset('template/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js') }}" type="text/javascript"></script>
     <script src="{{ asset('template/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js') }}" type="text/javascript"></script>
     <script src="{{ asset('template/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js') }}" type="text/javascript"></script>
@@ -241,6 +253,37 @@
     <!-- END PAGE LEVEL SCRIPTS -->
     {% include 'marchand/js.html.twig' %}
    <script>
+        $('#file-fr').fileinput({
+            'theme': 'explorer-fa',
+            language: 'fr',
+            uploadUrl: '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            
+            initialPreview: [
+                {% if(store.imageCouverture != null) %}'{{ asset("uploads/shops/couvertures/") }}{{ store.imageCouverture }}',{% endif %}
+            ],
+            
+            allowedFileExtensions: ['jpg', 'png','jpeg', 'svg']
+        });
+        $("#kv-explorer").fileinput({
+            showRemove: false,
+            'theme': 'explorer-fa',
+            'uploadUrl': '#',
+            language: 'fr',
+            allowedFileExtensions: ['jpg', 'png','jpeg', 'svg'],
+            overwriteInitial: false,
+            
+            
+            initialPreviewAsData: false,
+            initialPreview: [
+                {% if(store.logo != null) %}'{{ asset("uploads/shops/logos/") }}{{ store.logo }}'{% endif %},
+            ],
+            
+             initialPreviewConfig: [
+             {caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1}
+             ]
+        });
         jQuery(document).ready(function () {
         
             Metronic.init(); // init metronic core componets

@@ -31,9 +31,11 @@ class SousCategories2Controller extends Controller
     public function grefferAction()
     {
         $dm = $this->getDoctrine()->getManager();
-        $categories = $dm->getRepository('App:SousCategories')->findAll();
-        $categoriesInIndex = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
-        return $this->render('categories/sc2/greffer.html.twig', array('categories' => $categories, 'categoriesInIndex' => $categoriesInIndex));
+        $categoriesInIndex = $dm->getRepository('App:SousCategories')->findInIndex();
+        $categoriesNotInIndex = $dm->getRepository('App:SousCategories')->findNotInIndex();
+        //$categoriesInIndex = $dm->getRepository('App:SousCategories')->findBy(array('showInIndex' => 1));
+        //dump($categoriesInIndex);die();
+        return $this->render('categories/sc2/greffer.html.twig', array('categoriesInIndex' => $categoriesInIndex,'categoriesNotInIndex' => $categoriesNotInIndex));
     }
     
     /*
@@ -177,9 +179,10 @@ class SousCategories2Controller extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $couleur = $dm->getRepository('App:Couleurs')->find($id);
+		$categorie = $couleur->getSousCategorie();
         $dm->remove($couleur);
         $dm->flush();
-        return new JsonResponse(array('message' => 'color added'));
+        return $this->redirectToRoute('dashboard_sc2_couleurs', array('id' => $categorie->getId()));
     }
     
     /*

@@ -8,7 +8,7 @@
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN PAGE STYLES -->
     <link href="{{ asset('template/assets/admin/pages/css/tasks.css') }}" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
 
     <!-- END PAGE STYLES -->
     <!-- BEGIN THEME STYLES -->
@@ -20,6 +20,8 @@
     <link href="{{ asset('template/assets/admin/layout3/css/custom.css') }}" rel="stylesheet" type="text/css">
     <!-- END THEME STYLES -->
 
+    <script src="{{ asset('ckeditor/ckeditor.js')}}"></script>
+    <script src="{{ asset('ckeditor/js/sample.js')}}"></script>
     <link rel="stylesheet" href="{{ asset('ckeditor/css/samples.css')}}">
     <style type="text/css">
         .caracteristiques{
@@ -127,23 +129,23 @@
                                                     <div class="form-body">
                                                         <h3>Infos générale</h3>
                                                         <div class="row">
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label class="col-md-2 control-label">Nom: <span class="required">
-                                                                            * </span>
-                                                                    </label>
-                                                                    <div class="col-md-10">
-                                                                        <input type="text" class="form-control" name="nom" placeholder="">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label class="col-md-2 control-label">Nom: <span class="required">
+																			* </span>
+																	</label>
+																	<div class="col-md-10">
+																		<input type="text" class="form-control" name="nom" placeholder="">
+																	</div>
+																</div>
+															</div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label class="col-md-2 control-label">Prix: <span class="required">
                                                                             * </span>
                                                                     </label>
                                                                     <div class="col-md-10">
-                                                                        <input type="number" class="form-control" name="price" placeholder="">
+                                                                        <input type="number" class="form-control" name="price" placeholder="" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -153,7 +155,7 @@
                                                                             * </span>
                                                                     </label>
                                                                     <div class="col-md-10">
-                                                                        <input type="number" class="form-control" name="qte" placeholder="">
+                                                                        <input type="number" class="form-control" name="qte" placeholder="" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -207,12 +209,12 @@
                                                 <div class="tab-pane" id="tab_meta">
                                                     <h3>Images</h3>
                                                     <div class="col-md-12">
-                                                        <label>Image d'ouveture</label> <br>
+                                                        <label>Image d'ouveture (Type jpg, png, jpeg, svg)</label> <br>
                                                         <div class="file-loading">
-                                                            <input id="kv-explorer" class="document" name="iconeC" type="file" style="height:100px">
+                                                            <input id="kv-explorer" class="document" name="iconeC" type="file" style="height:100px" required>
                                                         </div>
                                                         <br>
-                                                        Autres Images <br>
+                                                        Autres Images (Type jpg, png, jpeg, svg)<br>
                                                         <div class="file-loading">
                                                             <input id="file-fr" class="document" name="images[]" type="file" style="height:100px" multiple>
                                                         </div>
@@ -231,7 +233,6 @@
                                                             
                                                         </div>
                                                     </div>
-                                                    <h3>Caractéristiques</h3>
                                                     <div id="caracteristiques"><h5 style="text-align: center;">Sélectionner une catégorie</h5></div>
                                                 </div>
                                                 <div class="tab-pane" id="tab_reviews">
@@ -393,13 +394,13 @@
             theme: 'fa',
             language: 'fr',
             uploadUrl: '#',
-            allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg']
+            allowedFileExtensions: ['jpg', 'png','jpeg', 'svg']
         });
         $("#kv-explorer").fileinput({
             'theme': 'explorer-fa',
             'uploadUrl': '#',
             language: 'fr',
-            allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg'],
+            allowedFileExtensions: ['jpg', 'png','jpeg', 'svg'],
             overwriteInitial: false,
             initialPreviewAsData: true,
             /*initialPreview: [
@@ -451,6 +452,7 @@
             Metronic.init(); // init metronic core componets
             Layout.init(); // init layout
             Demo.init(); // init demo(theme settings page)
+			ComponentsFormTools.init();
         });
     </script>
 {% endblock %}

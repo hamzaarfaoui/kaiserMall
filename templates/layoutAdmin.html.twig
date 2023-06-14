@@ -133,108 +133,114 @@
                             <span class="title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="start ">
+                    <li>
                         <a href="{{ path('backoffice_settings') }}">
-                            <i class="icon-home"></i>
+                            <i class="icon-settings"></i>
                             <span class="title">Paramètres</span>
                         </a>
                     </li>
+					<li class="start ">
+						<a href="{{ path('dashboard_sc2_greffer') }}">
+							<i class="icon-organization"></i>
+							<span class="title">Gréffer dans l'acceuil</span>
+						</a>
+					</li>
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-basket"></i>
+                            <i class="icon-layers"></i>
                             <span class="title">Commandes</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_commandes_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
                                 <a href="{{path('dashboard_commandes_statistiques')}}">
-                                    <i class="icon-basket"></i>
+                                    <i class="icon-chart"></i>
                                     Statistiques</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-basket"></i>
+                            <i class="icon-users"></i>
                             <span class="title">Clients</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_clients_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
                                 <a href="{{path('dashboard_clients_statistiques')}}">
-                                    <i class="icon-basket"></i>
+                                    <i class="icon-chart"></i>
                                     Statistiques</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-basket"></i>
+                            <i class="icon-grid"></i>
                             <span class="title">Produits</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_product_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
                                 <a href="{{path('dashboard_product_back_new')}}">
-                                    <i class="icon-basket"></i>
+                                    <i class="icon-plus"></i>
                                     Ajouter</a>
                             </li>
                             <li>
                                 <a href="{{ path('dashboard_caracteristiques_index') }}">
-                                    <i class="icon-tag"></i>
+                                    <i class="icon-options"></i>
                                     Caractéristiques</a>
                             </li>
                             <li>
                                 <a href="ecommerce_products.html">
-                                    <i class="icon-handbag"></i>
+                                    <i class="icon-event"></i>
                                     Promotions</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-bag"></i>
+                            <i class="icon-briefcase"></i>
                             <span class="title">Stores</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_stores_back_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
                                 <a href="{{ path('dashboard_stores_back_new') }}">
-                                    <i class="icon-basket"></i>
+                                    <i class="icon-plus"></i>
                                     Ajouter</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-list"></i>
+                            <i class="icon-folder-alt"></i>
                             <span class="title">Catégories</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_categories_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
@@ -242,24 +248,19 @@
                                     <i class="icon-plus"></i>
                                     Ajouter</a>
                             </li>
-                            <li>
-                                <a href="{{ path('dashboard_sc2_greffer') }}">
-                                    <i class="icon-home"></i>
-                                    Gréffer dans l'acceuil</a>
-                            </li>
                         </ul>
                     </li>
                     
                     <li>
                         <a href="javascript:;">
-                            <i class="icon-list"></i>
+                            <i class="icon-flag"></i>
                             <span class="title">Marques</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_marques_back_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
@@ -272,13 +273,13 @@
                     <li>
                         <a href="javascript:;">
                             <i class="fa fa-image"></i>
-                            <span class="title">Slider</span>
+                            <span class="title">Carousel</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_sliders_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
@@ -297,7 +298,7 @@
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_banners_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>
@@ -309,14 +310,14 @@
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="fa fa-image"></i>
+                            <i class="fa fa-user"></i>
                             <span class="title">Employés</span>
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
                             <li>
                                 <a href="{{ path('dashboard_employes_index') }}">
-                                    <i class="icon-home"></i>
+                                    <i class="icon-list"></i>
                                     Tous</a>
                             </li>
                             <li>

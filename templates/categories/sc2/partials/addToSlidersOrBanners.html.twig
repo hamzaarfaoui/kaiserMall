@@ -18,11 +18,11 @@
 	</div>
 	<br>
 	<div class="banners-bloc">
-		Sélectionner un Bannière
+		Sélectionner une Bannière
 		<select name="banner" class="form-control">
 			<option value="0">Séléctionner une bannière</option>
 		    {% for liste in listes %}
-			    {% if(liste.banner != null) %}
+			    {% if(liste.banner) %}
 			    	<option value="{{liste.id_list}}">{{liste.name}}</option>
 			    {% endif %}
 		    {% endfor %}

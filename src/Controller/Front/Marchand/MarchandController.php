@@ -16,24 +16,34 @@ class MarchandController extends Controller
      */
     public function listStore()
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
         $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
         if(!$marchand){
           $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
         }
         
-        $stores = $dm->getRepository('App:Stores')->findBy(array('marchand' => $marchand));
-        return $this->render('marchand/storesList.html.twig', array('stores' => $stores));
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
+        return $this->render('marchand/storesList.html.twig', array('store' => $store));
     }
     
     /*
      * store infos page
      */
-    public function infosStore(Request $request, $id)
+    public function infosStore(Request $request)
     {
-        
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }   
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         $form = $this->createForm('App\Form\StoreType', $store);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -52,10 +62,18 @@ class MarchandController extends Controller
     /*
      * store visuels page
      */
-    public function visuels(Request $request, $id)
+    public function visuels(Request $request)
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         
         return $this->render('marchand/visuels.html.twig', array(
             'store' => $store
@@ -65,10 +83,18 @@ class MarchandController extends Controller
     /*
      * store visuels traitement
      */
-    public function visuelsTraitement(Request $request, $id)
+    public function visuelsTraitement(Request $request)
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         if (isset($_FILES["couvertureC"]) && !empty($_FILES["couvertureC"]['name'])) {
             $file = $_FILES["couvertureC"]["name"];
             $File_Ext = substr($file, strrpos($file, '.'));

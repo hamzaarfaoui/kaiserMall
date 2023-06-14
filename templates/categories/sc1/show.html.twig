@@ -33,7 +33,10 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="#">{{ categorie.name }}</a>
+                    <a href="{{ path('dashboard_categories_details', {id : categorie.categorieMere.id}) }}">{{ categorie.categorieMere.name }}</a>
+                </li>
+                <li>
+                    {{ categorie.name }}
                 </li>
             </ul>
             <!-- END PAGE BREADCRUMB -->

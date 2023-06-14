@@ -11,40 +11,54 @@
         {% if(productsByNbrAddToCart|length>0) %}
         <h3><b>Les plus ajoutés au panier</b></h3>
         <div class="row">
-            {% for product in productsByNbrAddToCart %}
-                <div class="col-md-2">
-                    <div class="thumbnail">
-                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="Nature" style="width:100%;height: 180px;">
-                        <div class="caption">
-                            <b>{{product.name|slice(0, 12)}}</b>
-                        </div>
-                            <span class="badge badge-success">{{ product.nbrAddToCart }}</span>
-                        <div class="text-right">
-                            <a href="{{path('marchand_product_details', {id:product.id})}}" class="btn btn-sm btn-primary">Détails</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            Produit
+                        </th>
+                        <th>
+                            Nombre d'ajout au panier
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in productsByNbrAddToCart %}
+                        <tr>
+                            <td><a href="{{path('marchand_product_back_edit', {id:product.id})}}"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" width="100" height="80"></a></td>
+                            <td><a href="{{path('marchand_product_back_edit', {id:product.id})}}"><b>{{product.name|slice(0, 12)}}</b></a></td>
+                            <td><span class="badge badge-success">{{ product.nbrAddToCart }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         {% endif %}
         {% if(productsByNbrViews|length>0) %}
         <hr>
         <h3><b>Par nombre de vue</b></h3>
         <div class="row">
-            {% for product in productsByNbrViews %}
-                <div class="col-md-2">
-                    <div class="thumbnail">
-                        <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="Nature" style="width:100%;height: 180px;">
-                        <div class="caption">
-                            <b>{{product.name|slice(0, 12)}}</b>
-                        </div>
-                            <span class="badge badge-success">{{ product.nbrView }}</span>
-                        <div class="text-right">
-                            <a href="{{path('marchand_product_details', {id:product.id})}}" class="btn btn-sm btn-primary">Détails</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            Produit
+                        </th>
+                        <th>
+                            Nombre dz vues
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in productsByNbrViews %}
+                        <tr>
+                            <td><a href="{{path('marchand_product_back_edit', {id:product.id})}}"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" width="100" height="80"></a></td>
+                            <td><a href="{{path('marchand_product_back_edit', {id:product.id})}}"><b>{{product.name|slice(0, 12)}}</b></a></td>
+                            <td><span class="badge badge-success">{{ product.nbrView }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         {% endif %}
         {% if(productsByNbrAddToFavorite|length>0) %}

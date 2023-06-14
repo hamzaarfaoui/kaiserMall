@@ -36,6 +36,10 @@
     })
     $( ".fing" ).datepicker({ dateFormat: 'dd-mm-yy', maxDate: 0,navigationAsDateFormat: true, nextText: 'Suiv >', prevText: '< Préc' });
     $('#zero_config').DataTable({
+        lengthMenu: [
+            [10, 25, 50, -1],
+            [10, 25, 50, 'All'],
+        ],
         "language": {
             "zeroRecords": "Aucun résultat trouvé",
             "infoEmpty": "Aucune données trouvé",

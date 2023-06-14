@@ -28,6 +28,15 @@ class MediasImagesRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
     }
+    public function findByQBMobile($id_product)
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select("CONCAT('https://www.kaisermall.tn/uploads/products/gallery/','',u.name) as image")
+                ->where('u.product = :id_product')
+                ->setParameter(':id_product', $id_product);
+
+        return $qb->getQuery()->execute();
+    }
 
     // /**
     //  * @return MediasImages[] Returns an array of MediasImages objects

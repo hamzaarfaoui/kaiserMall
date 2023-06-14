@@ -55,6 +55,7 @@
     width: 100%;
     box-shadow: 0px 0px 24px 1px #ccc;
 }
+
 h5{
     font-weight: 100;
 }
@@ -65,7 +66,18 @@ h5{
     margin-right: 0;
     margin-left: 0;
 }
-@media only screen and (min-width: 991px){}
+@media only screen and (min-width: 991px){
+{% if(products|length <8) %}
+.product.product-single .product-thumb>img{
+	height: inherit !important;
+}
+{% endif %}
+{% if(products|length == 4) %}
+.product.product-single .product-thumb>img{
+	height: 302px !important;
+}
+{% endif %}
+}
 .list-products-container {
     /* margin-left: 2%; */
     width: 99% !important;
@@ -116,15 +128,15 @@ h5{
         </div>
     </div>
     <!-- /BREADCRUMB -->
-    <h1 class="title-list-products">{{ listProducts.name }}</h1>
+    <h1 class="title-list-products" style="background-color: {{ listProducts.couleur }};">{{ listProducts.name }}</h1>
     <!-- section -->
     <div class="section section-products in-filter">
         <!-- container -->
-        <div class="container list-products-container{% if(products|length <= 2) %} without-filter{% endif %}">
+        <div class="container list-products-container{% if(products|length <= 4) %} without-filter{% endif %}">
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
-                {% if(products|length > 2) %}
+                {% if(products|length > 4) %}
                 <div class="col-md-3">
                     
                     <!-- start if mobile -->
@@ -155,12 +167,14 @@ h5{
                             <h5>Marques</h5>
                             <ul>
                                 {% for marque in marques %}
+								{% if(marque.id != null and marque.name != null) %}
                                     <li>
 										<input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.name}}" data-valeur="{{marque.name}}">
-										<label for="marque{{marque.id}}" class="container-label"> 
+										<label for="marque{{marque.id}}"> 
                                             {{marque.name}}
                                         </label>
                                     </li>
+								{% endif %}
                                 {% endfor %}
                             </ul>
                             {% endif %}
@@ -185,7 +199,7 @@ h5{
                 
 
                 <!-- MAIN -->
-                <div id="main" class="{% if(products|length < 2) %}col-md-12 full-main-width{% else %}col-md-9{% endif %}">
+                <div id="main" class="{% if(products|length < 5) %}col-md-12 full-main-width{% else %}col-md-9{% endif %}">
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
                         <!-- Trigger the modal with a button -->
@@ -218,10 +232,12 @@ h5{
                                 <h5>Marques</h5>
                                 <ul>
                                     {% for marque in marques %}
+									{% if(marque.id != null and marque.name != null) %}
                                         <li>
-                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.name}}" data-valeur="{{marque.name}}">
                                             <label for="marque{{marque.id}}"> {{marque.name}}</label>
                                         </li>
+									{% endif %}
                                     {% endfor %}
                                 </ul>
 								{% endif %}
@@ -230,25 +246,11 @@ h5{
                                 <h5>Couleurs</h5>
                                 <ul>
                                     {% for couleur in couleurs %}
-                                        <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                        <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.code}}" >
                                        <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
                                     {% endfor %}
                                 </ul>
 								{% endif %}
-                                {% for caracteristique in caracteristiques %}
-                                {% if(caracteristique.name != 'Couleur') %}
-                                <h5>{{ caracteristique.name }}</h5>
-                                <ul>
-                                    {% for valeur in caracteristique.valeurs %}
-                                        <li>
-                                            <input id="valeur{{valeur.id}}" name="valeur" class="valeur" type="checkbox" value="{{valeur.id}}" data-valeur="{{valeur.name}}">
-                                            <label for="valeur{{valeur.id}}"> {{valeur.name}}</label>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                                {% if not loop.last %}<hr>{% endif %}
-                                {% endfor %}
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="primary-btn validate-filter-modal" data-dismiss="modal">Valider</button>
@@ -282,16 +284,15 @@ h5{
                                     {% if(product.qte>0) %}
                                     {% set productsLength = products|length %}
                                     <!-- Product Single -->
-                                    {% if(productsLength == 2 or productsLength == 4) %}
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="product tow-in-row product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
-                                    {% elseif(productsLength == 3 or productsLength == 6 or productsLength == 9) %}
-                                    <div class="col-md-4 col-sm-6 col-xs-6">
-                                        <div class="product three-in-row product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
-                                    {% else %}
+									{% if(productsLength == 2) %}
+										<div class="col-md-6 col-sm-6 col-xs-6">
+									{% elseif(productsLength == 3 or productsLength == 6 or productsLength == 9) %}
+										<div class="col-md-4 col-sm-6 col-xs-6">
+									{% else %}
                                     <div class="col-md-3 col-sm-6 col-xs-6">
+									{% endif %}
                                         <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
-                                    {% endif %}
+                                    
                                         <div class="product-thumb">
                                             <div class="product-label">
                                                 {% if(product.createdAt != null) %}

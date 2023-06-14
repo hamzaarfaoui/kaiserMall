@@ -19,6 +19,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
     <!-- END PAGE LEVEL STYLES -->
+    <style type="text/css">
+        td{
+            vertical-align: baseline !important;
+        }
+    </style>
 {% endblock %}
 {% block title %}Tableau de bord | Promotions{% endblock %}
 {% block body %}
@@ -76,7 +81,10 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Produit
+                                            image
+                                        </th>
+                                        <th>
+                                            Nom
                                         </th>
                                         <th>
                                             Prix
@@ -98,10 +106,11 @@
                                 <tbody>
                                     {% for promotion in promotions %}
                                         <tr>
+                                            <td><img src="{{ asset('uploads/products/images/') }}{{ promotion.product.image }}" alt="Nature" style="width:100px;height: 100px;"></td>
                                             <td>{{promotion.product.name}}</td>
                                             <td>{{promotion.product.price}} TND</td>
                                             <td>
-                                                {{promotion.product.pricePromotion}}
+                                                {{promotion.product.pricePromotion}} TND
                                             </td>
                                             <td>{{promotion.debut|date('d/m/Y')}}</td>
                                             <td>{{promotion.fin|date('d/m/Y')}}</td>

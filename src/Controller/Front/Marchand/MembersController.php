@@ -60,6 +60,16 @@ class MembersController extends Controller
             $users_email [] = $user->getEmail();
         }
         if ($form->isSubmitted() && $form->isValid()) {
+            $user_by_username = $dm->getRepository('App:User')->findByUsername($request->get('username'));
+            $user_by_email = $dm->getRepository('App:User')->findByEmail($request->get('email'));
+            if(count($user_by_username) > 0){
+                $request->getSession()->getFlashBag()->add('danger', "Le username ".$request->get('username')." exist déjà");
+                return $this->redirectToRoute('marchand_members_new');
+            }
+            if(count($user_by_email) > 0){
+                $request->getSession()->getFlashBag()->add('danger', "L'email ".$request->get('email')." exist déjà");
+                return $this->redirectToRoute('marchand_members_new');
+            }
             $member->setEnabled(1);
             if(in_array($form['username']->getData(), $users_username, true)){
                 $request->getSession()->getFlashBag()->add('danger', "Le username ".$form['username']->getData()." est déja utilisé");
@@ -103,6 +113,14 @@ class MembersController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $member->setUpdatedAt(new \DateTime('now'));
+			if(count($user_by_username) > 0){
+                $request->getSession()->getFlashBag()->add('danger', "Le username ".$request->get('username')." exist déjà");
+                return $this->redirectToRoute('marchand_members_edit', array('id' => $member->getId()));
+            }
+            if(count($user_by_email) > 0){
+                $request->getSession()->getFlashBag()->add('danger', "L'email ".$request->get('email')." exist déjà");
+                return $this->redirectToRoute('marchand_members_edit', array('id' => $member->getId()));
+            }
             $dm->persist($member);
             $dm->flush();
             $request->getSession()->getFlashBag()->add('success', "Le membre ".$member->getNom()." ".$member->getPrenom()." est mis à jour");

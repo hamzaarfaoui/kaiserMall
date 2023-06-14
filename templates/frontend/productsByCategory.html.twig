@@ -138,18 +138,21 @@ h5{
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            {% if marques|length > 0 %}
+                            {% if marques|length > 1 %}
                             <hr>
-                            <h5>Marques</h5>
+                            <h5>Marquesddd</h5>
                             <ul>
                                 {% for marque in marques %}
+								{% if(marque.id != null and marque.name != null) %}
                                     <li>
-                                        <label for="marque{{marque.id}}" class="container-label"> 
+										<input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
+
+                                        <label for="marque{{marque.id}}"> 
                                             {{marque.name}}
-                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
-                                             <span class="checkmark"></span>
-                                        </label>
+										</label>
+                                        
                                     </li>
+								{% endif %}
                                 {% endfor %}
                             </ul>
                             {% endif %}
@@ -218,18 +221,22 @@ h5{
                                     </label>
                                 </div>
                                 <hr>
+								{% if(marques|length > 1) %}
                                 <h5>Marques</h5>
                                 <ul>
                                     {% for marque in marques %}
+									{% if(marque.id != null and marque.name != null) %}
                                         <li>
 											<input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.id}}" data-valeur="{{marque.name}}">
                                             <label for="marque{{marque.id}}"> 
                                                 {{marque.name}}
                                             </label>
                                         </li>
+									{% endif %}
                                     {% endfor %}
                                 </ul>
                                 <hr>
+								{% endif %}
                                 <h5>Couleurs</h5>
                                 <ul>
                                     {% for couleur in couleurs %}
@@ -284,7 +291,6 @@ h5{
                             <!-- row -->
                             <div class="row products">
                                 {% for product in products %}
-                                    {% if(product.qte>0) %}
                                     <!-- Product Single -->
                                     <div class="col-md-3 col-sm-4 col-xs-6">
                                         <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
@@ -330,7 +336,6 @@ h5{
                                     </div>
                                     </div>
                                     <!-- /Product Single -->
-                                    {% endif %}
                                 {% endfor %}
                             </div>
                             <!-- /row -->

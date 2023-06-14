@@ -35,7 +35,7 @@ class MarquesController extends Controller
     public function newAction()
     {
         $dm = $this->getDoctrine()->getManager();
-        $categories = $dm->getRepository('App:SousCategories')->findAll();
+        $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('marques/new.html.twig', array('categories' => $categories));
     }
     
@@ -51,22 +51,22 @@ class MarquesController extends Controller
         $couleurs = $dm->getRepository('App:couleurs')->findBy(array('sousCategorie' => $categorie));
         $caracteristiques_list = '';
         foreach ($caracteristiques as $caracteristique) {
-            $caracteristiques_list .= '<div class="col-md-3">';
-            $caracteristiques_list .= '<h5>'.$caracteristique->getName().'</h5>';
+            $caracteristiques_list .= '<div class="col-md-12"><div class="row">';
+            $caracteristiques_list .= '<b>'.$caracteristique->getName().'</b><table><tr>';
             foreach ($caracteristique->getValeurs() as $valeur) {
-                $caracteristiques_list .= '<div class="form-group">';
-                $caracteristiques_list .= '<span><input id="'.$valeur->getId().'" type="checkbox" name="valeur'.$caracteristique->getId().'" value="'.$valeur->getId().'"></span><label class="caracteristiques" for="'.$valeur->getId().'"> '.$valeur->getName().'</label>';
-                $caracteristiques_list .= '</div>';
+                $caracteristiques_list .= '<td>';
+                $caracteristiques_list .= '<div style="margin-right: 15px;"><input id="'.$valeur->getId().'" type="checkbox" name="valeurs[]" value="'.$valeur->getId().'"><label class="caracteristiques" for="'.$valeur->getId().'"> '.$valeur->getName().'</label></div>';
+                $caracteristiques_list .= '</td>';
             }
+			$caracteristiques_list .= '</tr></table>';
             
-            $caracteristiques_list .= '</div>';
+            $caracteristiques_list .= '</div></div>';
         }
-        $couleurs_list = '<h3>Couleur</h3><div class="row">';
+        $couleurs_list = '<p><b>Couleur</b></p>';
         foreach ($couleurs as $couleur) {
             $couleurs_list .= '<input type="radio" name="couleur" class="couleur-radio"id="couleur-'.$couleur->getId().'" value="'.$couleur->getId().'" >
                 <label for="couleur-'.$couleur->getId().'" class="couleur-label"><div style="background-color: '.$couleur->getCode().';height: 35px;width: 35px;"></div></label>';
         }
-        $couleurs_list .= '</div>';
         $options = '<option value="">Sélectionner une marque</option>';
         foreach ($marques as $marque){
             $options .= '<option value="'.$marque->getId().'">'.$marque->getName().'</option>';
@@ -84,23 +84,13 @@ class MarquesController extends Controller
         $marque->setName($request->get('nom'));
         $marque->setContent($request->get('descriptionC'));
         $marque->setCreatedAt(new \DateTime('now'));
-        $marque->setVideo($request->get('video'));
         $categorie_id = $request->get('categorie');
         $categorie = $dm->getRepository('App:SousCategories')->find($categorie_id);
         $marque->setSousCategorie($categorie);
-        if (isset($_FILES["image"]) && !empty($_FILES["image"])) {
-            $file = $_FILES["image"]["name"];
-            $File_Ext = substr($file, strrpos($file, '.'));
-            $fileName = md5(uniqid()) . $File_Ext;
-            move_uploaded_file(
-                    $_FILES["image"]["tmp_name"], $this->getParameter('images_marques') . "/" . $fileName
-            );
-            $marque->setImage($fileName);
-        }
         $dm->persist($marque);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "La marque ".$marque->getName()." a été ajoutée");
-        return $this->redirectToRoute('dashboard_marques_back_details', array('id' => $marque->getId()));
+        return $this->redirectToRoute('dashboard_marques_back_edit', array('id' => $marque->getId()));
     }
     
     /*
@@ -110,7 +100,7 @@ class MarquesController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $marque = $dm->getRepository('App:Marques')->find($id);
-        $categories = $dm->getRepository('App:SousCategories')->findAll();
+        $categories = $dm->getRepository('App:CategoriesMere')->findAll();
         return $this->render('marques/edit.html.twig', array('marque' => $marque, 'categories' => $categories));
     }
     
@@ -123,25 +113,15 @@ class MarquesController extends Controller
         $marque = $dm->getRepository('App:Marques')->find($id);
         $marque->setName($request->get('nom'));
         $marque->setContent($request->get('description'));
-        $marque->setVideo($request->get('video'));
         $marque->setUpdatedAt(new \DateTime('now'));
         $categorie_id = $request->get('categorie');
         $categorie = $dm->getRepository('App:SousCategories')->find($categorie_id);
         $marque->setSousCategorie($categorie);
-        if (isset($_FILES["image"]["name"]) && !empty($_FILES["image"]["name"])) {
-            $file = $_FILES["image"]["name"];
-            $File_Ext = substr($file, strrpos($file, '.'));
-            $fileName = md5(uniqid()) . $File_Ext;
-            move_uploaded_file(
-                    $_FILES["image"]["tmp_name"], $this->getParameter('images_marques') . "/" . $fileName
-            );
-            $marque->setImage($fileName);
-        }
         
         $dm->persist($marque);
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "La marque ".$marque->getName()." a été ajoutée");
-        return $this->redirectToRoute('dashboard_marques_back_details', array('id' => $marque->getId()));
+        return $this->redirectToRoute('dashboard_marques_back_edit', array('id' => $marque->getId()));
     }
     
     /*

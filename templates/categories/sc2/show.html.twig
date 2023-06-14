@@ -50,7 +50,15 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="#">{{ categorie.name }}</a>
+                    <a href="{{ path('dashboard_categories_details', {id : categorie.categorieMereId}) }}">{{ categorie.categorieMereName }}</a>
+					<i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_sc1_details', {id : categorie.categorieId}) }}">{{ categorie.categorieName }}</a>
+					<i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    {{ categorie.name }}
                 </li>
             </ul>
             <!-- END PAGE BREADCRUMB -->

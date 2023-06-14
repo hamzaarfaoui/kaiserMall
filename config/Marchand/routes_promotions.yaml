@@ -1,5 +1,5 @@
 marchand_promotions_index:
-    path: /list/{id}
+    path: /list
     controller: App\Controller\Front\Marchand\PromotionsController::liste
    
 marchand_promotions_edit:

@@ -60,6 +60,16 @@ class StoresBackController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $store = new Stores();
         $user = new User();
+        $user_by_username = $dm->getRepository('App:User')->findByUsername($request->get('username'));
+        $user_by_email = $dm->getRepository('App:User')->findByEmail($request->get('email'));
+        if(count($user_by_username) > 0){
+            $request->getSession()->getFlashBag()->add('danger', "Un marchand avec username ".$request->get('username')." exist déjà");
+            return $this->redirectToRoute('dashboard_stores_back_new');
+        }
+        if(count($user_by_email) > 0){
+            $request->getSession()->getFlashBag()->add('danger', "Un marchand avec email ".$request->get('email')." exist déjà");
+            return $this->redirectToRoute('dashboard_stores_back_new');
+        }
         $marchand = new Marchands();
         /*start user document*/
         $user->setUsername($request->get('username'));
@@ -175,7 +185,6 @@ class StoresBackController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $marchand = $store->getMarchand();
         $user = $marchand->getUser();
-        
         foreach ($store->getAdressesStore() as $adresse){
             $dm->remove($adresse);
         }
@@ -259,23 +268,51 @@ class StoresBackController extends Controller
         $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
         $store = $dm->getRepository('App:Stores')->find($id);
+        $nom_marchand = $store->getName();
         $adressesStore = $dm->getRepository('App:AdressesStore')->findBy(array('store' => $store));
         $phonesStore = $dm->getRepository('App:TelephonesStore')->findBy(array('store' => $store));
+        $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
+        foreach ($products as $product){
+            $images = $dm->getRepository('App:MediasImages')->findBy(array('product' => $product));
+            foreach ($images as $image){
+                $fileSystem->remove(array('symlink', $this->getParameter('images_products_img_gallery')."/".$image->getName(), ''.$image->getName().''));
+                $dm->remove($image);
+            }
+            $fileSystem->remove(array('symlink', $this->getParameter('images_products_img')."/".$product->getImage(), ''.$product->getImage().''));
+            $keywords = $dm->getRepository('App:Keywords')->findBy(array('product' => $product));
+            foreach ($keywords as $keyword){
+                $dm->remove($keyword);
+            }
+            $listHasProducts = $dm->getRepository('App:ListHasProducts')->findBy(array('product' => $product));
+            foreach ($listHasProducts as $l){
+                $dm->remove($l);
+            }
+            $promotions = $dm->getRepository('App:Promotions')->findBy(array('product' => $product));
+            foreach ($promotions as $promotion){
+                $dm->remove($promotion);
+            }
+            $dm->remove($product);
+        }
         foreach ($adressesStore as $adresse){
             $dm->remove($adresse);
         }
         foreach ($phonesStore as $phone){
             $dm->remove($phone);
         }
-        /*$marchand = $dm->getRepository('App:Marchands')->find($store->getMarchand());
+        $marchand = $dm->getRepository('App:Marchands')->find($store->getMarchand());
         $user = $dm->getRepository('App:User')->find($marchand->getUser());
         $dm->remove($user);
-        $dm->remove($marchand);*/
-        $fileSystem->remove(array('symlink', $this->getParameter('images_shop_logo')."/".$store->getImageCouverture(), ''.$store->getImageCouverture().''));
+        $dm->remove($marchand);
+        $banners = $dm->getRepository('App:Banners')->findBy(array('store' => $store));
+        foreach ($banners as $banner){
+            $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$banner->getImage(), ''.$banner->getImage().''));
+            $dm->remove($banner);
+        }
+        $fileSystem->remove(array('symlink', $this->getParameter('images_shop_couvertures')."/".$store->getImageCouverture(), ''.$store->getImageCouverture().''));
         $fileSystem->remove(array('symlink', $this->getParameter('images_shop_logo')."/".$store->getLogo(), ''.$store->getLogo().''));
         $dm->remove($store);
         $dm->flush();
-        $request->getSession()->getFlashBag()->add('success', "Le marchand ".$store->getName()." supprimée");
+        $request->getSession()->getFlashBag()->add('success', "Le marchand ".$nom_marchand." supprimée");
         return $this->redirectToRoute('dashboard_stores_back_index');
     }
 

@@ -18,6 +18,14 @@
     <link href="{{ asset('template/assets/admin/layout3/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color">
     <link href="{{ asset('template/assets/admin/layout3/css/custom.css') }}" rel="stylesheet" type="text/css">
     <!-- END THEME STYLES -->
+    <style>
+        .kv-file-remove{
+            display: none!important;
+        }
+        .kv-file-upload, .fileinput-upload-button{
+            display: none!important;
+        }
+    </style>
 {% endblock %}
 {% block body %}
     <div class="page-container">
@@ -47,6 +55,19 @@
                         </li>
                     </ul>
                     <!-- END PAGE BREADCRUMB -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-dismissible alert-{{ label }}">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        {{ message }}
+                                    </div>
+                                    <br><br>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
                     <!-- BEGIN PAGE CONTENT INNER -->
                     <div class="row">
                         <div class="col-md-4">
@@ -60,16 +81,16 @@
                     
                         <form action="{{ path('marchand_stores_visuels_traitement', {id:store.id}) }}" method="post" enctype="multipart/form-data">
                             <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Logo</label> <br>
-                                <div class="file-loading">
-                                    <input id="kv-explorer" class="document" name="iconeC" type="file" style="height:100px" multiple>
+                                <div class="file-loading" style="height: 300px;">
+                                    <input id="kv-explorer" class="document" name="iconeC" type="file" style="height:100px">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <label>Photo de couverture</label> <br>
                                 <div class="file-loading">
-                                    <input id="file-fr" class="document" name="couvertureC" type="file" style="height:100px" multiple>
+                                    <input id="file-fr" class="document" name="couvertureC" type="file" style="height:100px">
                                 </div>
                             </div>  
                                 </div>
@@ -119,26 +140,28 @@
     {% include 'marchand/js.html.twig' %}
     <script>
         $('#file-fr').fileinput({
-            theme: 'fa',
+            'theme': 'explorer-fa',
             language: 'fr',
             uploadUrl: '#',
-            allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg']
+            initialPreviewAsData: true,
+            initialPreview: [
+                {% if(store.imageCouverture != null) %}'{{ asset("uploads/shops/couvertures/") }}{{ store.imageCouverture }}'{% endif %},
+            ],
+            allowedFileExtensions: ['jpg', 'png', 'jpeg']
         });
         $("#kv-explorer").fileinput({
-            'theme': 'explorer-fa',
+            theme: 'fa',
             'uploadUrl': '#',
             language: 'fr',
             allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf', 'txt', 'csv', 'ods', 'xls', 'docx', 'jpeg'],
             overwriteInitial: false,
             initialPreviewAsData: true,
-            /*initialPreview: [
-             "http://lorempixel.com/1920/1080/nature/1",
-             "http://lorempixel.com/1920/1080/nature/2",
-             "http://lorempixel.com/1920/1080/nature/3"
-             ],
+            initialPreview: [
+                {% if(store.logo != null) %}'{{ asset("uploads/shops/logos/") }}{{ store.logo }}'{% endif %},
+            ],
              initialPreviewConfig: [
              {caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1}
-             ]*/
+             ]
         });
         jQuery(document).ready(function () {
 

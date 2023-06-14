@@ -58,6 +58,18 @@
                             <div class="caption">
                                 {{ list_products.name }}
                             </div>
+							<div class="tools">
+								{% if(list_products.banner != null) %}
+                                <a href="{{ path('dashboard_banners_edit', {id : list_products.banner.id}) }}" style="color: #FFF;font-size: 14px;" title="Modifier">
+                                    <i class="fa fa-edit"></i> Modifier
+                                </a>
+								{% endif %}
+								{% if(list_products.slider != null) %}
+                                <a href="{{ path('dashboard_sliders_edit', {id : list_products.slider.id}) }}" style="color: #FFF;font-size: 14px;" title="Modifier">
+                                    <i class="fa fa-edit"></i> Modifier
+                                </a>
+								{% endif %}
+                            </div>
                         </div>
                         <div class="portlet-body">
                             <div class="row">
@@ -113,7 +125,7 @@
                                                         <td>{{produit.pricePromotion?produit.pricePromotion~' TND':'-'}}</td>
                                                         <td>{{produit.store_name}}</td>
                                                         <td>
-                                                            <a href="{{ path('dashboard_product_back_edit', {id : produit.id}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Fiche produit</a>
+                                                            <a href="{{ path('dashboard_product_back_edit', {id : produit.id_product}) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Fiche produit</a>
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{produit.id}}"><i class="fa fa-trash"></i> Supprimer</button>
                                                             
                                                             <!-- Modal -->
@@ -136,7 +148,7 @@
                                                                     </div>
                                                                   </div>
                                                                   <div class="modal-footer">
-                                                                      <a href="{{path('dashboard_product_delete_from_list', {id:produit.id})}}" class="btn btn-danger" style="float: left;">Oui</a>
+                                                                      <a href="{{path('dashboard_product_delete_from_list', {id:produit.id_product})}}" class="btn btn-danger" style="float: left;">Oui</a>
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
                                                                   </div>
                                                                 </div>

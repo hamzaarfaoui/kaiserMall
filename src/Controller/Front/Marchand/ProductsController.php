@@ -24,21 +24,59 @@ class ProductsController extends Controller
     /*
      * Products list
      */
-    public function liste($id)
+    public function liste()
+    {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        $dm = $this->getDoctrine()->getManager();
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
+        $products = $dm->getRepository('App:Products')->findbyStore($store->getId());
+        return $this->render('Products/marchand/index.html.twig', array('products' => $products, 'store' => $store));
+    }
+
+    public function productOrderInStore(Request $request)
     {
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
-        $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
-        return $this->render('Products/marchand/index.html.twig', array('products' => $products, 'store' => $store));
+        $list_sorted = $request->request->get('list_sorted');
+        $count = 1;
+
+        foreach ($list_sorted as $item) {
+            $id = $item[0];
+            $position = $item[1];
+            $product = $dm->getRepository('App:Products')->find($id);
+            $product->setPositionInStore($position);
+            $dm->persist($product);
+        }
+
+        $dm->flush();
+
+        return new JsonResponse([
+            'message' => 'list sorted'
+        ]);
+
     }
     
     /*
      * Products list in dashbord
      */
-    public function listeInDash($id)
+    public function listeInDash()
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         $productsByNbrViews = $dm->getRepository('App:Products')->byNbrViews($store);
         $productsByNbrAddToCart = $dm->getRepository('App:Products')->byNbrAddToCart($store);
         $productsByNbrAddToFavorite = $dm->getRepository('App:Products')->byNbrAddToFavorite($store);
@@ -55,6 +93,9 @@ class ProductsController extends Controller
      */
     public function details($id)
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
         $product = $dm->getRepository('App:Products')->find($id);
         $banner = $dm->getRepository('App:Banners')->findOneBy(array('product' => $product));
@@ -71,10 +112,18 @@ class ProductsController extends Controller
     /*
      * New Product page
      */
-    public function newProduct($id)
+    public function newProduct()
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         $categoriesMere = $dm->getRepository('App:CategoriesMere')->findAll();
         $sousCategories1 = $dm->getRepository('App:Categories')->findAll();
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findAll();
@@ -96,15 +145,24 @@ class ProductsController extends Controller
     /*
      * New Product traitement
      */
-    public function newProductTraitement(Request $request, $id)
+    public function newProductTraitement(Request $request)
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $dm = $this->getDoctrine()->getManager();
         $product = new Products();
         $product->setName($request->get('nom'));
+        $product->setfullName($request->get('nom'));
         $product->setPrice($request->get('price'));
         $product->setQte($request->get('qte'));
         $product->setContent($request->get('descriptionC'));
-        $store = $dm->getRepository('App:Stores')->find($id);
+        $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()));
+        if(!$marchand){
+          $marchand = $dm->getRepository('App:Marchands')->findOneBy(array('user' => $this->getUser()->getOwner()));  
+        }
+        
+        $store = $dm->getRepository('App:Stores')->findOneBy(array('marchand' => $marchand));
         $store->addProduct($product);
         $product->setStore($store);
         $product->setNbrAddToCart(0);
@@ -160,7 +218,10 @@ class ProductsController extends Controller
             $product->setImage($fileName);
         }
         /*start promotion document*/
-        if($request->get('datedebut') && $request->get('datefin') && $request->get('fixe')){
+		$datedeb = $request->get('datedeb') && !empty($request->get('datedeb')) ? $request->get('datedeb') : false;
+        $datefin = $request->get('datefin') && !empty($request->get('datefin')) ? $request->get('datefin') : false;
+        $fixe = $request->get('fixe') && !empty($request->get('fixe')) ? $request->get('fixe') : false;
+        if($datedeb && $datefin && $fixe){
             $promotion = null;
             if($request->get('promotion')){
                 $promotion = $dm->getRepository('App:Promotions')->find($request->get('promotion'));
@@ -169,7 +230,7 @@ class ProductsController extends Controller
                 $promotion->setProduct($product);
             }
 
-            $promotion->setDebut(new \DateTime(''.$request->get('datedebut').''));
+            $promotion->setDebut(new \DateTime(''.$request->get('datedeb').''));
             $promotion->setFin(new \DateTime(''.$request->get('datefin').''));
             $promotion->setFixe($request->get('fixe'));
             $promotion->setCreatedAt(new \DateTime('now'));
@@ -178,12 +239,14 @@ class ProductsController extends Controller
         }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
-        $valeurs = $request->get('valeurs');
-        foreach ($valeurs as $v){
-            $valeur = $dm->getRepository('App:Valeurs')->find($v);
-            $product->addValeur($valeur);
-            $dm->persist($product);
-        }
+		$valeurs = $request->get('valeurs');
+		if(isset($valeurs) && count($valeurs) > 0){
+			foreach ($valeurs as $v){
+				$valeur = $dm->getRepository('App:Valeurs')->find($v);
+				$product->addValeur($valeur);
+				$dm->persist($product);
+			}
+		}
 
         /*start keywords*/
         $keywords_input = $request->get('keywords');

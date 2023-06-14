@@ -317,23 +317,15 @@ class ProductBackController extends Controller
             $dm->persist($promotion);
         }
         /*end promotion document*/
-		/*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-            }
-        }
-		
-		/*start Caractéristique valeur document*/
-        $valeurs = $dm->getRepository('App:Valeurs')->findAll();
-        foreach ($valeurs as $valeur){
-            if($valeur->getId() == $request->get('valeur'.$valeur->getCaracteristique()->getId())){
-                $product->addValeur($valeur);
-                $valeur->addProduct($product);
-                $dm->persist($valeur);
-            }
-        }
+		/*start Caractéristique valeur entity*/
+		$valeurs = $request->get('valeurs');
+        if($request->get('valeurs')){
+			foreach ($valeurs as $v){
+				$valeur = $dm->getRepository('App:Valeurs')->find($v);
+				$product->addValeur($valeur);
+				$dm->persist($product);
+			}
+		}
         if($request->get('couleur')){
             $couleur = $dm->getRepository('App:Couleurs')->find($request->get('couleur'));
             $product->setCouleur($couleur);
@@ -453,12 +445,16 @@ class ProductBackController extends Controller
         }
         /*end promotion document*/
         /*start Caractéristique valeur document*/
-        $valeurs = $request->get('valeurs');
-        foreach ($valeurs as $v){
-            $valeur = $dm->getRepository('App:Valeurs')->find($v);
-            $product->addValeur($valeur);
-            $dm->persist($product);
-        }
+		if($request->get('valeurs')){
+			$valeurs = $request->get('valeurs');
+			if(count($valeurs) > 0){
+				foreach ($valeurs as $v){
+					$valeur = $dm->getRepository('App:Valeurs')->find($v);
+					$product->addValeur($valeur);
+					$dm->persist($product);
+				}
+			}
+		}
         /*start keywords*/
         $keywords_input = $request->get('keywords');
         $keywords_array = explode(",", $keywords_input);
@@ -480,7 +476,7 @@ class ProductBackController extends Controller
         /*end store document*/
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit ".$product->getName()." a été ajoutée");
-        return $this->redirectToRoute('marchand_product_back_edit', array('id' => $product->getId()));
+        return $this->redirectToRoute('dashboard_product_back_edit', array('id' => $product->getId()));
     }
     
     /*
@@ -772,12 +768,13 @@ class ProductBackController extends Controller
     public function productDeleteFormList(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $listHasProduct = $dm->getRepository('App:ListHasProducts')->find($id);
+        $listHasProduct = $dm->getRepository('App:ListHasProducts')->findOneBy(array('product' => $id));
+		$listProducts = $listHasProduct->getListProduct();
         $dm->remove($listHasProduct);
 
         $dm->flush();
-        $request->getSession()->getFlashBag()->add('success', "Le produit a été suprimé de cette liste");
-        return $this->redirectToRoute('dashboard_list_products_details', array('id' => $listHasProduct->getListProduct()->getId()));
+        $request->getSession()->getFlashBag()->add('success', "Le produit a été suprimé de la liste ".$listProducts->getName());
+        return $this->redirectToRoute('dashboard_list_products_details', array('id' => $listProducts->getId()));
 
     }
 }

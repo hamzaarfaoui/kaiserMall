@@ -1,12 +1,8 @@
-{% if(is_granted('ROLE_MARCHAND')) %}
-{% for store in stores %}
-    <li class="menu-dropdown">
-        <a href="{{ path('marchand_stores_details', {id:store.id}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
-            Infos génerales </a>
-    </li>
-{% endfor %}
-{% endif %}
-{% for store in stores %}
+
+<li class="menu-dropdown">
+    <a href="{{ path('dashboard_stores_details', {slug:store.slug}) }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo" target="_blank">
+        Store </a>
+</li>
 <li class="menu-dropdown mega-menu-dropdown ">
     <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
         Produits <i class="fa fa-angle-down"></i>
@@ -14,30 +10,25 @@
 
     <ul class="dropdown-menu pull-left">
         <li class=" dropdown-submenu">
-            <a href="{{path('marchand_product_back_new', {id:store.id})}}">
+            <a href="{{path('marchand_product_back_new')}}">
                 <i class="icon-briefcase"></i>
                 Ajouter </a>
         </li>
         <li class=" dropdown-submenu">
-            <a href="{{path('marchand_product_index', {id:store.id})}}">
+            <a href="{{path('marchand_product_index')}}">
                 <i class="icon-briefcase"></i>
                 Tous </a>
         </li>
     </ul>
 </li>
-{% endfor %}
-{% for store in stores %}
 <li class="menu-dropdown">
-    <a href="{{path('marchand_commandes_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+    <a href="{{path('marchand_commandes_index')}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Commandes </a>
 </li>
-{% endfor %}
-{% for store in stores %}
 <li class="menu-dropdown">
-    <a href="{{path('marchand_promotions_index', {id:store.id})}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
+    <a href="{{path('marchand_promotions_index')}}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">
         Promotions </a>
 </li>
-{% endfor %}
 {% if(is_granted('ROLE_MARCHAND')) %}
     <li class="menu-dropdown mega-menu-dropdown ">
     <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
@@ -51,12 +42,33 @@
                 Ajouter </a>
         </li>
         <li class=" dropdown-submenu">
-            <a href="{{path('marchand_members_index', {id:app.user.id})}}">
+            <a href="{{path('marchand_members_index')}}">
                 <i class="icon-briefcase"></i>
                 Tous </a>
         </li>
     </ul>
 </li>
+{% endif %}
+{% if(is_granted('ROLE_MARCHAND')) %}
+<li class="menu-dropdown mega-menu-dropdown ">
+    <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
+        Paramètres <i class="fa fa-angle-down"></i>
+    </a>
+
+    <ul class="dropdown-menu pull-left">
+        <li class=" dropdown-submenu">
+            <a href="{{ path('marchand_stores_details') }}">
+                <i class="icon-briefcase"></i>
+                Infos génerales </a>
+        </li>
+        <li class=" dropdown-submenu">
+            <a href="{{ path('marchand_stores_visuels') }}">
+                <i class="icon-briefcase"></i>
+                Visuels </a>
+        </li>
+    </ul>
+</li>
+    
 {% endif %}
 <li class="menu-dropdown">
     <a href="{{ path('fos_user_security_logout') }}" class="tooltips" data-container="body" data-placement="bottom" data-html="true" data-original-title="AngularJS version demo">

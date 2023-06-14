@@ -39,10 +39,10 @@ class SlidersController extends Controller
     {
         $dm = $this->getDoctrine()->getManager();
         $products_liste = array();
-        $products = $dm->getRepository('App:ListHasProducts')->bySlider($slug);
         $setting = $dm->getRepository('App:Settings')->find(1);
+        $products = $dm->getRepository('App:ListHasProducts')->byBanner($slug);
         if(count($products) == 1){
-            $product = $dm->getRepository('App:Products')->find($find_products[0]['id']);
+            $product = $dm->getRepository('App:Products')->find($products[0]['id']);
             $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
             $query = array();
             $query['slug'] = $product->getSlug();
@@ -66,12 +66,35 @@ class SlidersController extends Controller
                 'setting' => $setting
             ));
         }
-        foreach ($find_products as $p){
+        
+        $listProducts = $dm->getRepository('App:ProductsList')->getListesByBanner($slug)[0];
+        $list_ids = array();
+        $products_price = array();
+        foreach ($products as $p){
             $products_liste[] = $p;
+            $list_ids[] = $p['id'];
+            $products_price[] = $p['pricePromotion']?$p['pricePromotion']:$p['price'];
         }
+        
+        
+        $min = count($products_price) > 0 ? min($products_price) : 0;
+        $max = count($products_price) > 0 ? max($products_price) : 0;
+        $caracteristiques_liste = $dm->getRepository('App:Products')->BannerCriteres($list_ids);
+        $caracteristiques = array();
+        foreach ($caracteristiques_liste as $c) {
+            $valeurs = $dm->getRepository('App:Valeurs')->byCaracteristique($c['id']);
+            $caracteristiques[] = ['id' => $c['id'], 'name' => $c['name'], 'valeurs' => $valeurs];
+        }
+        $marques = $dm->getRepository('App:Products')->BannerMarques($list_ids);
+        $couleurs = $dm->getRepository('App:Products')->BannerCouleurs($list_ids);
         return $this->render('Sliders/detailsFront.html.twig', array(
             'products' => $products,
+            'marques' => $marques,
+            'caracteristiques' => $caracteristiques,
+            'couleurs' => $couleurs,
             'listProducts' => $listProducts,
+            'min' => $min,
+            'max' => $max,
             'setting' => $setting
         ));
     }

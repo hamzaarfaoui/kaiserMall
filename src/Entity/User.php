@@ -102,6 +102,11 @@ class User extends BaseUser
     /** @ORM\ManyToOne(targetEntity="User") */
     protected $owner;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $civ;
+
     /**      * @return mixed      */
     public function getId()
     {
@@ -357,5 +362,17 @@ class User extends BaseUser
     public function getTelephoneUser(): Collection
     {
         return $this->telephoneUser;
+    }
+
+    public function getCiv(): ?string
+    {
+        return $this->civ;
+    }
+
+    public function setCiv(?string $civ): self
+    {
+        $this->civ = $civ;
+
+        return $this;
     }
 }

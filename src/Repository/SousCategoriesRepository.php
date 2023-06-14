@@ -50,8 +50,10 @@ class SousCategoriesRepository extends ServiceEntityRepository
     public function findOneByQB($id)
     {
         $qb = $this->createQueryBuilder('u')
-                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.image', 'u.show_products', 'u.show_banners', 'u.show_list_products', 'u.hasBanner')
-                ->where('u.id = :id')->setMaxResults(1)
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.image', 'u.show_products', 'u.show_banners', 'u.show_list_products', 'u.hasBanner', 'c.id AS categorieId', 'c.name AS categorieName', 'cm.id AS categorieMereId', 'cm.name AS categorieMereName')
+                ->leftJoin('u.categorie', 'c')
+				->leftJoin('c.categorieMere', 'cm')
+				->where('u.id = :id')->setMaxResults(1)
                 ->setParameter(':id', $id);
 
         return $qb->getQuery()->execute();
@@ -68,9 +70,21 @@ class SousCategoriesRepository extends ServiceEntityRepository
     public function findInIndex()
     {
         $qb = $this->createQueryBuilder('u')
-                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner', 'u.show_list_products')
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner', 'u.show_list_products', 'COUNT(b.id) AS banners')
+                ->leftJoin('u.banners', 'b')
                 ->where('u.showInIndex = 1')
+                ->groupBy('u.id')
                 ->orderBy('u.orderInIndex', 'ASC');
+        return $qb->getQuery()->execute();
+    }
+    public function findNotInIndex()
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->Select('u.id', 'u.name', 'u.content', 'u.slug', 'u.orderInIndex', 'u.image', 'u.show_products', 'u.show_banners', 'u.hasBanner', 'u.show_list_products')
+                ->where('u.showInIndex = 0')
+                ->orWhere('u.showInIndex IS NULL')
+
+                ->orderBy('u.name', 'ASC');
         return $qb->getQuery()->execute();
     }
     public function findOneInIndex($id)

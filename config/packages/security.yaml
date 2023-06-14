@@ -80,6 +80,16 @@ security:
         - { path: ^/employe, roles: [ROLE_COMMERCIAL, ROLE_GESTIONNEAIRE_STOCK] }
         - { path: ^/marchand/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
         - { path: ^/marchand, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-products/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-products, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-store/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-store, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-commandes/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-commandes, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-promotions/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-promotions, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-members/, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
+        - { path: ^/my-members, roles: [ROLE_MARCHAND, ROLE_MEMBER_STORE] }
         - { path: ^/client/, role: ROLE_CLIENT }
         - { path: ^/client, role: ROLE_CLIENT }
         

@@ -8,6 +8,12 @@
                 <div class="col-md-6">
                     <h1>Mes Infos</h1>  
                     <form action="{{ path('fos_user_profile_edit') }}" method="post" id="profile-form">
+                    {% if(form_errors(form.email) or form_errors(form.username)) %}
+                    <div class="alert alert-danger alert-dismissible" style="width: 100%;">
+                        {{ form_errors(form.email) }}
+                        {{ form_errors(form.username) }}
+                    </div>
+                    {% endif %}
                     <div class="form-group">
                         <span class="text-uppercase">{{form_label(form.username)}} (Login)</span>
                         {{ form_widget(form.username, { 'attr': {'class': 'input' , 'placeholder':'Username', 'required':true} }) }}

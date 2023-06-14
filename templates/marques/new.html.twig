@@ -58,7 +58,7 @@
                             <form action="{{ path('dashboard_marques_back_new_traitement') }}" method="post" role="form" enctype="multipart/form-data">
                                 <div class="form-body">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Nom</label>
                                                 <input type="text" class="form-control" placeholder="Nom" name="nom">
@@ -67,7 +67,15 @@
                                                 <label>Catégorie</label>
                                                 <select name="categorie" class="form-control">
                                                     {% for categorie in categories %}
-                                                        <option value="{{ categorie.id }}">{{ categorie.name }}</option>
+														<optgroup label="{{categorie.name}}">
+															{% for sc1 in categorie.categories %}
+																<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;{{sc1.name}}">
+																	{% for sc2 in sc1.sousCategories %}
+																		<option value="{{sc2.id}}">&nbsp;&nbsp;&nbsp;&nbsp; {{sc2.name}}</option>
+																	{% endfor %}
+																</optgroup>
+															{% endfor %}
+													    </optgroup>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -78,28 +86,6 @@
                                             
                                         </div>
                                         <div class="col-md-6">
-                                            <label>Image</label> <br>
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="input-group input-large">
-                                                    <div class="form-control uneditable-input span3" data-trigger="fileinput">
-                                                        <i class="fa fa-file fileinput-exists"></i>&nbsp; <span class="fileinput-filename">
-                                                        </span>
-                                                    </div>
-                                                    <span class="input-group-addon btn default btn-file">
-                                                        <span class="fileinput-new">
-                                                            Sélectionner une image </span>
-                                                        <span class="fileinput-exists">
-                                                            Changer </span>
-                                                        <input type="file" name="image">
-                                                    </span>
-                                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
-                                                        Supprimer </a>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>URL de vidéo</label>
-                                                <input type="text" class="form-control" placeholder="URL de vidéo" name="video">
-                                            </div>
                                             <button type="submit" class="btn btn-success" style="width: 100%;">Enregistrer</button>
                                         </div>
                                     </div>

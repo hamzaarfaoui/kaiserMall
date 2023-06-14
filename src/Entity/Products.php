@@ -161,6 +161,11 @@ class Products
      */
     private $productInList;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $positionInStore;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
@@ -615,6 +620,18 @@ class Products
                 $productInList->setProductMain(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPositionInStore(): ?int
+    {
+        return $this->positionInStore;
+    }
+
+    public function setPositionInStore(?int $positionInStore): self
+    {
+        $this->positionInStore = $positionInStore;
 
         return $this;
     }

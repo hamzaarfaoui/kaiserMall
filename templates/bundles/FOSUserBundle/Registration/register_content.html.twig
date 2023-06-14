@@ -6,8 +6,17 @@
         <div class="text-center inscription-form">
             <h1>Création d'un compte</h1>   
             {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+            {% if(form_errors(form.email) or form_errors(form.username)) %}
+            <div class="alert alert-danger alert-dismissible" style="width: 100%;">
+                {{ form_errors(form.email) }}
+                {{ form_errors(form.username) }}
+            </div>
+            {% endif %}
             <div class="form-group">
-            {{ form_widget(form.username, { 'attr': {'class': 'input' , 'placeholder':'Username', 'required':true} }) }}
+            {{ form_widget(form.civ) }}
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.username, { 'attr': {'class': 'input' , 'placeholder':"Nom d'utilisateur", 'required':true} }) }}
             </div>
             <div class="form-group">
             {{ form_widget(form.email, { 'attr': {'class': 'input' , 'placeholder':'E-mail', 'required':true} }) }}<br>
@@ -15,9 +24,11 @@
             <div class="form-group">
             {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'input' , 'placeholder':'Mot de passe', 'required':true} }) }}<br>
             </div>
+            <span id="error-password-text" style="color: #a94442;margin: 10px;margin-bottom: 20px;display: none;"></span>
             <div class="form-group">
             {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'input' , 'placeholder':'Resaisir mot de passe', 'required':true} }) }}<br>
             </div>
+            <span id="error-password-confirmed-text" style="color: #a94442;margin-top: 10px;margin-bottom: 20px;display: none;"></span>
             <div class="form-group">
             {{ form_widget(form.nom, { 'attr': {'class': 'input' , 'placeholder':'Nom', 'required':true} }) }}<br>
             </div>
@@ -28,7 +39,7 @@
             {{ form_widget(form.phone, { 'attr': {'class': 'input' , 'placeholder':'Télephone', 'required':true} }) }}<br>
             </div>
             <div style="margin-top: 10px;">
-                <input class="primary-btn" style="width: 100%" type="submit" value="Valider" />
+                <input class="primary-btn" id="validate-registration" style="width: 100%" type="submit" value="Valider" disabled="true" />
             </div>
             {{ form_end(form) }}
         </div>

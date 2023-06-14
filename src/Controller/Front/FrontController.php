@@ -258,8 +258,10 @@ class FrontController extends Controller
         $query = array();
         
         $product->setNbrView($product->getNbrView()+1);
+
         $dm->persist($product);
         $dm->flush();
+        $product_favoris = $dm->getRepository('App:Favoris')->findOneBy(array('product' => $product, 'user' => $this->getUser()));
         $caracteristiques = $dm->getRepository('App:Products')->produitsCriteres($product->getId());
         $productsLiees = array();
         $liees = $dm->getRepository('App:Others')->findBy(array('main' => $product->getId()));
@@ -269,6 +271,7 @@ class FrontController extends Controller
         $query['liees'] = implode(', ', $productsLiees);
         $products = $dm->getRepository('App:Products')->produitsLiees($query);
         return $this->render('Products/front/details.html.twig', array(
+            'product_favoris' => $product_favoris,
             'id_product' => $product->getId(),
             'product' => $product,
             'products' => $products,
@@ -287,9 +290,12 @@ class FrontController extends Controller
         $products = $dm->getRepository('App:Products')->listProductsBycategories($categorie['id']);
         $setting = $dm->getRepository('App:Settings')->find(1);
         $caracteristiques = $dm->getRepository('App:Caracteristiques')->findBy(array('sousCategorie' => $categorie['id']));
-        
-        $marques = $dm->getRepository('App:Products')->marquesProductsBycategories($categorie['id']);
-        $couleurs = $dm->getRepository('App:Products')->couleursProductsBycategories($categorie['id']);
+		$list_ids = array();
+        foreach ($products as $p){
+            $list_ids[] = $p['id'];
+        }
+        $marques = $dm->getRepository('App:Products')->BannerMarques($list_ids);
+        $couleurs = $dm->getRepository('App:Products')->BannerCouleurs($list_ids);
         $products_price = array();
         foreach ($products as $product) {
             $products_price[] = $product['pricePromotion']?$product['pricePromotion']:$product['price'];

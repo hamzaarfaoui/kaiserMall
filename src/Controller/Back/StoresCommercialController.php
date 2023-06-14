@@ -54,6 +54,14 @@ class StoresCommercialController extends Controller
         $store = new Stores();
         $user = new User();
         $marchand = new Marchands();
+        if(count($user_by_username) > 0){
+            $request->getSession()->getFlashBag()->add('danger', "Un marchand avec username ".$request->get('username')." exist déjà");
+            return $this->redirectToRoute('commercialstores_back_new');
+        }
+        if(count($user_by_email) > 0){
+            $request->getSession()->getFlashBag()->add('danger', "Un marchand avec email ".$request->get('email')." exist déjà");
+            return $this->redirectToRoute('commercialstores_back_new');
+        }
         /*start user document*/
         $user->setUsername($request->get('username'));
         $user->setEmail($request->get('email'));
@@ -168,7 +176,14 @@ class StoresCommercialController extends Controller
         $store = $dm->getRepository('App:Stores')->find($id);
         $marchand = $store->getMarchand();
         $user = $marchand->getUser();
-        
+        if(count($user_by_username) > 0){
+            $request->getSession()->getFlashBag()->add('danger', "Le username ".$request->get('username')." exist déjà");
+            return $this->redirectToRoute('commercialstores_back_edit', array('id' => $member->getId()));
+        }
+        if(count($user_by_email) > 0){
+            $request->getSession()->getFlashBag()->add('danger', "L'email ".$request->get('email')." exist déjà");
+            return $this->redirectToRoute('commercialstores_back_edit', array('id' => $member->getId()));
+        }
         foreach ($store->getAdressesStore() as $adresse){
             $dm->remove($adresse);
         }

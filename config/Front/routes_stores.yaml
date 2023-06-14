@@ -1,9 +1,9 @@
 dashboard_stores_index:
     path: /list
-    controller: App\Controller\storesController::listAction
+    controller: App\Controller\Front\StoresController::listAction
     
 dashboard_stores_details:
-    path: /{id}/details
-    controller: App\Controller\storesController::showAction
+    path: /{slug}
+    controller: App\Controller\Front\StoresController::showAction
     
   
