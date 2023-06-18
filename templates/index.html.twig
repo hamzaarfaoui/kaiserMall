@@ -32,13 +32,13 @@
         <!-- /container -->
     </div>
     <!-- /NAVIGATION -->
-    <div class="categories-sliders-bloc home-category {% if(setting.value == 'false') %}hidden-white-backgroud{% endif %}">
+    <div class="categories-sliders-bloc home-category hidden-white-backgroud">
         <div id="navigation">
             <!-- container -->
             <div class="container">
                 <div id="responsive-nav">
                     <!-- category nav -->
-                    <div class="category-nav category-pc {% if(setting.value == 'false') %}hidden-categories-menu{% endif %}">
+                    <div class="category-nav category-pc hidden-categories-menu">
                         <span class="category-header">Trouver tous </span>
                         <ul class="category-list">
                             {% for categorie in categories %}
@@ -102,7 +102,7 @@
                                     </div>
                                 </li>
                             {% endif %}
-                            {% if(setting.value == 'true') %}
+                            {#{% if(setting.value == 'true') %}
                             {% for categorie in categories %}
                                 <li class="dropdown side-dropdown">
                                     <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
@@ -124,7 +124,7 @@
                                     </div>
                                 </li>
                             {% endfor %}
-                            {% endif %}
+                            {% endif %}#}
                         </ul>
                     </div>
                     <!-- menu nav -->
@@ -133,7 +133,7 @@
             <!-- /container -->
         </div>
         <!-- HOME -->
-        <div id="carrousel" {% if(setting.value == 'false') %}class="carrousel-full-width"{% endif %}>{{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}</div>
+        <div id="carrousel" class="carrousel-full-width">{{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}</div>
     </div>
     <!-- /HOME -->
 

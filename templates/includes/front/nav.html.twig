@@ -35,7 +35,6 @@
                 </div>
             </li>
         {% endif %}
-        {% if(setting.value == 'true') %}
         {% for categorie in categories %}
             <li class="dropdown side-dropdown">
                 <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
@@ -47,7 +46,7 @@
                                     <li>
                                         <h6 class="list-links-title">{{ sc1.name }}</h6></li>
                                         {% for souscat in sc1.sousCategories %}
-                                        <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}</a></li>
+                                        <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}ddd</a></li>
                                         {% endfor %}
                                 </ul>
                                 <hr class="hidden-md hidden-lg">
@@ -57,7 +56,6 @@
                 </div>
             </li>
         {% endfor %}
-        {% endif %}
     </ul>
 </div>
 <!-- menu nav -->
