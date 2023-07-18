@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block title %}Création d'un compte validé{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">Création d'un compte</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <!-- section -->
+    <div class="section section-bloc">
+        <!-- container -->
+        <div class="container">
+            <div class="text-center text-registration-confirmer">
+                <h2>Félicitation {{ user.prenom }} votre à été crée, Bienvenu  à Kaiser</h2>
+                    <p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-lg btn-success">Mon profil</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

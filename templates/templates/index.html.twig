@@ -1,0 +1,205 @@
+{% extends "base.html.twig" %}
+{% block title %}Vêtements, meubles maison, smartphone, PC{% endblock %}
+{% block metas %}
+<meta name="description" content="Kaisermall | mode homme et femme, meubles maison, smartphones, PC..." />
+<meta name="keywords" content="kaiser, kaisermall, kaisermall tn, Iphone, chaussures, basket, bijoux, coiffeuse, lit, salon, pull homme, pull femme" />
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .slick-slide {
+            width: 200px;
+        }
+        .section-banners {
+            width: 94% !important;
+            left: 9.7% !important;
+            position: relative !important;
+            margin-bottom: 82px !important;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <div class="categories-sliders-bloc home-category {% if(setting.value == 'false') %}hidden-white-backgroud{% endif %}">
+        <div id="navigation">
+            <!-- container -->
+            <div class="container">
+                <div id="responsive-nav">
+                    <!-- category nav -->
+                    <div class="category-nav category-pc {% if(setting.value == 'false') %}hidden-categories-menu{% endif %}">
+                        <span class="category-header">Trouver tous </span>
+                        <ul class="category-list">
+                            {% for categorie in categories %}
+                                <li class="dropdown side-dropdown">
+                                    <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            {% for sc1 in categorie.categories %}
+                                                <div class="col-md-4">
+                                                    <ul class="list-links">
+                                                        <li>
+                                                            <h6 class="list-links-title">{{ sc1.name }}</h6></li>
+                                                            {% for souscat in sc1.sousCategories %}
+                                                            <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}</a></li>
+                                                            {% endfor %}
+                                                    </ul>
+                                                    <hr class="hidden-md hidden-lg">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /category nav -->
+
+                    <!-- menu nav -->
+                    <div class="menu-nav">
+                        <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+                        <ul class="menu-list">
+                            {% if(app.user) %}
+                                <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Mon compte <i class="fa fa-caret-down"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <ul class="list-links">
+                                                    {% if(is_granted('ROLE_MARCHAND')) %}
+                                                        <li><a href="{{ path('marchand_homepage') }}"><i class="fa fa-bars"></i> Store</a></li>
+                                                    {% endif %}
+                                                    <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-user-o"></i> Profile</a></li>
+                                                    <li><a href="{{ path('list_page') }}"><i class="fa fa-heart-o"></i> Commandes</a></li>
+                                                    <li><a href="{{ path('products_favoris_page') }}"><i class="fa fa-exchange"></i> Mes favoris</a></li>
+                                                    <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-check"></i> Déconnexion</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Mon compte <i class="fa fa-caret-down"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <ul class="list-links">
+                                                    <li><a href="{{ path('login') }}" class="text-uppercase">Login</a></li>
+                                                    <li><a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+                            {% if(setting.value == 'true') %}
+                            {% for categorie in categories %}
+                                <li class="dropdown side-dropdown">
+                                    <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
+                                    <div class="custom-menu">
+                                        <div class="row">
+                                            {% for sc1 in categorie.categories %}
+                                                <div class="col-md-4">
+                                                    <ul class="list-links">
+                                                        <li>
+                                                            <h6 class="list-links-title">{{ sc1.name }}</h6></li>
+                                                            {% for souscat in sc1.sousCategories %}
+                                                            <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}</a></li>
+                                                            {% endfor %}
+                                                    </ul>
+                                                    <hr class="hidden-md hidden-lg">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- menu nav -->
+                </div>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- HOME -->
+        <div id="carrousel" {% if(setting.value == 'false') %}class="carrousel-full-width"{% endif %}>{{ render(controller('App\\Controller\\Back\\SlidersController::listInFront')) }}</div>
+    </div>
+    <!-- /HOME -->
+
+    <!-- start categories -->
+    <div class="banners-home">
+        {% include 'includes/front/index/categories.html.twig' %}
+    </div>
+    <!-- end categories -->
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        
+    $(window).load(function(){
+      $('.flexslider').flexslider({
+        animation: "slide",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+    });
+    </script>
+    <script type="text/javascript" src="{{ asset('carrousel/js/script.js') }}"></script>
+    <script>
+        //subscribe to newsLetter
+        $('#formNewsLetter').submit(function (e) {
+            e.preventDefault();
+            var email = $('#email').val();
+            $.ajax({
+                url: '{{ path('subscribe_to_news_letter') }}',
+                data: $("#formNewsLetter").serialize(),
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de s\'abonner à la newsLstter');
+                },
+                success: function (data) {
+                    $('#bloc-msg').show();
+                    $('#text-msg').html('Vous êtes inscrit à la news letter');
+                    setTimeout(function () {
+                        $('#bloc-msg').fadeOut();
+                    }, 3000);
+                }
+            });
+        });
+
+        $('.product-slick').slick({
+            slidesToShow: 6,
+            slidesToScroll: 3,
+            autoplay: false,
+            infinite: true,
+            speed: 300,
+            dots: true,
+            arrows: true,
+            appendDots: '.product-slick-dots-1',
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 480,
+                    settings: {
+                        dots: false,
+                        arrows: true,
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                    }
+                },
+            ]
+        });
+    </script>
+{% endblock %}

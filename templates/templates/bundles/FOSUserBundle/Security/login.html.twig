@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">Login</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    {{ include('@FOSUser/Security/login_content.html.twig') }}
+{% endblock body %}

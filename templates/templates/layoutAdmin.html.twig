@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Kaiser {% block title %}{% endblock %}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="" name="description"/>
+        <meta content="" name="author"/>
+        {% include 'includes/back/css.html.twig' %}
+        <style>
+            .page-header.navbar {
+                background: #FFFFFF;
+                border-bottom: 1px solid #e9ecf3;
+            }
+            .btn-primary{
+                background: #39b54a;
+            }
+            .logo-dash{
+                position: relative;
+                bottom: 22px;
+                width: 115px;
+            }
+            {% if ((is_granted('ROLE_COMMERCIAL'))or(is_granted('ROLE_GESTIONNEAIRE_STOCK')))%}
+                .page-content-wrapper .page-content {
+                    margin-left: -5px;
+                    margin-top: 0px;
+                    min-height: 600px;
+                    padding: 10px 0 0 20px;
+                  }
+                  {% elseif ((is_granted('ROLE_ADMIN'))or(is_granted('ROLE_SUPER_ADMIN'))) %}
+                      .page-content-wrapper .page-content {
+                    margin-left: 235px;
+                    margin-top: 0px;
+                    min-height: 600px;
+                    padding: 10px 0 0 20px;
+                  }
+            {% endif %}
+        </style>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="page-sidebar-closed-hide-logo wysihtml5-supported page-header-fixed page-sidebar-fixed">
+    <!-- BEGIN HEADER -->
+    <div class="page-header navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                {% if (is_granted('ROLE_SUPER_ADMIN'))%}
+                <a href="{{ path('backoffice_homepage') }}">
+                    <img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default logo-dash"/>
+                </a>
+                {% else %}
+                <a href="{{ path('commercialstores_back_index') }}">
+                    <img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default logo-dash"/>
+                </a>
+                {% endif %}
+                {% if (is_granted('ROLE_SUPER_ADMIN'))%}
+                <div class="menu-toggler sidebar-toggler">
+                    <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                </div>
+                {% endif %}
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN PAGE ACTIONS -->
+            <!-- DOC: Remove "hide" class to enable the page header actions -->
+            <div class="page-actions">
+                <div class="btn-group">
+                    <a class="btn btn-lg btn-primary" href="{{ path('index_page') }}" target="_blank">
+                        <i class="fa fa-globe"></i> Mon site
+                    </a>
+                </div>
+            </div>
+            <!-- END PAGE ACTIONS -->
+            <!-- BEGIN PAGE TOP -->
+            <div class="page-top">
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <div class="top-menu">
+                    <ul class="nav navbar-nav pull-right">
+                        <!-- BEGIN USER LOGIN DROPDOWN -->
+                        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                        <li class="dropdown dropdown-user dropdown-dark">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <span class="username username-hide-on-mobile" style="color: #757575;">
+                                    {{app.user.nom}} {{app.user.prenom}}</span>
+                                <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
+                                <img alt="" class="img-circle" src="{{ asset('template/assets/admin/layout4/img/avatar.png') }}" style="border: 2px solid #757575;"/>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-default">
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}">
+                                        <i class="icon-key"></i> Déconnexion </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END USER LOGIN DROPDOWN -->
+                    </ul>
+                </div>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END PAGE TOP -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>
+    <!-- END HEADER -->
+    <div class="clearfix">
+    </div>
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container"> 
+        <!-- BEGIN SIDEBAR -->
+        {% if (is_granted('ROLE_SUPER_ADMIN'))%}
+        <div class="page-sidebar-wrapper">
+            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+            <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+            
+            <div class="page-sidebar navbar-collapse collapse">
+                <div class="slimScrollDiv" style="position: relative;overflow: hidden;width: auto;">
+                <!-- BEGIN SIDEBAR MENU -->
+                <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" data-height="196" data-initialized="1" style="overflow: hidden;width: auto;">
+                    <li class="start ">
+                        <a href="{{ path('backoffice_homepage') }}">
+                            <i class="icon-home"></i>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('backoffice_settings') }}">
+                            <i class="icon-settings"></i>
+                            <span class="title">Paramètres</span>
+                        </a>
+                    </li>
+					<li class="start ">
+						<a href="{{ path('dashboard_sc2_greffer') }}">
+							<i class="icon-organization"></i>
+							<span class="title">Gréffer dans l'acceuil</span>
+						</a>
+					</li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-layers"></i>
+                            <span class="title">Commandes</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_commandes_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{path('dashboard_commandes_statistiques')}}">
+                                    <i class="icon-chart"></i>
+                                    Statistiques</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-users"></i>
+                            <span class="title">Clients</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_clients_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{path('dashboard_clients_statistiques')}}">
+                                    <i class="icon-chart"></i>
+                                    Statistiques</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-grid"></i>
+                            <span class="title">Produits</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_product_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{path('dashboard_product_back_new')}}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_caracteristiques_index') }}">
+                                    <i class="icon-options"></i>
+                                    Caractéristiques</a>
+                            </li>
+                            <li>
+                                <a href="ecommerce_products.html">
+                                    <i class="icon-event"></i>
+                                    Promotions</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-briefcase"></i>
+                            <span class="title">Stores</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_stores_back_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_stores_back_new') }}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-folder-alt"></i>
+                            <span class="title">Catégories</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_categories_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_categories_new') }}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:;">
+                            <i class="icon-flag"></i>
+                            <span class="title">Marques</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_marques_back_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_marques_back_new') }}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-image"></i>
+                            <span class="title">Carousel</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_sliders_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_sliders_new') }}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-image"></i>
+                            <span class="title">Banniéres</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_banners_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_banners_principales') }}">
+                                    <i class="icon-bars"></i>
+                                    Principales</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-user"></i>
+                            <span class="title">Employés</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ path('dashboard_employes_index') }}">
+                                    <i class="icon-list"></i>
+                                    Tous</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard_employes_new') }}">
+                                    <i class="icon-plus"></i>
+                                    Ajouter</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 32.6945px;"></div>
+                <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                <!-- END SIDEBAR MENU -->
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% block body %}{% endblock %}
+    </div>
+<!-- END CONTAINER -->
+
+
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="page-footer-inner">
+        {{ 'now' | date('Y') }} &copy; Kaiser.
+    </div>
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
+<!-- END FOOTER -->
+{% include 'includes/back/js.html.twig' %}
+{% block javascripts %}
+    $("p").css("background-color", "yellow");
+{% endblock %}
+</body>
+</html>

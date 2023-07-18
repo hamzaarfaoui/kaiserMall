@@ -1,0 +1,131 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/typeahead/typeahead.css') }}">
+   {# <link href="{{ asset('template/bootstrapFileInput/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('template/bootstrapFileInput/themes/explorer-fa/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
+    #}<!-- END PAGE LEVEL STYLES -->
+{% endblock %}
+{% block title %}Tableau de bord | Nouvelle catégorie{% endblock %}
+{% block body %}>
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>Marques <small>Ajout</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <!-- END PAGE HEAD -->
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_marques_back_index') }}">Marques</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_marques_back_details', { id : marque.id }) }}">{{ marque.name }}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Paramétres</a>
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                {{ marque.name }}
+                            </div>
+                            <div class="tools">
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <form action="{{ path('dashboard_marques_back_edit_traitement', { id : marque.id }) }}" method="post" role="form" enctype="multipart/form-data">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Nom</label>
+                                                <input type="text" class="form-control" value="{{marque.name}}" placeholder="Nom" name="nom">
+                                            </div>
+                                            <select name="categorie" class="form-control">
+												{% for categorie in categories %}
+													<optgroup label="{{categorie.name}}">
+														{% for sc1 in categorie.categories %}
+															<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;{{sc1.name}}">
+																{% for sc2 in sc1.sousCategories %}
+																	<option value="{{sc2.id}}" {% if(marque.sousCategorie) %}{% if(sc2.id == marque.sousCategorie.id) %}selected{% endif %}{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp; {{sc2.name}}</option>
+																{% endfor %}
+															</optgroup>
+														{% endfor %}
+													</optgroup>
+												{% endfor %}
+                                            </select>
+                                            <div class="form-group">
+                                                <label>Déscription</label>
+                                                <textarea class="form-control" rows="3" name="description">
+                                                    {{marque.content}}
+                                                </textarea>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-success" style="width: 100%;">Enregistrer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+    </div>
+    <!-- END CONTENT -->
+{% endblock %}
+{% block javascripts %}
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"></script>
+<script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') }}"></script>
+<script src="{{ asset('template/assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/assets/global/plugins/typeahead/handlebars.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/assets/global/plugins/typeahead/typeahead.bundle.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('template/assets/global/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            Demo.init(); // init demo features
+            TableAdvanced.init();
+        });
+    </script>
+{% endblock %}

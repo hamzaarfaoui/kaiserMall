@@ -1,0 +1,84 @@
+{% extends "base.html.twig" %}
+    {% block title %}Commandes{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Kaiser</a></li>
+                <li class="active">Commandes</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <!-- section -->
+    <div class="section section-bloc">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Commandes</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>commande</th>
+                                    <th class="text-center">Statut</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Prix</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if(commandes|length>0) %}
+                                    {% for commande in commandes %}
+                                        <tr>
+                                            <td>Commande_{{loop.index}}</td>
+                                            <td class="text-center">{{ commande.status == 1?'Validé':'En attente' }}</td>
+                                            <td class="text-center">Le {{commande.createdAt|date('d/m/Y')}} à {{commande.createdAt|date('H:i')}}</td>
+                                            <td class="text-center">
+                                                {{ commande.facture.prix }} TND
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('details_page', {id:commande.id}) }}" class="btn btn-primary"><i class="fa fa-search"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td class="text-center" colspan="5">Aucune commandes actuelement</td></tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}
+    
+    
+{% endblock %}

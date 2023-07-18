@@ -244,6 +244,7 @@ class BannersController extends Controller
     public function editTraitementAction(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
+        $fileSystem = new Filesystem();
         $banner = $dm->getRepository('App:Banners')->find($id);
         if($request->get('status')){
            $banner->setStatus(1);
@@ -257,6 +258,9 @@ class BannersController extends Controller
             move_uploaded_file(
                     $_FILES["image"]["tmp_name"], $this->getParameter('images_banners') . "/" . $fileName
             );
+            if($banner->getImage()){
+                $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$banner->getImage(), ''.$banner->getImage().''));
+            }
             $banner->setImage($fileName);
         }
         $banner->setDebut(new \DateTime(''.$request->get('datedebut').''));
@@ -313,12 +317,12 @@ class BannersController extends Controller
     public function removeImgFromGalleryAction(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
-        $fileSystem = new Filesystem();
-        $banner = $dm->getRepository('App:Banners')->find($id);
-        $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$banner->getImage(), ''.$banner->getImage().''));
-        $banner->setImage('');
-        $dm->persist($banner);
-        $dm->flush();
+        // $fileSystem = new Filesystem();
+        // $banner = $dm->getRepository('App:Banners')->find($id);
+        // $fileSystem->remove(array('symlink', $this->getParameter('images_banners')."/".$banner->getImage(), ''.$banner->getImage().''));
+        // $banner->setImage('');
+        // $dm->persist($banner);
+        // $dm->flush();
         return new JsonResponse([
             'message' => 'image supprimmé'
         ]);

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Kaiser Mall {% block title %}{% endblock %}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <meta content="" name="description">
+        <meta content="" name="author">
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        {% include 'includes/marchand/css.html.twig' %}
+        <!-- END GLOBAL MANDATORY STYLES -->
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <!-- BEGIN HEADER -->
+    <div class="page-header">
+        <!-- BEGIN HEADER TOP -->
+        <div class="page-header-top">
+            <div class="container">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="{{ path('index_page') }}"><img src="{{ asset('e-shop/img/logo.png') }}" alt="logo" class="logo-default"></a>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler"></a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+            </div>
+        </div>
+        <!-- END HEADER TOP -->
+        <!-- BEGIN HEADER MENU -->
+        <div class="page-header-menu">
+            <div class="container">
+                <!-- BEGIN HEADER SEARCH BOX -->
+                {#<form class="search-form" action="extra_search.html" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="query">
+                        <span class="input-group-btn">
+                            <a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+                        </span>
+                    </div>
+                </form>#}
+                <!-- END HEADER SEARCH BOX -->
+                <!-- BEGIN MEGA MENU -->
+                <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+                <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+                <div class="hor-menu ">
+                    <ul class="nav navbar-nav">
+                        {% if(is_granted('ROLE_MARCHAND')) %}
+                        <li>
+                            <a href="{{ path('marchand_homepage') }}">Tableau de bord</a>
+                        </li>
+                        {% endif %}
+                        {{ render(controller(
+                            'App\\Controller\\Front\\Marchand\\MarchandController::listStore'
+                        )) }}
+                        
+                    </ul>
+                </div>
+                <!-- END MEGA MENU -->
+            </div>
+        </div>
+        <!-- END HEADER MENU -->
+    </div>
+    <!-- END HEADER -->
+    <!-- BEGIN PAGE CONTAINER -->
+{% block body %}{% endblock %}
+<!-- END PAGE CONTAINER -->
+<!-- BEGIN PRE-FOOTER -->
+<div class="page-prefooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
+                <h2>à propos</h2>
+                <p>
+                    Votre tableau de bors pour piloter votre store dans Kaiser.
+                </p>
+            </div>
+            {#<div class="col-md-3 col-sm-6 col-xs12 footer-block">
+                <h2>Subscribe Email</h2>
+                <div class="subscribe-form">
+                    <form action="javascript:;">
+                        <div class="input-group">
+                            <input type="text" placeholder="mail@email.com" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn" type="submit">Submit</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>#}
+            <div class="col-md-3 col-sm-9 col-xs-12 footer-block">
+                <h2>Contacts</h2>
+                <address class="margin-bottom-40">
+                    Email: <a href="mailto:contact@kaisermall.tn">contact@kaisermall.tn</a>
+                </address>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PRE-FOOTER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="container">
+        {{ 'now' | date('Y') }} &copy; Kaiser. Tous les droits sont réservés.
+    </div>
+</div>
+<div class="scroll-to-top">
+    <i class="icon-arrow-up"></i>
+</div>
+<!-- END FOOTER -->
+{% include 'includes/marchand/js.html.twig' %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<!-- section -->
+<div class="section section-register">
+    <!-- container -->
+    <div class="container">
+        <div class="text-center inscription-form">
+            <h1>Création d'un compte</h1>   
+            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+            <div class="form-group">
+            {{ form_widget(form.username, { 'attr': {'class': 'input' , 'placeholder':'Username', 'required':true} }) }}
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.email, { 'attr': {'class': 'input' , 'placeholder':'E-mail', 'required':true} }) }}<br>
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'input' , 'placeholder':'Mot de passe', 'required':true} }) }}<br>
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'input' , 'placeholder':'Resaisir mot de passe', 'required':true} }) }}<br>
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.nom, { 'attr': {'class': 'input' , 'placeholder':'Nom', 'required':true} }) }}<br>
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.prenom, { 'attr': {'class': 'input' , 'placeholder':'Prenom', 'required':true} }) }}<br>
+            </div>
+            <div class="form-group">
+            {{ form_widget(form.phone, { 'attr': {'class': 'input' , 'placeholder':'Télephone', 'required':true} }) }}<br>
+            </div>
+            <div style="margin-top: 10px;">
+                <input class="primary-btn" style="width: 100%" type="submit" value="Valider" />
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+

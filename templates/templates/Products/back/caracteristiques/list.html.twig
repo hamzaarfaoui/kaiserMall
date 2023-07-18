@@ -1,0 +1,350 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/select2/select2.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/select2/select2.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-editable/inputs-ext/address/address.css') }}"/>
+    <!-- END PAGE LEVEL STYLES -->
+{% endblock %}
+{% block title %}Tableau de bord | Caracteristiques{% endblock %}
+{% block body %}>
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>Caracteristiques <small>Tous</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <!-- END PAGE HEAD -->
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Caracteristiques</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Tous</a>
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-globe"></i>Caracteristiques
+                            </div>
+                            <div class="tools">
+  
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                                <div class="row">
+                                <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Ajouter une caractéristique</button>
+                                    
+                                    <!-- Modal -->
+                                    <form action="{{ path('dashboard_caracteristiques_new') }}">
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                          <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Nouvelle caractéristique</h4>
+                                              </div>
+                                              <div class="modal-body">
+
+                                                  <input class="form-control" name="nom" placeholder="Nom" required="true"><br>
+                                                  <input class="form-control" name="code" placeholder="Code" required="true"><br>
+                                                  <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Catégorie</label>
+                                                            <select id="cm" class="form-control">
+                                                                <option value="rien">Sélectionner une categorie</option>
+                                                                {% for cm in categoriesMere %}
+                                                                    <option value="{{cm.id}}">{{cm.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group" style="margin-left: 10px">
+                                                            <label>Sous categorie</label>
+                                                            <select id="sc1" class="form-control" disabled="true">
+                                                                <option value="rien">Sélectionner une categorie</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group" style="margin-left: 10px">
+                                                            <label>Sous catégorie 2</label>
+                                                            <select id="sc2" class="form-control" disabled="true" name="categorie">
+                                                                <option value="rien">Sélectionner une categorie</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>   
+                                                </div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Ajouter</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                        </div>
+                                        </div>
+                                        <br>
+                            <table class="table table-striped table-hover" id="sample_5">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Catégorie
+                                        </th>
+                                        <th>
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for caracteristique in caracteristiques %}
+                                        <tr>
+                                            <td>{{caracteristique.name}}</td>
+                                            <td style="text-align: left;font-weight: 100;">{{caracteristique.sousCategorie.categorie.categorieMere.name}}/{{caracteristique.sousCategorie.categorie.name}}/{{caracteristique.sousCategorie.name}}</td>
+                                            <td>
+                                                <a href="{{ path('dashboard_caracteristiques_details', {id : caracteristique.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Détails</a>
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalEdit{{caracteristique.id}}"><i class="fa fa-pencil"></i> Modifier</button>
+                                                {% if(caracteristique.valeurs|length==0) %}
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{caracteristique.id}}"><i class="fa fa-trash"></i> Supprimer</button>
+                                                {% endif %}
+                                                <!-- Modal -->
+                                                <form action="{{ path('dashboard_caracteristiques_edit', { id : caracteristique.id} ) }}">
+                                                    <div id="myModalEdit{{caracteristique.id}}" class="modal fade" role="dialog">
+                                                      <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">{{caracteristique.name}}</h4>
+                                                          </div>
+                                                          <div class="modal-body">
+
+                                                                  <input class="form-control" name="nom" placeholder="Nom" required="true" value="{{caracteristique.name}}">
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                            <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Enregistrer</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+                                                    </div>
+                                                </form>
+                                                
+                                                <!-- Modal -->
+                                                <div id="myModal{{caracteristique.id}}" class="modal fade" role="dialog">
+                                                  <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Suppression</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <p>Etes-vous sùre de vouloir supprimer la caractéristique {{caracteristique.name}} ?</p>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <a href="{{ path('dashboard_caracteristiques_delete', {id : caracteristique.id}) }}" class="btn btn-danger">Oui</a>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+    </div>
+    <!-- END CONTENT -->
+{% endblock %}
+{% block javascripts %}
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <script>
+        $(document).ready(function () {
+            $('#cm').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#sc1').prop('disabled', true);
+                }else{
+                    var url = '{{path('dashboard_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#sc1').prop('disabled', false);
+                            $('#sc1').html(result['options']);
+                        }
+                    });
+                }
+            });
+            $('#sc1').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#sc2').prop('disabled', true);
+                }else{
+                    var url = '{{path('dashboard_sc2_by_sc1', {'sc1': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#sc2').prop('disabled', false);
+                            $('#sc2').html(result['options']);
+                        }
+                    });
+                }
+            });
+            $('#cm2').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#sc1').prop('disabled', true);
+                }else{
+                    var url = '{{path('dashboard_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#sc12').prop('disabled', false);
+                            $('#sc12').html(result['options']);
+                        }
+                    });
+                }
+            });
+            $('#sc12').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#sc2').prop('disabled', true);
+                }else{
+                    var url = '{{path('dashboard_sc2_by_sc1', {'sc1': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#sc22').prop('disabled', false);
+                            $('#sc22').html(result['options']);
+                        }
+                    });
+                }
+            });
+        });
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            Demo.init(); // init demo features
+            TableAdvanced.init();
+        });
+    </script>
+{% endblock %}

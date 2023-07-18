@@ -1,0 +1,63 @@
+
+<!-- menu nav -->
+<div class="menu-nav">
+    <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+    <ul class="menu-list">
+        {% if(app.user) %}
+            <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Mon compte <i class="fa fa-caret-down"></i></a>
+                <div class="custom-menu">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ul class="list-links">
+                                {% if(is_granted('ROLE_MARCHAND')) %}
+                                    <li><a href="{{ path('marchand_homepage') }}"><i class="fa fa-bars"></i> Store</a></li>
+                                {% endif %}
+                                <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-user-o"></i> Profile</a></li>
+                                <li><a href="{{ path('list_page') }}"><i class="fa fa-heart-o"></i> Commandes</a></li>
+                                <li><a href="{{ path('products_favoris_page') }}"><i class="fa fa-exchange"></i> Mes favoris</a></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-check"></i> Déconnexion</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Mon compte <i class="fa fa-caret-down"></i></a>
+                <div class="custom-menu">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ul class="list-links">
+                                <li><a href="{{ path('fos_user_security_login') }}" class="text-uppercase">Login</a></li>
+                                <li><a href="{{ path('fos_user_registration_register') }}" class="text-uppercase">S'inscrire</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endif %}
+        {% if(setting.value == 'true') %}
+        {% for categorie in categories %}
+            <li class="dropdown side-dropdown">
+                <a class="dropdown-toggle" style="margin: -6px;font-size: 12px;" data-toggle="dropdown" aria-expanded="true">{{ categorie.name }} <i class="fa fa-angle-right"></i></a>
+                <div class="custom-menu">
+                    <div class="row">
+                        {% for sc1 in categorie.categories %}
+                            <div class="col-md-4">
+                                <ul class="list-links">
+                                    <li>
+                                        <h6 class="list-links-title">{{ sc1.name }}</h6></li>
+                                        {% for souscat in sc1.sousCategories %}
+                                        <li><a href="{{ path('product_by_category', {slug:souscat.slug}) }}">{{ souscat.name }}</a></li>
+                                        {% endfor %}
+                                </ul>
+                                <hr class="hidden-md hidden-lg">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+<!-- menu nav -->

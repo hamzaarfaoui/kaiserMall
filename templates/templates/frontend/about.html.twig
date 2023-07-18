@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+{% block title %}à propos{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">à propos</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+
+
+
+    <!-- section -->
+    <div class="section section-bloc">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">à propos de nous</h3>
+                        </div>
+                        
+                        <div style="text-align: justify;text-justify: inter-word;font-size: 20px;line-height: 200%;" class="about-text">
+                            <span style="font-weight: bold;color: #39b54a;font-size: 24px;">K</span><span style="font-weight: bold;color: #757575;font-size: 24px;position: relative;left: 0">aizer</span> est un site e-commerce tunisien spécialisé dans la vente de tous types de produits les vêtements et les accessoires(pour les hommes, les femmes et les enfants)
+                                , les smartphones, les ordinateurs, les meubles et tous les accessoires de la maison et vous trouver aussi les piéces et les accessoires des voitures.
+                                <br>
+                            Kaiser Mall vous donne la possibilité d'accéder aux produits des boutiques et des magazins les plus proches de vous.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}{% endblock %}

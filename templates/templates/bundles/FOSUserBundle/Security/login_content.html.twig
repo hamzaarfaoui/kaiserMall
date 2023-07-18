@@ -1,0 +1,51 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<!-- section -->
+<div class="section section-login">
+    <!-- container -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Login</h1>
+                
+
+                <form action="{{ path("fos_user_security_check") }}" method="post">
+                    <div class="text-center">
+                    {% if error %}
+                        <div class="alert alert-danger alert-dismissible" style="margin-right: 25%;margin-left: 25%;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                    {% if csrf_token %}
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    {% endif %}
+                    
+                    <input class="input input-login" style="margin-bottom: 20px;" id="username" type="text" placeholder="Enter your keyword" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Email"  style="padding-left: 20px;">
+                    
+                    <input class="input input-login" style="" type="password" id="password" class="uk-input" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe"/>
+
+                   <!-- Material checked -->
+                    <div class="checkbox checkbox-success">
+                        <input id="checkbox3" type="checkbox">
+                        <label for="checkbox3" id="remember_me" name="_remember_me" value="on">
+                            Se souvenir de moi ?
+                        </label>
+                    </div>
+                   
+                        <input class="primary-btn btn-login" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+                        <br>
+                        <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+                        {#<a href="{{ path('test_email') }}">test mail</a>#}
+                   </div>
+                    
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="no-account">
+                    <h1>Pas encore inscrit ?</h1>
+                    <a href="{{ path('fos_user_registration_register') }}" class="primary-btn register-link">Cliquer içi pour créer un compte</a><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+{% extends "base.html.twig" %}
+    {% block title %}Commande{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Kaiser</a></li>
+                <li><a href="{{ path('list_page') }}">Commandes</a></li>
+                <li class="active">Détails commande</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <!-- section -->
+    <div class="section section-bloc">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Commande : le {{commande.createdAt|date('d/m/Y')}} à {{commande.createdAt|date('H:i')}}</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>{{commande.facture.products|length>1 ? 'Produits' : 'Produit'}}</th>
+                                    <th></th>
+                                    <th>Vendeur</th>
+                                    <th class="text-center">Prix unitaire</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-list-products-in-cart">
+                                    {% for product in commande.facture.products %}
+                                        <tr>
+                                            <td class="thumb"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt=""></td>
+                                            <td class="details">
+                                                <a href="{{ path('product_page', {slug:product.slug}) }}">{{ product.name }}</a>
+                                            </td>
+                                            <td>{{product.vendeur}}</td>
+                                            <td class="text-center"><strong>{{ product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
+                                            <td class="text-center">
+                                                {{ product.quantite }}
+                                            </td>
+                                            <td class="text-center">
+                                                <strong class="primary-color">
+                                                    {{ product.price * product.quantite }} TND
+                                                </strong>
+                                            </td>
+                                            
+                                    
+                                        </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                {#<tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SUBTOTAL</th>
+                                    <th colspan="2" class="sub-total">$97.50</th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SHIPING</th>
+                                    <td colspan="2">Free Shipping</td>
+                                </tr>#}
+                                <tr>
+                                    <th>Adresse</th>
+                                    <th colspan="2">{{ commande.facture.livraison.adresse }} {{ commande.facture.livraison.ville }}, Tunisie</th>
+                                    <th>Total</th>
+                                    <th colspan="2" class="total">
+                                        <span class="total-cart">{{ commande.facture.prix }}</span> TND
+                                        <input type="hidden" name="totalCart" id="totalCart">
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        {% if(commande.status == 0) %}
+                            <div class="pull-right">
+                                <a href="{{ path('validation_commande', {id:commande.id}) }}" class="primary-btn"> Valider <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}
+    
+    
+{% endblock %}

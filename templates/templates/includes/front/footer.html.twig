@@ -1,0 +1,87 @@
+<footer id="footer" class="section section-grey">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- footer widget -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <!-- footer logo -->
+                    <div class="footer-logo">
+                        <a class="logo" href="#">
+                            <img src="{{asset('e-shop/img/logo.png') }}" alt="">
+                        </a>
+                    </div>
+                    <ul class="footer-social">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                    </ul>
+                    <!-- /footer social -->
+                </div>
+            </div>
+            <!-- /footer widget -->
+
+            <!-- footer widget -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <h3 class="footer-header">Mon compte</h3>
+                    <ul class="list-links">
+                        <li><a href="{{ path('fos_user_profile_edit') }}">Infos</a></li>
+                        <li><a href="{{ path('list_page') }}">Commandes</a></li>
+                        <li><a href="{{ path('products_favoris_page') }}">Favoris</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /footer widget -->
+
+            <div class="clearfix visible-sm visible-xs"></div>
+
+            <!-- footer widget -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <h3 class="footer-header">Services</h3>
+                    <ul class="list-links">
+                        <li><a href="{{ path('about_page') }}">Qui sommes-nous</a></li>
+                        <li><a href="{{ path('process_order_page') }}">Passer une commande</a></li>
+                        <li><a href="{{ path('contact_page') }}">Contactez-nous</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /footer widget -->
+
+            <!-- footer subscribe --><!-- 
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="footer">
+                    <h3 class="footer-header">Rester Connecter</h3>
+                    <p>Rejoiner la Newsletter pour vous informer des nouveaux articles et des soldes.</p>
+                    <form id="formNewsLetter">
+                        <div class="form-group">
+                            <input type="email" name="email" class="input" placeholder="Enter votre adresse mail" required="true">
+                        </div>
+                        <button class="primary-btn" style="width: 100%;" type="submit">Rejoindre la Newsletter</button><br>
+                    </form>
+                    <div class="alert alert-success" id="bloc-msg" style="display: none;margin-top: 10px;">
+                        <p id="text-msg"></p>
+                    </div>
+                </div>
+            </div> -->
+            <!-- /footer subscribe -->
+        </div>
+        <!-- /row -->
+        <hr>
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <!-- footer copyright -->
+                <div class="footer-copyright">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Kaiser 
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </div>
+                <!-- /footer copyright -->
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</footer>

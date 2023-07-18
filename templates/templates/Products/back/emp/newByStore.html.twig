@@ -1,0 +1,538 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL STYLES -->
+  
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrapFileinput/css/fileinput.css') }}"/>
+    <link href="{{ asset('bootstrapFileinput/themes/explorer-fa/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
+
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/typeahead/typeahead.css') }}">
+    <link href="{{ asset('template/assets/global/css/components-rounded.css') }}" id="style_components" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('template/assets/global/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('template/assets/admin/layout4/css/layout.css') }}" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="{{ asset('template/assets/admin/layout4/css/themes/light.css') }}" rel="stylesheet" type="text/css"/>
+    <!-- END PAGE LEVEL STYLES -->
+      <link href="{{ asset('template/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css') }}" rel="stylesheet"/>
+<link href="{{ asset('template/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css') }}" rel="stylesheet"/>
+<link href="{{ asset('template/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css') }}" rel="stylesheet"/>
+
+<script src="{{ asset('ckeditor/ckeditor.js')}}"></script>
+    <script src="{{ asset('ckeditor/js/sample.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('ckeditor/css/samples.css')}}">
+    <style type="text/css">
+        .caracteristiques{
+            position: relative;
+            bottom: 2px;
+            left: 5px;
+        }
+        .couleur-radio{
+            display: none !important;
+        }
+        .couleur-label{
+            cursor: pointer;
+            height: 43px;
+            width: 43px;
+            padding-left: 3px;
+            padding-top: 3px;
+        }
+        .couleur-label div::before{
+
+        }
+        .couleur-label div::after{
+            content: '';
+        }
+        .couleur-label-checked{
+            border: 1px solid #000;
+        }
+    </style>
+
+{% endblock %}
+    
+{% block title %}Tableau de bord | Nouveau produit{% endblock %}
+{% block body %}>
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>{{store.name}} <small>Nouveau Produit</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <!-- END PAGE HEAD -->
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('commercialstores_back_index') }}">Stores</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('commercialstores_back_details', {id : store.id}) }}">{{store.name}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Produits</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Nouveau</a>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal form-row-seperated" action="{{ path('manager_product_back_new_traitement_by_store', {id : store.id}) }}" method="post" role="form" enctype="multipart/form-data">
+                        <div class="portlet light">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="icon-basket font-green-sharp"></i>
+                                    <span class="caption-subject font-green-sharp bold uppercase">
+                                        Produit </span>
+                                    <span class="caption-helper">Nouveau</span>
+                                </div>
+                                <div class="actions btn-set">
+                                    <a class="btn green-haze btn-circle" href="{{ path('commercialstores_back_details', {id : store.id}) }}">
+                                        <i class="fa fa-list"></i> Tous </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#tab_general" data-toggle="tab">
+                                                Infos générale </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_meta" data-toggle="tab">
+                                                Images </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_images" data-toggle="tab">
+                                                Caractéristiques
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_reviews" data-toggle="tab">
+                                                Promotions
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_keywords" data-toggle="tab">
+                                                Mots clés
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content no-space">
+                                        <div class="tab-pane active" id="tab_general">
+                                            <div class="form-body">
+                                                <h3>Infos générale</h3>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Nom complet: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="text" class="form-control" name="nomcomplet" placeholder="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Nom: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="text" class="form-control" name="nom" placeholder="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Prix: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="number" class="form-control" name="price" placeholder="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Quantité: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="number" class="form-control" name="qte" placeholder="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Catégorie</label>
+                                                            <select id="cm" class="form-control">
+                                                                <option value="rien">Sélectionner une categorie</option>
+                                                                {% for cm in categoriesMere %}
+                                                                    <option value="{{cm.id}}">{{cm.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group" style="margin-left: 10px">
+                                                            <label>Sous categorie</label>
+                                                            <select id="sc1" class="form-control" disabled="true">
+                                                                <option value="rien">Sélectionner une categorie</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group" style="margin-left: 10px">
+                                                            <label>Sous catégorie 2</label>
+                                                            <select id="sc2" class="form-control" disabled="true" name="sc">
+                                                                <option value="rien">Sélectionner une categorie</option>
+                                                            </select>
+                                                        </div>
+                                                    </div> 
+                                                            <div class="form-group" style="margin-left: 10px">
+                                                            <label>Marque</label>
+                                                            <select id="marque" class="form-control" disabled="true" name="marque">
+                                                                <option value="rien">Sélectionner une marque</option>
+                                                            </select>
+                                                        </div>
+                                                </div>
+                                                <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Déscription</label>
+                                                                <textarea class="form-control" rows="3" id="editor1" name="descriptionC"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_meta">
+                                                <h3>Images</h3>
+                                                <div class="col-md-12">
+                                                    <label>Image d'ouveture</label> <br>
+                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                        <div class="input-group input-large">
+                                                            <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                                                <i class="fa fa-file fileinput-exists"></i>&nbsp; <span class="fileinput-filename">
+                                                                </span>
+                                                            </div>
+                                                            <span class="input-group-addon btn default btn-file">
+                                                                <span class="fileinput-new">
+                                                                    Sélectionner une image </span>
+                                                                <span class="fileinput-exists">
+                                                                    Changer </span>
+                                                                <input type="file" name="iconeC">
+                                                            </span>
+                                                            <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
+                                                                Supprimer </a>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group">
+                                                        <div class="file-loading">
+                                                            <label>Autres Images</label>
+                                                            <input id="file-3" name="images[]" type="file" multiple>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_images">
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div id="couleurs"></div>
+                                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <h3>Caractéristiques</h3>
+                                            <div id="caracteristiques"><h5 style="text-align: center;">Sélectionner une catégorie</h5></div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_reviews">
+                                            <h3>Promotion</h3>
+                                            <div id="phones">
+                                                <div class="blocPhone">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        Début <br>
+                                                        <input type="date" id="from" class="form-control" name="datedeb" placeholder="Date de début">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        Fin<br>
+                                                        <input type="date" id="to" class="form-control" name="datefin" placeholder="Date de fin">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        Montant<br>
+                                                        <input type="number" class="form-control" name="fixe" placeholder="Montant">
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_keywords">
+                                            <h3>Mots clés</h3>
+                                            <input id="tags_1" type="text" class="form-control tags" name="keywords"/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                                    <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-success pull-right">Enregistrer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+    </div>
+    <!-- END CONTENT -->
+{% endblock %}
+{% block javascripts %}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrapFileinput/js/fileinput.js') }}"></script>
+    <script src="{{ asset('bootstrapFileinput/js/locales/fr.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') }}"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/typeahead/handlebars.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/typeahead/typeahead.bundle.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fancybox/source/jquery.fancybox.pack.js') }}"></script>
+    <script src="{{ asset('template/assets/global/plugins/plupload/js/plupload.full.min.js') }}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <script>
+                CKEDITOR.replace( 'editor1', {
+                    removeButtons: 'PasteFromWord'
+                } );
+            </script>
+    <script>
+        $("#file-3").fileinput({
+                theme: 'fa',
+                showUpload: false,
+                showCaption: false,
+                browseClass: "btn btn-primary btn-lg",
+                fileType: "any",
+                language: 'fr',
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                initialPreviewFileType: 'image'
+            });
+
+        $(document).ready(function () {
+             $('.couleur-radio').change(function () {
+                $('.couleur-label').removeClass('couleur-label-checked');
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.addClass('couleur-label-checked');
+            });
+            $("#kv-explorer").fileinput({
+            'theme': 'explorer-fa',
+            'uploadUrl': '#',
+            language: 'fr',
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+        });
+            $('#cm').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#sc1').prop('disabled', true);
+                }else{
+                    var url = '{{path('dashboard_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#sc1').prop('disabled', false);
+                            $('#sc1').html(result['options']);
+                        }
+                    });
+                }
+            });
+            $('#sc1').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#sc2').prop('disabled', true);
+                }else{
+                    var url = '{{path('dashboard_sc2_by_sc1', {'sc1': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#sc2').prop('disabled', false);
+                            $('#sc2').html(result['options']);
+                        }
+                    });
+                }
+            });
+            
+            $('#sc2').change(function(){
+                var id = $(this).val();
+                if(id=='rien'){
+                    $('#marque').prop('disabled', true);
+                }else{
+                    var url = '{{path('marques_by_categorie', {'id': 'valeurselectionnee'})}}';
+                    url = url.replace("valeurselectionnee", id);
+                    $.ajax({
+
+                        url: url,
+                        method: "GET",
+                        error: function ()
+                        {
+                            alert('une erreur');
+                        },
+                        beforeSend: function ()
+                        {
+                            
+                        },
+                        success: function (result)
+                        {
+                            $('#marque').prop('disabled', false);
+                            $('#marque').html(result['options']);
+                            $('#caracteristiques').html(result['caracteristiques']);
+                            $('#couleurs').html(result['couleurs']);
+                            $('.couleur-radio').change(function () {
+                                $('.couleur-label').removeClass('couleur-label-checked');
+                                var label = $('label[for="' + $(this).attr('id') + '"]');
+                                label.addClass('couleur-label-checked');
+                            });
+                        }
+                    });
+                }
+            });
+        
+            Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            Demo.init(); // init demo features
+            ComponentsFormTools.init();
+        });
+    </script>
+{% endblock %}
+{# empty Twig template #}

@@ -1,0 +1,165 @@
+<script>
+    jQuery(document).ready(function () {
+        
+        /*
+         * add adess store 
+         */
+        $('.addAdressButton').click(function(){
+            var store = $(this).data('store');
+            var url = $(this).data('url');
+            var adress = $('.adress-input').val();
+            $.ajax({
+
+                url: url,
+                method: "GET",
+                data: {adress: adress, store: store},
+                error: function ()
+                {
+                    console.log("erreur de modification adresse");
+                },
+                beforeSend: function ()
+                {
+
+                },
+                success: function (result)
+                {
+                    window.location = $('.redirect-url').val();
+                }
+            });
+        });
+        /*
+         * edit adess store 
+         */
+        $('.editAdressbutton').click(function(){
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var adress = $('.adress-input'+id).val();
+            $.ajax({
+
+                url: url,
+                method: "GET",
+                data: {adress: adress},
+                error: function ()
+                {
+                    console.log("erreur de modification adresse");
+                },
+                beforeSend: function ()
+                {
+
+                },
+                success: function (result)
+                {
+                    $('#editAdressModal'+id).modal('hide');
+                    $('.adressText'+id).html(adress);
+                    $('.adress-input'+id).html(adress);
+                    console.log(result['message']);
+                }
+            });
+        });
+        /*
+         * delete adress store 
+         */
+        $('.delete-adress').click(function(){
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            $.ajax({
+
+                url: url,
+                method: "GET",
+                error: function ()
+                {
+                    console.log("erreur de suppression adress");
+                },
+                beforeSend: function ()
+                {
+
+                },
+                success: function (result)
+                {
+                    $('.bloc-adress'+id).hide();
+                    console.log(result['message']);
+                }
+            });
+        });
+        /*
+         * add phone store 
+         */
+        $('.addPhoneButton').click(function(){
+            var store = $(this).data('store');
+            var url = $(this).data('url');
+            var phone = $('.phone-input').val();
+            $.ajax({
+
+                url: url,
+                method: "GET",
+                data: {phone: phone, store: store},
+                error: function ()
+                {
+                    console.log("erreur de modification adresse");
+                },
+                beforeSend: function ()
+                {
+
+                },
+                success: function (result)
+                {
+                    window.location = $('.redirect-url').val();
+                }
+            });
+        });
+        /*
+         * edit phone store 
+         */
+        $('.editPhonebutton').click(function(){
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var phone = $('.phone-input'+id).val();
+            $.ajax({
+
+                url: url,
+                method: "GET",
+                data: {phone: phone},
+                error: function ()
+                {
+                    console.log("erreur de supression phone");
+                },
+                beforeSend: function ()
+                {
+
+                },
+                success: function (result)
+                {
+                    $('#editPhoneModal'+id).modal('hide');
+                    $('.phoneText'+id).html(phone);
+                    $('.phone-input'+id).html(phone);
+                    console.log(result['message']);
+                }
+            });
+        });
+        /*
+         * delete phone store 
+         */
+        $('.delete-phone').click(function(){
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            $.ajax({
+
+                url: url,
+                method: "GET",
+                error: function ()
+                {
+                    console.log("erreur de modification phone");
+                },
+                beforeSend: function ()
+                {
+
+                },
+                success: function (result)
+                {
+                    $('.bloc-phone'+id).hide();
+                    console.log(result['message']);
+                }
+            });
+        });
+    });
+</script>

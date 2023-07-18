@@ -1,0 +1,12 @@
+<section class="slider">
+	<div class="flexslider">
+	  	<ul class="slides">
+	  		{% for slider in sliders %}
+	    	<li>
+	    		<a href="{{ path('slider_front_details', {slug : slider.slug}) }}"><img src="{{ asset('/uploads/sliders/') }}{{ slider.image }}" alt="{{slider.list_name}}" /></a>
+    	    
+    		</li>
+    		{% endfor %}
+	  	</ul>
+	</div>
+</section>

@@ -1,0 +1,414 @@
+{% extends "layoutMarchand.html.twig" %}
+{% block stylesheets %}
+    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrapFileinput/css/fileinput.css') }}"/>
+    <link href="{{ asset('bootstrapFileinput/themes/explorer-fa/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/global/plugins/typeahead/typeahead.css') }}">
+    <link href="{{ asset('template/assets/global/css/components-rounded.css') }}" id="style_components" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('template/assets/global/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('template/assets/admin/layout3/css/layout.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template/assets/admin/layout3/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color">
+    <link href="{{ asset('template/assets/admin/layout3/css/custom.css') }}" rel="stylesheet" type="text/css">
+    <!-- END THEME STYLES -->
+    <script src="{{ asset('ckeditor/ckeditor.js')}}"></script>
+    <script src="{{ asset('ckeditor/js/sample.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('ckeditor/css/samples.css')}}">
+    <!-- END PAGE LEVEL STYLES -->
+    <style type="text/css">
+        .btn-primary.active, .btn-primary:active, .show>.btn-primary.dropdown-toggle {
+            background-color: #0069d9;
+            background-image: none;
+            border-color: #0062cc;
+        }
+        .couleur-radio{
+            display: none !important;
+        }
+        .couleur-label{
+            cursor: pointer;
+            height: 43px;
+            width: 43px;
+            padding-left: 3px;
+            padding-top: 3px;
+        }
+        .couleur-label div::before{
+
+        }
+        .couleur-label div::after{
+            content: '';
+        }
+        .couleur-label-checked{
+            border: 1px solid #000;
+        }
+    </style>
+
+{% endblock %}
+{% block title %}Tableau de bord | {{product.name}}{% endblock %}
+{% block body %}>
+    <div class="page-container">
+        <!-- BEGIN PAGE HEAD -->
+        <div class="page-head">
+            <div class="container">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>{{product.name}}</h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+        </div>
+        <!-- END PAGE HEAD -->
+        <!-- BEGIN PAGE CONTENT -->
+        <div class="page-content">
+            <div class="container">
+                <div class="portlet light">
+                    <!-- BEGIN PAGE BREADCRUMB -->
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                            <a href="{{ path('marchand_homepage') }}">Tableau de bord</a><i class="fa fa-circle"></i>
+                        </li>
+                        <li class="active">
+                            {{product.name}}
+                            <input type="hidden" class="redirect-url" value="{{ path('marchand_stores_details',{id:product.store.id} ) }}">
+                        </li>
+                    </ul>
+                    <!-- END PAGE BREADCRUMB -->
+                    <!-- BEGIN PAGE CONTENT INNER -->
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal form-row-seperated" action="{{ path('marchand_product_back_edit_traitement', {id:product.id}) }}" method="post" role="form" enctype="multipart/form-data">
+                        <div class="portlet light">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="icon-basket font-green-sharp"></i>
+                                    <span class="caption-subject font-green-sharp bold uppercase">
+                                        {{product.name}} </span>
+                                    <span class="caption-helper">Paramétres</span>
+                                </div>
+                                <div class="actions btn-set">
+                                    <a class="btn green-haze btn-circle" href="{{ path('marchand_product_index', {id:product.store.id}) }}">
+                                        <i class="fa fa-list"></i> Tous </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {% if app.session.flashBag.has('success') %}
+                                            <div class="alert alert-success">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                {% for msg in app.session.flashBag.get('success') %}
+                                                    <i class="fa fa-check"></i> {{ msg }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#tab_general" data-toggle="tab">
+                                                Infos générale </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_meta" data-toggle="tab">
+                                                Images </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_images" data-toggle="tab">
+                                                Caractéristiques
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_reviews" data-toggle="tab">
+                                                Promotions
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_keywords" data-toggle="tab">
+                                                Mots clés
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content no-space">
+                                        <div class="tab-pane active" id="tab_general">
+                                            <div class="form-body">
+                                                <h3>Infos générale</h3>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Nom: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="text" class="form-control" name="nom" placeholder="" value="{{product.name}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Prix: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="number" class="form-control" name="price" placeholder="" value="{{product.price}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">Quatité: <span class="required">
+                                                                    * </span>
+                                                            </label>
+                                                            <div class="col-md-10">
+                                                                <input type="number" class="form-control" name="qte" placeholder="" value="{{product.qte}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Déscription</label>
+                                                                <textarea class="form-control" id="editor1" rows="3" name="descriptionC">{{product.content}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_meta">
+                                                <h3>Images</h3>
+                                                <div class="col-md-12">
+                                                    <label>Image d'ouveture</label> <br>
+                                                    <div class="file-loading">
+                                                        <input id="kv-explorer" class="document" name="iconeC" type="file" style="height:100px">
+                                                    </div>
+                                                    <br>
+                                                    Autres Images <br>
+                                                    <div class="file-loading">
+                                                        <input id="file-3" class="document" name="images[]" type="file" style="height:100px" multiple>
+                                                    </div>
+                                                    <!-- The table listing the files available for upload/download -->
+                                                    <table role="presentation" class="table table-striped clearfix">
+                                                        <tbody class="files">
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_images">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p><b>Couleur</b></p>
+                                                    {% for couleur in couleurs %}
+                                                        <input type="radio" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.id}}" >
+                                                        <label for="couleur-{{couleur.id}}" class="couleur-label {{product.couleur and couleur.id == product.couleur.id ? 'couleur-label-checked' : ''}}"><div style="background-color: {{couleur.code}};height: 35px;width: 35px;"></div></label>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        {% for caracteristique in caracteristiques %}
+                                                            <div class="col-md-12">
+                                                                <b>{{caracteristique.name}}</b>
+																<table><tr>
+                                                                {% for valeur in caracteristique.valeurs %}
+                                                                    <td>
+																		<div style="margin-right: 15px;">
+																			<input id="{{valeur.id}}" type="checkbox" name="valeurs[]" value="{{valeur.id}}" {% for val in product.valeurs %}{{val.id==valeur.id?'checked="true"':''}}{% endfor %}>
+																			<label for="{{valeur.id}}">{{valeur.name}}</label>
+																		</div>
+																	</td>
+                                                                {% endfor %}
+																</tr></table>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_reviews">
+                                            <h3>Promotion</h3>
+                                            <div id="phones">
+                                                <div class="blocPhone">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <input type="hidden" name="promotion" value="{{promotion?promotion.id:''}}">
+                                                        Début <br>
+                                                        <input type="date" id="from" class="form-control" name="datedeb" placeholder="Date de début" value="{{promotion?promotion.debut|date('Y-m-d'):''}}">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        Fin <br>
+                                                        <input type="date" id="to" class="form-control" name="datefin" placeholder="Date de fin" value="{{promotion?promotion.fin|date('Y-m-d'):''}}">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        Montant<br>
+                                                        <input type="number" class="form-control" name="fixe" placeholder="Montant" value="{{promotion?promotion.fixe:''}}">
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab_keywords">
+                                            <h3>Mots clés</h3>
+                                            <input id="tags_1" type="text" class="form-control tags" name="keywords" value="{% for keyword in product.keywords %}{{ keyword.name }}{% if(keyword != product.keywords|last) %},{% endif %}{% endfor %}"/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                                    <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-success pull-right">Enregistrer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT INNER -->
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/fuelux/js/spinner.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrapFileinput/js/fileinput.js') }}"></script>
+    <script src="{{ asset('bootstrapFileinput/js/locales/fr.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') }}"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/typeahead/handlebars.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/typeahead/typeahead.bundle.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('template/assets/admin/pages/scripts/components-form-tools.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('template/assets/global/plugins/plupload/js/plupload.full.min.js') }}" type="text/javascript"></script>   
+    {% include 'marchand/js.html.twig' %}
+	<script>
+                CKEDITOR.replace( 'editor1', {
+                    removeButtons: 'PasteFromWord'
+                } );
+            </script>
+    <script>
+        $('#cm').change(function(){
+            var id = $(this).val();
+            if(id=='rien'){
+                $('#sc1').prop('disabled', true);
+            }else{
+                var url = '{{path('marchand_sc1_by_cm', {'cm': 'valeurselectionnee'})}}';
+                url = url.replace("valeurselectionnee", id);
+                $.ajax({
+
+                    url: url,
+                    method: "GET",
+                    error: function ()
+                    {
+                        alert('une erreur');
+                    },
+                    beforeSend: function ()
+                    {
+                        
+                    },
+                    success: function (result)
+                    {
+                        $('#sc1').prop('disabled', false);
+                        $('#sc1').html(result['options']);
+                    }
+                });
+            }
+        });
+        $('#sc1').change(function(){
+            var id = $(this).val();
+            if(id=='rien'){
+                $('#sc2').prop('disabled', true);
+            }else{
+                var url = '{{path('marchand_sc2_by_sc1', {'sc1': 'valeurselectionnee'})}}';
+                url = url.replace("valeurselectionnee", id);
+                $.ajax({
+
+                    url: url,
+                    method: "GET",
+                    error: function ()
+                    {
+                        alert('une erreur');
+                    },
+                    beforeSend: function ()
+                    {
+                        
+                    },
+                    success: function (result)
+                    {
+                        $('#sc2').prop('disabled', false);
+                        $('#sc2').html(result['options']);
+                    }
+                });
+            }
+        });
+        $("#file-3").fileinput({
+            theme: 'fa',
+            showUpload: false,
+            showCaption: false,
+            browseClass: "btn btn-primary btn-lg",
+            fileType: "any",
+            language: 'fr',
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            initialPreview: [
+                {% for photo in product.getMediasImages() %}
+                '{{ asset("uploads/products/gallery/") }}{{ photo.name }}',
+                {% endfor %}
+            ],
+            initialPreviewFileType: 'image',
+            initialPreviewConfig: [
+                {% for k,photo in product.getMediasImages() %}
+                    {caption: "photo{{k+1}}", url: '{{path('marchand_product_delete_image_gallery', {'id' : photo.id})}}', key: '{{k+1}}'},
+                {% endfor %}
+            ]
+        });
+        $(document).ready(function () {
+            $('.couleur-radio').change(function () {
+                $('.couleur-label').removeClass('couleur-label-checked');
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.addClass('couleur-label-checked');
+            });
+            $("#kv-explorer").fileinput({
+            'theme': 'explorer-fa',
+            'uploadUrl': '#',
+            language: 'fr',
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            initialPreview: [
+                '{{ asset("uploads/products/images/") }}{{ product.image }}',
+            ],
+            initialPreviewFileType: 'image',
+            initialPreviewConfig: [
+                {caption: "photo1", url: '{{path('marchand_product_delete_image', {'id' : product.id})}}', key: '1'},
+            ]
+        });
+            });
+        jQuery(document).ready(function () {
+
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            Demo.init(); // init demo(theme settings page)
+            ComponentsFormTools.init();
+        });
+    </script>
+{% endblock %}
+{# empty Twig template #}

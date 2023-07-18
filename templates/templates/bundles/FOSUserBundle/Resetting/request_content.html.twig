@@ -1,0 +1,43 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<!-- NAVIGATION -->
+<div id="navigation">
+	<!-- container -->
+	<div class="container">
+		<div id="responsive-nav">
+			<!-- NAVIGATION -->
+			{{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+			<!-- /NAVIGATION -->
+		</div>
+	</div>
+	<!-- /container -->
+</div>
+<!-- /NAVIGATION -->
+<!-- BREADCRUMB -->
+<div id="breadcrumb">
+	<div class="container">
+		<ul class="breadcrumb">
+			<li><a href="{{ path('index_page') }}">Accueil</a></li>
+			<li class="active">Mot de passe oublié</li>
+		</ul>
+	</div>
+</div>
+<!-- /BREADCRUMB -->
+<!-- section -->
+<div class="section section-register">
+    <!-- container -->
+    <div class="container">
+        <div class="text-center inscription-form">
+			<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+				<div>
+					<label for="username">Veuillez saisir votre adresse E-mail</label>
+					<input type="text" id="username" name="username" required="required" class="input" style="border: 1px solid #000 !important;" />
+				</div>
+				<div>
+					<input type="submit" value="Envoyer" class="primary-btn" style="width: 100%;margin-top: 10px;" />
+				</div>
+			</form>
+		</div>
+    </div>
+</div>
+

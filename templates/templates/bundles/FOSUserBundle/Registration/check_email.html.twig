@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+{% block title %}Création d'un compte{% endblock %}
+{% block body %}
+	<!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">Création d'un compte</li>
+            </ul>
+        </div>
+    </div>
+	<div class="section section-register">
+		<!-- container -->
+		<div class="container">
+			<p style="text-align: center;font-size: 18px;">Un e-mail a été envoyé à l''adresse <span style="font-weight: bold;">{{user.email}}</span>. Il contient un lien d'activation sur lequel il vous faudra cliquer afin d'activer votre compte.</p>
+		</div>
+	</div>
+{% endblock %}

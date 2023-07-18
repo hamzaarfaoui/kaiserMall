@@ -1,7 +1,0 @@
-AuthUserFile /var/www/cadifit/upload/.htpasswd
-AuthName "NETISSE : ACCES INTERDIT"
-AuthType Basic
-Require valid-user
-
-php_value upload_max_filesize 10M
-php_value post_max_size 10M

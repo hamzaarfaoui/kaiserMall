@@ -181,6 +181,7 @@ class SlidersController extends Controller
     public function editTraitementAction(Request $request, $id)
     {
         $dm = $this->getDoctrine()->getManager();
+        $fileSystem = new Filesystem();
         $slider = $dm->getRepository('App:Sliders')->find($id);
         if($request->get('status')){
            $slider->setStatus(1);
@@ -194,7 +195,11 @@ class SlidersController extends Controller
             move_uploaded_file(
                     $_FILES["image"]["tmp_name"], $this->getParameter('images_sliders') . "/" . $fileName
             );
+            if($slider->getImage()){
+                $fileSystem->remove(array('symlink', $this->getParameter('images_sliders')."/".$slider->getImage(), ''.$slider->getImage().''));
+            }
             $slider->setImage($fileName);
+
         }
         if($request->get('titre') && !empty($request->get('titre'))){
             $productsList = $slider->getProductsList();

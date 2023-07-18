@@ -1,0 +1,518 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block metas %}
+
+<meta name="description" content="Kaisermall | {{product.name}}, {% if product.valeurs|length %}, {% for option in product.valeurs %}{{option.name}}, {% endfor %}{% endif %}" />
+<meta name="keywords" content="kaiser, kaisermall, {{product.name}}, {% if product.valeurs|length %}{% for option in product.valeurs %}{{option.name}}, {% endfor %}{% endif %}" />
+{% endblock %}
+{% block stylesheets %}
+<link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/flexslider.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ asset('carrousel/css/style.css') }}" />
+    <style>
+        .product-details {
+        bottom: 57px;
+    position: relative;
+    background-color: #FFF;
+    padding: 15px;
+    /* border: 1px solid #f9f2f2; */
+    /* border-radius: 20px; */
+    box-shadow: 1px 2px 9px 0px #ddd;
+}
+.slick-slider{
+    padding-top: 22px;
+    position: relative;
+}
+        .img-left-bottom {
+            position: absolute;
+            bottom: -20px;
+            left: 34px;
+          }
+.price-skew {
+    /* padding-left: 30px; */
+    /* padding-right: 30px; */
+    /* height: 61px; */
+    font-size: 39px;
+    font-weight: bold;
+    line-height: 60px;
+    color: #fff;
+    color: #39b54a;
+    font-family: arial;
+    /* background: #fdd835; */
+    text-align: center;
+    position: relative;
+}
+
+.span-price {
+      display: inline-block;
+    width: 20px;
+    height: 100%;
+    transform: skew(20deg);
+    /* -webkit-transform: skew(20deg); */
+    /* background: #fdd835; */
+    /* position: absolute; */
+    /* left: -25px; */
+    /* top: 0;*/
+}
+.span-price::before,
+.span-price::after {
+  content: "";
+  width: 4px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -8px;
+}
+.span-price::after {
+  left: -16px
+}
+.add-to-cart{
+    font-size: 27px;
+    font-weight: 100;
+    background-color: #39b54a !important;
+}
+.product.product-single .product-name{
+    font-size: 12px;
+}
+.product.product-single .product-body {
+    /* padding: 0px; */
+    padding-top: 15px;
+} 
+.other-products{
+    background-color: #fff;
+    padding-top: 20px;
+    width: 74%;
+    position: relative;
+    left: 13%;
+    margin-top: 0;
+    height: 471px;
+    margin-bottom: 35px;
+    border: 1px solid #ccc;
+}
+#product-main-view .slick-list, #product-view .slick-list{
+    width: 100%
+}
+#product-main-view .slick-prev{
+    left: -7px;
+}
+.product.product-single .product-thumb{
+    text-align: center;
+}
+
+.product.product-single .product-thumb>img{
+    height: 300px;
+    width: 100%;
+    position: relative;
+}
+.product .product-old-price{
+    position: relative;
+    bottom: 5px;
+}
+.product .product-label>span.sale {
+    background-color: #f44336;
+    font-weight: 100;
+    padding: 3px 10px;
+    border-radius: 18px;
+    float: right;
+    position: absolute;
+    /* left: 150px; */
+    top: 58px;
+    right: 15px;
+    width: 50px;
+}
+.flexslider .slides img{
+    height: auto;
+}
+.slider.product-details{
+    padding: 0px;
+    box-shadow: none;
+    
+}
+.flex-direction-nav a:before{
+    font-size: 30px;
+    color: #FFF;
+    height: 80px;
+    width: 37px;
+    padding: 4px;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding-top: 9px;
+}
+.slides{
+        margin-bottom: 20px;
+        {% if(product.getMediasImages()|length>0) %}
+        border-bottom: 1px solid #ccc;
+        {% endif %}
+        padding-bottom: 20px;
+    }
+@media screen and (max-width: 991px){
+    .col-xs-6{
+        padding-right: 3px;
+        padding-left: 2px;
+    }
+    .row{
+        margin-right: inherit;
+        margin-left: inherit;
+    }
+    .product .fiche>span.sale {
+        display: none !important;
+    }
+    .flex-direction-nav a{
+        top: 26%;
+    }
+    .slider.product-details{
+        
+    }
+    .flex-direction-nav .flex-next {
+        opacity: 1;
+        right: 0;
+    }
+    .flex-direction-nav .flex-prev {
+        opacity: 1;
+        left: 0;
+    }
+    .section.product{
+        padding-top: 0;
+    }
+    .flex-direction-nav a:before{
+        font-size: 30px;
+        color: #FFF;
+        height: 80px;
+        width: 37px;
+        padding: 4px;
+        background-color: rgba(0, 0, 0, 0.8);
+        text-align: center;
+    }
+}
+@media screen and (min-width: 991px){
+    
+    .slider.product-details{
+        border-right: 1px solid #ccc;
+    }
+	.product.product-single .product-thumb img{
+		height: inherit !important;
+	}
+}
+
+</style>
+
+{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li><a href="{{ path('product_by_category', {slug:categorie.slug}) }}">{{categorie.name}}</a></li>
+                <li class="active">{{product.fullname ? product.fullname : product.name}}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <!-- section -->
+    <div class="section product">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!--  Product Details -->
+                <div class="product product-details clearfix">
+                    <div class="col-md-5">
+                        <section class="slider product-details">
+                        <div class="flexslider">
+                          <ul class="slides">
+                                <li data-thumb="{{ asset('uploads/products/images/') }}{{ product.image }}">
+                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" />
+                                </li>
+                                {% for image in product.getMediasImages() %}
+                                <li data-thumb="{{ asset('uploads/products/gallery/') }}{{ image.name }}">
+                                <img src="{{ asset('uploads/products/gallery/') }}{{ image.name }}" />
+                                </li>
+                                {% endfor %}
+                          </ul>
+                        </div>
+                      </section>
+                    </div>
+                    <div class="col-md-7">
+                            <div class="pull-right">
+                            {% if(product.pricePromotion and product.pricePromotion<product.price != null) %}
+                                <div class="product-price price-skew">{{product.pricePromotion}} TND<span class="span-price"></span><del class="product-old-price">  {{product.price}} TND</del></div>
+                            {% else %}
+                                <div class="product-price price-skew"><span>{{product.price}} TND</span><span class="span-price"></span></div>
+                            {% endif %}
+                            </div><br>
+                            <div class="product-label fiche">
+                                {#{% set today = "now"|date("d/m/Y") %}
+                                {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                {{difference.days < 7?'<span>New </span>':''}}#}
+                                {% if(product.pricePromotion and product.pricePromotion<product.price != null) %}
+                                    <span class="sale">
+                                        {% set difference = product.price - product.pricePromotion %}
+                                        {% set pourcentage = (difference/product.price)*100 %}
+                                        -{{pourcentage|round}}%
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <h1 class="product-name">{{product.fullname ? product.fullname : product.name}}</h1>
+							{% if(app.user and app.user.username != "") %}
+                            <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i> Ajouter au favoris</button>
+                                    <br><br>
+							{% endif %}
+                            {#
+                            <div>
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o empty"></i>
+                                </div>
+                                <a href="#">3 Review(s) / Add Review</a>
+                            </div>#}
+                            <p class="badge-bloc">
+                            {% if(product.qte>0) %}
+                                <span class="badge badge-error" style="background-color: #00c853;font-size: 19px;padding: 10px;border-radius: 24px;">En stock</span>
+                            {% else %}
+                                <strong style="font-size: 24px;margin-right: 25px;">Disponibilité :</strong> <span class="badge badge-error" style="background-color: #f44336;font-size: 19px;padding: 10px;border-radius: 24px;">Faible</span>
+                            {% endif %}
+                            </p>
+                            <div>
+                                {% if product.valeurs|length>0 %}    
+                                    <p><strong>Caractéristiques :</strong></p>
+                                    <table class="table">
+                                        {% for caracteristique in caracteristiques %}
+                                        <tr>
+                                            <td>{{ caracteristique.name }}</td>
+                                            <td>
+                                                {% for option in product.valeurs %}
+                                                    {% if(option.caracteristique.id == caracteristique.id) %}
+                                                    <div class="valeur-product">{{option.name}}</div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </table>
+                                {% endif %}
+                            </div>
+                            <div>
+                            {% if product.content|length>0 %}    
+                                <p><strong>Déscription :</strong></p>
+                                <div class="content">{{ product.content|raw }}</div>
+                            {% endif %}
+                            </div><br>
+                            
+                            <div class="text-center">
+                                {% if(product.pricePromotion and product.pricePromotion < product.price != null) %}
+                                    <div class="product-price price-skew-mobile">{{product.pricePromotion}} TND<span class="span-price"></span><del class="product-old-price">  {{product.price}} TND</del></div>
+                                {% else %}
+                                    <div class="product-price price-skew-mobile"><span>{{product.price}} TND</span><span class="span-price"></span></div>
+                                {% endif %}
+                                
+                                
+                            </div>
+                            <div class="bloc-btn-chart">
+
+                                
+                                <button class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-shopping-cart"></i> J'achéte</button>
+                            </div>
+                            <a href="{{ path('dashboard_stores_details', {slug : product.store.slug}) }}" style="">
+                                <img src="{{ asset('/uploads/shops/logos/') }}{{ product.store.logo }}">
+                            </a>
+                            <div id="cartModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-dialog-centered">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title" style="color: #000;">Poduit ajouter en panier</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <button class="btn main-btn continue-achat-btn-modal" data-dismiss="modal" aria-hidden="true">Continuer mes achats</button>
+                                            <a href="{{ path('cart_page') }}" class="primary-btn cart-btn-modal">Valider mon panier</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {#<strong>Vendeur :</strong>
+                            <div class="text-center">
+                                <a href="{{ path('product_by_store', {slug:product.store.slug}) }}">
+                                    <img src="{{ asset('/uploads/shops/logos/') }}{{ product.store.logo }}" style="height: 120px;width: 120px;border-radius: 50%;border: 6px solid #fff;">
+                                    <h1>{{product.store.name}}</h1>
+                                </a>
+                            </div>#}
+                    </div>
+                    {#<div class="col-md-12">
+                        <div class="product-tab">
+                            <ul class="tab-nav">
+                                <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab1" class="tab-pane fade in active">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>#}
+
+                </div>
+                <!-- /Product Details -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+
+    <!-- section -->
+    <div class="section other-products">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- section title -->
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h3 class="title">Choisi pour vous</h3>
+                    </div>
+                </div>
+                <!-- section title -->
+                {% if(products|length > 0) %}
+                    {% for product in products %}
+                        {% if(product.qte>0) %}
+                        <!-- Product Single -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                            <div class="product-thumb">
+                                <div class="product-label">
+                                    {% if(product.createdAt != null) %}
+                                {% set today = "now"|date("now") %}
+                                {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                {{difference.days < 7?'<span>New </span>':''}}
+                                {% endif %}
+                                {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                    <span class="sale">
+                                        {% set difference = product.price - product.pricePromotion %}
+                                        {% set pourcentage = (difference/product.price)*100 %}
+                                        -{{pourcentage|round}}%
+                                    </span>
+                                {% endif %}
+                                </div>
+                                <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
+                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
+                            </div>
+                            <div class="product-body">
+                                {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                    <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                {% else %}
+                                    <h3 class="product-price">{{product.price}} TND</h3>
+                                {% endif %}
+                                {#<div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o empty"></i>
+                                </div>#}
+                                <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                {#<div class="product-btns text-center">
+                                    {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                        <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                    {% endif %}
+                                    <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                                </div>#}
+                            </div>
+                        </div>
+                        </div>
+                        <!-- /Product Single -->
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                {% for k,product in product.store.products %}
+                        {% if(product.qte>0 and product.id != id_product and k<4) %}
+                        <!-- Product Single -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}" style="height: 360px;">
+                            <div class="product-thumb">
+                                <div class="product-label">
+                                    {% if(product.createdAt != null) %}
+                                {% set today = "now"|date("now") %}
+                                {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                {{difference.days < 7?'<span>New </span>':''}}
+                                {% endif %}
+                                {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                    <span class="sale">
+                                        {% set difference = product.price - product.pricePromotion %}
+                                        {% set pourcentage = (difference/product.price)*100 %}
+                                        -{{pourcentage|round}}%
+                                    </span>
+                                {% endif %}
+                                </div>
+                                <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
+                                <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
+                            </div>
+                            <div class="product-body">
+                                {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                    <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                {% else %}
+                                    <h3 class="product-price">{{product.price}} TND</h3>
+                                {% endif %}
+                                {#<div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o empty"></i>
+                                </div>#}
+                                <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                {#<div class="product-btns text-center">
+                                    {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                        <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                    {% endif %}
+                                    <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                                </div>#}
+                            </div>
+                        </div>
+                        </div>
+                        <!-- /Product Single -->
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('carrousel/js/modernizr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('carrousel/js/jquery.flexslider.js') }}"></script>
+<script type="text/javascript">
+    $(window).load(function(){
+      $('.flexslider').flexslider({
+        //animation: "slide",
+        controlNav: "thumbnails",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+    });
+</script>
+{% endblock %}

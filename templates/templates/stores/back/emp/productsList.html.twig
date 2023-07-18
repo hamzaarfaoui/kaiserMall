@@ -1,0 +1,130 @@
+{% extends "layoutAdmin.html.twig" %}
+{% block stylesheets %}
+	<style type="text/css">
+		#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+		#sortable li { 
+		    margin: 0 3px 3px 3px;
+		    padding: 0.4em;
+		    padding-left: 1.5em;
+		    font-size: 1.4em;
+		    height: 18px;
+		    color: #FFFFFF;
+		    background: #30b3e3;
+		    height: 43px;
+		    text-align: center;
+		    border-radius: 10px;
+		}
+		#sortable li:hover {
+			border: 3px solid #457789;
+		}
+		#sortable li span { position: absolute; margin-left: -1.3em; }
+	</style>
+{% endblock %}
+{% block title %}Tableau de bord | Listes groupes de produits pour le marchand {{ store.name }}{% endblock %}
+{% block body %}
+	<div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <!-- BEGIN PAGE HEAD -->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>{{store.name}} <small>Liste groupes de produits</small></h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('backoffice_homepage') }}">Tableau de bord</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('dashboard_stores_back_index') }}">Marchands</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                    <a href="{{ path('dashboard_stores_back_details', {id : store.id}) }}">{{store.name}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    Liste groupes de produits
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet box green-haze">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-globe"></i>Liste groupes de produits
+                            </div>
+                            <div class="tools">
+                                <a href="{{ path('dashboard_stores_products_liste_new', {store:store.id}) }}" style="color: #FFF;font-size: 14px;" title="ajouter une catégorie">
+                                    <i class="fa fa-plus"></i> Ajouter
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                	{% if app.session.flashBag.has('success') %}
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            {% for msg in app.session.flashBag.get('success') %}
+                                                <i class="fa fa-check"></i> {{ msg }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <ul id="sortable"> 
+                            	{% for group in lists|sort((a, b) => a.position <=> b.position) %}
+								    <li class="ui-state-default" id="{{group.id}}">			
+								    	{{ group.name }}
+								    	<a href="{{ path('dashboard_stores_products_liste_details', {id:group.id}) }}">Produits</a>
+								    </li> 
+								{% endfor %}
+							</ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript">
+		$("#sortable").sortable({
+		    /*stop: function(event, ui) {
+		        alert("New position: " + ui.item.index());
+		    }*/
+		    start: function(e, ui) {
+		        // creates a temporary attribute on the element with the old index
+		        $(this).attr('data-previndex', ui.item.index());
+		    },
+		    update: function(e, ui) {
+		        // gets the new and old index then removes the temporary attribute
+		        var newIndex = ui.item.index();
+		        var oldIndex = $(this).attr('data-previndex');
+		        var element_id = ui.item.attr('id');
+		        var url = '{{ path('dashboard_stores_products_liste_change_position', {'id': 'valeurselectionnee'}) }}';
+		        var group_id_array = new Array();
+			    $('#sortable li').each(function(){
+			    	group_id_array.push($(this).attr("id"));
+			    });
+		        $.ajax({
+		            url: url,
+		            data : {group_id_array:group_id_array},
+		            method: "POST",
+		            error: function (data) {
+		                console.log('Erreur');
+		            },
+		            success: function (data) {
+		                
+		            }
+		        });
+		        $(this).removeAttr('data-previndex');
+		    }
+		});
+		$("#sortable").disableSelection();
+</script>
+{% endblock %}

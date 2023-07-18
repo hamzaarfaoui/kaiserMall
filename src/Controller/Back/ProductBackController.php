@@ -765,16 +765,16 @@ class ProductBackController extends Controller
     /*
      * Products delete from list
      */
-    public function productDeleteFormList(Request $request, $id)
+    public function productDeleteFormList(Request $request, $id, $product)
     {
         $dm = $this->getDoctrine()->getManager();
-        $listHasProduct = $dm->getRepository('App:ListHasProducts')->findOneBy(array('product' => $id));
+        $listHasProduct = $dm->getRepository('App:ListHasProducts')->findOneBy(array('listProduct' => $id, 'product' => $product));
 		$listProducts = $listHasProduct->getListProduct();
         $dm->remove($listHasProduct);
 
         $dm->flush();
         $request->getSession()->getFlashBag()->add('success', "Le produit a été suprimé de la liste ".$listProducts->getName());
-        return $this->redirectToRoute('dashboard_list_products_details', array('id' => $listProducts->getId()));
+        return $this->redirectToRoute('dashboard_list_products_details', array('id' => $id));
 
     }
 }

@@ -1,0 +1,145 @@
+{% extends "base.html.twig" %}
+{% block title %} | Panier{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">Panier</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    {% set totalHT = 0 %}
+    {% set totalTTC = 0%}
+    {% set refTva = {} %}
+    {% set panier = app.session.get('panier') %}
+    {% for product in products %}
+        {% set price = 0 %}
+        {% if(product.pricePromotion!=null) %}
+            {% set price = product.pricePromotion  %}
+        {% else %}
+            {% set price = product.price  %}
+        {% endif %}
+        {% set totalHT = totalHT + (price * panier[product.id]) %}
+        {% set totalTTC = totalTTC + (price * panier[product.id]) %}
+
+        {% endfor %}
+    <!-- section -->
+    <div class="section section-cart">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Panier</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Produit</th>
+                                    <th class="text-center">Prix unitaire</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-center">Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-list-products-in-cart">
+                                {% if(products|length > 0) %}
+                                    {% for product in products %}
+                                        <tr class="product-in-cart{{ product.id }} product-in-cart-row" data-id="{{ product.id }}">
+                                            <form action="{{ path('change_qte', { 'id' : product.id }) }}" method="get">
+                                                <td class="thumb text-center"><img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="">
+                                                    <p><a href="{{ path('product_page', {slug:product.slug}) }}">{{ product.name }}</a></p>
+                                                </td>
+                                                <td class="price text-center"><strong>{{ product.pricePromotion!=null?product.pricePromotion:product.price }} TND</strong><br>{#<del class="font-weak"><small>$40.00</small></del>#}</td>
+                                                <td class="qty text-center">
+                                                    {% set quantite = product.qte %}
+                                                    <select name="qte" data-id="{{ product.id }}" class="input quantite" onchange="this.form.submit()">
+                                                        <option selected value="{{ panier[product.id] }}">{{ panier[product.id] }}</option>
+                                                        {% for i in 1..quantite %}
+                                                            {% if(i != panier[product.id]) %}
+                                                                <option value="{{i}}">{{i}}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td class="total text-center">
+                                                    <p>Total</p>
+                                                    <strong class="primary-color"><span class="total-product" id="total-product{{ product.id }}">
+                                                            {% set price = 0 %}
+                                                            {% if(product.pricePromotion!=null) %}
+                                                                {% set price = product.pricePromotion  %}
+                                                            {% else %}
+                                                                {% set price = product.price  %}
+                                                            {% endif %}
+                                                            {{ price * panier[product.id] }}</span> TND</strong></td>
+                                                <td class="text-center delete"><button type="button" class="main-btn icon-btn cancel-product" data-id="{{ product.id }}"><i class="fa fa-close"></i></button></td>
+                                            </form>
+                                    
+                                        </tr>
+                            {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center cart-clean"><strong>Votre panier est vide</strong></td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                            <tfoot>
+                                {#<tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SUBTOTAL</th>
+                                    <th colspan="2" class="sub-total">$97.50</th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SHIPING</th>
+                                    <td colspan="2">Free Shipping</td>
+                                </tr>#}
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>Total à payer</th>
+                                    <th colspan="2" class="total">
+                                        <span class="total-cart">{{totalTTC}}</span> TND
+                                        <input type="hidden" name="totalCart" id="totalCart">
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="pull-right">
+                            <a href="{{ path('index_page') }}" class="main-btn continue-achat">Continuer mes achats</a>
+                            <a href="{{ path('livraison_page') }}" class="primary-btn valide-cart"> Valider mon panier <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}
+    
+    
+{% endblock %}

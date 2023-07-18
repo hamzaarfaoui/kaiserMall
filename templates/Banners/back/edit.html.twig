@@ -102,11 +102,31 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="col-md-12">
-                                            <label>Image</label> <br>
-                                            <div class="file-loading">
-                                                <input id="kv-explorer" type="file" name="image" multiple="false">
+                                        <div class="col-md-6">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="input-group input-large">
+                                                    <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                                        <i class="fa fa-file fileinput-exists"></i>&nbsp; <span class="fileinput-filename">
+                                                        </span>
+                                                    </div>
+                                                    <span class="input-group-addon btn default btn-file">
+                                                        <span class="fileinput-new">
+                                                            Sélectionner une image </span>
+                                                        <span class="fileinput-exists">
+                                                            Changer </span>
+                                                        <input type="file" name="image">
+                                                    </span>
+                                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
+                                                        Supprimer </a>
+                                                </div>
                                             </div>
+                                            <br>
+                                            
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Image</label> 
+                                            <img src="{{ asset('/uploads/banners/') }}{{ banner.image }}" style="width: 100%;height: 250px;">
                                             
                                         </div>
                                     </div>

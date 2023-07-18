@@ -7,5 +7,5 @@ dashboard_product_order_in_list:
     controller: App\Controller\Back\ProductBackController::productOrderInList 
 
 dashboard_product_delete_from_list:
-    path: /product_delete_from_list/{id}
+    path: /product_delete_from_list/{id}/{product}
     controller: App\Controller\Back\ProductBackController::productDeleteFormList 

@@ -263,7 +263,7 @@ class StoresBackController extends Controller
     /*
      * Delete store
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $id, User $owner = null)
     {
         $dm = $this->getDoctrine()->getManager();
         $fileSystem = new Filesystem();
@@ -271,6 +271,7 @@ class StoresBackController extends Controller
         $nom_marchand = $store->getName();
         $adressesStore = $dm->getRepository('App:AdressesStore')->findBy(array('store' => $store));
         $phonesStore = $dm->getRepository('App:TelephonesStore')->findBy(array('store' => $store));
+        
         $products = $dm->getRepository('App:Products')->findBy(array('store' => $store));
         foreach ($products as $product){
             $images = $dm->getRepository('App:MediasImages')->findBy(array('product' => $product));
@@ -291,6 +292,10 @@ class StoresBackController extends Controller
             foreach ($promotions as $promotion){
                 $dm->remove($promotion);
             }
+            $factures = $dm->getRepository('App:Factures')->findBy(array('product' => $product));
+            foreach ($factures as $facture){
+                $dm->remove($facture);
+            }
             $dm->remove($product);
         }
         foreach ($adressesStore as $adresse){
@@ -301,6 +306,13 @@ class StoresBackController extends Controller
         }
         $marchand = $dm->getRepository('App:Marchands')->find($store->getMarchand());
         $user = $dm->getRepository('App:User')->find($marchand->getUser());
+        $users = $dm->getRepository('App:User')->findBy(array('owner' => $user->getId()));
+        if(count($users) > 0){
+            foreach($users as $user){
+                $user->setOwner($owner);
+                $dm->persist($user);
+            }
+        }
         $dm->remove($user);
         $dm->remove($marchand);
         $banners = $dm->getRepository('App:Banners')->findBy(array('store' => $store));

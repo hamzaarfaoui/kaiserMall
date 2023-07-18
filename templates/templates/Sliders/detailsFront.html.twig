@@ -1,0 +1,567 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ listProducts.name }}{% endblock %}
+{% block metas %}
+<meta name="description" content="Kaisermall | {{listProducts.name}}" />
+<meta name="keywords" content="kaiser, kaisermall, {{listProducts.name}}" />
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('custom/css/nouislider.min.css') }}">
+<style type="text/css">
+.primary-btn{
+    width: 100%;
+}
+.couleur-radio{
+    display: none !important;
+}
+.couleur-label{
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    padding-left: 2px;
+    padding-top: 2px;
+}
+.couleur-label div::before{
+
+}
+.couleur-label div::after{
+    content: '';
+}
+.couleur-label-checked{
+    border: 1px solid #000;
+}
+.section-products {
+    width: 94.5%;
+    margin-left: 2.5%;
+    background-color: #FFF;
+    box-shadow: 0px 0px 24px 1px #ccc;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+.section-banners{
+    width: 90% !important;
+    margin-left: 4.5%;
+    position: inherit !important;
+    left: inherit !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.list-products-container {
+    /* margin-left: 2%; */
+    width: 97%;
+    padding-left: 0;
+    margin-left: 0 !important;
+}
+.banner>img {
+    width: 100%;
+    box-shadow: 0px 0px 24px 1px #ccc;
+}
+
+h5{
+    font-weight: 100;
+}
+#myModal{
+    padding-right: 0px !important;
+}
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+@media only screen and (min-width: 991px){
+{% if(products|length <8) %}
+.product.product-single .product-thumb>img{
+	height: inherit !important;
+}
+{% endif %}
+{% if(products|length == 4) %}
+.product.product-single .product-thumb>img{
+	height: 302px !important;
+}
+{% endif %}
+}
+.list-products-container {
+    /* margin-left: 2%; */
+    width: 99% !important;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0 !important;
+}
+.col-md-3{
+    padding-left: inherit;
+}
+}
+@media only screen and (max-width: 991px){}
+#aside {
+    margin-bottom: 0;
+}
+}
+@media screen and (min-width: 991px)
+{
+    #main{
+    }
+}
+
+</style>
+{% endblock %}
+{% block body %}
+    <!-- NAVIGATION -->
+    <div id="navigation">
+        <!-- container -->
+        <div class="container">
+            <div id="responsive-nav">
+                <!-- NAVIGATION -->
+                {{ render(controller('App\\Controller\\Front\\FrontController::navigation')) }}
+
+                <!-- /NAVIGATION -->
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NAVIGATION -->
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{{ path('index_page') }}">Accueil</a></li>
+                <li class="active">{{listProducts.name}}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <h1 class="title-list-products">{{ listProducts.name }}</h1>
+    <!-- section -->
+    <div class="section section-products in-filter">
+        <!-- container -->
+        <div class="container list-products-container{% if(products|length <= 4) %} without-filter{% endif %}">
+            <!-- row -->
+            <div class="row">
+                <!-- ASIDE -->
+                {% if(products|length > 4) %}
+                <div class="col-md-3">
+                    
+                    <!-- start if mobile -->
+                    <!-- end if mobile -->
+                    <!-- aside widget -->
+                    
+                    
+                    <!-- aside widget -->
+                    
+                    <div id="aside" class="aside filter-bloc">
+                        <div class="filter-title">
+                            <h3>Filtrer</h3>
+                        </div>
+                        <div class="filter-content">
+                            <h5 >Prix :</h5>
+                                <div id="price-slider"></div>
+                                <input type="hidden" name="minp" id="minp" value="{{min-2}}">
+                                <input type="hidden" name="maxp" id="maxp" value="{{max+2}}">
+                                <hr>
+                            <div class="in-promotion-filter">
+								<input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+								<label for="inPromotion">
+                                    En promotion
+                                </label>
+                            </div>
+                            {% if marques|length > 1 %}
+                            <hr>
+                            <h5>Marques</h5>
+                            <ul>
+                                {% for marque in marques %}
+								{% if(marque.id != null and marque.name != null) %}
+                                    <li>
+										<input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.name}}" data-valeur="{{marque.name}}">
+										<label for="marque{{marque.id}}"> 
+                                            {{marque.name}}
+                                        </label>
+                                    </li>
+								{% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if couleurs|length > 1 %}
+                            <hr>
+                            <h5>Couleurs</h5>
+                            <ul>
+                                {% for couleur in couleurs %}
+                                    <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.code}}" >
+                                   <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- /aside widget -->
+                    
+                </div>
+                {% endif %}
+                <!-- /ASIDE -->
+                
+
+                <!-- MAIN -->
+                <div id="main" class="{% if(products|length < 5) %}col-md-12 full-main-width{% else %}col-md-9{% endif %}">
+                    <!-- store top filter -->
+                    <div class="store-filter clearfix">
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="primary-btn filter-btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-bars-filter"></i> Filtrer</button>
+
+                        <!-- Modal -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Filtrer les produits</h4>
+                              </div>
+                              <div class="modal-body">
+                                <h5>Prix :</h5>
+                                    <div id="price-slider-modal"></div>
+                                    <input type="hidden" name="minp" id="minp-modal" value="{{min-2}}">
+                                    <input type="hidden" name="maxp" id="maxp-modal" value="{{max+2}}">
+                                    <hr>
+                                <div class="in-promotion-filter">
+									<input type="checkbox" name="inPromotion" value="1" id="inPromotion" data-valeur="En promotion">
+                                    <label for="inPromotion">
+                                        En promotion
+                                    </label>
+                                </div>
+								{% if(marques|length > 1) %}
+                                <hr>
+                                <h5>Marques</h5>
+                                <ul>
+                                    {% for marque in marques %}
+									{% if(marque.id != null and marque.name != null) %}
+                                        <li>
+                                            <input id="marque{{marque.id}}" name="marque" class="marque" type="checkbox" value="{{marque.name}}" data-valeur="{{marque.name}}">
+                                            <label for="marque{{marque.id}}"> {{marque.name}}</label>
+                                        </li>
+									{% endif %}
+                                    {% endfor %}
+                                </ul>
+								{% endif %}
+								{% if(marques|length > 1) %}
+                                <hr>
+                                <h5>Couleurs</h5>
+                                <ul>
+                                    {% for couleur in couleurs %}
+                                        <input type="checkbox" name="couleur" class="couleur-radio"id="couleur-{{couleur.id}}" value="{{couleur.code}}" >
+                                       <label for="couleur-{{couleur.id}}" class="couleur-label"><div style="background-color: {{couleur.code}};height: 29px;width: 29px;"></div></label> 
+                                    {% endfor %}
+                                </ul>
+								{% endif %}
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="primary-btn validate-filter-modal" data-dismiss="modal">Valider</button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right pagination-container">
+                            
+                        </div>
+                    </div>
+                    <!-- /store top filter -->
+                    <!-- STORE -->
+                    <div id="store">
+                        <div id="list-produits">
+                            <!-- row -->
+                            <div class="row">
+                                {% for product in products %}
+                                    {% if(product.qte>0) %}
+                                    {% set productsLength = products|length %}
+                                    <!-- Product Single -->
+									{% if(productsLength == 2) %}
+										<div class="col-md-6 col-sm-6 col-xs-6">
+									{% elseif(productsLength == 3 or productsLength == 6 or productsLength == 9) %}
+										<div class="col-md-4 col-sm-6 col-xs-6">
+									{% else %}
+                                    <div class="col-md-3 col-sm-6 col-xs-6">
+									{% endif %}
+                                        <div class="product product-single {{product.pricePromotion and product.pricePromotion<product.price?'product-hot-promotion':'product-hot'}}">
+                                    
+                                        <div class="product-thumb">
+                                            <div class="product-label">
+                                                {% if(product.createdAt != null) %}
+                                            {% set today = "now"|date("now") %}
+                                            {% set difference = date(today).diff(date(product.createdAt|date('d/m/Y'))) %}
+                                            {{difference.days < 7?'<span>New </span>':''}}
+                                            {% endif %}
+                                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                                <span class="sale">
+                                                    {% set difference = product.price - product.pricePromotion %}
+                                                    {% set pourcentage = (difference/product.price)*100 %}
+                                                    -{{pourcentage|round}}%
+                                                </span>
+                                            {% endif %}
+                                            </div>
+                                            <a href="{{ path('product_page', {slug:product.slug}) }}" class="main-btn quick-view"> Détails</a>
+                                            <img src="{{ asset('uploads/products/images/') }}{{ product.image }}" alt="" class="img-product-filter">
+                                        </div>
+                                        <div class="product-body">
+                                            {% if(product.pricePromotion and product.pricePromotion<product.price) %}
+                                                <h3 class="product-price">{{product.pricePromotion}} TND<del class="product-old-price">  {{product.price}} TND</del></h3>
+                                            {% else %}
+                                                <h3 class="product-price">{{product.price}} TND</h3>
+                                            {% endif %}
+                                            {#<div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o empty"></i>
+                                            </div>#}
+                                            <h2 class="product-name"><a href="#">{{ product.name }}</a></h2>
+                                            {#<div class="product-btns text-center">
+                                                {% if is_granted('AUTHENTIFICATED_FULLY') %}
+                                                    <button class="main-btn icon-btn add-to-favoris" data-id="{{product.id}}" title="Ajouter à mes favoris"><i class="fa fa-heart"></i></button>
+                                                {% endif %}
+                                                <button title="Ajouter au panier" class="primary-btn add-to-cart" data-id="{{product.id}}"><i class="fa fa-plus"></i> <i class="fa fa-shopping-cart"></i></button>
+                                            </div>#}
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!-- /Product Single -->
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <!-- /row -->
+                        </div>
+                    </div>
+                    <!-- /STORE -->
+                    <!-- store bottom filter -->
+                    <div class="store-filter bottom-filter clearfix">
+                        <div class="{% if(products|length > 20) %}pull-left{% else %}pull-right{% endif %}">
+                            <div class="sort-filter">
+                                <span class="text-uppercase">Trier par :</span>
+                                <select class="input filter-product" style="width: 236px;">
+                                    <option>Sélectionner</option>
+                                    <option value="1">De plus cher au moins cher</option>
+                                    <option value="2">De moins cher au plus cher</option>
+                                    <option value="3">Plus populaires</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right pagination-container">
+                            
+                        </div>
+                    </div>
+                    <!-- /store bottom filter -->
+                </div>
+                <!-- /MAIN -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <input type="hidden" id="listProducts" value="{{listProducts.id}}">
+    <!-- /section -->
+{% endblock %}
+{% block javascripts %}
+   <script src="{{ asset('custom/js/nouislider.min.js') }}"></script>
+    <script src="{{ asset('custom/js/wNumb.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('custom/js/jquery.simplePagination.js') }}"></script>
+    <script src="{{ asset('custom/js/products-paginations.js') }}"></script>
+
+    <script>
+        ///filter by range price
+    // PRICE SLIDER
+    
+        var minp = $('#minp').val();
+        var maxp = $('#maxp').val();
+        var dollarPrefixFormat = wNumb({prefix: ' TND', decimals: 0})
+      var slider = document.getElementById('price-slider');
+      if($('.aside').css('display') == 'none'){
+        slider = document.getElementById('price-slider-modal');
+        minp = $('#minp-modal').val();
+        maxp = $('#maxp-modal').val();
+      }
+      $('.validate-filter-modal').click(function (argument) {
+          slider = document.getElementById('price-slider');
+          minp = $('#minp').val();
+            maxp = $('#maxp').val();
+      });
+      $('.filter-btn').click(function (argument) {
+          slider = document.getElementById('price-slider-modal');
+            minp = $('#minp-modal').val();
+            maxp = $('#maxp-modal').val();
+      });
+      if (slider) {
+        noUiSlider.create(slider, {
+          start: [{{min-2}}, {{max+2}}],
+          connect: true,
+          tooltips: [dollarPrefixFormat, dollarPrefixFormat],
+          pips: {
+                mode: 'steps',
+                density: 5,
+                format: dollarPrefixFormat
+            },
+          range: {
+            'min': {{min - 2}},
+            'max': {{max+ 2}}
+          }
+        });
+      
+
+    slider.noUiSlider.on('set', function( values, handle ) {
+            var min = values[0];
+            var max = values[1];
+            
+        minp = min;
+        maxp = max;
+            var listProducts =$('#listProducts').val();
+			var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
+            var caracteristiques = [];
+            $("input[name='valeur']:checked").each(function(){
+                caracteristiques.push($(this).val());
+            });
+            var marques = [];
+            $("input[name='marque']:checked").each(function(){
+                marques.push($(this).val());
+            });
+            var couleurs = [];
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {min:min, max:max, listProducts:listProducts, caracteristiques:caracteristiques, marques:marques, couleurs : couleurs},
+            method: "POST",
+            error: function (data) {
+                console.log(data['marques']);
+            },
+            beforeSend:function(){
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                console.log(data['range']);
+                $('#list-produits').html(data['products']);
+                pagination();
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    }
+    pagination();
+    
+    /// tri and Filter by caractéristiques and marques(couleur, taille, genre.....)
+        var listProducts =$('#listProducts').val();
+        var caracteristiques = [];
+        var marques = [];
+        
+        $('input[name="marque"], input[name="couleur"], input[name="valeur"], input[name="inPromotion"]').change(function(){
+        
+            var myVal = $(this).val();
+            var caracteristiques = [];
+            var couleurs = [];
+            var marques = [];
+			var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
+            var tri = $(this).val();
+            $("input[name='valeur']:checked").each(function(){
+                caracteristiques.push($(this).val());
+            });
+            $("input[name='couleur']:checked").each(function(){
+                couleurs.push($(this).val());
+            });
+            $("input[name='marque']:checked").each(function(){
+                marques.push($(this).val());
+            });
+            $.ajax({
+                url: '{{ path('tri_product') }}',
+                data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri, inPromotion: inPromotion},
+                method: "POST",
+                error: function (data) {
+                    console.log('Erreur de trier les produit');
+                },
+                beforeSend:function(){
+                    $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+                }
+                ,
+                success: function (data) {
+                    console.log(data['nbr']);
+                    {#console.log('caracteristique');
+                    console.log($(this).data('valeur'));
+                    #}
+                    $('#list-produits').html(data['products']);
+                    pagination();
+                    //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+                }
+            });
+            console.log(caracteristiques);
+        });
+        
+        
+        $('.couleur-radio').change(function () {
+                var label = $('label[for="' + $(this).attr('id') + '"]');
+                label.toggleClass('couleur-label-checked');
+            });
+        
+    ////// Tri profuct by facteur
+    $('.filter-product').change(function(){
+		var inPromotion = $('#inPromotion').is(':checked') ? 1 : 0;
+        var valeur = $(this).val();
+        $('.filter-product').val($(this).val());
+        var caracteristiques = [];
+        var couleurs = [];
+        var marques = [];
+        $("input[name='valeur']:checked").each(function(){
+            caracteristiques.push($(this).val());
+        });
+        $("input[name='couleur']:checked").each(function(){
+            couleurs.push($(this).val());
+        });
+        $("input[name='marque']:checked").each(function(){
+            marques.push($(this).val());
+        });
+        var tri = $(this).val();
+        $.ajax({
+            url: '{{ path('tri_product') }}',
+            data: {caracteristiques:caracteristiques, listProducts:listProducts, couleurs : couleurs, marques:marques, min:minp, max:maxp, tri : tri, inPromotion: inPromotion},
+            method: "POST",
+            error: function (data) {
+                console.log('Erreur de trier les produit');
+            },
+            beforeSend:function(){
+                $('#list-produits').html('<div class=text-center><div class="loader"></div></div>');
+            }
+            ,
+            success: function (data) {
+                
+                $('#list-produits').html(data['products']);
+                pagination();
+                //setTimeout(function(){ $('#msg-alert').html('<div class="alert alert-success">'+data['message']+'</div><br><br>'); }, 3000);
+            }
+        });
+    });
+    
+    
+</script>
+<script>
+// window.onscroll = function() {myFunction()};
+
+// var header = document.getElementById("mobile-filterr");
+// var sticky = header.offsetTop;
+
+// function myFunction() {
+//   if (window.pageYOffset > sticky) {
+//     header.classList.add("sticky");
+//   } else {
+//     header.classList.remove("sticky");
+//   }
+// }
+</script>
+{% endblock %}
