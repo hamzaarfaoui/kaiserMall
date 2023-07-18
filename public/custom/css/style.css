@@ -390,23 +390,28 @@ display: block;
 /****/
 @media screen and (max-width: 991px){
     .banner2-item{
-        width: 34%;
+        width: 50%;
         display: inline-block;
         margin-right: inherit;
         margin-left: inherit;
         padding-right: 5px;
     }
+    .banner2-item a{
+    margin-top: 2px;
+    margin-bottom: 2px;
+    }
     .banner2-item img{
-    height: 120px !important;
+    height: 132px !important;
     }
     .banner3-item{
 
     }
     .banner-items{
-        width: 830px;
+        width: 571px;
         margin-left: -7px;
         overflow-x: auto;
         overflow-y: hidden;
+        background-color: #FFF;
     }
     #fos_user_registration_form_civ{
 
@@ -980,8 +985,12 @@ margin: 0px !important;
         position: relative !important;
         left: 1% !important;
         top: 0;
-        margin-bottom: 0px !important;
+        margin-bottom: 5px !important;
         width: 98% !important;
+        background-color: #FFF;
+        box-shadow: 0px 0px 3px 1px #ddd;
+        margin-top: 5px;
+        overflow-x: auto;
     }
     .product-view>.global-img{
         height: 300px !important;
