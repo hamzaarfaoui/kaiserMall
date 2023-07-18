@@ -1,12 +1,12 @@
 {% if((categorie.show_list_products == null or categorie.show_list_products == 0) and banners|length > 0) %}
 <div class="section-banners">
     <!-- row -->
-    <div class="row">
+    <div class="row banner-items">
         {% for banner in banners %}
             <!-- banner -->
             {% set nb_banners = banners|length %}
             {% set banner_division = 12/nb_banners %}
-            <div class="col-md-{{banner_division}} col-sm-6">
+            <div class="col-md-{{banner_division}} col-sm-6 {% if(nb_banners == 2) %}banner2-item{% endif %} {% if(nb_banners == 3) %}banner3-item{% endif %}">
                 <a class="banner banner-1" href="{{ path('banner_front_details', {slug: banner.slug}) }}">
                     <img class="img-thumbnail banner-{{nb_banners}}" src="{{ asset('/uploads/banners/') }}{{ banner.image }}" alt="{{banner.name}}" style="height: 250px;">
                 </a>

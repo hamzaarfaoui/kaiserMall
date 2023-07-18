@@ -1,4 +1,4 @@
 /vendor
 /var
 /tests
-/public/uploads
+/public/uploads/*
